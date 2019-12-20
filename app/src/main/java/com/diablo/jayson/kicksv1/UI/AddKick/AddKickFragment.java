@@ -16,7 +16,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AddKickFragment extends Fragment {
 
@@ -25,6 +28,7 @@ public class AddKickFragment extends Fragment {
     private Button mTimePickerButton;
     private Button mPickALocationButton;
     private SeekBar mSeekBar;
+    private DatabaseReference mDatabase;
 
 
     public static AddKickFragment newInstance() {
@@ -37,8 +41,12 @@ public class AddKickFragment extends Fragment {
         View root = inflater.inflate(R.layout.add_kick_fragment, container, false);
         mDatePickerButton = root.findViewById(R.id.date_picker_button);
         mTimePickerButton = root.findViewById(R.id.time_picker_button);
+
         mSeekBar = root.findViewById(R.id.seekBar);
         final TextView seekBarProgress = root.findViewById(R.id.seekBarProgress);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         mDatePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +103,20 @@ public class AddKickFragment extends Fragment {
     public void showTimePicker(){
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getChildFragmentManager(),"timePicker");
+    }
+
+    private void addNewKick(){
+
+    }
+
+    private void writenewKickToDb(String kickTitle, String kickLocation,String kickDate,String kickTime,
+                                  String alreadyAttendingPeeps, String requiredPeeps,String imageUrl){
+        String key  = mDatabase.child("kicks").push().getKey();
+        Activity activity = new Activity(kickTitle,kickTime,kickDate,kickLocation,
+                alreadyAttendingPeeps,requiredPeeps,imageUrl);
+
+
+
     }
 
 }

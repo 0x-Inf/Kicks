@@ -106,8 +106,39 @@
         <item>Alchemist</item>
     </string-array>
 
+    <string-array name="kicks_categories">
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+        <item>Cheap Thrills</item>
+    </string-array>
+
+    <string-array name="kicks_image_urls">
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+    </string-array>
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_address_edit_text_hint">Email Address</string>
 
 
 </resources>

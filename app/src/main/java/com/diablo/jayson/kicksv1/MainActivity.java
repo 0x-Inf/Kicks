@@ -1,48 +1,57 @@
 package com.diablo.jayson.kicksv1;
 
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Shader;
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView mProfileImage;
     private RecyclerView mRecyclerView;
-    private ArrayList<Kick> mKicksData;
-    private ActivityListAdapter mAdapter;
+    private ArrayList<Activity> mKicksData;
+    private ActivityFeedListAdapter mAdapter;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mFirebaseUser  = mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }else {
+            Toast.makeText(this, mFirebaseUser.getEmail(), Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
@@ -50,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView,navController);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -60,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
 //        mKicksData = new ArrayList<>();
 //
-//        mAdapter = new ActivityListAdapter(this, mKicksData);
+//        mAdapter = new ActivityFeedListAdapter(this, mKicksData);
 //
 //        mRecyclerView.setAdapter(mAdapter);
 //
@@ -126,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 //        mKicksData.clear();
 //
 //        for (int i = 0; i < kicksTitles.length; i++) {
-//            mKicksData.add(new Kick(kicksTitles[i], kicksTimes[i], kicksDates[i],
+//            mKicksData.add(new Activity(kicksTitles[i], kicksTimes[i], kicksDates[i],
 //                    kicksLocations[i], alreadyAttending[i], requiredAttending[i],
 //                    kicksImageResources.getResourceId(i, 0)));
 //        }

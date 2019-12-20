@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1;
+package com.diablo.jayson.kicksv1.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,25 +12,26 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ActivityViewHolder> {
+public class ActivityFeedListAdapter extends RecyclerView.Adapter<ActivityFeedListAdapter.ActivityViewHolder> {
 
-    private ArrayList<Kick> mKicksData;
-    private MutableLiveData<ArrayList<Kick>> mKicksDataM;
+    private ArrayList<Activity> mKicksData;
+    private MutableLiveData<ArrayList<Activity>> mKicksDataM;
     private Context mContext;
     private LayoutInflater mInflater;
 
-    public ActivityListAdapter(Context context, ArrayList<Kick> kicksdata){
+    public ActivityFeedListAdapter(Context context, ArrayList<Activity> kicksdata){
         this.mKicksData = kicksdata;
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
 
     }
 
-    public ActivityListAdapter(Context context, MutableLiveData<ArrayList<Kick>> mKicksData) {
+    public ActivityFeedListAdapter(Context context, MutableLiveData<ArrayList<Activity>> mKicksData) {
         this.mContext = context;
         this.mKicksDataM = mKicksData;
         mInflater = LayoutInflater.from(context);
@@ -39,15 +40,15 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     @NonNull
     @Override
-    public ActivityListAdapter.ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ActivityFeedListAdapter.ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ActivityViewHolder(LayoutInflater.from(mContext).
                 inflate(R.layout.activity_list_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActivityListAdapter.ActivityViewHolder holder, int position) {
-        Kick currentKick = mKicksData.get(position);
-        holder.bindTo(currentKick);
+    public void onBindViewHolder(@NonNull ActivityFeedListAdapter.ActivityViewHolder holder, int position) {
+        Activity currentActivity = mKicksData.get(position);
+        holder.bindTo(currentActivity);
 
     }
 
@@ -79,14 +80,14 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
         }
 
-        void bindTo(Kick currentKick){
-            mKickTitleText.setText(currentKick.getKickTitle());
-            mKickTimeText.setText(currentKick.getKickTime());
-            mKickDateText.setText(currentKick.getKickDate());
-            mKickLocationText.setText(currentKick.getKickLocation());
-            mAlreadyAttendingPeepsText.setText(currentKick.getKickAlreadyAttendingPeeps());
-            mRequiredPeepsText.setText(currentKick.getKickRequiredPeeps());
-            Glide.with(mContext).load(currentKick.getImageResource()).into(mKickImage);
+        void bindTo(Activity currentActivity){
+            mKickTitleText.setText(currentActivity.getKickTitle());
+            mKickTimeText.setText(currentActivity.getKickTime());
+            mKickDateText.setText(currentActivity.getKickDate());
+            mKickLocationText.setText(currentActivity.getKickLocation());
+            mAlreadyAttendingPeepsText.setText(currentActivity.getKickAlreadyAttendingPeeps());
+            mRequiredPeepsText.setText(currentActivity.getKickRequiredPeeps());
+            Glide.with(mContext).load(currentActivity.getImageUrl()).into(mKickImage);
 
         }
     }

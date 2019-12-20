@@ -111,12 +111,12 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            mCurrentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                            mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                             Toast.makeText(getActivity(), String.valueOf(location.getLatitude()), Toast.LENGTH_LONG).show();
                             mMap.addMarker(new MarkerOptions().position(mCurrentLocation).title("You Were/Are Here"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(mCurrentLocation));
-                        }else {
-                            Toast.makeText(getActivity(),"Location Not Found",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Location Not Found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

@@ -1,8 +1,8 @@
-package com.diablo.jayson.kicksv1;
+package com.diablo.jayson.kicksv1.Models;
 
 import android.widget.TextView;
 
-public class Kick {
+public class Activity {
 
     private String mKickTitle;
     private String mKickTime;
@@ -10,46 +10,50 @@ public class Kick {
     private String mKickLocation;
     private String mAlreadyAttendingPeeps;
     private String mRequiredPeeps;
-    private final int mImageResource;
+    private String mImageUrl;
+
+    public Activity(){
+
+    }
 
     //Constructor for kick data model
 
-    public Kick(String kicktitle, String kicktime, String kickdate, String kicklocation,
-         String alreadyattendingpeeps, String requiredpeeps, int imageresource) {
+    public Activity(String kicktitle, String kicktime, String kickdate, String kicklocation,
+                    String alreadyattendingpeeps, String requiredpeeps, String imageUrl) {
         this.mKickTitle = kicktitle;
         this.mKickTime = kicktime;
         this.mKickDate = kickdate;
         this.mKickLocation = kicklocation;
         this.mAlreadyAttendingPeeps = alreadyattendingpeeps;
         this.mRequiredPeeps = requiredpeeps;
-        this.mImageResource = imageresource;
+        this.mImageUrl = imageUrl;
     }
 
-    String getKickTitle() {
+    public String getKickTitle() {
         return mKickTitle;
     }
 
-    String getKickTime() {
+    public String getKickTime() {
         return mKickTime;
     }
 
-    String getKickDate() {
+    public String getKickDate() {
         return mKickDate;
     }
 
-    String getKickLocation() {
+    public String getKickLocation() {
         return mKickLocation;
     }
 
-    String getKickAlreadyAttendingPeeps() {
+    public String getKickAlreadyAttendingPeeps() {
         return mAlreadyAttendingPeeps;
     }
 
-    String getKickRequiredPeeps() {
+    public String getKickRequiredPeeps() {
         return mRequiredPeeps;
     }
 
-    int getImageResource() {
-        return mImageResource;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 }

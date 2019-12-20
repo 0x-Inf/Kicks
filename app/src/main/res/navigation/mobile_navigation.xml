@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.diablo.jayson.kicksv1.UI.Home.KickFeedFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
         android:label="Home"
-        tools:layout="@layout/kick_feed_fragment" />
+        tools:layout="@layout/swipable_feed_fragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

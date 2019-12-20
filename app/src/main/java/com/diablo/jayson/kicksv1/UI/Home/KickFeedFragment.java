@@ -1,6 +1,5 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.res.TypedArray;
@@ -16,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.diablo.jayson.kicksv1.ActivityListAdapter;
-import com.diablo.jayson.kicksv1.Kick;
+import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
@@ -25,9 +24,9 @@ import java.util.ArrayList;
 public class KickFeedFragment extends Fragment {
 
     private KickFeedViewModel KickFeedViewModel;
-    private ArrayList<Kick> mKicksData;
+    private ArrayList<Activity> mKicksData;
     private RecyclerView mRecyclerView;
-    private ActivityListAdapter mAdapter;
+    private ActivityFeedListAdapter mAdapter;
 
 
 
@@ -41,8 +40,8 @@ public class KickFeedFragment extends Fragment {
         mRecyclerView = root.findViewById(R.id.recyclerview);
         int gridColumnCount = 1;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),gridColumnCount));
-        mKicksData = new ArrayList<Kick>();
-        mAdapter = new ActivityListAdapter(getContext(),mKicksData);
+        mKicksData = new ArrayList<Activity>();
+        mAdapter = new ActivityFeedListAdapter(getContext(),mKicksData);
         mRecyclerView.setAdapter(mAdapter);
 
         initializeData();
@@ -69,9 +68,9 @@ public class KickFeedFragment extends Fragment {
         mKicksData.clear();
 
         for (int i = 0; i < kicksTitles.length; i++) {
-            mKicksData.add(new Kick(kicksTitles[i], kicksTimes[i], kicksDates[i],
+            mKicksData.add(new Activity(kicksTitles[i], kicksTimes[i], kicksDates[i],
                     kicksLocations[i], alreadyAttending[i], requiredAttending[i],
-                    kicksImageResources.getResourceId(i, 0)));
+                    ""));
         }
         kicksImageResources.recycle();
 
