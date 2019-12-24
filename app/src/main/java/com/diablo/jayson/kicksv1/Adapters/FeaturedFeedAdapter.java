@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.FeaturedKicks;
 import com.diablo.jayson.kicksv1.Models.ImageAndText;
@@ -23,93 +25,88 @@ import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeaturedFeedAdapter extends RecyclerView.Adapter {
 
     private static final int IMAGE_TEXT = 1;
     private static final int IMAGE_TEXT_LIST = 2;
     private Context mContext;
-    private ArrayList<ImageAndText> mImageAndTextData;
-    private ArrayList<ImageTextAndList> mImageTextAndListData;
     private ArrayList<Kick> mKicksData;
     private FeatureKickListAdapter mKicksAdapter;
-    private ArrayList<FeaturedKicks> mTotalKicks;
+    private List<FeaturedKicks> mTotalKicks;
 
-    public FeaturedFeedAdapter(Context mContext, ArrayList<ImageAndText> mImageAndTextData, ArrayList<ImageTextAndList> mImageTextAndListData, ArrayList<FeaturedKicks> totalKicks) {
+    public FeaturedFeedAdapter(Context mContext, List<FeaturedKicks> totalKicks) {
         this.mContext = mContext;
-        this.mImageAndTextData = mImageAndTextData;
-        this.mImageTextAndListData = mImageTextAndListData;
         this.mTotalKicks = totalKicks;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mTotalKicks.get(position) instanceof ImageAndText) {
-            return IMAGE_TEXT;
-        } else if (mTotalKicks.get(position) instanceof ImageTextAndList) {
-            return IMAGE_TEXT_LIST;
-        }else {
-            return IMAGE_TEXT_LIST;
-        }
+        int viewType;
+        if (mTotalKicks.get(position).getFeaturedType().equals(Constants.IMAGE_AND_TEXT)) {
+            viewType = IMAGE_TEXT;
+        } else if (mTotalKicks.get(position).getFeaturedType().equals(Constants.IMAGE_TEXT_AND_LIST)) {
+            viewType = IMAGE_TEXT_LIST;
+        } else viewType = IMAGE_TEXT;
+        return viewType;
     }
 
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case IMAGE_TEXT:
-                return new ImageAndTextOnlyActivityViewHolder(LayoutInflater.from(mContext).
-                        inflate(R.layout.image_and_text_item, parent, false));
-            case IMAGE_TEXT_LIST:
-                return new ImageAndTextAndListActivityViewHolder(LayoutInflater.from(mContext).
-                        inflate(R.layout.image_text_and_list_item, parent, false));
-            default:
-                return new ImageAndTextOnlyActivityViewHolder(LayoutInflater.from(mContext).
-                        inflate(R.layout.image_and_text_item, parent, false));
-        }
+        int viewTypeToShow = getItemViewType(viewType);
+
+        if (viewType == IMAGE_TEXT) {
+            View imageTextView = LayoutInflater.from(mContext).
+                    inflate(R.layout.image_and_text_item, parent, false);
+            return new ImageAndTextOnlyActivityViewHolder(imageTextView);
+        } else if (viewType == IMAGE_TEXT_LIST) {
+            View imageTextListView = LayoutInflater.from(mContext).
+                    inflate(R.layout.image_text_and_list_item, parent, false);
+            return new ImageAndTextAndListActivityViewHolder(imageTextListView);
+        }else
+            return new ImageAndTextOnlyActivityViewHolder(LayoutInflater.from(mContext).
+                       inflate(R.layout.image_and_text_item, parent, false));
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final int itemType = getItemViewType(position);
-        if (itemType == IMAGE_TEXT) {
-            FeaturedKicks currentFeaturedKick = mTotalKicks.get(position);
-            putFEaturedData(currentFeaturedKick);
-            ImageAndText currentImageAndText = mImageAndTextData.get(position);
-            ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(currentImageAndText);
-//            ImageAndTextOnlyActivityViewHolder mHolder = (ImageAndTextOnlyActivityViewHolder) holder;
-//            setUpImageText(mHolder);
-        } else if (itemType == IMAGE_TEXT_LIST) {
-            FeaturedKicks currentFeaturedKick = mTotalKicks.get(position);
-            putFEaturedData(currentFeaturedKick);
-            ImageTextAndList currentImageTextAndList = mImageTextAndListData.get(position);
-            ((ImageAndTextAndListActivityViewHolder) holder).bindTo(currentImageTextAndList);
-            mKicksData = new ArrayList<Kick>();
-            mKicksAdapter = new FeatureKickListAdapter(mContext, mKicksData);
-            ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.
-                    setLayoutManager(new LinearLayoutManager(mContext));
-            ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.setAdapter(mKicksAdapter);
+        FeaturedKicks featuredKicks = mTotalKicks.get(position);
+        holder.getAdapterPosition();
 
-            initializeKickData();
-        } else {
+        switch (holder.getItemViewType()) {
+            case IMAGE_TEXT:
+                ImageAndText currentImageAndText = featuredKicks.getmFeaturedImageAndText();
+                ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(currentImageAndText);
+                break;
+            case IMAGE_TEXT_LIST:
+                ImageTextAndList currentImageTextAndList = featuredKicks.getmFeaturedImageTextAndList();
+                ((ImageAndTextAndListActivityViewHolder) holder).bindTo(currentImageTextAndList);
+                mKicksData = new ArrayList<Kick>();
+                mKicksAdapter = new FeatureKickListAdapter(mContext, mKicksData);
+                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.
+                        setLayoutManager(new LinearLayoutManager(mContext));
+                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.setAdapter(mKicksAdapter);
+                initializeKickData();
+                break;
+            default:
 
         }
     }
-//
-//    private void setUpImageText(ImageAndTextOnlyActivityViewHolder mholder) {
-//        ImageAndText currentImageAndText = new ImageAndText();
-//        mholder.bindTo(currentImageAndText);
-//    }
-
 
     @Override
     public int getItemCount() {
+        int totalKicks = mTotalKicks.size();
+        Log.e("number of kicks", Integer.toString(totalKicks));
         return mTotalKicks.size();
     }
 
 
-    class ImageAndTextOnlyActivityViewHolder extends RecyclerView.ViewHolder {
+    class ImageAndTextOnlyActivityViewHolder extends MainViewHolder {
 
         // TODO: Appropriately Name this stuff
 
@@ -132,7 +129,7 @@ public class FeaturedFeedAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class ImageAndTextAndListActivityViewHolder extends RecyclerView.ViewHolder {
+    class ImageAndTextAndListActivityViewHolder extends MainViewHolder {
 
         private ImageView mKickFeaturedListImage;
         private TextView mFeaturedListTitle;
@@ -156,6 +153,12 @@ public class FeaturedFeedAdapter extends RecyclerView.Adapter {
 
     }
 
+    class MainViewHolder extends RecyclerView.ViewHolder {
+        public MainViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
 
     private void initializeKickData() {
         String[] kickNames = mContext.getResources().getStringArray(R.array.kicks_titles);
@@ -168,9 +171,5 @@ public class FeaturedFeedAdapter extends RecyclerView.Adapter {
 
     }
 
-    void putFEaturedData(FeaturedKicks currentFeaturedKick) {
-        currentFeaturedKick.getmFeaturedImageAndText();
-        currentFeaturedKick.getmFeaturedImageTextAndList();
-    }
 }
 

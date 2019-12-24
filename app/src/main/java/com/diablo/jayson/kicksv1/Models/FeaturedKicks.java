@@ -1,26 +1,42 @@
 package com.diablo.jayson.kicksv1.Models;
 
+import com.diablo.jayson.kicksv1.Constants;
+
 import java.util.ArrayList;
 
 public class FeaturedKicks {
 
-    private ArrayList<ImageAndText> mFeaturedImageAndText;
-    private ArrayList<ImageTextAndList> mFeaturedImageTextAndList;
+    private ImageAndText mFeaturedImageAndText;
+    private ImageTextAndList mFeaturedImageTextAndList;
 
-    public FeaturedKicks(){
+    public FeaturedKicks() {
 
     }
 
-    public FeaturedKicks(ArrayList<ImageAndText> mFeaturedImageAndText, ArrayList<ImageTextAndList> mFeaturedImageTextAndList) {
-        this.mFeaturedImageAndText = mFeaturedImageAndText;
-        this.mFeaturedImageTextAndList = mFeaturedImageTextAndList;
-    }
 
-    public ArrayList<ImageAndText> getmFeaturedImageAndText() {
+    public ImageAndText getmFeaturedImageAndText() {
         return mFeaturedImageAndText;
     }
 
-    public ArrayList<ImageTextAndList> getmFeaturedImageTextAndList() {
+    public ImageTextAndList getmFeaturedImageTextAndList() {
         return mFeaturedImageTextAndList;
+    }
+
+    public void setmFeaturedImageAndText(ImageAndText mFeaturedImageAndText) {
+        this.mFeaturedImageAndText = mFeaturedImageAndText;
+    }
+
+    public void setmFeaturedImageTextAndList(ImageTextAndList mFeaturedImageTextAndList) {
+        this.mFeaturedImageTextAndList = mFeaturedImageTextAndList;
+    }
+
+    public String getFeaturedType(){
+        String type;
+        if (mFeaturedImageAndText!=null){
+            type = Constants.IMAGE_AND_TEXT;
+        }else if (mFeaturedImageTextAndList!=null){
+            type = Constants.IMAGE_TEXT_AND_LIST;
+        }else type = null;
+        return type;
     }
 }

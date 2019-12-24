@@ -10,6 +10,8 @@ public class ImageTextAndList extends FeaturedKicks {
     private String mFeaturedKickListImageUrl;
     private String mFeaturedKickListTitle;
 
+    public ImageTextAndList(){}
+
     public ImageTextAndList(ArrayList<Kick> mFeaturedKickList, String mFeaturedKickListImageUrl, String mFeaturedKickListTitle) {
         this.mFeaturedKickList = mFeaturedKickList;
         this.mFeaturedKickListImageUrl = mFeaturedKickListImageUrl;

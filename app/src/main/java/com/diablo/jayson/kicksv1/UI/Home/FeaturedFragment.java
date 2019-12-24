@@ -20,6 +20,7 @@ import com.diablo.jayson.kicksv1.Models.KickCategory;
 import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +32,7 @@ public class FeaturedFragment extends Fragment {
     private ArrayList<ImageAndText> mImageAndTextData;
     private ArrayList<ImageTextAndList> mImageTextAndListData;
     private ArrayList<Kick> mKicksData;
-    private ArrayList<FeaturedKicks> mFeaturedKicksTotal;
+    private List<FeaturedKicks> mFeaturedKicksTotal;
 
 
     public FeaturedFragment() {
@@ -50,7 +51,7 @@ public class FeaturedFragment extends Fragment {
         mImageAndTextData = new ArrayList<ImageAndText>();
         mImageTextAndListData = new ArrayList<ImageTextAndList>();
         mFeaturedKicksTotal = new ArrayList<>();
-        mAdapter = new FeaturedFeedAdapter(getContext(), mImageAndTextData, mImageTextAndListData, mFeaturedKicksTotal);
+        mAdapter = new FeaturedFeedAdapter(getContext(), mFeaturedKicksTotal);
         mRecyclerView.setAdapter(mAdapter);
         initializeData();
 
@@ -59,17 +60,9 @@ public class FeaturedFragment extends Fragment {
     }
 
     private void initializeData() {
-
         textAndImageData();
         textImageAndListData();
-        mFeaturedKicksTotal.add(new FeaturedKicks(mImageAndTextData,mImageTextAndListData));
-        mFeaturedKicksTotal.add(new FeaturedKicks(mImageAndTextData,mImageTextAndListData));
-        mFeaturedKicksTotal.add(new FeaturedKicks(mImageAndTextData,mImageTextAndListData));
-        mFeaturedKicksTotal.add(new FeaturedKicks(mImageAndTextData,mImageTextAndListData));
-
-
         mAdapter.notifyDataSetChanged();
-
 
     }
 
@@ -80,7 +73,9 @@ public class FeaturedFragment extends Fragment {
         mImageAndTextData.clear();
 
         for (int i = 0; i < kickCategories.length; i++) {
-            mImageAndTextData.add(new ImageAndText(kickCategories[i], kickImages[i]));
+            FeaturedKicks featuredKicks = new FeaturedKicks();
+            featuredKicks.setmFeaturedImageAndText(new ImageAndText(kickCategories[i], kickImages[i]));
+            mFeaturedKicksTotal.add(featuredKicks);
 
         }
     }
@@ -95,7 +90,9 @@ public class FeaturedFragment extends Fragment {
         for (int i = 0; i < kickCategories.length; i++) {
             mKicksData = new ArrayList<>();
             initializeKickData();
-            mImageTextAndListData.add(new ImageTextAndList(mKicksData, kickImages[i], kickCategories[i]));
+            FeaturedKicks featuredKicks = new FeaturedKicks();
+            featuredKicks.setmFeaturedImageTextAndList(new ImageTextAndList(mKicksData, kickImages[i], kickCategories[i]));
+            mFeaturedKicksTotal.add(featuredKicks);
 
         }
 
