@@ -107,17 +107,17 @@
     </string-array>
 
     <string-array name="kicks_categories">
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
-        <item>Cheap Thrills</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
+        <item>For Those About To Rock</item>
     </string-array>
 
     <string-array name="kicks_image_urls">
@@ -133,6 +133,36 @@
         <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
         <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
     </string-array>
+
+    <string-array name="featured_kicks_Titles">
+        <item>For Those About That Life</item>
+        <item>For Those About That Life</item>
+        <item>For Those About That Life</item>
+        <item>For Those About That Life</item>
+    </string-array>
+
+    <string-array name="featured_kicks_images">
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+    </string-array>
+
+    <string-array name="featured_kicks_list_images">
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+        <item>https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg</item>
+    </string-array>
+
+    <string-array name="featured_kicks_list_names">
+        <item>Bowling</item>
+        <item>PaintBall</item>
+        <item>Bowling</item>
+        <item>PaintBall</item>
+    </string-array>
+
+
 
 
 

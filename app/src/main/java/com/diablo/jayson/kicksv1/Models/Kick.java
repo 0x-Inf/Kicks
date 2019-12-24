@@ -10,6 +10,10 @@ public class Kick {
         this.mImageUrl = imageUrl;
     }
 
+    public Kick() {
+
+    }
+
     public String getKickName() {
         return mKickName;
     }

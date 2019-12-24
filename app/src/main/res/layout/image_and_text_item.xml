@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_centerHorizontal="true"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+
+    android:layout_margin="30dp">
+
+    <RelativeLayout
+        android:id="@+id/ImageAndTextKickContentRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/kickFeaturedImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+
+        <TextView
+            android:id="@+id/kickFeaturedNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/kickFeaturedImage"
+            android:text="For those about the Life"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
