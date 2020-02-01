@@ -1,23 +1,31 @@
 package com.diablo.jayson.kicksv1.Models;
 
 public class ImageAndText extends FeaturedKicks {
-    private String mFeaturedKickTitle;
-    private String mFeaturedKickImageUrl;
+    private String KickTitle;
+    private String ImageUrl;
 
-    public ImageAndText(String mFeaturedKickTitle, String mFeaturedKickImageUrl) {
-        this.mFeaturedKickTitle = mFeaturedKickTitle;
-        this.mFeaturedKickImageUrl = mFeaturedKickImageUrl;
+    public ImageAndText(String KickTitle, String ImageUrl) {
+        this.KickTitle = KickTitle;
+        this.ImageUrl = ImageUrl;
     }
 
     public ImageAndText() {
 
     }
 
-    public String getFeaturedKickTitle() {
-        return mFeaturedKickTitle;
+    public void setKickTitle(String KickTitle) {
+        this.KickTitle = KickTitle;
     }
 
-    public String getFeaturedKickImageUrl() {
-        return mFeaturedKickImageUrl;
+    public void setImageUrl(String ImageUrl) {
+        this.ImageUrl = ImageUrl;
+    }
+
+    public String getKickTitle() {
+        return KickTitle;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
     }
 }

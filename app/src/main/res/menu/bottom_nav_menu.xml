@@ -4,17 +4,27 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="KicksHome"
-        />
+        android:title="KicksHome" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_map_icon"
-        android:title="Map" />
+        android:id="@+id/navigation_kick_select"
+        android:icon="@drawable/ic_kick_select_icon_24dp"
+        android:title="KickSelect" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_add_kick"
         android:icon="@drawable/ic_add_icon_24dp"
         android:title="AddKick" />
+
+    <item
+        android:id="@+id/navigation_active_kicks"
+        android:icon="@drawable/ic_active_kicks_icon_24dp"
+        android:title="Active" />
+
+
+    <item
+        android:id="@+id/navigation_map_view"
+        android:icon="@drawable/ic_map_icon_24dp"
+        android:title="Map" />
 
 </menu>

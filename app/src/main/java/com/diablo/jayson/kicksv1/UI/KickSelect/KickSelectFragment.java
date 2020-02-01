@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home;
+package com.diablo.jayson.kicksv1.UI.KickSelect;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -12,16 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Kick;
+import com.diablo.jayson.kicksv1.Models.KickInFeaturedList;
 import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeatureKickListAdapter extends RecyclerView.Adapter<FeatureKickListAdapter.KickViewHolder>{
 
     private Context mContext;
-    private ArrayList<Kick> mKicksData;
+    private List<KickInFeaturedList> mKicksData;
 
-    public FeatureKickListAdapter(Context mContext, ArrayList<Kick> mKicksData) {
+    public FeatureKickListAdapter(Context mContext, List<KickInFeaturedList> mKicksData) {
         this.mContext = mContext;
         this.mKicksData = mKicksData;
     }
@@ -35,7 +37,7 @@ public class FeatureKickListAdapter extends RecyclerView.Adapter<FeatureKickList
 
     @Override
     public void onBindViewHolder(@NonNull FeatureKickListAdapter.KickViewHolder holder, int position) {
-        Kick currentKick = mKicksData.get(position);
+        KickInFeaturedList currentKick = mKicksData.get(position);
         holder.bindTo(currentKick);
     }
 
@@ -49,18 +51,20 @@ public class FeatureKickListAdapter extends RecyclerView.Adapter<FeatureKickList
     class KickViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mKickImage;
-        private TextView mKickName;
+        private TextView mKickName,mKickShortDescription;
 
         public KickViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mKickImage = itemView.findViewById(R.id.featuredKickInlistimageView);
             mKickName = itemView.findViewById(R.id.featuredKickInlistName);
+            mKickShortDescription = itemView.findViewById(R.id.featuredKickInlistShortDescription);
         }
 
-        void bindTo(Kick currentKick){
+        void bindTo(KickInFeaturedList currentKick){
             mKickName.setText(currentKick.getKickName());
-            Glide.with(mContext).load(currentKick.getImageUrl()).into(mKickImage);
+            mKickShortDescription.setText(currentKick.getKickShortDescription());
+            Glide.with(mContext).load(currentKick.getKickImageUrl()).into(mKickImage);
         }
     }
 }

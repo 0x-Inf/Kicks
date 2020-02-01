@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/framelayoutbase"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -18,8 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/kick_name_edit_text_hint"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/kick_location_edit_text"
@@ -27,14 +30,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/kick_name_edit_text"
                 android:hint="@string/location_edit_text_hint"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textStyle="bold" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_on_map_button_text"
+                android:layout_below="@id/kick_name_edit_text"
                 android:layout_toEndOf="@id/kick_location_edit_text"
-                android:layout_below="@id/kick_name_edit_text" />
+                android:text="@string/choose_on_map_button_text" />
+
             <Button
                 android:id="@+id/date_picker_button"
                 android:layout_width="wrap_content"
@@ -55,8 +60,8 @@
                 android:id="@+id/seekBarTextsLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
                 android:layout_below="@id/date_picker_button"
+                android:layout_margin="4dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -83,13 +88,19 @@
                 android:layout_margin="4dp" />
 
 
-
-
-
         </RelativeLayout>
+
 
     </ScrollView>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:contentDescription="extendedfloatingactionbutton"
+        android:text="CREATE ACTIVITY"
+        android:theme="@style/MaterialTheme"
+        android:layout_gravity="center_horizontal|bottom"/>
 
 
 

@@ -60,7 +60,7 @@ public class KickListAdapter extends RecyclerView.Adapter<KickListAdapter.KickVi
 
         void bindTo(Kick currentKick){
             mKickName.setText(currentKick.getKickName());
-            Glide.with(mContext).load(currentKick.getImageUrl()).into(mKickImage);
+            Glide.with(mContext).load(currentKick.getKickImageUrl()).into(mKickImage);
         }
     }
 }

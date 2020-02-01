@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class AddKickFragment extends Fragment {
     private Button mPickALocationButton;
     private SeekBar mSeekBar;
     private DatabaseReference mDatabase;
+    private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
 
 
     public static AddKickFragment newInstance() {
@@ -107,6 +109,8 @@ public class AddKickFragment extends Fragment {
 
     private void addNewKick(){
 
+
+
     }
 
     private void writenewKickToDb(String kickTitle, String kickLocation,String kickDate,String kickTime,
@@ -118,5 +122,6 @@ public class AddKickFragment extends Fragment {
 
 
     }
+
 
 }

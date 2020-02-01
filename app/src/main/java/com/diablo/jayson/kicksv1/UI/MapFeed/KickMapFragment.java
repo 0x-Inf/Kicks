@@ -1,8 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.KickMap;
+package com.diablo.jayson.kicksv1.UI.MapFeed;
 
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +19,6 @@ import android.widget.Toast;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,7 +32,6 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private static final String TAG = KickMapFragment.class.getSimpleName();
 
-    private KickMapViewModel mViewModel;
     private GoogleMap mMap;
     private Location mLastLocation;
     private LatLng mCurrentLocation;
@@ -105,6 +100,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mFusedLocationClient.getLastLocation().addOnSuccessListener(
                 new OnSuccessListener<Location>() {

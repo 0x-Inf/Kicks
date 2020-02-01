@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 
 public class KickFeedFragment extends Fragment {
 
-    private KickFeedViewModel KickFeedViewModel;
     private ArrayList<Activity> mKicksData;
     private RecyclerView mRecyclerView;
     private ActivityFeedListAdapter mAdapter;
+    private RelativeLayout mRelativelayout;
 
 
 
@@ -34,17 +35,16 @@ public class KickFeedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        KickFeedViewModel =
-                ViewModelProviders.of(this).get(KickFeedViewModel.class);
         View root = inflater.inflate(R.layout.kick_feed_fragment,container,false);
         mRecyclerView = root.findViewById(R.id.recyclerview);
+        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
         int gridColumnCount = 1;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),gridColumnCount));
         mKicksData = new ArrayList<Activity>();
         mAdapter = new ActivityFeedListAdapter(getContext(),mKicksData);
         mRecyclerView.setAdapter(mAdapter);
-
         initializeData();
+        dissappearItemsOnScroll();
 
         return root;
 
@@ -75,6 +75,21 @@ public class KickFeedFragment extends Fragment {
         kicksImageResources.recycle();
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void dissappearItemsOnScroll(){
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                mRelativelayout.setVisibility(View.INVISIBLE);
+//            }
+//        });
     }
 
 

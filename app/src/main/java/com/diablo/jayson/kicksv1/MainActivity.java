@@ -3,9 +3,13 @@ package com.diablo.jayson.kicksv1;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.UI.LoginActivity;
+import com.diablo.jayson.kicksv1.UI.Search.SearchActivity;
+import com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,12 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mProfileImage;
     private RecyclerView mRecyclerView;
     private ArrayList<Activity> mKicksData;
@@ -32,17 +38,19 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
+    private ImageButton mSearchButton,mSettingButton;
+    private ImageView mProfilePicImageView;
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        mFirebaseUser  = mFirebaseAuth.getCurrentUser();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if (mFirebaseUser == null){
+        if (mFirebaseUser == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-            return;
-        }else {
+        } else {
             Toast.makeText(this, mFirebaseUser.getEmail(), Toast.LENGTH_LONG).show();
         }
     }
@@ -51,51 +59,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSearchButton = findViewById(R.id.searchImageButton);
+        mSettingButton = findViewById(R.id.settingsImageButton);
+        mProfilePicImageView = findViewById(R.id.profilePicImageView);
         getSupportActionBar().hide();
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_kick_select, R.id.navigation_add_kick,
+                R.id.navigation_active_kicks,R.id.navigation_map_view)
                 .build();
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView,navController);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
         mFirebaseAuth = FirebaseAuth.getInstance();
+        String photoUrl = "https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg";
 
+        Glide.with(this)
+                .load(photoUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(mProfilePicImageView);
 
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        int gridColumnCount = 1;
-//
-//        mRecyclerView = findViewById(R.id.recyclerview);
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
-//        mKicksData = new ArrayList<>();
-//
-//        mAdapter = new ActivityFeedListAdapter(this, mKicksData);
-//
-//        mRecyclerView.setAdapter(mAdapter);
-//
-//
-//        initializeData();
-
-
-//        int imageDrawable = R.drawable.ic_main_nav_fab;
-
-//        Picasso.get()
-//                .load(imageDrawable)
-//                .transform(new CircleTransform())
-//                .into(mProfileImage);
-
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        setClickListeners();
     }
 
     @Override
@@ -120,88 +104,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private void initializeData() {
-//        String[] kicksTitles = getResources()
-//                .getStringArray(R.array.kicks_titles);
-//        String[] kicksDates = getResources()
-//                .getStringArray(R.array.kicks_dates);
-//        String[] kicksTimes = getResources()
-//                .getStringArray(R.array.kicks_time);
-//        String[] kicksLocations = getResources()
-//                .getStringArray(R.array.kicks_location);
-//        String[] alreadyAttending = getResources()
-//                .getStringArray(R.array.already_attending_peeps);
-//        String[] requiredAttending = getResources()
-//                .getStringArray(R.array.required_peeps);
-//        TypedArray kicksImageResources = getResources().obtainTypedArray(R.array.kicks_images);
-//
-//        mKicksData.clear();
-//
-//        for (int i = 0; i < kicksTitles.length; i++) {
-//            mKicksData.add(new Activity(kicksTitles[i], kicksTimes[i], kicksDates[i],
-//                    kicksLocations[i], alreadyAttending[i], requiredAttending[i],
-//                    kicksImageResources.getResourceId(i, 0)));
-//        }
-//        kicksImageResources.recycle();
-//
-//        mAdapter.notifyDataSetChanged();
-//    }
+    private void setClickListeners(){
+        mSearchButton.setOnClickListener(this);
+        mSettingButton.setOnClickListener(this);
+        mProfilePicImageView.setOnClickListener(this);
+    }
 
-//    class CircleTransform implements Transformation {
-//
-//        boolean mCircleSeparator = false;
-//
-//        public CircleTransform() {
-//
-//        }
-//
-//        public CircleTransform(boolean circleSeparator) {
-//            mCircleSeparator = circleSeparator;
-//        }
-//
-//        @Override
-//        public Bitmap transform(Bitmap source) {
-//            int size = Math.min(source.getWidth(), source.getHeight());
-//            int x = (source.getWidth() - size) / 2;
-//            int y  = (source.getHeight()-size)/2;
-//            Bitmap squaredBitmap = Bitmap.createBitmap(source,x,y,size,size);
-//            if (squaredBitmap != source){
-//                source.recycle();
-//            }
-//            Bitmap bitmap = Bitmap.createBitmap(size,size,source.getConfig());
-//            Canvas canvas = new Canvas(bitmap);
-//            BitmapShader shader = new BitmapShader(squaredBitmap,BitmapShader.TileMode.CLAMP,BitmapShader.TileMode.CLAMP);
-//            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG|Paint.FILTER_BITMAP_FLAG);
-//            paint.setShader(shader);
-//            float r  = size/2f;
-//            canvas.drawCircle(r,r,r-1,paint);
-//
-//
-//            Paint paintBorder = new Paint();
-//            paintBorder.setStyle(Paint.Style.STROKE);
-//            paintBorder.setColor(Color.argb(84,0,0,0));
-//            paintBorder.setAntiAlias(true);
-//            paintBorder.setStrokeWidth(1);
-//            canvas.drawCircle(r,r,r-1,paintBorder);
-//
-//            if (mCircleSeparator){
-//                Paint paintBorderSeparator = new Paint();
-//                paintBorderSeparator.setStyle(Paint.Style.STROKE);
-//                paintBorderSeparator.setColor(Color.parseColor("#ffffff"));
-//                paintBorderSeparator.setAntiAlias(true);
-//                paintBorderSeparator.setStrokeWidth(4);
-//                canvas.drawCircle(r,r,r+1,paintBorderSeparator);
-//            }
-//
-//            squaredBitmap.recycle();
-//
-//
-//            return bitmap;
-//        }
-//
-//        @Override
-//        public String key() {
-//            return "String";
-//        }
-//    }
+    @Override
+    public void onClick(View view) {
+        if (view.equals(mSearchButton)){
+            startActivity(new Intent(this, SearchActivity.class));
+        }else if (view.equals(mSettingButton)){
+            startActivity(new Intent(this,SearchActivity.class));
+        }else if (view.equals(mProfilePicImageView)){
+            startActivity(new Intent(this, ProfileActivity.class));
+        }
+    }
+
 }

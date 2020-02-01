@@ -8,6 +8,9 @@ public class FeaturedKicks {
 
     private ImageAndText mFeaturedImageAndText;
     private ImageTextAndList mFeaturedImageTextAndList;
+    private String mFeaturedType;
+
+
 
     public FeaturedKicks() {
 
@@ -39,4 +42,13 @@ public class FeaturedKicks {
         }else type = null;
         return type;
     }
+
+    public String getFeaturedType2(){
+        return mFeaturedType;
+    }
+
+    public void setFeaturedType(String mFeaturedType) {
+        this.mFeaturedType = mFeaturedType;
+    }
+
 }

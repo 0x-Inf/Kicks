@@ -22,9 +22,17 @@
             android:layout_height="wrap_content"
             android:text="Poker"
             android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:layout_toEndOf="@id/featuredKickInlistimageView"
             android:layout_alignBaseline="@id/featuredKickInlistimageView"/>
+        <TextView
+            android:id="@+id/featuredKickInlistShortDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A game Of Holdem"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/featuredKickInlistName"
+            android:layout_toEndOf="@id/featuredKickInlistimageView"/>
 
     </RelativeLayout>
 </LinearLayout>

@@ -10,17 +10,28 @@
         android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
         android:label="Home"
         tools:layout="@layout/swipable_feed_fragment" />
-
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.diablo.jayson.kicksv1.UI.KickMap.KickMapFragment"
-        android:label="Dashboard"
-        tools:layout="@layout/kick_map_fragment" />
-
+        android:id="@+id/navigation_kick_select"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectFragment"
+        android:label="KickSelect"
+        tools:layout="@layout/kick_select_fragment"/>
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_add_kick"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment"
-        android:label="Notifications"
+        android:label="AddKick"
         tools:layout="@layout/add_kick_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_active_kicks"
+        android:name="com.diablo.jayson.kicksv1.UI.CurrentKIcks.ActiveKicksFragment"
+        android:label="Active"
+        tools:layout="@layout/fragment_active_kicks" />
+
+
+    <fragment
+        android:id="@+id/navigation_map_view"
+        android:name="com.diablo.jayson.kicksv1.UI.MapFeed.KickMapFragment"
+        android:label="Maps"
+        tools:layout="@layout/kick_map_fragment"/>
 
 </navigation>

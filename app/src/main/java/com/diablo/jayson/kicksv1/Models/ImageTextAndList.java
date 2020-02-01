@@ -1,32 +1,47 @@
 package com.diablo.jayson.kicksv1.Models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ImageTextAndList extends FeaturedKicks {
 
 
-    private ArrayList<Kick> mFeaturedKickList;
-    private String mFeaturedKickListImageUrl;
-    private String mFeaturedKickListTitle;
+    private HashMap<String,KickInFeaturedList> KickList;
+    private String KickListImageUrl;
+    private String KickListName;
 
     public ImageTextAndList(){}
 
-    public ImageTextAndList(ArrayList<Kick> mFeaturedKickList, String mFeaturedKickListImageUrl, String mFeaturedKickListTitle) {
-        this.mFeaturedKickList = mFeaturedKickList;
-        this.mFeaturedKickListImageUrl = mFeaturedKickListImageUrl;
-        this.mFeaturedKickListTitle = mFeaturedKickListTitle;
+
+
+    public ImageTextAndList(HashMap<String,KickInFeaturedList> KickList, String KickListImageUrl, String KickListName) {
+        this.KickList = KickList;
+        this.KickListImageUrl = KickListImageUrl;
+        this.KickListName = KickListName;
     }
 
-    public ArrayList<Kick> getFeaturedKickList() {
-        return mFeaturedKickList;
+    public HashMap<String,KickInFeaturedList> getKickList() {
+        return KickList;
     }
 
-    public String getFeaturedKickListImageUrl() {
-        return mFeaturedKickListImageUrl;
+    public String getKickListImageUrl() {
+        return KickListImageUrl;
     }
 
-    public String getFeaturedKickListTitle() {
-        return mFeaturedKickListTitle;
+    public String getKickListName() {
+        return KickListName;
+    }
+
+    public void setKickList(HashMap<String,KickInFeaturedList> KickList) {
+        this.KickList = KickList;
+    }
+
+    public void setKickListImageUrl(String KickListImageUrl) {
+        this.KickListImageUrl = KickListImageUrl;
+    }
+
+    public void setKickListName(String KickListName) {
+        this.KickListName = KickListName;
     }
 }
