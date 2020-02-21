@@ -1,91 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/framelayoutbase"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/framelayoutbase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
-            <EditText
-                android:id="@+id/kick_name_edit_text"
+            <TextView
+                android:id="@+id/activityNameTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/kick_name_edit_text_hint"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="0dp"
+                android:text="Activity Title"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/design_default_color_secondary"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/kick_location_edit_text"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ActivityNameInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/activityNameTitleTextView"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kickNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/activityPlaceTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/kick_name_edit_text"
-                android:hint="@string/location_edit_text_hint"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_below="@id/ActivityNameInput"
+                android:layout_marginTop="5dp"
+                android:text="Location"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/design_default_color_secondary"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ActivityPlaceInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/activityPlaceTitleTextView"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ActivityPLaceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/dateTimeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/kick_name_edit_text"
-                android:layout_toEndOf="@id/kick_location_edit_text"
-                android:text="@string/choose_on_map_button_text" />
-
-            <Button
-                android:id="@+id/date_picker_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/kick_location_edit_text"
-                android:text="Pick A date" />
-
-            <Button
-                android:id="@+id/time_picker_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/kick_location_edit_text"
-                android:layout_toEndOf="@id/date_picker_button"
-                android:text="Pick A Time" />
-
+                android:layout_below="@id/ActivityPlaceInput"
+                android:layout_marginTop="5dp"
+                android:text="Date Time"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/design_default_color_secondary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/seekBarTextsLinearLayout"
-                android:layout_width="match_parent"
+                android:id="@+id/dateTimeSection"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/date_picker_button"
-                android:layout_margin="4dp"
+                android:layout_below="@id/dateTimeLabel"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/seekBarLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="People Required To Attend: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="110dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="20dp"
+                    app:endIconContentDescription="iconforTimeInput"
+                    app:endIconDrawable="@drawable/time_input_icon_24dp"
+                    app:endIconMode="custom">
 
-                <TextView
-                    android:id="@+id/seekBarProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/time_picker_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:focusable="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="150dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="20dp"
+                    app:endIconContentDescription="iconforDateInput"
+                    app:endIconDrawable="@drawable/date_input_icon_24dp"
+                    app:endIconMode="custom">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date_picker_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <SeekBar
-                android:id="@+id/seekBar"
+            <TextView
+                android:id="@+id/noOfPeopleSectionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dateTimeSection"
+                android:layout_marginTop="5dp"
+                android:text="No. of People"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/design_default_color_secondary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/noOfPeopleSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/seekBarTextsLinearLayout"
-                android:layout_margin="4dp" />
+                android:layout_below="@id/noOfPeopleSectionLabel">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/minPeopleInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:hint="Min">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/minPeopleInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/maxPeopleInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:hint="Max">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/maxPeopleEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/minPeopleInputLayout"
+                    android:layout_margin="4dp" />
+
+                <!--<com.edmodo.rangebar.RangeBar
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/rangebar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/minPeopleInputLayout"
+                    custom:tickCount="1"
+                    custom:barColor="@color/design_default_color_secondary"
+                    />
+-->
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tagsSectionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/noOfPeopleSection"
+                android:layout_marginTop="5dp"
+                android:text="Tags"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/design_default_color_secondary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tagsAutoCompleteInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/tagsSectionLabel"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Tags For Activity">
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/tagsAutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/tagsSectionLabel"
+                    android:layout_gravity="bottom"
+                    android:dropDownHeight="200dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
         </RelativeLayout>
@@ -96,12 +253,11 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="60dp"
         android:contentDescription="extendedfloatingactionbutton"
         android:text="CREATE ACTIVITY"
-        android:theme="@style/MaterialTheme"
-        android:layout_gravity="center_horizontal|bottom"/>
-
+        android:theme="@style/MaterialTheme" />
 
 
 </FrameLayout>

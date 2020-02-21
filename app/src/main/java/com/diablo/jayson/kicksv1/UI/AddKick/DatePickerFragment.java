@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.diablo.jayson.kicksv1.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
@@ -23,9 +24,12 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    private TextInputEditText mDatePickerInput;
 
-    public DatePickerFragment() {
+
+    public DatePickerFragment(TextInputEditText textInputEditText) {
         // Required empty public constructor
+        this.mDatePickerInput = textInputEditText;
     }
 
 
@@ -43,6 +47,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        mDatePickerInput.setText(day+"/"+month+"/"+year);
 
     }
 }

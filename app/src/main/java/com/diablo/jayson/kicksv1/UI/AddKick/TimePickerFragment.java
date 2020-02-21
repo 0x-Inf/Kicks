@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
@@ -26,9 +28,15 @@ import java.util.Calendar;
  */
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
+    private TextInputEditText mTimePickerInput;
 
-    public TimePickerFragment() {
-        // Required empty public constructor
+
+//    public TimePickerFragment() {
+//        // Required empty public constructor
+//    }
+
+    public TimePickerFragment(TextInputEditText textInputEditText){
+        this.mTimePickerInput = textInputEditText;
     }
 
     @NonNull
@@ -43,6 +51,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-
+        MainActivity activity = (MainActivity) getActivity();
+        AddKickFragment fragment = new AddKickFragment();
+        assert  fragment != null;
+//        fragment.processTimePickerResult(hour,minute);
+        mTimePickerInput.setText(Integer.toString(hour) + ":" + Integer.toString(minute));
     }
 }
