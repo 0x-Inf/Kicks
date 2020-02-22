@@ -85,8 +85,8 @@ public class ActivityFeedListAdapter extends RecyclerView.Adapter<ActivityFeedLi
             mKickTimeText.setText(currentActivity.getKickTime());
             mKickDateText.setText(currentActivity.getKickDate());
             mKickLocationText.setText(currentActivity.getKickLocation());
-            mAlreadyAttendingPeepsText.setText(currentActivity.getKickAlreadyAttendingPeeps());
-            mRequiredPeepsText.setText(currentActivity.getKickRequiredPeeps());
+            mAlreadyAttendingPeepsText.setText(currentActivity.getMinRequiredPeople());
+            mRequiredPeepsText.setText(currentActivity.getMaxRequiredPeeps());
             Glide.with(mContext).load(currentActivity.getImageUrl()).into(mKickImage);
 
         }

@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
+
             <TextView
                 android:id="@+id/activityNameTitleTextView"
                 android:layout_width="wrap_content"
@@ -79,6 +80,12 @@
                     android:focusable="false"
                     android:inputType="text" />
 
+                <!--<fragment android:id="@+id/autocomplete_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    />
+-->
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -93,7 +100,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/dateTimeSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,7 +129,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="150dp"
                     android:layout_height="55dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_alignParentEnd="true"
                     app:endIconContentDescription="iconforDateInput"
                     app:endIconDrawable="@drawable/date_input_icon_24dp"
                     app:endIconMode="custom">
@@ -138,7 +146,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/noOfPeopleSectionLabel"
@@ -253,6 +261,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/createActivityFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"

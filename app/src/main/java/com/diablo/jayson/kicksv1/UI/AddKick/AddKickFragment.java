@@ -31,6 +31,8 @@ import com.edmodo.rangebar.RangeBar;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
@@ -41,14 +43,23 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -59,33 +70,19 @@ public class AddKickFragment extends Fragment {
     private AddKickViewModel mViewModel;
     private Button mDatePickerButton;
     private Button mTimePickerButton;
-    private TextInputEditText mTimePickerInput, mDatePickerInput, mLocationTextInput;
+    private TextInputEditText mTimePickerInput, mDatePickerInput, mLocationTextInput, mActivityTitleInput;
+    private MultiAutoCompleteTextView mTagsAutoCompleteInput;
+    private TextInputEditText mMaxRequiredInput, mMinRequiredInput;
     private Button mPickALocationButton;
     private SeekBar mSeekBar;
     private DatabaseReference mDatabase;
     private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
-
+    private ExtendedFloatingActionButton mAddActivityToDb;
 
     public static AddKickFragment newInstance() {
         return new AddKickFragment();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -94,6 +91,15 @@ public class AddKickFragment extends Fragment {
         mTimePickerInput = root.findViewById(R.id.time_picker_input);
         mDatePickerInput = root.findViewById(R.id.date_picker_input);
         mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
+        mAddActivityToDb = root.findViewById(R.id.createActivityFab);
+        mActivityTitleInput = root.findViewById(R.id.kickNameEditText);
+        mTagsAutoCompleteInput = root.findViewById(R.id.tagsAutoCompleteTextView);
+        mMinRequiredInput = root.findViewById(R.id.minPeopleInputEditText);
+        mMaxRequiredInput = root.findViewById(R.id.maxPeopleEditText);
+
+
+
+
         // Initialize the SDK
         Places.initialize(getActivity().getApplicationContext(), "AIzaSyDSiR_IHNqTBXhKXuEBWlkftFF_jLO8rBU");
 
@@ -101,7 +107,7 @@ public class AddKickFragment extends Fragment {
         PlacesClient placesClient = Places.createClient(getContext());
 
         mSeekBar = root.findViewById(R.id.seekBar);
-        final TextInputEditText seekBarProgress = root.findViewById(R.id.minPeopleInputEditText);
+//        final TextInputEditText seekBarProgress = root.findViewById(R.id.minPeopleInputEditText);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -113,9 +119,9 @@ public class AddKickFragment extends Fragment {
                         R.layout.ropdown_menu_popup_item,
                         TAGS);
 
-        MultiAutoCompleteTextView editTextFilledExposedDropdown = root.findViewById(R.id.tagsAutoCompleteTextView);
-        editTextFilledExposedDropdown.setAdapter(adapter);
-        editTextFilledExposedDropdown.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+//        MultiAutoCompleteTextView editTextFilledExposedDropdown = root.findViewById(R.id.tagsAutoCompleteTextView);
+        mTagsAutoCompleteInput.setAdapter(adapter);
+        mTagsAutoCompleteInput.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         mDatePickerInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +135,23 @@ public class AddKickFragment extends Fragment {
                 showTimePicker();
             }
         });
+        mAddActivityToDb.setOnClickListener(v -> adddatatoDb());
 
+//        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment)
+//                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME));
+//
+//        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(@NonNull Place place) {
+//                Log.w(TAG,"Place: "+ place.getName()+", "+ place.getId());
+//            }
+//
+//            @Override
+//            public void onError(@NonNull Status status) {
+//                Log.i(TAG, "An error occurred: " + status);
+//            }
+//        });
 
 //        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            @Override
@@ -156,16 +178,14 @@ public class AddKickFragment extends Fragment {
 // return after the user has made a selection.
 
 
-        mLocationTextInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-                // Start the autocomplete intent.
-                Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.OVERLAY, fields)
-                        .build(getContext());
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-            }
+        mLocationTextInput.setOnClickListener(v -> {
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+            // Start the autocomplete intent.
+            Intent intent = new Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.OVERLAY, fields)
+                    .build(getContext());
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            mLocationTextInput.setText("CBD");
         });
 
 
@@ -198,7 +218,26 @@ public class AddKickFragment extends Fragment {
 //            }
 //        });
 
+
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                mLocationTextInput.setText(place.getName() + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 
     @Override
@@ -238,11 +277,110 @@ public class AddKickFragment extends Fragment {
 
     }
 
-    private void writenewKickToDb(String kickTitle, String kickLocation, String kickDate, String kickTime,
-                                  String alreadyAttendingPeeps, String requiredPeeps, String imageUrl) {
-        String key = mDatabase.child("kicks").push().getKey();
-        Activity activity = new Activity(kickTitle, kickTime, kickDate, kickLocation,
-                alreadyAttendingPeeps, requiredPeeps, imageUrl);
+    private void adddatatoDb() {
+
+
+        // Access a Cloud Firestore instance from your Activity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("first", "Alan");
+        user.put("Middle", "Mathison");
+        user.put("last", "Turing");
+        user.put("born", 1912);
+
+        Map<String, Object> nestedData = new HashMap<>();
+        nestedData.put("a", 5);
+        nestedData.put("b", false);
+
+        user.put("ObjectExample", nestedData);
+
+//        db.collection("users")
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error adding document", e);
+//                    }
+//                });
+//
+//        db.collection("data").document("one")
+//                .set(user, SetOptions.merge())
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error writing document", e);
+//                    }
+//                });
+
+        String kickTitle = mActivityTitleInput.getText().toString();
+        String kickLocation = mLocationTextInput.getText().toString();
+        String kickTime = mTimePickerInput.getText().toString();
+        String kickDate = mDatePickerInput.getText().toString();
+        String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
+        String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
+        String tags = mTagsAutoCompleteInput.getText().toString();
+
+
+        if (kickTitle.matches("") || kickLocation.matches("")
+                || kickTime.matches("") || kickDate.matches("")
+                || kickMinRequiredPeople.matches("") || kickMxnRequiredPeople.matches("")
+                || tags.matches("")) {
+
+            Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
+        } else if (!kickTitle.matches("") && !kickLocation.matches("")
+                && !kickTime.matches("") && !kickDate.matches("")
+                && !kickMinRequiredPeople.matches("") && !kickMxnRequiredPeople.matches("")
+                && !tags.matches("")) {
+
+            String[] tagsList = tags.split(",", -2);
+//            String[] tagList = {};
+            String tag = Arrays.toString(tagsList);
+
+            tag = tag.replace("[", "");
+            tag = tag.replace("]", "");
+
+            String tagArray[] = tag.split(",");
+
+            List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+
+
+            Log.e(TAG, Arrays.toString(tagsList));
+            Log.e(TAG, tagsList.getClass().toString());
+
+
+            Activity activity = new Activity(kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+                    kickMxnRequiredPeople, "", tagList);
+            db.collection("activities").add(activity)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+
+
+
+
 
 
     }

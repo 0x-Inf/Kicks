@@ -21,6 +21,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class KickFeedFragment extends Fragment {
 
@@ -67,10 +68,12 @@ public class KickFeedFragment extends Fragment {
 
         mKicksData.clear();
 
+        String[] tagsList = {"Bowling", "Skating"};
+
         for (int i = 0; i < kicksTitles.length; i++) {
             mKicksData.add(new Activity(kicksTitles[i], kicksTimes[i], kicksDates[i],
                     kicksLocations[i], alreadyAttending[i], requiredAttending[i],
-                    ""));
+                    "", Arrays.asList(tagsList)));
         }
         kicksImageResources.recycle();
 
