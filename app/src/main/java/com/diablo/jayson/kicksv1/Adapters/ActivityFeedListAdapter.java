@@ -14,50 +14,50 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.util.ArrayList;
 
-public class ActivityFeedListAdapter extends RecyclerView.Adapter<ActivityFeedListAdapter.ActivityViewHolder> {
+public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
     private ArrayList<Activity> mKicksData;
     private MutableLiveData<ArrayList<Activity>> mKicksDataM;
     private Context mContext;
     private LayoutInflater mInflater;
 
-    public ActivityFeedListAdapter(Context context, ArrayList<Activity> kicksdata){
-        this.mKicksData = kicksdata;
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
 
-    }
-
-    public ActivityFeedListAdapter(Context context, MutableLiveData<ArrayList<Activity>> mKicksData) {
-        this.mContext = context;
-        this.mKicksDataM = mKicksData;
-        mInflater = LayoutInflater.from(context);
+    public ActivityFeedListAdapter(FirestoreRecyclerOptions<Activity> options) {
+        super(options);
     }
 
 
     @NonNull
     @Override
     public ActivityFeedListAdapter.ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ActivityViewHolder(LayoutInflater.from(mContext).
-                inflate(R.layout.activity_list_item,parent,false));
+        return new ActivityViewHolder(LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.activity_list_item, parent, false));
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull ActivityFeedListAdapter.ActivityViewHolder holder, int position) {
+//        Activity currentActivity = mKicksData.get(position);
+//        holder.bindTo(currentActivity);
+//
+//    }
+
     @Override
-    public void onBindViewHolder(@NonNull ActivityFeedListAdapter.ActivityViewHolder holder, int position) {
-        Activity currentActivity = mKicksData.get(position);
+    protected void onBindViewHolder(@NonNull ActivityViewHolder holder, int position, @NonNull Activity model) {
+        Activity currentActivity = getItem(position);
         holder.bindTo(currentActivity);
-
     }
 
-    @Override
-    public int getItemCount() {
-        return mKicksData.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return mKicksData.size();
+//    }
 
-    class ActivityViewHolder extends RecyclerView.ViewHolder {
+    static class ActivityViewHolder extends RecyclerView.ViewHolder {
         // Member Variables for the TextViews
         private TextView mKickTitleText;
         private TextView mKickTimeText;
@@ -66,9 +66,11 @@ public class ActivityFeedListAdapter extends RecyclerView.Adapter<ActivityFeedLi
         private TextView mAlreadyAttendingPeepsText;
         private TextView mRequiredPeepsText;
         private ImageView mKickImage;
+        private Context mContext;
+        private android.app.Activity activity;
 
 
-        public ActivityViewHolder(View itemView) {
+        ActivityViewHolder(View itemView) {
             super(itemView);
             mKickTitleText = itemView.findViewById(R.id.kickNameTextView);
             mKickTimeText = itemView.findViewById(R.id.timeTextView);
@@ -80,14 +82,14 @@ public class ActivityFeedListAdapter extends RecyclerView.Adapter<ActivityFeedLi
 
         }
 
-        void bindTo(Activity currentActivity){
-            mKickTitleText.setText(currentActivity.getKickTitle());
-            mKickTimeText.setText(currentActivity.getKickTime());
-            mKickDateText.setText(currentActivity.getKickDate());
-            mKickLocationText.setText(currentActivity.getKickLocation());
+        void bindTo(Activity currentActivity) {
+            mKickTitleText.setText(currentActivity.getkickTitle());
+            mKickTimeText.setText(currentActivity.getkickTime());
+            mKickDateText.setText(currentActivity.getkickDate());
+            mKickLocationText.setText(currentActivity.getkickLocation());
             mAlreadyAttendingPeepsText.setText(currentActivity.getMinRequiredPeople());
             mRequiredPeepsText.setText(currentActivity.getMaxRequiredPeeps());
-            Glide.with(mContext).load(currentActivity.getImageUrl()).into(mKickImage);
+            Glide.with(itemView.getContext()).load(currentActivity.getimageUrl()).into(mKickImage);
 
         }
     }

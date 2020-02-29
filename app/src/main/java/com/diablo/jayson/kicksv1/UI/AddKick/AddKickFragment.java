@@ -1,50 +1,33 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.Home.FeaturedFragment;
-import com.edmodo.rangebar.RangeBar;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,7 +36,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +55,9 @@ public class AddKickFragment extends Fragment {
     private TextInputEditText mTimePickerInput, mDatePickerInput, mLocationTextInput, mActivityTitleInput;
     private MultiAutoCompleteTextView mTagsAutoCompleteInput;
     private TextInputEditText mMaxRequiredInput, mMinRequiredInput;
+    private TextInputLayout mActivityTitleInputLayout, mActivityLocationInputLayout, mActivityTimeInputLayout,
+            mActivityDateInputLayout, mActivityMinPeopleInputLayout, mActivityMaxPeopleInputLayout,
+            mActivityTagsInputLayout;
     private Button mPickALocationButton;
     private SeekBar mSeekBar;
     private DatabaseReference mDatabase;
@@ -96,8 +81,13 @@ public class AddKickFragment extends Fragment {
         mTagsAutoCompleteInput = root.findViewById(R.id.tagsAutoCompleteTextView);
         mMinRequiredInput = root.findViewById(R.id.minPeopleInputEditText);
         mMaxRequiredInput = root.findViewById(R.id.maxPeopleEditText);
-
-
+        mActivityTitleInputLayout = root.findViewById(R.id.ActivityNameInput);
+        mActivityLocationInputLayout = root.findViewById(R.id.ActivityPlaceInput);
+        mActivityTimeInputLayout = root.findViewById(R.id.activityTimeInput);
+        mActivityDateInputLayout = root.findViewById(R.id.activityDateInput);
+        mActivityMinPeopleInputLayout = root.findViewById(R.id.minPeopleInputLayout);
+        mActivityMaxPeopleInputLayout = root.findViewById(R.id.maxPeopleInputLayout);
+        mActivityTagsInputLayout = root.findViewById(R.id.tagsAutoCompleteInputLayout);
 
 
         // Initialize the SDK
@@ -339,6 +329,10 @@ public class AddKickFragment extends Fragment {
                 || kickMinRequiredPeople.matches("") || kickMxnRequiredPeople.matches("")
                 || tags.matches("")) {
 
+//            if (kickTitle.matches("")) {
+//                mActivityTitleInputLayout.setError("Input Title.E.g The Boys Hang out");
+//            }
+
             Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
         } else if (!kickTitle.matches("") && !kickLocation.matches("")
                 && !kickTime.matches("") && !kickDate.matches("")
@@ -377,10 +371,6 @@ public class AddKickFragment extends Fragment {
                         }
                     });
         }
-
-
-
-
 
 
     }

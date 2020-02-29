@@ -1,171 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/mainKickContentRelativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/kickImage"
+        <RelativeLayout
+            android:id="@+id/mainKickContentRelativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true">
+            android:layout_height="wrap_content">
 
-        </androidx.appcompat.widget.AppCompatImageView>
-
-
-        <TextView
-            android:id="@+id/kickNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/kickImage"
-            android:text="@string/kick_name_text_view"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/dateTimeLinearlayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/kickNameTextView"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/dateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date" />
-
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time" />
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/locationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/kickImage"
-            android:layout_margin="8dp"
-            android:layout_toRightOf="@id/dateTimeLinearlayout"
-            android:text="Mandera road" />
-
-        <LinearLayout
-            android:id="@+id/peopleKickingLinearlayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dateTimeLinearlayout"
-            android:layout_margin="8dp">
-
-            <RelativeLayout
-                android:id="@+id/peopleKickingRelativeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/alreeadyKickingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/backStrokeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/alreeadyKickingTextView"
-                    android:text="/"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/requiredKickersTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/backStrokeTextView"
-                    android:text="5"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/staticKickingText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_toRightOf="@id/requiredKickersTextView"
-                    android:text="kicking" />
-
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:text="GO" />
-
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal">
-
-            <RelativeLayout
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/kickImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true">
 
-                <ImageButton
-                    android:id="@+id/bookmarkImageButton"
+            </androidx.appcompat.widget.AppCompatImageView>
+
+
+            <TextView
+                android:id="@+id/kickNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/kickImage"
+                android:text="@string/kick_name_text_view"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/dateTimeLinearlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kickNameTextView"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_bookmark_icon"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:text="Date" />
 
-                <ImageButton
+                <TextView
+                    android:id="@+id/timeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/bookmarkImageButton"
-                    android:src="@drawable/ic_like_icon"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:text="Time" />
 
-                <ImageButton
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kickImage"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/dateTimeLinearlayout"
+                android:text="Mandera road" />
+
+            <LinearLayout
+                android:id="@+id/peopleKickingLinearlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dateTimeLinearlayout"
+                android:layout_margin="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/peopleKickingRelativeLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_share_icon" />
+                    android:layout_height="wrap_content">
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/alreeadyKickingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/backStrokeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/alreeadyKickingTextView"
+                        android:text="/"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/requiredKickersTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/backStrokeTextView"
+                        android:text="5"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/staticKickingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toRightOf="@id/requiredKickersTextView"
+                        android:text="kicking" />
 
 
-        </LinearLayout>
+                </RelativeLayout>
 
-    </RelativeLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="GO" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/bookmarkImageButton"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/ic_bookmark_icon" />
+
+                    <ImageButton
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/bookmarkImageButton"
+                        android:src="@drawable/ic_like_icon" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_share_icon" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

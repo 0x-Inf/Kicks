@@ -1,19 +1,16 @@
 package com.diablo.jayson.kicksv1.Models;
 
-import android.widget.TextView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Activity {
 
-    private String mKickTitle;
-    private String mKickTime;
-    private String mKickDate;
-    private String mKickLocation;
+    private String kickTitle;
+    private String kickTime;
+    private String kickDate;
+    private String kickLocation;
     private String minRequiredPeople;
     private String maxRequiredPeeps;
-    private String mImageUrl;
+    private String imageUrl;
     private List<String> tags;
 
     public Activity(){
@@ -24,35 +21,63 @@ public class Activity {
 
     public Activity(String kicktitle, String kicktime, String kickdate, String kicklocation,
                     String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags) {
-        this.mKickTitle = kicktitle;
-        this.mKickTime = kicktime;
-        this.mKickDate = kickdate;
-        this.mKickLocation = kicklocation;
+        this.kickTitle = kicktitle;
+        this.kickTime = kicktime;
+        this.kickDate = kickdate;
+        this.kickLocation = kicklocation;
         this.minRequiredPeople = minrequiredpeople;
         this.maxRequiredPeeps = maxrequiredpeeps;
-        this.mImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
         this.tags = tags;
 
     }
 
-    public String getKickTitle() {
-        return mKickTitle;
+    public void setmKickTitle(String mKickTitle) {
+        this.kickTitle = mKickTitle;
     }
 
-    public String getKickTime() {
-        return mKickTime;
+    public void setmKickTime(String mKickTime) {
+        this.kickTime = mKickTime;
     }
 
-    public String getKickDate() {
-        return mKickDate;
+    public void setmKickDate(String mKickDate) {
+        this.kickDate = mKickDate;
     }
 
-    public String getKickLocation() {
-        return mKickLocation;
+    public void setmKickLocation(String mKickLocation) {
+        this.kickLocation = mKickLocation;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public void setMinRequiredPeople(String minRequiredPeople) {
+        this.minRequiredPeople = minRequiredPeople;
+    }
+
+    public void setMaxRequiredPeeps(String maxRequiredPeeps) {
+        this.maxRequiredPeeps = maxRequiredPeeps;
+    }
+
+    public void setmImageUrl(String mImageUrl) {
+        this.imageUrl = mImageUrl;
+    }
+
+    public String getkickTitle() {
+        return kickTitle;
+    }
+
+    public String getkickTime() {
+        return kickTime;
+    }
+
+    public String getkickDate() {
+        return kickDate;
+    }
+
+    public String getkickLocation() {
+        return kickLocation;
+    }
+
+    public String getimageUrl() {
+        return imageUrl;
     }
 
     public String getMaxRequiredPeeps() {
