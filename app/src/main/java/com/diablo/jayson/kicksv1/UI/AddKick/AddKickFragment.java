@@ -32,6 +32,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -39,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -356,7 +358,7 @@ public class AddKickFragment extends Fragment {
 
 
             Activity activity = new Activity(kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", tagList);
+                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid());
             db.collection("activities").add(activity)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override

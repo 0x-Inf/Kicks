@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.diablo.jayson.kicksv1.UI.Home.FeaturedFragment;
+import com.diablo.jayson.kicksv1.UI.Home.HighlightsFragment;
 import com.diablo.jayson.kicksv1.UI.Home.KickFeedFragment;
-import com.diablo.jayson.kicksv1.UI.MapFeed.KickMapFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(@NonNull FragmentManager fm) {
@@ -24,7 +24,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new KickFeedFragment();
             case 2:
-                return new KickMapFragment();
+                return new HighlightsFragment();
             default:
                 return new KickFeedFragment();
         }
@@ -39,7 +39,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Feed";
             case 2:
-                return "Map";
+                return "Highlights";
             default:
                 return null;
         }

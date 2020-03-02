@@ -12,12 +12,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
@@ -65,7 +68,8 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private TextView mKickLocationText;
         private TextView mAlreadyAttendingPeepsText;
         private TextView mRequiredPeepsText;
-        private ImageView mKickImage;
+        private TextView mUploaderName;
+        private ImageView mKickImage, mUploaderPic;
         private Context mContext;
         private android.app.Activity activity;
 
@@ -78,7 +82,10 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mKickLocationText = itemView.findViewById(R.id.locationTextView);
             mAlreadyAttendingPeepsText = itemView.findViewById(R.id.alreeadyKickingTextView);
             mRequiredPeepsText = itemView.findViewById(R.id.requiredKickersTextView);
+            mUploaderName = itemView.findViewById(R.id.uploaderName);
+            mUploaderPic = itemView.findViewById(R.id.uploaderPicImageView);
             mKickImage = itemView.findViewById(R.id.kickImage);
+
 
         }
 
@@ -89,6 +96,12 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mKickLocationText.setText(currentActivity.getkickLocation());
             mAlreadyAttendingPeepsText.setText(currentActivity.getMinRequiredPeople());
             mRequiredPeepsText.setText(currentActivity.getMaxRequiredPeeps());
+            mUploaderName.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+            Glide.with(itemView.getContext())
+                    .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(mUploaderPic);
+
             Glide.with(itemView.getContext()).load(currentActivity.getimageUrl()).into(mKickImage);
 
         }

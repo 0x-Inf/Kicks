@@ -11,16 +11,18 @@ public class Activity {
     private String minRequiredPeople;
     private String maxRequiredPeeps;
     private String imageUrl;
+    private String uploaderId;
+    private long uploadedTime;
     private List<String> tags;
 
     public Activity(){
 
     }
 
-    //Constructor for kick data model
+    //Constructor for Activity data model
 
     public Activity(String kicktitle, String kicktime, String kickdate, String kicklocation,
-                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags) {
+                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime, String uploaderUid) {
         this.kickTitle = kicktitle;
         this.kickTime = kicktime;
         this.kickDate = kickdate;
@@ -29,6 +31,8 @@ public class Activity {
         this.maxRequiredPeeps = maxrequiredpeeps;
         this.imageUrl = imageUrl;
         this.tags = tags;
+        this.uploadedTime = uploadedtime;
+        this.uploaderId = uploaderUid;
 
     }
 
@@ -38,6 +42,22 @@ public class Activity {
 
     public void setmKickTime(String mKickTime) {
         this.kickTime = mKickTime;
+    }
+
+    public String getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public long getUploadedTime() {
+        return uploadedTime;
+    }
+
+    public void setUploadedTime(long uploadedTime) {
+        this.uploadedTime = uploadedTime;
     }
 
     public void setmKickDate(String mKickDate) {
