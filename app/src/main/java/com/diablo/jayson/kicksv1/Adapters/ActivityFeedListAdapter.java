@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
     private ArrayList<Activity> mKicksData;
@@ -63,11 +65,12 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {
         // Member Variables for the TextViews
         private TextView mKickTitleText;
-        private TextView mKickTimeText;
+        private TextView mKickStartTimeText;
+        private TextView mKickEndTimeText;
         private TextView mKickDateText;
         private TextView mKickLocationText;
-        private TextView mAlreadyAttendingPeepsText;
-        private TextView mRequiredPeepsText;
+        private TextView mMinPeopleText;
+        private TextView mMaxPeopleText;
         private TextView mUploaderName;
         private ImageView mKickImage, mUploaderPic;
         private Context mContext;
@@ -76,33 +79,37 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
 
         ActivityViewHolder(View itemView) {
             super(itemView);
-            mKickTitleText = itemView.findViewById(R.id.kickNameTextView);
-            mKickTimeText = itemView.findViewById(R.id.timeTextView);
-            mKickDateText = itemView.findViewById(R.id.dateTextView);
-            mKickLocationText = itemView.findViewById(R.id.locationTextView);
-            mAlreadyAttendingPeepsText = itemView.findViewById(R.id.alreeadyKickingTextView);
-            mRequiredPeepsText = itemView.findViewById(R.id.requiredKickersTextView);
-            mUploaderName = itemView.findViewById(R.id.uploaderName);
-            mUploaderPic = itemView.findViewById(R.id.uploaderPicImageView);
-            mKickImage = itemView.findViewById(R.id.kickImage);
+            mKickTitleText = itemView.findViewById(R.id.activityTitleTextView);
+            mKickStartTimeText = itemView.findViewById(R.id.activityStartTimeTextView);
+            mKickEndTimeText = itemView.findViewById(R.id.activityEndTimeTextView);
+            mKickDateText = itemView.findViewById(R.id.activityDateTextView);
+            mKickLocationText = itemView.findViewById(R.id.activityLocationTextView);
+            mMinPeopleText = itemView.findViewById(R.id.minAttendingPeople);
+            mMaxPeopleText = itemView.findViewById(R.id.maxAttendingPeople);
+            mUploaderName = itemView.findViewById(R.id.activityHostName);
+            mUploaderPic = itemView.findViewById(R.id.activityHostProfilePic);
+            mKickImage = itemView.findViewById(R.id.activityImageView);
 
 
         }
 
         void bindTo(Activity currentActivity) {
             mKickTitleText.setText(currentActivity.getkickTitle());
-            mKickTimeText.setText(currentActivity.getkickTime());
+            mKickStartTimeText.setText(currentActivity.getkickTime());
+            mKickEndTimeText.setText(currentActivity.getkickTime());
             mKickDateText.setText(currentActivity.getkickDate());
             mKickLocationText.setText(currentActivity.getkickLocation());
-            mAlreadyAttendingPeepsText.setText(currentActivity.getMinRequiredPeople());
-            mRequiredPeepsText.setText(currentActivity.getMaxRequiredPeeps());
+            mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
+            mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(mUploaderPic);
 
-            Glide.with(itemView.getContext()).load(currentActivity.getimageUrl()).into(mKickImage);
+            Glide.with(itemView.getContext()).load(currentActivity.getimageUrl())
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))
+                    .into(mKickImage);
 
         }
     }

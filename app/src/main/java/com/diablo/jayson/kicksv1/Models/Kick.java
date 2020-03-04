@@ -4,6 +4,7 @@ public class Kick {
 
     private String KickName;
     private String  KickImageUrl;
+    private String tagName;
 
 
 
