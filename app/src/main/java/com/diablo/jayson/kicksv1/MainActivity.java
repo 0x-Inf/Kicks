@@ -2,31 +2,31 @@ package com.diablo.jayson.kicksv1;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
-import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.UI.LoginActivity;
-import com.diablo.jayson.kicksv1.UI.Search.SearchActivity;
-import com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.UI.Search.SearchActivity;
+import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
+import com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         if (mFirebaseUser == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, SignUpActivity.class));
             finish();
         } else {
             Toast.makeText(this, mFirebaseUser.getEmail(), Toast.LENGTH_LONG).show();
@@ -78,6 +78,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .load(photoUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .into(mProfilePicImageView);
+
+//        if (savedInstanceState != null) {
+        getSupportFragmentManager().executePendingTransactions();
+        Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.addactivityfragment_container);
+        if (fragmentById != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .remove(fragmentById)
+                    .commit();
+        }
+//        }
+
+//        AddKickFragment firstaddKick = new AddKickFragment();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.addactivityfragment_container,firstaddKick)
+//                .commit();
+
+
 
         setClickListeners();
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -19,10 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Host;
+import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -30,13 +34,15 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +50,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -66,10 +73,34 @@ public class AddKickFragment extends Fragment {
     private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
     private ExtendedFloatingActionButton mAddActivityToDb;
 
+    private Activity activityMain;
+
     public static AddKickFragment newInstance() {
         return new AddKickFragment();
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton nextButton = view.findViewById(R.id.nextcreateActivityFab);
+        RelativeLayout firstContent = view.findViewById(R.id.addKickFirstContent);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.setActivity(activityMain);
+                adddatatoDb();
+                AddKick2Fragment nextFrag = new AddKick2Fragment();
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+                firstContent.setVisibility(View.INVISIBLE);
+                nextButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -127,7 +158,31 @@ public class AddKickFragment extends Fragment {
                 showTimePicker();
             }
         });
-        mAddActivityToDb.setOnClickListener(v -> adddatatoDb());
+
+        String kickTitle = mActivityTitleInput.getText().toString();
+        String kickLocation = mLocationTextInput.getText().toString();
+        String kickTime = mTimePickerInput.getText().toString();
+        String kickDate = mDatePickerInput.getText().toString();
+        String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
+        String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
+        String tags = mTagsAutoCompleteInput.getText().toString();
+        Host host = FirebaseUtil.getHost();
+
+        String[] tagsList = tags.split(",", -2);
+//            String[] tagList = {};
+        String tag = Arrays.toString(tagsList);
+
+        tag = tag.replace("[", "");
+        tag = tag.replace("]", "");
+
+        String tagArray[] = tag.split(",");
+
+        List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+
+
+        activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+
 
 //        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment)
 //                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -219,13 +274,15 @@ public class AddKickFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                assert data != null;
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                mLocationTextInput.setText(place.getName() + place.getId());
+                mLocationTextInput.setText(String.format("%s%s", place.getName(), place.getId()));
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
+                assert data != null;
                 Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i(TAG, status.getStatusMessage());
+                Log.e(TAG, status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
@@ -236,7 +293,6 @@ public class AddKickFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(AddKickViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 
@@ -324,6 +380,7 @@ public class AddKickFragment extends Fragment {
         String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
         String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
         String tags = mTagsAutoCompleteInput.getText().toString();
+        Host host = FirebaseUtil.getHost();
 
 
         if (kickTitle.matches("") || kickLocation.matches("")
@@ -357,21 +414,34 @@ public class AddKickFragment extends Fragment {
             Log.e(TAG, tagsList.getClass().toString());
 
 
-            Activity activity = new Activity(kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-            db.collection("activities").add(activity)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
+            activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+            db.collection("users")
+                    .whereEqualTo("userEmail", activityMain.getUploaderId())
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                            User user = documentSnapshot.toObject(User.class);
+                            activityMain.setUploaderId(user.getFirstName());
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+                    }
+                }
+            });
+//            db.collection("activities").add(activityMain)
+//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+//                            Log.d(TAG, "DocumentSnapshot successfully written!");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w(TAG, "Error writing document", e);
+//                        }
+//                    });
         }
 
 

@@ -68,6 +68,13 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/mobile_navigation"/>
 
+        <FrameLayout
+            android:id="@+id/addactivityfragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity" />
+
+
     </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

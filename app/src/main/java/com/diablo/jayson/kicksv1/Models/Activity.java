@@ -1,9 +1,14 @@
 package com.diablo.jayson.kicksv1.Models;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
+
 import java.util.List;
 
-public class Activity {
+public class Activity extends BaseObservable {
 
+    private Host host;
     private String kickTitle;
     private String kickTime;
     private String kickDate;
@@ -15,13 +20,13 @@ public class Activity {
     private long uploadedTime;
     private List<String> tags;
 
-    public Activity(){
+    public Activity() {
 
     }
 
     //Constructor for Activity data model
 
-    public Activity(String kicktitle, String kicktime, String kickdate, String kicklocation,
+    public Activity(Host host, String kicktitle, String kicktime, String kickdate, String kicklocation,
                     String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime, String uploaderUid) {
         this.kickTitle = kicktitle;
         this.kickTime = kicktime;
@@ -33,7 +38,18 @@ public class Activity {
         this.tags = tags;
         this.uploadedTime = uploadedtime;
         this.uploaderId = uploaderUid;
+        this.host = host;
 
+    }
+
+    @Bindable
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
+        notifyPropertyChanged(BR.host);
     }
 
     public void setmKickTitle(String mKickTitle) {

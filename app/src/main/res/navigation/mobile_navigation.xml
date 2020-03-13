@@ -19,7 +19,7 @@
         android:id="@+id/navigation_add_kick"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment"
         android:label="AddKick"
-        tools:layout="@layout/add_kick_fragment" />
+        tools:layout="@layout/activity_add_kick" />
 
     <fragment
         android:id="@+id/navigation_active_kicks"

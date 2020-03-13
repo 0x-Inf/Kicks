@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -55,7 +57,9 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     protected void onBindViewHolder(@NonNull ActivityViewHolder holder, int position, @NonNull Activity model) {
         Activity currentActivity = getItem(position);
         holder.bindTo(currentActivity);
+        setUpActivity(holder, model, position);
     }
+
 
 //    @Override
 //    public int getItemCount() {
@@ -77,6 +81,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private android.app.Activity activity;
 
 
+
         ActivityViewHolder(View itemView) {
             super(itemView);
             mKickTitleText = itemView.findViewById(R.id.activityTitleTextView);
@@ -94,6 +99,9 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         }
 
         void bindTo(Activity currentActivity) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
             mKickTitleText.setText(currentActivity.getkickTitle());
             mKickStartTimeText.setText(currentActivity.getkickTime());
             mKickEndTimeText.setText(currentActivity.getkickTime());
@@ -101,7 +109,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mKickLocationText.setText(currentActivity.getkickLocation());
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
-            mUploaderName.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+            mUploaderName.setText(currentActivity.getUploaderId());
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
@@ -112,5 +120,11 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
                     .into(mKickImage);
 
         }
+    }
+
+    private void setUpActivity(ActivityViewHolder activityViewHolder, Activity activity, int position) {
+        Host host = activity.getHost();
+        activityViewHolder.bindTo(activity);
+
     }
 }

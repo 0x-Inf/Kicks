@@ -4,17 +4,17 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="KicksHome" />
+        android:title="Home" />
 
     <item
         android:id="@+id/navigation_kick_select"
         android:icon="@drawable/ic_kick_select_icon_24dp"
-        android:title="KickSelect" />
+        android:title="Explore" />
 
     <item
         android:id="@+id/navigation_add_kick"
         android:icon="@drawable/ic_add_icon_24dp"
-        android:title="AddKick" />
+        android:title="Add" />
 
     <item
         android:id="@+id/navigation_active_kicks"
