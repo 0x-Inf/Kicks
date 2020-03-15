@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Host;
@@ -89,8 +89,8 @@ public class AddKickFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.setActivity(activityMain);
                 adddatatoDb();
+                mViewModel.setActivity1(activityMain);
                 AddKick2Fragment nextFrag = new AddKick2Fragment();
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
@@ -292,9 +292,13 @@ public class AddKickFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(AddKickViewModel.class);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
+    }
 
     public void showDatePicker() {
         DialogFragment newFragment = new DatePickerFragment(mDatePickerInput);
@@ -429,11 +433,14 @@ public class AddKickFragment extends Fragment {
                     }
                 }
             });
+            mViewModel.setActivity1(activityMain);
+            Log.e(TAG, activityMain.getkickTitle());
 //            db.collection("activities").add(activityMain)
 //                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 //                        @Override
 //                        public void onSuccess(DocumentReference documentReference) {
-//                            Log.d(TAG, "DocumentSnapshot successfully written!");
+//                            Log.e(TAG,activityMain.getkickTitle());
+//                            Log.e(TAG, "DocumentSnapshot successfully written!");
 //                        }
 //                    })
 //                    .addOnFailureListener(new OnFailureListener() {

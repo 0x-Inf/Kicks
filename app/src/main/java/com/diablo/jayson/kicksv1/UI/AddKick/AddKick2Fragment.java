@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +19,16 @@ import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,21 +41,22 @@ public class AddKick2Fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = AddKickFragment.class.getSimpleName();
+    private static final String TAG = AddKick2Fragment.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private AddKickViewModel viewModel;
+    private TextInputEditText mTimePickerInput, mDatePickerInput, mLocationTextInput, mActivityTitleInput;
+    private MultiAutoCompleteTextView mTagsAutoCompleteInput;
+    private TextInputEditText mMaxRequiredInput, mMinRequiredInput;
+    private Activity activityMain;
 
     private List<String> tags = new ArrayList<String>() {{
         add("Karting");
         add("karting");
     }};
-    private Activity activityMain = new Activity(new Host("Jayson", ""), "poooool", "", "", "", "", "",
-            "ss", tags, 0, "");
-
     public AddKick2Fragment() {
         // Required empty public constructor
     }
@@ -80,20 +86,26 @@ public class AddKick2Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        final String message = "after";
         viewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
-        viewModel.getActivity().observe(requireActivity(), new Observer<Activity>() {
-            @Override
-            public void onChanged(Activity activity) {
-                activityMain = activity;
-            }
-        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_kick2, container, false);
+        View root = inflater.inflate(R.layout.fragment_add_kick2, container, false);
+        RelativeLayout content = root.findViewById(R.id.addKickFirstContent);
+        mTimePickerInput = root.findViewById(R.id.time_picker_input);
+        mDatePickerInput = root.findViewById(R.id.date_picker_input);
+        mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
+//        mAddActivityToDb = root.findViewById(R.id.createActivityFab);
+        mActivityTitleInput = root.findViewById(R.id.kickNameEditText);
+        mTagsAutoCompleteInput = root.findViewById(R.id.tagsAutoCompleteTextView);
+        mMinRequiredInput = root.findViewById(R.id.minPeopleInputEditText);
+        mMaxRequiredInput = root.findViewById(R.id.maxPeopleEditText);
+        content.setVisibility(View.INVISIBLE);
+        return root;
     }
 
     @Override
@@ -103,6 +115,48 @@ public class AddKick2Fragment extends Fragment {
         Activity activityUploaded = new Activity();
         ExtendedFloatingActionButton uploadButton = view.findViewById(R.id.createActivityFab);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                activityMain = activity;
+//                mActivityTitleInput.setText(activity.getkickTitle());
+//                mLocationTextInput.setText(activity.getkickLocation());
+//                mTimePickerInput.setText(activity.getkickTime());
+//                mDatePickerInput.setText(activity.getkickDate());
+//                mMinRequiredInput.setText(activity.getMinRequiredPeople());
+//                mMaxRequiredInput.setText(activity.getMaxRequiredPeeps());
+//                mTagsAutoCompleteInput.setText((CharSequence) activity.getTags());
+
+            }
+        });
+
+        String kickTitle = mActivityTitleInput.getText().toString();
+        String kickLocation = mLocationTextInput.getText().toString();
+        String kickTime = mTimePickerInput.getText().toString();
+        String kickDate = mDatePickerInput.getText().toString();
+        String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
+        String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
+        String tags = mTagsAutoCompleteInput.getText().toString();
+        Host host = FirebaseUtil.getHost();
+
+        String[] tagsList = tags.split(",", -2);
+//            String[] tagList = {};
+        String tag = Arrays.toString(tagsList);
+
+        tag = tag.replace("[", "");
+        tag = tag.replace("]", "");
+
+        String tagArray[] = tag.split(",");
+
+        List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+
+//        activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+//                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+
+
+
+
+
 
 //        db.collection("users")
 //                .whereEqualTo("uid",activityMain.getUploaderId())
@@ -128,8 +182,23 @@ public class AddKick2Fragment extends Fragment {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateActivity();
+                Log.e(TAG, "Wololo");
 
+                db.collection("activities").add(activityMain)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.e(TAG, "DocumentSnapshot successfully written!");
+                                Log.e(TAG, activityMain.getkickTitle());
+                                startActivity(new Intent(getContext(), MainActivity.class));
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
             }
         });
 
@@ -161,27 +230,6 @@ public class AddKick2Fragment extends Fragment {
 
     public void updateActivity() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        viewModel.getActivity().observe(requireActivity(), new Observer<Activity>() {
-            @Override
-            public void onChanged(Activity activity) {
-                activityMain = activity;
-
-            }
-        });
-        db.collection("activities").add(activityMain)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.e(TAG, "DocumentSnapshot successfully written!");
-                        startActivity(new Intent(getContext(), MainActivity.class));
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
 
     }
 }

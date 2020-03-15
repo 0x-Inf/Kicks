@@ -54,76 +54,100 @@ public class Activity extends BaseObservable {
 
     public void setmKickTitle(String mKickTitle) {
         this.kickTitle = mKickTitle;
+        notifyPropertyChanged(BR.kickTitle);
     }
 
     public void setmKickTime(String mKickTime) {
         this.kickTime = mKickTime;
+        notifyPropertyChanged(BR.kickTime);
     }
 
+    @Bindable
     public String getUploaderId() {
         return uploaderId;
     }
 
     public void setUploaderId(String uploaderId) {
         this.uploaderId = uploaderId;
+        notifyPropertyChanged(BR.uploaderId);
     }
 
+    @Bindable
     public long getUploadedTime() {
         return uploadedTime;
     }
 
     public void setUploadedTime(long uploadedTime) {
         this.uploadedTime = uploadedTime;
+        notifyPropertyChanged(BR.uploadedTime);
     }
 
     public void setmKickDate(String mKickDate) {
         this.kickDate = mKickDate;
+        notifyPropertyChanged(BR.kickDate);
     }
 
     public void setmKickLocation(String mKickLocation) {
         this.kickLocation = mKickLocation;
+        notifyPropertyChanged(BR.kickLocation);
     }
 
     public void setMinRequiredPeople(String minRequiredPeople) {
         this.minRequiredPeople = minRequiredPeople;
+        notifyPropertyChanged(BR.minRequiredPeople);
     }
 
     public void setMaxRequiredPeeps(String maxRequiredPeeps) {
         this.maxRequiredPeeps = maxRequiredPeeps;
+        notifyPropertyChanged(BR.maxRequiredPeeps);
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+        notifyPropertyChanged(BR.tags);
     }
 
     public void setmImageUrl(String mImageUrl) {
         this.imageUrl = mImageUrl;
+        notifyPropertyChanged(BR.imageUrl);
     }
 
+    @Bindable
     public String getkickTitle() {
         return kickTitle;
     }
 
+    @Bindable
     public String getkickTime() {
         return kickTime;
     }
 
+    @Bindable
     public String getkickDate() {
         return kickDate;
     }
 
+    @Bindable
     public String getkickLocation() {
         return kickLocation;
     }
 
+    @Bindable
     public String getimageUrl() {
         return imageUrl;
     }
 
+    @Bindable
     public String getMaxRequiredPeeps() {
         return maxRequiredPeeps;
     }
 
+    @Bindable
     public String getMinRequiredPeople() {
         return minRequiredPeople;
     }
 
+    @Bindable
     public List<String> getTags() {
         return tags;
     }
