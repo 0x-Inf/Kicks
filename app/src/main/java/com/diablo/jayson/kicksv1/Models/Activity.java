@@ -17,6 +17,8 @@ public class Activity extends BaseObservable {
     private String maxRequiredPeeps;
     private String imageUrl;
     private String uploaderId;
+    private String activityId;
+    private int likes;
     private long uploadedTime;
     private List<String> tags;
 
@@ -26,8 +28,9 @@ public class Activity extends BaseObservable {
 
     //Constructor for Activity data model
 
+
     public Activity(Host host, String kicktitle, String kicktime, String kickdate, String kicklocation,
-                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime, String uploaderUid) {
+                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime, String uploaderUid, int likes, String activityId) {
         this.kickTitle = kicktitle;
         this.kickTime = kicktime;
         this.kickDate = kickdate;
@@ -39,6 +42,8 @@ public class Activity extends BaseObservable {
         this.uploadedTime = uploadedtime;
         this.uploaderId = uploaderUid;
         this.host = host;
+        this.likes = likes;
+        this.activityId = activityId;
 
     }
 
@@ -51,6 +56,17 @@ public class Activity extends BaseObservable {
         this.host = host;
         notifyPropertyChanged(BR.host);
     }
+
+    @Bindable
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+        notifyPropertyChanged(BR.likes);
+    }
+
 
     public void setmKickTitle(String mKickTitle) {
         this.kickTitle = mKickTitle;
@@ -70,6 +86,16 @@ public class Activity extends BaseObservable {
     public void setUploaderId(String uploaderId) {
         this.uploaderId = uploaderId;
         notifyPropertyChanged(BR.uploaderId);
+    }
+
+    @Bindable
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+        notifyPropertyChanged(BR.activityId);
     }
 
     @Bindable

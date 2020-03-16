@@ -181,7 +181,7 @@ public class AddKickFragment extends Fragment {
 
 
         activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), 1, "");
 
 
 //        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment)
@@ -419,7 +419,7 @@ public class AddKickFragment extends Fragment {
 
 
             activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "");
             db.collection("users")
                     .whereEqualTo("userEmail", activityMain.getUploaderId())
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

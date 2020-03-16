@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
-public class KickFeedFragment extends Fragment {
+public class KickFeedFragment extends Fragment implements ActivityFeedListAdapter.OnActivitySelectedListener {
     private static final String TAG = AddKickFragment.class.getSimpleName();
 
     private ArrayList<Activity> mKicksData;
@@ -57,7 +58,7 @@ public class KickFeedFragment extends Fragment {
         FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(query, Activity.class)
                 .build();
-        mAdapter = new ActivityFeedListAdapter(options);
+        mAdapter = new ActivityFeedListAdapter(options, this);
         int gridColumnCount = 1;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
         mRecyclerView.setAdapter(mAdapter);
@@ -75,5 +76,17 @@ public class KickFeedFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+    @Override
+    public void onActivitySelected(Activity activity) {
+        Toast.makeText(getContext(), activity.getkickTitle(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void toggleLike(Activity activity) {
+        String title = activity.getkickTitle();
+
+        Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
     }
 }

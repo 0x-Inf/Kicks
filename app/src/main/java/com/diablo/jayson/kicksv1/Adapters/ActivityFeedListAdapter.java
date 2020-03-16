@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,21 +20,24 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
-    private ArrayList<Activity> mKicksData;
-    private MutableLiveData<ArrayList<Activity>> mKicksDataM;
-    private Context mContext;
-    private LayoutInflater mInflater;
 
+    public interface OnActivitySelectedListener {
+        void onActivitySelected(Activity activity);
 
-    public ActivityFeedListAdapter(FirestoreRecyclerOptions<Activity> options) {
+        void toggleLike(Activity activity);
+    }
+
+    private OnActivitySelectedListener mListener;
+
+    public ActivityFeedListAdapter(FirestoreRecyclerOptions<Activity> options, OnActivitySelectedListener listener) {
         super(options);
+        this.mListener = listener;
     }
 
 
@@ -56,8 +58,9 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     @Override
     protected void onBindViewHolder(@NonNull ActivityViewHolder holder, int position, @NonNull Activity model) {
         Activity currentActivity = getItem(position);
-        holder.bindTo(currentActivity);
-        setUpActivity(holder, model, position);
+        holder.bindTo(currentActivity, mListener);
+
+//        setUpActivity(holder, model, position);
     }
 
 
@@ -76,7 +79,8 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private TextView mMinPeopleText;
         private TextView mMaxPeopleText;
         private TextView mUploaderName;
-        private ImageView mKickImage, mUploaderPic;
+        private TextView mNoOfLikes;
+        private ImageView mKickImage, mUploaderPic, mLikeIcon;
         private Context mContext;
         private android.app.Activity activity;
 
@@ -94,11 +98,12 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mUploaderName = itemView.findViewById(R.id.activityHostName);
             mUploaderPic = itemView.findViewById(R.id.activityHostProfilePic);
             mKickImage = itemView.findViewById(R.id.activityImageView);
-
+            mLikeIcon = itemView.findViewById(R.id.likeIconImageView);
+            mNoOfLikes = itemView.findViewById(R.id.noOfLikesTextView);
 
         }
 
-        void bindTo(Activity currentActivity) {
+        void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -110,6 +115,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
+            mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()));
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
@@ -118,13 +124,30 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             Glide.with(itemView.getContext()).load(currentActivity.getimageUrl())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))
                     .into(mKickImage);
+            mLikeIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.toggleLike(currentActivity);
+                    }
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onActivitySelected(currentActivity);
+                    }
+                }
+            });
 
         }
     }
 
     private void setUpActivity(ActivityViewHolder activityViewHolder, Activity activity, int position) {
         Host host = activity.getHost();
-        activityViewHolder.bindTo(activity);
+        activityViewHolder.bindTo(activity, mListener);
 
     }
 }
