@@ -47,9 +47,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -91,7 +89,7 @@ public class AddKickFragment extends Fragment {
             public void onClick(View v) {
                 adddatatoDb();
                 mViewModel.setActivity1(activityMain);
-                AddKick2Fragment nextFrag = new AddKick2Fragment();
+                AddKick1Fragment nextFrag = new AddKick1Fragment();
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -109,7 +107,7 @@ public class AddKickFragment extends Fragment {
         mTimePickerInput = root.findViewById(R.id.time_picker_input);
         mDatePickerInput = root.findViewById(R.id.date_picker_input);
         mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
-        mAddActivityToDb = root.findViewById(R.id.createActivityFab);
+        mAddActivityToDb = root.findViewById(R.id.nextcreateActivityFab);
         mActivityTitleInput = root.findViewById(R.id.kickNameEditText);
         mTagsAutoCompleteInput = root.findViewById(R.id.tagsAutoCompleteTextView);
         mMinRequiredInput = root.findViewById(R.id.minPeopleInputEditText);
@@ -183,48 +181,6 @@ public class AddKickFragment extends Fragment {
         activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
                 kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), 1, "");
 
-
-//        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment)
-//                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME));
-//
-//        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-//            @Override
-//            public void onPlaceSelected(@NonNull Place place) {
-//                Log.w(TAG,"Place: "+ place.getName()+", "+ place.getId());
-//            }
-//
-//            @Override
-//            public void onError(@NonNull Status status) {
-//                Log.i(TAG, "An error occurred: " + status);
-//            }
-//        });
-
-//        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                if (i > 0 && seekBarProgress.getText() == null) {
-//                    seekBarProgress.setText(i);
-//                } else if (i > 0 && seekBarProgress.getText() != null) {
-//                    seekBarProgress.setText(String.valueOf(Integer.parseInt(seekBarProgress.getText().toString()) + i));
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-
-        // Set the fields to specify which types of place data to
-// return after the user has made a selection.
-
-
         mLocationTextInput.setOnClickListener(v -> {
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
             // Start the autocomplete intent.
@@ -234,37 +190,6 @@ public class AddKickFragment extends Fragment {
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             mLocationTextInput.setText("CBD");
         });
-
-
-//        String query = String.valueOf(mLocationTextInput.getText());
-//
-//        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-//        RectangularBounds bounds = RectangularBounds.newInstance(
-//                new LatLng(-33.8809, 151.184363),
-//                new LatLng(-33.858754, 151.229596)
-//        );
-//
-//        FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-//                .setLocationBias(bounds)
-//                .setCountries("AU", "NZ")
-//                .setTypeFilter(TypeFilter.ADDRESS)
-//                .setSessionToken(token)
-//                .setQuery(query)
-//                .build();
-//
-//        placesClient.findAutocompletePredictions(request).addOnSuccessListener((response) -> {
-//            for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-//                Log.i(TAG, prediction.getPlaceId());
-//                Log.i(TAG, prediction.getPrimaryText(null).toString());
-//                mLocationTextInput.setText(prediction.getPrimaryText(null).toString());
-//            }
-//        }).addOnFailureListener((exception) -> {
-//            if (exception instanceof ApiException) {
-//                ApiException apiException = (ApiException) exception;
-//                Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-//            }
-//        });
-
 
         return root;
     }
@@ -324,59 +249,11 @@ public class AddKickFragment extends Fragment {
 
     }
 
-    private void addNewKick() {
-
-
-    }
-
     private void adddatatoDb() {
 
 
         // Access a Cloud Firestore instance from your Activity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Alan");
-        user.put("Middle", "Mathison");
-        user.put("last", "Turing");
-        user.put("born", 1912);
-
-        Map<String, Object> nestedData = new HashMap<>();
-        nestedData.put("a", 5);
-        nestedData.put("b", false);
-
-        user.put("ObjectExample", nestedData);
-
-//        db.collection("users")
-//                .add(user)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
-//
-//        db.collection("data").document("one")
-//                .set(user, SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully written!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error writing document", e);
-//                    }
-//                });
-
         String kickTitle = mActivityTitleInput.getText().toString();
         String kickLocation = mLocationTextInput.getText().toString();
         String kickTime = mTimePickerInput.getText().toString();
@@ -435,20 +312,6 @@ public class AddKickFragment extends Fragment {
             });
             mViewModel.setActivity1(activityMain);
             Log.e(TAG, activityMain.getkickTitle());
-//            db.collection("activities").add(activityMain)
-//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                        @Override
-//                        public void onSuccess(DocumentReference documentReference) {
-//                            Log.e(TAG,activityMain.getkickTitle());
-//                            Log.e(TAG, "DocumentSnapshot successfully written!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w(TAG, "Error writing document", e);
-//                        }
-//                    });
         }
 
 

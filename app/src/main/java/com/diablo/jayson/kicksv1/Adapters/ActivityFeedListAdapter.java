@@ -29,7 +29,6 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
 
     public interface OnActivitySelectedListener {
         void onActivitySelected(Activity activity);
-
         void toggleLike(Activity activity);
     }
 
@@ -80,6 +79,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private TextView mMaxPeopleText;
         private TextView mUploaderName;
         private TextView mNoOfLikes;
+        private boolean liked = false;
         private ImageView mKickImage, mUploaderPic, mLikeIcon;
         private Context mContext;
         private android.app.Activity activity;
@@ -127,9 +127,20 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mLikeIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        listener.toggleLike(currentActivity);
+                    if (!liked) {
+                        liked = true;
+//                        mLikeIcon.setImageResource(R.drawable.ic_bookmark_icon);
+//                        mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()+1));
+                        if (listener != null) {
+                            liked = true;
+                            listener.toggleLike(currentActivity);
+                        }
+                    } else {
+                        liked = false;
+//                        mLikeIcon.setImageResource(R.drawable.ic_like_icon);
+//                        mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()-1));
                     }
+
                 }
             });
 
@@ -141,6 +152,13 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
                     }
                 }
             });
+
+
+        }
+
+        private void changeLikeIcon() {
+            liked = true;
+            mLikeIcon.setImageResource(R.drawable.ic_bookmark_icon);
 
         }
     }

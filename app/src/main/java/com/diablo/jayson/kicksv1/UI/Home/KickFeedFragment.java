@@ -1,9 +1,11 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -18,9 +20,14 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 
@@ -30,6 +37,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     private ArrayList<Activity> mKicksData;
     private RecyclerView mRecyclerView;
     private ActivityFeedListAdapter mAdapter;
+    private ImageView likeButton;
     private RelativeLayout mRelativelayout;
 
 
@@ -62,6 +70,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
         int gridColumnCount = 1;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
 
 
     }
@@ -85,8 +94,30 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
 
     @Override
     public void toggleLike(Activity activity) {
-        String title = activity.getkickTitle();
+        String activityId = activity.getActivityId();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("activities").document(activityId);
+        db.runTransaction(new Transaction.Function<Void>() {
 
-        Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(documentReference);
+                double newLikes = snapshot.getDouble("likes") + 1;
+                transaction.update(documentReference, "likes", (int) newLikes);
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Transaction failure.", e);
+            }
+        });
+        Toast.makeText(getContext(), activityId, Toast.LENGTH_SHORT).show();
     }
 }
