@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
@@ -31,8 +33,9 @@ public class SignUpOne extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private SignUpViewModel viewModel;
+    private User mainUser;
 
-    private onNextClickedListener listener;
 
     public SignUpOne() {
         // Required empty public constructor
@@ -63,6 +66,7 @@ public class SignUpOne extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        viewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
     }
 
     @Override
@@ -79,35 +83,39 @@ public class SignUpOne extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUser(userNameEditText.getText().toString(), firstNameEditText.getText().toString(), secondNameEditText.getText().toString());
+
+                updateViewModel();
+
+                SignUpTwo firstSignUp = new SignUpTwo();
+
+                FragmentManager manager = getParentFragmentManager();
+
+                manager.beginTransaction()
+                        .replace(R.id.signupfragment_container, firstSignUp)
+                        .commit();
+//                updateUser(userNameEditText.getText().toString(), firstNameEditText.getText().toString(), secondNameEditText.getText().toString());
             }
         });
 
         return view;
     }
 
-    public interface onNextClickedListener {
-        void onItemsAdded(User user);
+    private void updateViewModel() {
+        String username = userNameEditText.getText().toString();
+        String firstname = firstNameEditText.getText().toString();
+        String secondname = secondNameEditText.getText().toString();
+        mainUser.setUserName(username);
+        mainUser.setFirstName(firstname);
+        mainUser.setSecondName(secondname);
+        viewModel.setUser(mainUser);
+
     }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof onNextClickedListener) {
-            listener = (onNextClickedListener) context;
-        } else {
-            throw new
-                    ClassCastException(context.toString() + "must implement MyListFragment.onNextClickedListener");
-        }
+
     }
 
-    public void updateUser(String userName, String firstName, String secondName) {
-        String username = userNameEditText.getText().toString();
-        String firstname = firstNameEditText.getText().toString();
-        String secondname = secondNameEditText.getText().toString();
-        User user = new User(username, firstname, secondname, "", "", "", "",
-                "", true, "");
-
-        listener.onItemsAdded(user);
-    }
 }

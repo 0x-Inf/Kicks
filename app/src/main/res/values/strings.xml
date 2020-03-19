@@ -166,6 +166,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_address_edit_text_hint">Email Address</string>
+    <string name="confirm_time_date_Title_constant_text">Time &amp; Date</string>
 
 
 </resources>

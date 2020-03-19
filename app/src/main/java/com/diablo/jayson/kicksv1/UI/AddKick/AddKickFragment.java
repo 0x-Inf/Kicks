@@ -20,7 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Host;
+import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
@@ -70,6 +72,7 @@ public class AddKickFragment extends Fragment {
     private DatabaseReference mDatabase;
     private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
     private ExtendedFloatingActionButton mAddActivityToDb;
+    private ArrayList<AttendingUser> mAttendees;
 
     private Activity activityMain;
 
@@ -176,10 +179,11 @@ public class AddKickFragment extends Fragment {
         String tagArray[] = tag.split(",");
 
         List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+        mAttendees = new ArrayList<AttendingUser>();
 
-
-        activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), 1, "");
+        activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                1, "", new Tag(), mAttendees, "creating");
 
         mLocationTextInput.setOnClickListener(v -> {
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
@@ -295,8 +299,10 @@ public class AddKickFragment extends Fragment {
             Log.e(TAG, tagsList.getClass().toString());
 
 
-            activityMain = new Activity(host, kickTitle, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "");
+            activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
+                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(),
+                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", new Tag(),
+                    mAttendees, "creating");
             db.collection("users")
                     .whereEqualTo("userEmail", activityMain.getUploaderId())
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

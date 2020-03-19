@@ -4,13 +4,16 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Activity extends BaseObservable {
+public class Activity extends BaseObservable implements Serializable {
 
     private Host host;
     private String kickTitle;
-    private String kickTime;
+    private String kickStartTime;
+    private String kickEndTime;
     private String kickDate;
     private String kickLocation;
     private String minRequiredPeople;
@@ -21,6 +24,10 @@ public class Activity extends BaseObservable {
     private int likes;
     private long uploadedTime;
     private List<String> tags;
+    private Tag tag;
+    private ArrayList<AttendingUser> mattendees;
+    private String state;
+
 
     public Activity() {
 
@@ -29,10 +36,12 @@ public class Activity extends BaseObservable {
     //Constructor for Activity data model
 
 
-    public Activity(Host host, String kicktitle, String kicktime, String kickdate, String kicklocation,
-                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime, String uploaderUid, int likes, String activityId) {
+    public Activity(Host host, String kicktitle, String kickStartTime, String kickEndTime, String kickdate, String kicklocation,
+                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime,
+                    String uploaderUid, int likes, String activityId, Tag tag, ArrayList<AttendingUser> mattendees, String state) {
         this.kickTitle = kicktitle;
-        this.kickTime = kicktime;
+        this.kickStartTime = kickStartTime;
+        this.kickEndTime = kickEndTime;
         this.kickDate = kickdate;
         this.kickLocation = kicklocation;
         this.minRequiredPeople = minrequiredpeople;
@@ -44,8 +53,40 @@ public class Activity extends BaseObservable {
         this.host = host;
         this.likes = likes;
         this.activityId = activityId;
+        this.tag = tag;
+        this.state = state;
+        this.mattendees = mattendees;
 
     }
+
+    @Bindable
+    public ArrayList<AttendingUser> getMattendees() {
+        return mattendees;
+    }
+
+    public void setMattendees(ArrayList<AttendingUser> mattendees) {
+        this.mattendees = mattendees;
+    }
+
+    @Bindable
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+        notifyPropertyChanged(BR.state);
+    }
+
+    @Bindable
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
 
     @Bindable
     public Host getHost() {
@@ -73,9 +114,18 @@ public class Activity extends BaseObservable {
         notifyPropertyChanged(BR.kickTitle);
     }
 
-    public void setmKickTime(String mKickTime) {
-        this.kickTime = mKickTime;
+    public void setmKickTime(String mKickStartTime) {
+        this.kickStartTime = mKickStartTime;
         notifyPropertyChanged(BR.kickTime);
+    }
+
+    @Bindable
+    public String getKickEndTime() {
+        return kickEndTime;
+    }
+
+    public void setKickEndTime(String kickEndTime) {
+        this.kickEndTime = kickEndTime;
     }
 
     @Bindable
@@ -145,7 +195,7 @@ public class Activity extends BaseObservable {
 
     @Bindable
     public String getkickTime() {
-        return kickTime;
+        return kickStartTime;
     }
 
     @Bindable

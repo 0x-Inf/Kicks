@@ -1,6 +1,8 @@
 package com.diablo.jayson.kicksv1.Models;
 
-public class Host {
+import java.io.Serializable;
+
+public class Host implements Serializable {
 
     private String userName;
     private String uid;
@@ -11,7 +13,6 @@ public class Host {
     }
 
     public Host() {
-
     }
 
     public String getUserName() {

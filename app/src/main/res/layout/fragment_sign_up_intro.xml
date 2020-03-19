@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.SignUp.SignUpIntro">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/signUpMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="50dp"
+        android:contentDescription="extendedfloatingactionbutton"
+        android:text="CREATE ACTIVITY"
+        android:src="@drawable/ic_next_icon_24dp"
+        android:theme="@style/MaterialTheme" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/signUpAnonymously"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="50dp"
+        android:contentDescription="extendedfloatingactionbutton"
+        android:text="CREATE ACTIVITY"
+        android:src="@drawable/ic_cancel_icon_24dp"
+        android:theme="@style/MaterialTheme" />
+
+</FrameLayout>

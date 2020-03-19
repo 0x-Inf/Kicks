@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 
@@ -45,16 +48,22 @@ public class TagSelectedListAdapter extends RecyclerView.Adapter<TagSelectedList
 
     static class TagSelectedViewHolder extends RecyclerView.ViewHolder {
         private TextView mSelectedTagName;
+        private ImageView mTagIcon;
 
 
         public TagSelectedViewHolder(@NonNull View itemView) {
             super(itemView);
             mSelectedTagName = itemView.findViewById(R.id.activityTagTextView);
+            mTagIcon = itemView.findViewById(R.id.tagIconImage);
 
         }
 
         void bindTo(Tag selectedTag) {
             mSelectedTagName.setText(selectedTag.getTagName());
+            Glide.with(itemView.getContext())
+                    .load(selectedTag.getTagIconUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(mTagIcon);
         }
     }
 }

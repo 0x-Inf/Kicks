@@ -1,20 +1,18 @@
 package com.diablo.jayson.kicksv1.UI.MapFeed;
 
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -110,7 +108,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
                             mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                             Toast.makeText(getActivity(), String.valueOf(location.getLatitude()), Toast.LENGTH_LONG).show();
                             mMap.addMarker(new MarkerOptions().position(mCurrentLocation).title("You Were/Are Here"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(mCurrentLocation));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 4));
                         } else {
                             Toast.makeText(getActivity(), "Location Not Found", Toast.LENGTH_SHORT).show();
                         }

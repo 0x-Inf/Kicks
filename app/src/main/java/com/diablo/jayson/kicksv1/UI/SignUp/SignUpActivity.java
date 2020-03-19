@@ -1,17 +1,13 @@
 package com.diablo.jayson.kicksv1.UI.SignUp;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.diablo.jayson.kicksv1.MainActivity;
-import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpOne.onNextClickedListener, SignUpTwo.onNext2ClickedListener {
+public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,33 +26,13 @@ public class SignUpActivity extends AppCompatActivity implements SignUpOne.onNex
             }
         }
 
-        SignUpOne secondSignUp = new SignUpOne();
+        SignUpIntro introSignUp = new SignUpIntro();
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.signupfragment_container, secondSignUp)
+                .replace(R.id.signupfragment_container, introSignUp)
                 .commit();
 
 
     }
 
-    @Override
-    public void onItemsAdded(User user) {
-        SignUpTwo secondFragment = new SignUpTwo();
-
-        Bundle args = new Bundle();
-        args.putSerializable(SignUpTwo.EXTRA_INFO, user);
-        secondFragment.setArguments(args);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.signupfragment_container, secondFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-
-    @Override
-    public void onUserItemsAdded(String amail, String password) {
-        startActivity(new Intent(this, MainActivity.class));
-
-    }
 }

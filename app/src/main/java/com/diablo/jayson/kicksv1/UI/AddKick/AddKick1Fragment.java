@@ -22,19 +22,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Adapters.TagListAdapter;
 import com.diablo.jayson.kicksv1.Adapters.TagSelectedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -68,6 +74,7 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
     private AddKick1Fragment listener;
     private LinearLayout tagSelectionPart;
     private LinearLayout tagsSelectedPart;
+    private ArrayList<AttendingUser> mAttendees;
 
     public AddKick1Fragment() {
         // Required empty public constructor
@@ -142,7 +149,8 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                             Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople()));
+                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople(), documentSnapshot.toObject(Tag.class).getTagCost(), documentSnapshot.toObject(Tag.class).getTagIconUrl(),
+                                                    documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(), documentSnapshot.toObject(Tag.class).getTagOptimalStartTime(), documentSnapshot.toObject(Tag.class).getTagLocationName()));
                                             for (int i = 0; i < allTags.size(); i++) {
                                                 Log.w(TAG, allTags.get(i).getTagName());
                                             }
@@ -159,7 +167,8 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
                     ArrayList<Tag> filteredTags = new ArrayList<Tag>();
                     for (Tag tag : allTags) {
                         if (tag.getTagName().toLowerCase(Locale.ROOT).contains(s)) {
-                            filteredTags.add(new Tag(tag.getTagName(), tag.getTagLocation(), tag.getTagOptimalMinPeople(), tag.getTagOptimalMaxPeople()));
+                            filteredTags.add(new Tag(tag.getTagName(), tag.getTagLocation(), tag.getTagOptimalMinPeople(), tag.getTagOptimalMaxPeople(), tag.getTagCost(),
+                                    tag.getTagIconUrl(), tag.getTagImageLargeUrl(), tag.getTagOptimalStartTime(), tag.getTagLocationName()));
                         }
                     }
                     TagListAdapter mAdapter = new TagListAdapter(getContext(), filteredTags, listener);
@@ -187,7 +196,8 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople()));
+                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople(),
+                                        documentSnapshot.toObject(Tag.class).getTagCost(), documentSnapshot.toObject(Tag.class).getTagIconUrl(), documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(), documentSnapshot.toObject(Tag.class).getTagOptimalStartTime(), documentSnapshot.toObject(Tag.class).getTagLocationName()));
                                 for (int i = 0; i < allTags.size(); i++) {
                                     Log.w(TAG, allTags.get(i).getTagName());
                                 }
@@ -217,11 +227,11 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        LinearLayout firstContent = view.findViewById(R.id.firstPartContent);
         Activity activityUploaded = new Activity();
 //        final String[] tagName = new String[1];
         final FloatingActionButton[] nextButton = {view.findViewById(R.id.nextCreateActivityFab)};
-
 
         viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
@@ -233,8 +243,19 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
         nextButton[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateActivityModel();
-                viewModel.setActivity1(activityMain);
+                if (mTagsTextInput.getText().toString().isEmpty()) {
+                    mTagsTextInput.setError("Please Pick A Tag");
+                } else {
+                    updateActivityModel();
+//                viewModel.setActivity1(activityMain);
+                    AddKick2Fragment nextFrag = new AddKick2Fragment();
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
+                            .addToBackStack(null)
+                            .commit();
+                    firstContent.setVisibility(View.INVISIBLE);
+                    nextButton[0].setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -264,8 +285,48 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
     }
 
     private void updateActivityModel() {
+        // Access a Cloud Firestore instance from your Activity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        mAttendees = new ArrayList<AttendingUser>();
+        mAttendees.add(new AttendingUser(Objects.requireNonNull(FirebaseUtil.getHost()).getUserName(), "", "", "", "", "", "", "", true));
 
+        String activityTitle = Objects.requireNonNull(mActivityTitleInput.getText()).toString();
+        String tags = mTagsTextInput.getText().toString();
+        String[] tagsList = tags.split(",", -2);
+//            String[] tagList = {};
+        String tag = Arrays.toString(tagsList);
 
+        tag = tag.replace("[", "");
+        tag = tag.replace("]", "");
+
+        String tagArray[] = tag.split(",");
+
+        List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+
+        if (selectedTags.isEmpty()) {
+            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
+                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", new Tag(),
+                    mAttendees, "creating");
+            mTagsTextInput.setError("Please Pick a tag");
+        } else {
+            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", selectedTags.get(0),
+                    mAttendees, "creating");
+        }
+        db.collection("users")
+                .whereEqualTo("userEmail", activityMain.getUploaderId())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                        AttendingUser user = documentSnapshot.toObject(AttendingUser.class);
+                        activityMain.setUploaderId(user.getFirstName());
+                    }
+                }
+            }
+        });
+        viewModel.setActivity1(activityMain);
+        Log.e(TAG, activityMain.getkickTitle());
     }
 
     public void updateActivity() {
@@ -322,7 +383,7 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
     @Override
     public void onTagListener(Tag tag) {
         Toast.makeText(getContext(), tag.getTagName(), Toast.LENGTH_SHORT).show();
-        mTagsTextInput.setText(tag.getTagName());
+        mTagsTextInput.setText(tag.getTagName() + ",");
         tagSelectionPart.setVisibility(View.INVISIBLE);
         selectedTags.clear();
         selectedTags.add(tag);
