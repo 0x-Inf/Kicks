@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +28,7 @@ public class SignUpOne extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private EditText userNameEditText, firstNameEditText, secondNameEditText;
+    private TextInputEditText userNameEditText, firstNameEditText, secondNameEditText;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -84,16 +84,32 @@ public class SignUpOne extends Fragment {
             @Override
             public void onClick(View v) {
 
-                updateViewModel();
+                String userName = userNameEditText.getText().toString().trim();
+                String firstName = firstNameEditText.getText().toString().trim();
+                String secondName = secondNameEditText.getText().toString().trim();
 
-                SignUpTwo firstSignUp = new SignUpTwo();
+                if (userName.isEmpty() || firstName.isEmpty() || secondName.isEmpty()) {
+                    if (userName.isEmpty()) {
+                        userNameEditText.setError("Enter User Name");
+                    } else if (firstName.isEmpty()) {
+                        firstNameEditText.setError("Enter First Name");
+                    } else {
+                        secondNameEditText.setError("Enter Second Name");
+                    }
+                } else {
+                    updateViewModel();
 
-                FragmentManager manager = getParentFragmentManager();
+                    SignUpTwo secondSignUp = new SignUpTwo();
 
-                manager.beginTransaction()
-                        .replace(R.id.signupfragment_container, firstSignUp)
-                        .commit();
-//                updateUser(userNameEditText.getText().toString(), firstNameEditText.getText().toString(), secondNameEditText.getText().toString());
+                    FragmentManager manager = getParentFragmentManager();
+
+                    manager.beginTransaction()
+                            .replace(R.id.signupfragment_container, secondSignUp)
+                            .addToBackStack(null)
+                            .commit();
+                }
+
+
             }
         });
 
@@ -101,13 +117,15 @@ public class SignUpOne extends Fragment {
     }
 
     private void updateViewModel() {
-        String username = userNameEditText.getText().toString();
-        String firstname = firstNameEditText.getText().toString();
-        String secondname = secondNameEditText.getText().toString();
+        mainUser = new User();
+        String username = userNameEditText.getText().toString().trim();
+        String firstname = firstNameEditText.getText().toString().trim();
+        String secondname = secondNameEditText.getText().toString().trim();
         mainUser.setUserName(username);
         mainUser.setFirstName(firstname);
         mainUser.setSecondName(secondname);
         viewModel.setUser(mainUser);
+
 
     }
 

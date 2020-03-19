@@ -3,7 +3,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context=".UI.SignUp.SignUpIntro">
+
+    <LinearLayout
+        android:id="@+id/IntroContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstText"
+                android:text="Hey There"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/quantum_googblue500"
+                android:textSize="40sp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/secondText"
+                android:text="Welcome To"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/quantum_googblue500"
+                android:textSize="40sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/firstText"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="60dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thirdText"
+                android:text="Kicks"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/quantum_googblue500"
+                android:textSize="80sp"
+                android:layout_below="@id/secondText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forthText"
+            android:text="We'd Like To Know"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/quantum_googblue500"
+            android:textSize="30sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fifthText"
+            android:text="A little About"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/quantum_googblue500"
+            android:textSize="35sp"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sixthText"
+            android:text="You"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/quantum_googblue800"
+            android:textSize="90sp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/signUpMain"

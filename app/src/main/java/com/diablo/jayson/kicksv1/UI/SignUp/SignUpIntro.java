@@ -1,13 +1,25 @@
 package com.diablo.jayson.kicksv1.UI.SignUp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,10 +31,13 @@ public class SignUpIntro extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = SignUpIntro.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FirebaseAuth mAuth;
 
     public SignUpIntro() {
         // Required empty public constructor
@@ -59,6 +74,47 @@ public class SignUpIntro extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up_intro, container, false);
+        View root = inflater.inflate(R.layout.fragment_sign_up_intro, container, false);
+        FloatingActionButton signUpMainButton = root.findViewById(R.id.signUpMain);
+        FloatingActionButton sighUpAnonymously = root.findViewById(R.id.signUpAnonymously);
+        sighUpAnonymously.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpAnonymously();
+            }
+        });
+        signUpMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignUpOne firstSignUp = new SignUpOne();
+
+                FragmentManager manager = getParentFragmentManager();
+
+                manager.beginTransaction()
+                        .replace(R.id.signupfragment_container, firstSignUp)
+                        .commit();
+            }
+        });
+        return root;
+    }
+
+    private void signUpAnonymously() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                        } else {
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 }
