@@ -17,7 +17,7 @@ public class User implements Serializable {
     private String schoolName;
 
 
-    public User(String userName, String firstName, String secondName, String userEmail, String passWord, String photoUrl, String idNumber, String phoneNumber, boolean isStudent, String schoolName) {
+    public User(String userName, String firstName, String secondName, String userEmail, String passWord, String photoUrl, String idNumber, String phoneNumber, boolean isStudent, String schoolName, String uid) {
         this.userName = userName;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -28,11 +28,19 @@ public class User implements Serializable {
         this.isStudent = isStudent;
         this.schoolName = schoolName;
         this.phoneNumber = phoneNumber;
+        this.uid = uid;
     }
 
     public User() {
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

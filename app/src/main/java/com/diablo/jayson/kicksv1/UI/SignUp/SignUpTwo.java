@@ -138,8 +138,6 @@ public class SignUpTwo extends Fragment {
     }
 
     private void updateViewModel() {
-
-
         userMain.setUserEmail(emailEditText.getText().toString());
         userMain.setPhoneNumber(phoneEditText.getText().toString());
         viewModel.setUser(userMain);

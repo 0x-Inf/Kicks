@@ -19,19 +19,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".UI.AddKick.AddKickActivity"></activity>
-        <activity android:name=".UI.SignUp.SignUpActivity" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/SplashTheme">
+
+
+        </activity>
+        <activity android:name=".UI.AddKick.AddKickActivity" />
+        <activity android:name=".UI.SignUp.SignUpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <data android:mimeType="image/*" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--
+                     The OPENABLE category declares that the returned file is accessible
+                     from a content provider that supports OpenableColumns
+                     and ContentResolver.openFileDescriptor()
+                -->
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UI.UserProfile.ProfileActivity" />
         <activity android:name=".UI.Search.SearchActivity" />
         <activity android:name=".UI.LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/MaterialTheme"
+            android:theme="@style/splashScreenTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,7 +69,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDSiR_IHNqTBXhKXuEBWlkftFF_jLO8rBU" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

@@ -86,16 +86,36 @@ public class SignUpIntro extends Fragment {
         signUpMainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignUpOne firstSignUp = new SignUpOne();
+                signUpBriefly();
 
-                FragmentManager manager = getParentFragmentManager();
-
-                manager.beginTransaction()
-                        .replace(R.id.signupfragment_container, firstSignUp)
-                        .commit();
             }
         });
         return root;
+    }
+
+    private void signUpBriefly() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            SignUpOne firstSignUp = new SignUpOne();
+
+                            FragmentManager manager = getParentFragmentManager();
+
+                            manager.beginTransaction()
+                                    .replace(R.id.signupfragment_container, firstSignUp)
+                                    .commit();
+                        } else {
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void signUpAnonymously() {
