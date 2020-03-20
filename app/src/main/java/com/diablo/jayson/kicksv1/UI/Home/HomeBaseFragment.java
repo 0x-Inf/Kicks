@@ -1,7 +1,5 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +9,11 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.diablo.jayson.kicksv1.Adapters.PagerAdapter;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.Search.SearchActivity;
-import com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +43,7 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
         PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
         ViewPager viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(1, true);
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -68,9 +60,7 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setClickListeners(){
-        mSearchButton.setOnClickListener(this);
-        mSettingButton.setOnClickListener(this);
-        mProfilePicImageView.setOnClickListener(this);
+
     }
 
     @Override

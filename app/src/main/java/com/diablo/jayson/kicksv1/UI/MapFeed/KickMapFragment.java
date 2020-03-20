@@ -88,7 +88,6 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
                                 mLastLocation = location;
 
                                 mCurrentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                                Toast.makeText(getActivity(), String.valueOf(mLastLocation.getLatitude()), Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -106,7 +105,6 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(Location location) {
                         if (location != null) {
                             mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            Toast.makeText(getActivity(), String.valueOf(location.getLatitude()), Toast.LENGTH_LONG).show();
                             mMap.addMarker(new MarkerOptions().position(mCurrentLocation).title("You Were/Are Here"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 4));
                         } else {

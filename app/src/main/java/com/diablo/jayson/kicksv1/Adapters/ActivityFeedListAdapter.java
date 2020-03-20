@@ -95,11 +95,9 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mKickLocationText = itemView.findViewById(R.id.activityLocationTextView);
             mMinPeopleText = itemView.findViewById(R.id.minAttendingPeople);
             mMaxPeopleText = itemView.findViewById(R.id.maxAttendingPeople);
-            mUploaderName = itemView.findViewById(R.id.activityHostName);
-            mUploaderPic = itemView.findViewById(R.id.activityHostProfilePic);
+            mUploaderName = itemView.findViewById(R.id.hostNameTextView);
+            mUploaderPic = itemView.findViewById(R.id.hostPicImageView);
             mKickImage = itemView.findViewById(R.id.activityImageView);
-            mLikeIcon = itemView.findViewById(R.id.likeIconImageView);
-            mNoOfLikes = itemView.findViewById(R.id.noOfLikesTextView);
 
         }
 
@@ -115,7 +113,6 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
-            mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()));
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
@@ -124,25 +121,6 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             Glide.with(itemView.getContext()).load(currentActivity.getimageUrl())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))
                     .into(mKickImage);
-            mLikeIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!liked) {
-                        liked = true;
-//                        mLikeIcon.setImageResource(R.drawable.ic_bookmark_icon);
-//                        mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()+1));
-                        if (listener != null) {
-                            liked = true;
-                            listener.toggleLike(currentActivity);
-                        }
-                    } else {
-                        liked = false;
-//                        mLikeIcon.setImageResource(R.drawable.ic_like_icon);
-//                        mNoOfLikes.setText(String.valueOf(currentActivity.getLikes()-1));
-                    }
-
-                }
-            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

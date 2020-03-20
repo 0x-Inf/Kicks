@@ -40,6 +40,7 @@ public class KickSelectFragment extends Fragment {
         return root;
     }
 
+
     private void initializeData(){
 
         String [] kickCategories = getResources().getStringArray(R.array.kicks_categories);

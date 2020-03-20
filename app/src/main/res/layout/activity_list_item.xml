@@ -29,39 +29,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bowling And Beer"
+                android:layout_centerInParent="true"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/activityHostIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/ic_profile_icon_24dp"
-                android:layout_alignParentStart="true" />
-            <TextView
-                android:id="@+id/activityHostName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:paddingTop="5dp"
-                android:text="John Wick"
-                android:layout_toEndOf="@id/activityHostIcon" />
-
-            <ImageView
-                android:id="@+id/activityHostProfilePic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/activityHostName" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -255,36 +229,23 @@
             android:background="@color/quantum_white_100">
 
             <ImageView
-                android:id="@+id/likeIconImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/hostPicImageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/circleback"
                 android:layout_alignParentStart="true"
-                android:layout_margin="5dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/ic_like_icon" />
 
             <TextView
-                android:id="@+id/noOfLikesTextView"
+                android:id="@+id/hostNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/likeIconImageView"
-                android:layout_margin="5dp"
-                android:text="0" />
-
-            <ImageView
-                android:id="@+id/bookmarkIconImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_bookmark_icon"
-                android:layout_margin="5dp"
-                android:layout_toEndOf="@id/noOfLikesTextView" />
-
-            <ImageView
-                android:id="@+id/shareIconImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_share2_icon"
-                android:layout_margin="5dp"
-                android:layout_toEndOf="@id/bookmarkIconImageView" />
+                android:layout_toEndOf="@id/hostPicImageView"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:text="Jayson" />
 
         </RelativeLayout>
 

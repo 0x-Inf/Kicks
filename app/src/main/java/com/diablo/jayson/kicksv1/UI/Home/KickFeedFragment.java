@@ -47,7 +47,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
 
         View root = inflater.inflate(R.layout.kick_feed_fragment, container, false);
         mRecyclerView = root.findViewById(R.id.recyclerview);
-        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
+//        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
         loadActivitiesFromFirebase();
 
         return root;
