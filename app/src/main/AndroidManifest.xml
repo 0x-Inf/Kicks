@@ -19,12 +19,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
+        <activity android:name=".UI.AttendActivity.AttendActivityActivity"></activity>
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/SplashTheme">
-
-
-        </activity>
+            android:theme="@style/SplashTheme"></activity>
         <activity android:name=".UI.AddKick.AddKickActivity" />
         <activity android:name=".UI.SignUp.SignUpActivity">
             <intent-filter>
@@ -49,9 +47,9 @@
             android:label="@string/app_name"
             android:theme="@style/splashScreenTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -90,6 +90,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     @Override
     public void onActivitySelected(Activity activity) {
         Toast.makeText(getContext(), activity.getkickTitle(), Toast.LENGTH_LONG).show();
+
     }
 
     @Override

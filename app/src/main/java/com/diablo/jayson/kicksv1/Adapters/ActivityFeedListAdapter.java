@@ -78,6 +78,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private TextView mMinPeopleText;
         private TextView mMaxPeopleText;
         private TextView mUploaderName;
+        private TextView activityTag;
         private TextView mNoOfLikes;
         private boolean liked = false;
         private ImageView mKickImage, mUploaderPic, mLikeIcon;
@@ -93,11 +94,12 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mKickEndTimeText = itemView.findViewById(R.id.activityEndTimeTextView);
             mKickDateText = itemView.findViewById(R.id.activityDateTextView);
             mKickLocationText = itemView.findViewById(R.id.activityLocationTextView);
-            mMinPeopleText = itemView.findViewById(R.id.minAttendingPeople);
-            mMaxPeopleText = itemView.findViewById(R.id.maxAttendingPeople);
+            mMinPeopleText = itemView.findViewById(R.id.activityMinPeopleTextView);
+            mMaxPeopleText = itemView.findViewById(R.id.activityMaxPeopleTextView);
             mUploaderName = itemView.findViewById(R.id.hostNameTextView);
             mUploaderPic = itemView.findViewById(R.id.hostPicImageView);
             mKickImage = itemView.findViewById(R.id.activityImageView);
+            activityTag = itemView.findViewById(R.id.activityTagTextView);
 
         }
 
@@ -113,6 +115,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
+            activityTag.setText(currentActivity.getTags().get(0).toString());
             Glide.with(itemView.getContext())
                     .load(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
