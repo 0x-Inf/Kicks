@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mFirebaseUser == null) {
             startActivity(new Intent(this, SignUpActivity.class));
             finish();
-        } else {
         }
     }
 

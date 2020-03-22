@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
         android:label="Home"
-        tools:layout="@layout/swipable_feed_fragment" />
+        tools:layout="@layout/swipable_feed_fragment">
+        <action
+            android:id="@+id/action_navigation_home_to_attendActivityActivity"
+            app:destination="@id/attendActivityActivity" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectFragment"
@@ -33,6 +37,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.MapFeed.KickMapFragment"
         android:label="Maps"
         tools:layout="@layout/kick_map_fragment"/>
+    <activity
+        android:id="@+id/attendActivityActivity"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity"
+        android:label="activity_attend_activity"
+        tools:layout="@layout/activity_attend_activity" />
 
 
 </navigation>

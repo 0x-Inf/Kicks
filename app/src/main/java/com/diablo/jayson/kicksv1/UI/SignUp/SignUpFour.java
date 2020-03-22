@@ -135,6 +135,8 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "linkWithCredential:success");
                                     FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+                                    assert user != null;
+                                    mainUser.setUid(user.getUid());
                                     FirebaseFirestore.getInstance().collection("users")
                                             .add(mainUser)
                                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -145,7 +147,6 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                                                             .setDisplayName(mainUser.getUserName())
                                                             .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
                                                             .build();
-                                                    assert user != null;
                                                     user.updateProfile(profileUpdates)
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override

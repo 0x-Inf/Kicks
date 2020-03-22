@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -90,6 +92,9 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     @Override
     public void onActivitySelected(Activity activity) {
         Toast.makeText(getContext(), activity.getkickTitle(), Toast.LENGTH_LONG).show();
+        Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+        attendActivity.putExtra("activityId", activity.getActivityId());
+        startActivity(attendActivity);
 
     }
 
