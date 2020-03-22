@@ -19,16 +19,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
+import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -52,6 +57,7 @@ public class AttendActivityMainFragment extends Fragment {
     private Activity activityMain;
     private String activityId;
     private ActivityAttendeesAdapter attendeesAdapter;
+    private ChatAdapter chatAdapter;
     private ArrayList<AttendingUser> attendingUsersData;
 
     private TextView textView;
@@ -100,9 +106,10 @@ public class AttendActivityMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_attend_activity_main, container, false);
         attendeesRecycler = root.findViewById(R.id.attendeesRecycler);
-//        chatRecycler = root.findViewById(R.id.chatRecycler);
+        chatRecycler = root.findViewById(R.id.chatRecycler);
 //        attendingUsersData = new ArrayList<AttendingUser>();
         setHasOptionsMenu(true);
+        loadChatsFromFirebase();
         myToolbar = (Toolbar) root.findViewById(R.id.collapsingToolBar);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
 //        myToolbar.setTitle(activityMain.getkickTitle());
@@ -112,6 +119,22 @@ public class AttendActivityMainFragment extends Fragment {
             @Override
             public void onChanged(String s) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference documentReference = db.collection("activities").document();
+                Query query = FirebaseFirestore.getInstance()
+                        .collection("activities")
+                        .document(s)
+                        .collection("chatsession");
+
+
+                FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
+                        .setQuery(query, ChatItem.class)
+                        .build();
+                chatAdapter = new ChatAdapter(options);
+                int gridColumnCount = 1;
+                chatRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+                chatRecycler.setAdapter(chatAdapter);
+                chatAdapter.notifyDataSetChanged();
+
                 db.collection("activities").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -120,16 +143,16 @@ public class AttendActivityMainFragment extends Fragment {
                             assert documentSnapshot != null;
                             attendingUsersData = new ArrayList<AttendingUser>();
                             attendingUsersData = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getMattendees();
-                            Log.e("yooooo", String.valueOf(attendingUsersData.size()));
-                            Log.e("yooooo", attendingUsersData.get(0).getUserName());
-                            Log.e("yooooo", attendingUsersData.get(1).getUserName());
-                            Log.e("yooooo", attendingUsersData.get(2).getUserName());
-                            Log.e("yooooo", attendingUsersData.get(3).getUserName());
+//                            Log.e("yooooo", String.valueOf(attendingUsersData.size()));
+//                            Log.e("yooooo", attendingUsersData.get(0).getUserName());
+//                            Log.e("yooooo", attendingUsersData.get(1).getUserName());
+//                            Log.e("yooooo", attendingUsersData.get(2).getUserName());
+//                            Log.e("yooooo", attendingUsersData.get(3).getUserName());
 
 
                         }
 //                        initializeRecyclerWithAttendees();
-                        Log.e("skkdnskn", attendingUsersData.get(3).getUserName());
+//                        Log.e("skkdnskn", attendingUsersData.get(3).getUserName());
                         AttendeesAdapter attendeesAdapter = new AttendeesAdapter(getContext(), attendingUsersData);
                         attendeesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false));
                         attendeesRecycler.setAdapter(attendeesAdapter);
@@ -166,16 +189,23 @@ public class AttendActivityMainFragment extends Fragment {
 
     }
 
+    private void loadChatsFromFirebase() {
+
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 //        attendeesAdapter.startListening();
+        chatAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 //        attendeesAdapter.stopListening();
+        chatAdapter.stopListening();
     }
 
 

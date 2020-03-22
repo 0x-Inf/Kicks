@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,16 +45,18 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
     static class ChatViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView senderPic;
-        private TextView sendeerName;
+        private TextView senderName;
         private TextView message;
         private TextView timeSend;
+        private RelativeLayout chatItemLayout;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             senderPic = itemView.findViewById(R.id.senderProfilePic);
-            sendeerName = itemView.findViewById(R.id.senderName);
+            senderName = itemView.findViewById(R.id.senderName);
             message = itemView.findViewById(R.id.chatMessage);
             timeSend = itemView.findViewById(R.id.sendTime);
+            chatItemLayout = itemView.findViewById(R.id.chatContent);
         }
 
         void bindTo(ChatItem chatItem) {
@@ -61,9 +64,19 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
                     .load(chatItem.getSenderPicUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(senderPic);
-            sendeerName.setText(chatItem.getSenderName());
+            senderName.setText(chatItem.getSenderName());
             message.setText(chatItem.getMessage());
-            timeSend.setText(chatItem.getTimestamp().toDate().toString());
+            if (chatItem.isSender()) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                senderPic.setLayoutParams(params);
+            } else {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                senderPic.setLayoutParams(params);
+            }
+
+//            timeSend.setText(chatItem.getTimestamp().toDate().toString());
         }
     }
 }

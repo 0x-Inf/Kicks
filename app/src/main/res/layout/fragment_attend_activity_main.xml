@@ -10,11 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -36,20 +31,27 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        android:id="@+id/chatRecycler"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            android:id="@+id/chatRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
 
                 </RelativeLayout>
 
             </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
