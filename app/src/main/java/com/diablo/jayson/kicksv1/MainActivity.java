@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.UI.Search.SearchActivity;
+import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Activity> mKicksData;
     private ActivityFeedListAdapter mAdapter;
     private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
 
     private ImageButton mSearchButton, mSettingButton;
     private ImageView mProfilePicImageView;
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        SharedPreferences preferences;
 
         if (mFirebaseUser == null) {
             startActivity(new Intent(this, SignUpActivity.class));
@@ -57,6 +60,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            getSupportFragmentManager().executePendingTransactions();
+            Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.signupfragment_container);
+            if (fragmentById != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .remove(fragmentById)
+                        .commit();
+            }
+        }
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
@@ -110,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 return true;
             case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.action_signOut:
+                FirebaseAuth.getInstance().signOut();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

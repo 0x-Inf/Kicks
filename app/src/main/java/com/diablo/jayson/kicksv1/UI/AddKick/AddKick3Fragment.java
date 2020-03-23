@@ -135,7 +135,6 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
 
         String activityLocationName = Objects.requireNonNull(mLocationTextInput.getText()).toString();
         activityMain.setmKickLocation(activityLocationName);
-        activityMain.setMattendees(activityMain.getMattendees());
         activityMain.setUploadedTime(Calendar.getInstance().getTimeInMillis());
         activityMain.setmKickTime(Objects.requireNonNull(mTimeTextInput.getText()).toString());
         activityMain.setmKickDate(Objects.requireNonNull(mDateTextInput.getText()).toString());

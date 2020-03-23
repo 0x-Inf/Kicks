@@ -23,7 +23,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/attendeesRecycler"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="70dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
@@ -31,8 +31,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="0dp">
+                    android:layout_height="match_parent">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -42,9 +41,9 @@
                         app:cardElevation="5dp">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             android:id="@+id/chatRecycler"
                             android:layout_width="match_parent"
+                            android:paddingBottom="70dp"
                             android:layout_height="match_parent" />
                     </androidx.cardview.widget.CardView>
 
@@ -66,8 +65,8 @@
 
                 <ImageView
                     android:id="@+id/activityImageToolBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/img_basketball"
                     app:layout_collapseMode="parallax"
@@ -99,6 +98,38 @@
                     app:layout_collapseMode="pin" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="30dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@drawable/message_edit_bg">
+
+            <EditText
+                android:id="@+id/messageEditText"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:hint="Type a message"
+                android:background="@null"
+                android:autofillHints="Message"
+                android:inputType="textLongMessage|textMultiLine" />
+
+
+            <ImageView
+                android:id="@+id/sendMessageButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_send_message_icon_24dp" />
+
+        </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

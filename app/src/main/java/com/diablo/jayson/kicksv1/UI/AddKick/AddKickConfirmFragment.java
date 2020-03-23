@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -114,6 +115,7 @@ public class AddKickConfirmFragment extends Fragment {
             @Override
             public void onChanged(Activity activity) {
                 activityMain = activity;
+                activityMain.getMattendees().add(FirebaseUtil.getAttendingUser());
             }
         });
 

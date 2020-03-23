@@ -22,7 +22,7 @@ public class FirebaseUtil {
     public static Host getHost() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return null;
-        return new Host(user.getDisplayName(), user.getUid());
+        return new Host(user.getDisplayName(), user.getUid(), Objects.requireNonNull(user.getPhotoUrl()).toString());
     }
 
     public static User getUser() {

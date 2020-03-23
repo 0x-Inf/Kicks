@@ -24,6 +24,8 @@ import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -91,10 +93,29 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
 
     @Override
     public void onActivitySelected(Activity activity) {
-        Toast.makeText(getContext(), activity.getkickTitle(), Toast.LENGTH_LONG).show();
-        Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
-        attendActivity.putExtra("activityId", activity.getActivityId());
-        startActivity(attendActivity);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        if (user.getDisplayName().isEmpty()) {
+            Toast.makeText(getContext(), "Please Sign Up", Toast.LENGTH_SHORT).show();
+        } else {
+            ArrayList<String> users = new ArrayList<String>();
+            for (int i = 0; i < activity.getMattendees().size(); i++) {
+                users.add(activity.getMattendees().get(i).getUid());
+            }
+            if (users.contains(user.getUid())) {
+                Log.e(TAG, activity.getMattendees().get(0).getUserName());
+                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+                attendActivity.putExtra("activityId", activity.getActivityId());
+                attendActivity.putExtra("alreadyAttending", true);
+                startActivity(attendActivity);
+            } else {
+                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+                attendActivity.putExtra("activityId", activity.getActivityId());
+                attendActivity.putExtra("alreadyAttending", false);
+                startActivity(attendActivity);
+            }
+        }
+
 
     }
 

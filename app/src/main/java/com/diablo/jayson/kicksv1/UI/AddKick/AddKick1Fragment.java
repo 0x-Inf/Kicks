@@ -288,7 +288,6 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
         // Access a Cloud Firestore instance from your Activity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         mAttendees = new ArrayList<AttendingUser>();
-        mAttendees.add(new AttendingUser(Objects.requireNonNull(FirebaseUtil.getHost()).getUserName(), "", "", "", "", "", "", "", true));
 
         String activityTitle = Objects.requireNonNull(mActivityTitleInput.getText()).toString();
         String tags = mTagsTextInput.getText().toString();

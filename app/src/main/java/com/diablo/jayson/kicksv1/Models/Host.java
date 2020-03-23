@@ -6,13 +6,23 @@ public class Host implements Serializable {
 
     private String userName;
     private String uid;
+    private String hostPic;
 
-    public Host(String userName, String uid) {
+    public Host(String userName, String uid, String hostPic) {
         this.userName = userName;
         this.uid = uid;
+        this.hostPic = hostPic;
     }
 
     public Host() {
+    }
+
+    public String getHostPic() {
+        return hostPic;
+    }
+
+    public void setHostPic(String hostPic) {
+        this.hostPic = hostPic;
     }
 
     public String getUserName() {

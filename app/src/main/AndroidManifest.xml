@@ -19,10 +19,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".UI.AttendActivity.AttendActivityActivity"></activity>
+        <activity android:name=".UI.AttendActivity.AlreadyAttendingActivity"></activity>
+        <activity
+            android:name=".UI.Settings.SettingsActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".UI.AttendActivity.AttendActivityActivity"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/SplashTheme"></activity>
+            android:theme="@style/SplashTheme" />
         <activity android:name=".UI.AddKick.AddKickActivity" />
         <activity android:name=".UI.SignUp.SignUpActivity">
             <intent-filter>

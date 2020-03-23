@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,10 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
         private TextView message;
         private TextView timeSend;
         private RelativeLayout chatItemLayout;
+        private LinearLayout chatMessageLayout;
+        private LinearLayout chatMessageSelfLayout;
+        private TextView messageSelf;
+        private TextView timeSendSelf;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,24 +62,44 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
             message = itemView.findViewById(R.id.chatMessage);
             timeSend = itemView.findViewById(R.id.sendTime);
             chatItemLayout = itemView.findViewById(R.id.chatContent);
+            chatMessageLayout = itemView.findViewById(R.id.chatMessageLinearLayout);
+            chatMessageSelfLayout = itemView.findViewById(R.id.chatMessageSelfLinearLayout);
+            messageSelf = itemView.findViewById(R.id.chatMessageSelf);
+            timeSendSelf = itemView.findViewById(R.id.sendTimeSelf);
         }
 
         void bindTo(ChatItem chatItem) {
-            Glide.with(itemView.getContext())
-                    .load(chatItem.getSenderPicUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(senderPic);
-            senderName.setText(chatItem.getSenderName());
-            message.setText(chatItem.getMessage());
+
             if (chatItem.isSender()) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                senderPic.setLayoutParams(params);
+                senderPic.setVisibility(View.GONE);
+                chatMessageLayout.setVisibility(View.GONE);
+                messageSelf.setText(chatItem.getMessage());
+                timeSendSelf.setText(String.valueOf(chatItem.getTimestamp().toDate().getTime()));
             } else {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                senderPic.setLayoutParams(params);
+                senderPic.setVisibility(View.VISIBLE);
+                chatMessageLayout.setVisibility(View.VISIBLE);
+                chatMessageSelfLayout.setVisibility(View.GONE);
+                Glide.with(itemView.getContext())
+                        .load(chatItem.getSenderPicUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(senderPic);
+                senderName.setText(chatItem.getSenderName());
+                message.setText(chatItem.getMessage());
             }
+//
+//            if (chatItem.isSender()) {
+//                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
+//                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                senderPic.setLayoutParams(params);
+//                RelativeLayout.LayoutParams paramsLayout = (RelativeLayout.LayoutParams) chatMessageLayout.getLayoutParams();
+//                paramsLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                chatMessageLayout.setLayoutParams(paramsLayout);
+//                senderName.setText("");
+//            } else {
+//                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
+//                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                senderPic.setLayoutParams(params);
+//            }
 
 //            timeSend.setText(chatItem.getTimestamp().toDate().toString());
         }

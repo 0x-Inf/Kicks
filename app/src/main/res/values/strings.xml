@@ -168,6 +168,7 @@
     <string name="email_address_edit_text_hint">Email Address</string>
     <string name="confirm_time_date_Title_constant_text">Time &amp; Date</string>
     <string name="example_message">Hey Guys So there is a change of plans the cost was supposed to be 800 but now its 1000</string>
+    <string name="example_message_short">Hey There</string>
 
 
 </resources>
