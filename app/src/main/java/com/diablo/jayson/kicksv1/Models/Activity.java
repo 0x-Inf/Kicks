@@ -21,6 +21,7 @@ public class Activity extends BaseObservable implements Serializable {
     private String imageUrl;
     private String uploaderId;
     private String activityId;
+    private String activityCost;
     private int likes;
     private long uploadedTime;
     private List<String> tags;
@@ -38,7 +39,8 @@ public class Activity extends BaseObservable implements Serializable {
 
     public Activity(Host host, String kicktitle, String kickStartTime, String kickEndTime, String kickdate, String kicklocation,
                     String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime,
-                    String uploaderUid, int likes, String activityId, Tag tag, ArrayList<AttendingUser> mattendees, String state) {
+                    String uploaderUid, String activityId, Tag tag, ArrayList<AttendingUser> mattendees,
+                    String activityCost) {
         this.kickTitle = kicktitle;
         this.kickStartTime = kickStartTime;
         this.kickEndTime = kickEndTime;
@@ -51,12 +53,21 @@ public class Activity extends BaseObservable implements Serializable {
         this.uploadedTime = uploadedtime;
         this.uploaderId = uploaderUid;
         this.host = host;
-        this.likes = likes;
         this.activityId = activityId;
         this.tag = tag;
-        this.state = state;
         this.mattendees = mattendees;
+        this.activityCost = activityCost;
 
+    }
+
+    @Bindable
+    public String getActivityCost() {
+        return activityCost;
+    }
+
+    public void setActivityCost(String activityCost) {
+        this.activityCost = activityCost;
+        notifyPropertyChanged(BR.activityCost);
     }
 
     @Bindable

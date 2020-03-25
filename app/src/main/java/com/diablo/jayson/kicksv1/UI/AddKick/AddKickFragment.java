@@ -182,8 +182,7 @@ public class AddKickFragment extends Fragment {
         mAttendees = new ArrayList<AttendingUser>();
 
         activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                1, "", new Tag(), mAttendees, "creating");
+                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), "", new Tag(), mAttendees, "");
 
         mLocationTextInput.setOnClickListener(v -> {
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
@@ -301,8 +300,8 @@ public class AddKickFragment extends Fragment {
 
             activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
                     kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(),
-                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", new Tag(),
-                    mAttendees, "creating");
+                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
+                    mAttendees, "");
             db.collection("users")
                     .whereEqualTo("userEmail", activityMain.getUploaderId())
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

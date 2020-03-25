@@ -304,12 +304,12 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
 
         if (selectedTags.isEmpty()) {
             activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
-                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", new Tag(),
-                    mAttendees, "creating");
+                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
+                    mAttendees, "");
             mTagsTextInput.setError("Please Pick a tag");
         } else {
-            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), 1, "", selectedTags.get(0),
-                    mAttendees, "creating");
+            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", selectedTags.get(0),
+                    mAttendees, "");
         }
         db.collection("users")
                 .whereEqualTo("userEmail", activityMain.getUploaderId())

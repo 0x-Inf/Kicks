@@ -17,7 +17,6 @@ import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -101,9 +100,6 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
             mKickTitleText.setText(currentActivity.getkickTitle());
             mKickStartTimeText.setText(currentActivity.getkickTime());
             mKickEndTimeText.setText(currentActivity.getkickTime());
@@ -112,7 +108,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
-            activityTag.setText(currentActivity.getTags().get(0).toString());
+            activityTag.setText(currentActivity.getTags().get(0));
 //            Glide.with(itemView.getContext())
 //                    .load()
 //                    .apply(RequestOptions.circleCropTransform())
