@@ -42,6 +42,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity"
         android:label="activity_attend_activity"
         tools:layout="@layout/activity_attend_activity" />
+    <activity
+        android:id="@+id/kickSeeAllActivity"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSeeAllActivity"
+        android:label="activity_kick_see_all"
+        tools:layout="@layout/activity_kick_see_all" />
 
 
 </navigation>

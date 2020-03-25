@@ -28,6 +28,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     private LayoutInflater mInflater;
     private KickListAdapter adapter;
     private ArrayList<Kick> kicksData;
+    private KickListAdapter.OnKickSelectedListener listener1;
 
     @NonNull
     @Override
@@ -43,9 +44,10 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     private OnSeeAllClickedListener listener;
 
 
-    public KickCategoryListAdapter(@NonNull FirestoreRecyclerOptions<KickCategory> options, OnSeeAllClickedListener listener) {
+    public KickCategoryListAdapter(@NonNull FirestoreRecyclerOptions<KickCategory> options, OnSeeAllClickedListener listener, KickListAdapter.OnKickSelectedListener listener1) {
         super(options);
         this.listener = listener;
+        this.listener1 = listener1;
     }
 
 
@@ -58,20 +60,8 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
 
 
     @Override
-    public void startListening() {
-        super.startListening();
-    }
-
-    @Override
-    public void stopListening() {
-        super.stopListening();
-    }
-
-    @Override
     protected void onBindViewHolder(@NonNull KickCategoryViewHolder holder, int position, @NonNull KickCategory model) {
         KickCategory currentCategory = getItem(position);
-
-
         Query query = FirebaseFirestore.getInstance()
                 .collection("kickselects")
                 .document("groupa")
@@ -82,11 +72,12 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
         FirestoreRecyclerOptions<Kick> options = new FirestoreRecyclerOptions.Builder<Kick>()
                 .setQuery(query, Kick.class)
                 .build();
-        adapter = new KickListAdapter(options);
+        adapter = new KickListAdapter(options, listener1);
         holder.mkickRecyclerView.setAdapter(adapter);
         holder.mkickRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false));
         holder.mkickRecyclerView.setHasFixedSize(true);
         adapter.startListening();
+        adapter.notifyDataSetChanged();
         holder.bindTo(currentCategory, listener);
 //        ArrayList<KickCategory> kickCategories = new ArrayList<KickCategory>();
 //        for (int i = 0; i < getItemCount(); i++) {

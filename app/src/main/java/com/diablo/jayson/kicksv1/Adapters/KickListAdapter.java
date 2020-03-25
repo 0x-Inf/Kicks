@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,20 +21,22 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.util.ArrayList;
 
-public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdapter.KickViewHolder> {
+public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdapter.KickViewHolder> implements LifecycleOwner {
 
     private Context mContext;
     private ArrayList<Kick> mKicksData;
     private LifecycleOwner owner;
 
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public KickListAdapter(@NonNull FirestoreRecyclerOptions<Kick> options) {
+
+    public interface OnKickSelectedListener {
+        void onkickSelected(Kick kick);
+    }
+
+    private OnKickSelectedListener listener;
+
+    public KickListAdapter(@NonNull FirestoreRecyclerOptions<Kick> options, OnKickSelectedListener listener) {
         super(options);
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,6 +45,7 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
         return new KickViewHolder(LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.kick_list_item, parent, false));
     }
+
 
     @Override
     public void startListening() {
@@ -57,7 +62,29 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
     @Override
     protected void onBindViewHolder(@NonNull KickViewHolder holder, int position, @NonNull Kick model) {
         Kick currentKick = getItem(position);
-        holder.bindTo(currentKick);
+        holder.bindTo(currentKick, listener);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return new Lifecycle() {
+            @Override
+            public void addObserver(@NonNull LifecycleObserver observer) {
+
+            }
+
+            @Override
+            public void removeObserver(@NonNull LifecycleObserver observer) {
+
+            }
+
+            @NonNull
+            @Override
+            public State getCurrentState() {
+                return null;
+            }
+        };
     }
 
 
@@ -73,9 +100,17 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
             mKickName = itemView.findViewById(R.id.kickSelectTextView);
         }
 
-        void bindTo(Kick currentKick){
+        void bindTo(Kick currentKick, OnKickSelectedListener listener) {
             mKickName.setText(currentKick.getKickName());
             Glide.with(itemView.getContext()).load(currentKick.getKickCardImageUrl()).into(mKickImage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onkickSelected(currentKick);
+                    }
+                }
+            });
         }
     }
 }
