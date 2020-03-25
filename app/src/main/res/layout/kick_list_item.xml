@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="match_parent">
 
-
-    <RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    android:layout_height="wrap_content"
         android:padding="8dp">
 
         <ImageView
             android:id="@+id/kickSelectImage"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
+            android:layout_width="120dp"
+            android:scaleType="fitXY"
+            android:layout_height="150dp"
+            android:padding="1dp"
+            android:background="@drawable/kick_item_bg"
             android:contentDescription="ImageForKick"
             android:src="@drawable/img_soccer"/>
         <TextView
             android:id="@+id/kickSelectTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_alignParentStart="true"
             android:text="Monopoly"
             android:layout_below="@id/kickSelectImage"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
@@ -26,5 +27,3 @@
 
 
     </RelativeLayout>
-
-</LinearLayout>

@@ -7,14 +7,15 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
-        <LinearLayout
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="-15dp"
-            android:layout_toEndOf="@id/attendeeitemimage"
-            android:background="@drawable/onlinecircle" />
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="20dp"-->
+        <!--            android:layout_height="20dp"-->
+        <!--            android:layout_marginStart="-15dp"-->
+        <!--            android:layout_toEndOf="@id/attendeeitemimage"-->
+        <!--            android:background="@drawable/onlinecircle" />-->
 
         <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/attendeeitemimage"

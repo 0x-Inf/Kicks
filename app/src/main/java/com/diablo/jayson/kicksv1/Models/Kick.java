@@ -1,37 +1,56 @@
 package com.diablo.jayson.kicksv1.Models;
 
-public class Kick {
+import java.io.Serializable;
+import java.util.ArrayList;
 
-    private String KickName;
-    private String  KickImageUrl;
-    private String tagName;
+public class Kick implements Serializable {
 
-
-
-    public Kick(String kickName, String imageUrl) {
-        this.KickName = kickName;
-        this.KickImageUrl = imageUrl;
-    }
-
+    private String kickName;
+    private String kickCardImageUrl;
+    private String kickLargeImageUrl;
+    private ArrayList<String> tags;
 
 
     public Kick() {
 
     }
 
+    public Kick(String kickName, String kickCardImageUrl, String kickLargeImageUrl, ArrayList<String> tags) {
+        this.kickName = kickName;
+        this.kickCardImageUrl = kickCardImageUrl;
+        this.kickLargeImageUrl = kickLargeImageUrl;
+        this.tags = tags;
+    }
+
     public String getKickName() {
-        return KickName;
+        return kickName;
     }
 
-    public String getKickImageUrl() {
-        return KickImageUrl;
-    }
-    public void setKickName(String mKickName) {
-        this.KickName = mKickName;
+    public void setKickName(String kickName) {
+        this.kickName = kickName;
     }
 
-    public void setKickImageUrl(String KickImageUrl) {
-        this.KickImageUrl = KickImageUrl;
+    public String getKickCardImageUrl() {
+        return kickCardImageUrl;
     }
 
+    public void setKickCardImageUrl(String kickCardImageUrl) {
+        this.kickCardImageUrl = kickCardImageUrl;
+    }
+
+    public String getKickLargeImageUrl() {
+        return kickLargeImageUrl;
+    }
+
+    public void setKickLargeImageUrl(String kickLargeImageUrl) {
+        this.kickLargeImageUrl = kickLargeImageUrl;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
 }

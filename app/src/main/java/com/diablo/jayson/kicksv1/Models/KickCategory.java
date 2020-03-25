@@ -1,15 +1,35 @@
 package com.diablo.jayson.kicksv1.Models;
 
-public class KickCategory {
+import java.io.Serializable;
 
-    private String mCategoryName;
+public class KickCategory implements Serializable {
 
-    public KickCategory(String mCategoryName) {
-        this.mCategoryName = mCategoryName;
+    private String categoryName;
+    private String categoryId;
+
+
+    public KickCategory() {
+    }
+
+    public KickCategory(String categoryName, String categoryId) {
+        this.categoryName = categoryName;
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName(){
-        return mCategoryName;
+        return categoryName;
+    }
+
+    public void setCategoryName(String mCategoryName) {
+        this.categoryName = mCategoryName;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }
 

@@ -132,6 +132,12 @@ public class AttendActivityMainFragment extends Fragment {
 //        myToolbar.setTitle(activityMain.getkickTitle());
 //        Toast.makeText(getContext(),String.valueOf(attendingUsersData.size()),Toast.LENGTH_LONG).show();
 //        loadAttendeesFromDb();
+        viewModel.getActivityData().observe(requireActivity(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                myToolbar.setTitle(activity.getkickTitle());
+            }
+        });
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -151,10 +157,19 @@ public class AttendActivityMainFragment extends Fragment {
                 int gridColumnCount = 1;
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 chatRecycler.setLayoutManager(layoutManager);
+
 //                layoutManager.setStackFromEnd(true);
 //                layoutManager.setReverseLayout(true);
                 chatRecycler.setAdapter(chatAdapter);
                 chatAdapter.notifyDataSetChanged();
+                chatAdapter.startListening();
+                chatRecycler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Call smooth scroll
+                        chatRecycler.smoothScrollToPosition(chatAdapter.getItemCount());
+                    }
+                });
 
                 db.collection("activities").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -263,32 +278,32 @@ public class AttendActivityMainFragment extends Fragment {
     public void onStart() {
         super.onStart();
 //        attendeesAdapter.startListening();
-        viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference = db.collection("activities").document();
-                Query query = FirebaseFirestore.getInstance()
-                        .collection("activities")
-                        .document(s)
-                        .collection("chatsession")
-                        .orderBy("timestamp", Query.Direction.ASCENDING);
-
-
-                FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
-                        .setQuery(query, ChatItem.class)
-                        .build();
-                chatAdapter = new ChatAdapter(options);
-                int gridColumnCount = 1;
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                chatRecycler.setLayoutManager(layoutManager);
-//                layoutManager.setStackFromEnd(true);
-//                layoutManager.setReverseLayout(true);
-                chatRecycler.setAdapter(chatAdapter);
-                chatAdapter.notifyDataSetChanged();
-                chatAdapter.startListening();
-            }
-        });
+//        viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                DocumentReference documentReference = db.collection("activities").document();
+//                Query query = FirebaseFirestore.getInstance()
+//                        .collection("activities")
+//                        .document(s)
+//                        .collection("chatsession")
+//                        .orderBy("timestamp", Query.Direction.ASCENDING);
+//
+//
+//                FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
+//                        .setQuery(query, ChatItem.class)
+//                        .build();
+//                chatAdapter = new ChatAdapter(options);
+//                int gridColumnCount = 1;
+//                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//                chatRecycler.setLayoutManager(layoutManager);
+////                layoutManager.setStackFromEnd(true);
+////                layoutManager.setReverseLayout(true);
+//                chatRecycler.setAdapter(chatAdapter);
+//                chatAdapter.notifyDataSetChanged();
+//                chatAdapter.startListening();
+//            }
+//        });
     }
 
     @Override
@@ -298,6 +313,11 @@ public class AttendActivityMainFragment extends Fragment {
         chatAdapter.stopListening();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        chatAdapter.startListening();
+    }
 
     private void initializeRecyclerWithAttendees() {
         AttendeesAdapter attendeesAdapter = new AttendeesAdapter(getContext(), attendingUsersData);
@@ -321,10 +341,11 @@ public class AttendActivityMainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         activityImage = view.findViewById(R.id.activityImageToolBar);
+        TextView title = view.findViewById(R.id.titleTextView);
 //        textView = view.findViewById(R.id.costTextView);
         RecyclerView attendeesRecycler = view.findViewById(R.id.attendeesRecycler);
-        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.collapsingToolBar);
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
+        myToolbar = (Toolbar) view.findViewById(R.id.collapsingToolBar);
+//        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
         viewModel.getActivityData().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
@@ -334,6 +355,7 @@ public class AttendActivityMainFragment extends Fragment {
                         .into(activityImage);
 //                textView.setText(activityMain.getkickTitle());
                 myToolbar.setTitle(activityMain.getkickTitle());
+                title.setText(activityMain.getkickTitle());
 
 //                loadAttendeesFromDb();
             }

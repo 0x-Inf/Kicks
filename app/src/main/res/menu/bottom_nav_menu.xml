@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_kick_select"
-        android:icon="@drawable/ic_kick_select_icon_24dp"
+        android:icon="@drawable/ic_explore_icon_24dp"
         android:title="Explore" />
 
     <item

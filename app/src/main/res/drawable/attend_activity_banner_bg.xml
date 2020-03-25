@@ -4,8 +4,12 @@
         android:width="1dp"
         android:color="@color/quantum_white_divider" />
 
+    <gradient
+        android:startColor="@color/quantum_vanillablue50"
+        android:endColor="@color/quantum_deeporange500"
+        android:angle="270" />
 
-    <solid android:color="@color/quantum_deeporange100" />
+    <!--    <solid android:color="@color/quantum_deeporange100" />-->
 
     <corners android:radius="15dp" />
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KicksV1</string>
+    <string name="app_name">Kicks</string>
     <string name="action_settings">Settings</string>
     <string name="kick_name_text_view">Kick Name</string>
     <string name="kick_time_textView">11:00</string>

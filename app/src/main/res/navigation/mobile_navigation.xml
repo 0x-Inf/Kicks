@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/navigation_kick_select"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectFragment"
-        android:label="KickSelect"
+        android:label="Explore"
         tools:layout="@layout/kick_select_fragment"/>
     <fragment
         android:id="@+id/navigation_add_kick"
