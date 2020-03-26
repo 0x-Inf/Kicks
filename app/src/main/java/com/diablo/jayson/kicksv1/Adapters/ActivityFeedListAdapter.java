@@ -109,10 +109,10 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
             activityTag.setText(currentActivity.getTags().get(0));
-//            Glide.with(itemView.getContext())
-//                    .load()
-//                    .apply(RequestOptions.circleCropTransform())
-//                    .into(mUploaderPic);
+            Glide.with(itemView.getContext())
+                    .load(currentActivity.getHost().getHostPic())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(mUploaderPic);
 
             Glide.with(itemView.getContext()).load(currentActivity.getimageUrl())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))

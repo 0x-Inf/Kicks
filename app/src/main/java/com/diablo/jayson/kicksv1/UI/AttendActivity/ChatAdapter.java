@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,19 @@ import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.ChatViewHolder> {
+
+    public static final int MSG_TYPE_LEFT = 0;
+    public static final int MSG_SELF = 1;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -33,8 +45,25 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChatViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.chat_item_view, parent, false));
+        View view;
+        if (viewType == MSG_SELF) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_item_self, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_item_view, parent, false);
+        }
+        return new ChatViewHolder(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Log.e("user", user.getUid());
+        if (getItem(position).getSenderUid().equals(user.getUid())) {
+            return MSG_SELF;
+        } else {
+            return MSG_TYPE_LEFT;
+        }
     }
 
     @Override
@@ -64,28 +93,22 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
             chatItemLayout = itemView.findViewById(R.id.chatContent);
             chatMessageLayout = itemView.findViewById(R.id.chatMessageLinearLayout);
             chatMessageSelfLayout = itemView.findViewById(R.id.chatMessageSelfLinearLayout);
-            messageSelf = itemView.findViewById(R.id.chatMessageSelf);
-            timeSendSelf = itemView.findViewById(R.id.sendTimeSelf);
         }
 
         void bindTo(ChatItem chatItem) {
+//
+//            messageSelf.setText(chatItem.getMessage());
+            Date date = chatItem.getTimestamp().toDate();
+//            DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
 
-            if (chatItem.isSender()) {
-                senderPic.setVisibility(View.GONE);
-                chatMessageLayout.setVisibility(View.GONE);
-                messageSelf.setText(chatItem.getMessage());
-                timeSendSelf.setText(String.valueOf(chatItem.getTimestamp().toDate().getTime()));
-            } else {
-                senderPic.setVisibility(View.VISIBLE);
-                chatMessageLayout.setVisibility(View.VISIBLE);
-                chatMessageSelfLayout.setVisibility(View.GONE);
-                Glide.with(itemView.getContext())
-                        .load(chatItem.getSenderPicUrl())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(senderPic);
-                senderName.setText(chatItem.getSenderName());
-                message.setText(chatItem.getMessage());
-            }
+            timeSend.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(date));
+            Glide.with(itemView.getContext())
+                    .load(chatItem.getSenderPicUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(senderPic);
+            senderName.setText(chatItem.getSenderName());
+            message.setText(chatItem.getMessage());
+        }
 //
 //            if (chatItem.isSender()) {
 //                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) senderPic.getLayoutParams();
@@ -102,6 +125,5 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
 //            }
 
 //            timeSend.setText(chatItem.getTimestamp().toDate().toString());
-        }
     }
 }

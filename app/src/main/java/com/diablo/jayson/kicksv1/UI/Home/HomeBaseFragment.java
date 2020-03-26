@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,8 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
+        tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
 
 //        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 

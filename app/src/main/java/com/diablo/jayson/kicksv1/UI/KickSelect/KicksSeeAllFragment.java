@@ -1,10 +1,12 @@
 package com.diablo.jayson.kicksv1.UI.KickSelect;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +46,7 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
     private KickListAdapter adapter;
 
     private RecyclerView kickRecyclerView;
+    private TextView categoryNameView;
     private String categoryId;
     private Toolbar myToolbar;
 
@@ -90,12 +93,14 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_kicks_see_all, container, false);
         kickRecyclerView = root.findViewById(R.id.kicksRecyclerView);
+        categoryNameView = root.findViewById(R.id.categoryNameTextView);
         myToolbar = root.findViewById(R.id.seeAllAppBar);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
         viewModel.getCategoryName().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 myToolbar.setTitle(s);
+                categoryNameView.setText(s);
             }
         });
         loadKicksFromDb();
@@ -118,6 +123,10 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
             adapter = new KickListAdapter(options, this::onkickSelected);
             kickRecyclerView.setAdapter(adapter);
             kickRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+            int spanCount = 2;// 2 columns
+            int spacing = 80; // 100px
+            boolean includeEdge = true;
+            kickRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
             adapter.startListening();
         });
 
@@ -140,5 +149,40 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
         Intent kickSelectedActivity = new Intent(getContext(), KickSelectedActivity.class);
         kickSelectedActivity.putExtra("kick", kick);
         startActivity(kickSelectedActivity);
+    }
+
+    public static class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = 5;
+                }
+                outRect.bottom = 10; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
     }
 }

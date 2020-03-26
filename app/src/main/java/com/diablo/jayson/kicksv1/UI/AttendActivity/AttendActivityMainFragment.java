@@ -135,7 +135,7 @@ public class AttendActivityMainFragment extends Fragment {
         viewModel.getActivityData().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                myToolbar.setTitle(activity.getkickTitle());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activity.getkickTitle());
             }
         });
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
@@ -160,16 +160,16 @@ public class AttendActivityMainFragment extends Fragment {
 
 //                layoutManager.setStackFromEnd(true);
 //                layoutManager.setReverseLayout(true);
+                chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                    @Override
+                    public void onItemRangeInserted(int positionStart, int itemCount) {
+                        super.onItemRangeInserted(positionStart, itemCount);
+                        chatRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+                    }
+                });
                 chatRecycler.setAdapter(chatAdapter);
                 chatAdapter.notifyDataSetChanged();
                 chatAdapter.startListening();
-                chatRecycler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Call smooth scroll
-                        chatRecycler.smoothScrollToPosition(chatAdapter.getItemCount());
-                    }
-                });
 
                 db.collection("activities").document(s).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -209,6 +209,7 @@ public class AttendActivityMainFragment extends Fragment {
                     assert user != null;
                     messageItem.setSenderName(user.getDisplayName());
                     messageItem.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
+                    messageItem.setSenderUid(user.getUid());
                     messageItem.setSender(true);
                     messageItem.setTimestamp(Timestamp.now());
 
@@ -354,7 +355,7 @@ public class AttendActivityMainFragment extends Fragment {
                         .load(activityMain.getimageUrl())
                         .into(activityImage);
 //                textView.setText(activityMain.getkickTitle());
-                myToolbar.setTitle(activityMain.getkickTitle());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activityMain.getkickTitle());
                 title.setText(activityMain.getkickTitle());
 
 //                loadAttendeesFromDb();

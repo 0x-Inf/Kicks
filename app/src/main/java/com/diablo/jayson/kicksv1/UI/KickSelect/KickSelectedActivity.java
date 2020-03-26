@@ -27,6 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class KickSelectedActivity extends AppCompatActivity {
 //    private ResultProfileBinding binding;
@@ -52,7 +53,7 @@ public class KickSelectedActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        myToolbar.setTitle(kick.getKickName());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(kick.getKickName());
 
 
         kickCardImageView = findViewById(R.id.kickCardImage);

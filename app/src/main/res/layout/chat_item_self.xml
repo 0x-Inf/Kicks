@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatContent"
     android:layout_width="match_parent"
@@ -8,14 +7,15 @@
     <ImageView
         android:id="@+id/senderProfilePic"
         android:layout_width="40dp"
+        android:visibility="gone"
         android:layout_height="40dp"
         android:layout_margin="5dp" />
 
-
     <LinearLayout
-        android:id="@+id/chatMessageLinearLayout"
+        android:id="@+id/chatMessageSelfLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="48dp"
         android:background="@drawable/chat_item_bg"
         android:orientation="vertical">
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="John Doe"
+            android:visibility="gone"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -33,10 +34,12 @@
             android:id="@+id/chatMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:maxWidth="170dp"
             android:minWidth="80dp"
-            android:text="@string/example_message" />
+            android:text="@string/example_message_short" />
 
         <TextView
             android:id="@+id/sendTime"
@@ -49,6 +52,5 @@
             android:textSize="10sp" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
