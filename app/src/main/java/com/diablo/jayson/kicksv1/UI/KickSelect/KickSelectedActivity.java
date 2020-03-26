@@ -1,13 +1,15 @@
 package com.diablo.jayson.kicksv1.UI.KickSelect;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -18,18 +20,19 @@ import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddKickActivity;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class KickSelectedActivity extends AppCompatActivity {
+public class KickSelectedActivity extends AppCompatActivity implements AvailableActivitiesAdapter.OnAvailableActivitySelected {
 //    private ResultProfileBinding binding;
 
     private ImageView kickCardImageView, noAvailableActivitiesImage;
@@ -60,7 +63,15 @@ public class KickSelectedActivity extends AppCompatActivity {
         availableActivitiesRecyclerView = findViewById(R.id.availableActivitiesRecycler);
         noAvailableActivities = findViewById(R.id.noAVailableActivitiesCard);
         noAvailableActivitiesImage = findViewById(R.id.noAvailableActivities);
+        createActivityButton = findViewById(R.id.createActivityButton);
         noAvailableActivities.setVisibility(View.GONE);
+
+        createActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(KickSelectedActivity.this, AddKickActivity.class));
+            }
+        });
 
         checkForAvailabelActivities();
 
@@ -79,30 +90,27 @@ public class KickSelectedActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection("activities")
                 .whereArrayContainsAny("tags", tags)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                noAvailableActivities.setVisibility(View.VISIBLE);
-                                Glide.with(getApplicationContext())
-                                        .load("https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/3dec8a93992731.5e7331408ee1b.gif")
-                                        .into(noAvailableActivitiesImage);
-                            } else {
-                                Query query = FirebaseFirestore.getInstance()
-                                        .collection("activities")
-                                        .whereArrayContainsAny("tags", tags);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            noAvailableActivities.setVisibility(View.VISIBLE);
+                            Glide.with(getApplicationContext())
+                                    .load("https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/3dec8a93992731.5e7331408ee1b.gif")
+                                    .into(noAvailableActivitiesImage);
+                        } else {
+                            Query query = FirebaseFirestore.getInstance()
+                                    .collection("activities")
+                                    .whereArrayContainsAny("tags", tags);
 
-                                FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
-                                        .setQuery(query, Activity.class)
-                                        .build();
+                            FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
+                                    .setQuery(query, Activity.class)
+                                    .build();
 
 
-                                adapter = new AvailableActivitiesAdapter(options);
-                                availableActivitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                availableActivitiesRecyclerView.setAdapter(adapter);
-                                adapter.startListening();
-                            }
+                            adapter = new AvailableActivitiesAdapter(options, this::onAvailableActivitySelected);
+                            availableActivitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            availableActivitiesRecyclerView.setAdapter(adapter);
+                            adapter.startListening();
                         }
                     }
                 });
@@ -119,5 +127,31 @@ public class KickSelectedActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 //        adapter.stopListening();
+    }
+
+    @Override
+    public void onAvailableActivitySelected(Activity activity) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        if (user.getDisplayName().isEmpty()) {
+            Toast.makeText(this, "Please Sign Up", Toast.LENGTH_SHORT).show();
+        } else {
+            ArrayList<String> users = new ArrayList<String>();
+            for (int i = 0; i < activity.getMattendees().size(); i++) {
+                users.add(activity.getMattendees().get(i).getUid());
+            }
+            if (users.contains(user.getUid())) {
+                Log.e("names", activity.getMattendees().get(0).getUserName());
+                Intent attendActivity = new Intent(KickSelectedActivity.this, AttendActivityActivity.class);
+                attendActivity.putExtra("activityId", activity.getActivityId());
+                attendActivity.putExtra("alreadyAttending", true);
+                startActivity(attendActivity);
+            } else {
+                Intent attendActivity = new Intent(KickSelectedActivity.this, AttendActivityActivity.class);
+                attendActivity.putExtra("activityId", activity.getActivityId());
+                attendActivity.putExtra("alreadyAttending", false);
+                startActivity(attendActivity);
+            }
+        }
     }
 }

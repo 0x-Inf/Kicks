@@ -16,14 +16,18 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activity, AvailableActivitiesAdapter.AvailableActivityViewHolder> {
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public AvailableActivitiesAdapter(@NonNull FirestoreRecyclerOptions options) {
+
+
+    public interface OnAvailableActivitySelected {
+        void onAvailableActivitySelected(Activity activity);
+    }
+
+    private OnAvailableActivitySelected listener;
+
+
+    public AvailableActivitiesAdapter(@NonNull FirestoreRecyclerOptions options, OnAvailableActivitySelected listener) {
         super(options);
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,7 +40,7 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
     @Override
     protected void onBindViewHolder(@NonNull AvailableActivityViewHolder holder, int position, @NonNull Activity model) {
         Activity availableActivity = getItem(position);
-        holder.bindTo(availableActivity);
+        holder.bindTo(availableActivity, listener);
     }
 
     static class AvailableActivityViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +61,7 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
             availableActivityDateTime = itemView.findViewById(R.id.availableActivityDateTimeTextView);
         }
 
-        void bindTo(Activity availableActivity) {
+        void bindTo(Activity availableActivity, OnAvailableActivitySelected listener) {
 
             String noOfPeople = availableActivity.getMinRequiredPeople() + "-" + availableActivity.getMaxRequiredPeeps() + " People";
             String dateTimeText = availableActivity.getkickTime() + " - " + availableActivity.getKickEndTime() + "  " + availableActivity.getkickDate();
@@ -70,6 +74,14 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
             availableActivityNoOfPeople.setText(noOfPeople);
             availableActivityLocation.setText(availableActivity.getkickLocation());
             availableActivityDateTime.setText(dateTimeText);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onAvailableActivitySelected(availableActivity);
+                    }
+                }
+            });
 
         }
 
