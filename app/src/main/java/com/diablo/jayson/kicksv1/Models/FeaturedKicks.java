@@ -1,54 +1,61 @@
 package com.diablo.jayson.kicksv1.Models;
 
-import com.diablo.jayson.kicksv1.Constants;
-
-import java.util.ArrayList;
-
 public class FeaturedKicks {
 
-    private ImageAndText mFeaturedImageAndText;
-    private ImageTextAndList mFeaturedImageTextAndList;
-    private String mFeaturedType;
-
-
+    private String featuredType;
+    private String featuredTitle;
+    private String featuredSubTitle;
+    private String featuredImageUrl;
+    private String featuredKickId;
 
     public FeaturedKicks() {
-
     }
 
-
-    public ImageAndText getmFeaturedImageAndText() {
-        return mFeaturedImageAndText;
+    public FeaturedKicks(String featuredType, String featuredTitle, String featuredSubTitle, String featuredImageUrl, String featuredKickId) {
+        this.featuredType = featuredType;
+        this.featuredTitle = featuredTitle;
+        this.featuredSubTitle = featuredSubTitle;
+        this.featuredImageUrl = featuredImageUrl;
+        this.featuredKickId = featuredKickId;
     }
 
-    public ImageTextAndList getmFeaturedImageTextAndList() {
-        return mFeaturedImageTextAndList;
+    public String getFeaturedKickId() {
+        return featuredKickId;
     }
 
-    public void setmFeaturedImageAndText(ImageAndText mFeaturedImageAndText) {
-        this.mFeaturedImageAndText = mFeaturedImageAndText;
+    public void setFeaturedKickId(String featuredKickId) {
+        this.featuredKickId = featuredKickId;
     }
 
-    public void setmFeaturedImageTextAndList(ImageTextAndList mFeaturedImageTextAndList) {
-        this.mFeaturedImageTextAndList = mFeaturedImageTextAndList;
+    public String getFeaturedType() {
+        return featuredType;
     }
 
-    public String getFeaturedType(){
-        String type;
-        if (mFeaturedImageAndText!=null){
-            type = Constants.IMAGE_AND_TEXT;
-        }else if (mFeaturedImageTextAndList!=null){
-            type = Constants.IMAGE_TEXT_AND_LIST;
-        }else type = null;
-        return type;
+    public void setFeaturedType(String featuredType) {
+        this.featuredType = featuredType;
     }
 
-    public String getFeaturedType2(){
-        return mFeaturedType;
+    public String getFeaturedTitle() {
+        return featuredTitle;
     }
 
-    public void setFeaturedType(String mFeaturedType) {
-        this.mFeaturedType = mFeaturedType;
+    public void setFeaturedTitle(String featuredTitle) {
+        this.featuredTitle = featuredTitle;
     }
 
+    public String getFeaturedSubTitle() {
+        return featuredSubTitle;
+    }
+
+    public void setFeaturedSubTitle(String featuredSubTitle) {
+        this.featuredSubTitle = featuredSubTitle;
+    }
+
+    public String getFeaturedImageUrl() {
+        return featuredImageUrl;
+    }
+
+    public void setFeaturedImageUrl(String featuredImageUrl) {
+        this.featuredImageUrl = featuredImageUrl;
+    }
 }

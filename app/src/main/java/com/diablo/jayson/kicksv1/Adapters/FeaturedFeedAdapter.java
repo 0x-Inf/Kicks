@@ -1,42 +1,33 @@
 package com.diablo.jayson.kicksv1.Adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Constants;
-import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.FeaturedKicks;
-import com.diablo.jayson.kicksv1.Models.ImageAndText;
-import com.diablo.jayson.kicksv1.Models.ImageTextAndList;
-import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.Models.KickInFeaturedList;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.FeaturedFragment;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class FeaturedFeedAdapter extends RecyclerView.Adapter {
+public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks, RecyclerView.ViewHolder> {
 
     private static final String TAG = FeaturedFragment.class.getSimpleName();
     private static final int IMAGE_TEXT = 1;
@@ -47,124 +38,127 @@ public class FeaturedFeedAdapter extends RecyclerView.Adapter {
     private List<FeaturedKicks> mTotalKicks;
     private DatabaseReference mDataBase;
 
-    public FeaturedFeedAdapter(Context mContext, List<FeaturedKicks> totalKicks) {
-        this.mContext = mContext;
-        this.mTotalKicks = totalKicks;
+    /**
+     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
+     * FirestoreRecyclerOptions} for configuration options.
+     *
+     * @param options
+     */
+    public FeaturedFeedAdapter(@NonNull FirestoreRecyclerOptions<FeaturedKicks> options) {
+        super(options);
     }
+
 
     @Override
     public int getItemViewType(int position) {
         int viewType;
-        if (mTotalKicks.get(position).getFeaturedType2().equals(Constants.IMAGE_AND_TEXT)) {
-            viewType = IMAGE_TEXT;
-        } else if (mTotalKicks.get(position).getFeaturedType2().equals(Constants.IMAGE_TEXT_AND_LIST)) {
-            viewType = IMAGE_TEXT_LIST;
-        } else viewType = IMAGE_TEXT;
-        return viewType;
+        if (getItem(position).getFeaturedType().equals(Constants.IMAGE_AND_TEXT)) {
+            return IMAGE_TEXT;
+        } else if (getItem(position).getFeaturedType().equals(Constants.IMAGE_TEXT_AND_LIST)) {
+            return IMAGE_TEXT_LIST;
+        } else {
+            return IMAGE_TEXT;
+        }
     }
 
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int viewTypeToShow = getItemViewType(viewType);
+        View view = null;
 
         if (viewType == IMAGE_TEXT) {
-            View imageTextView = LayoutInflater.from(mContext).
+            view = LayoutInflater.from(parent.getContext()).
                     inflate(R.layout.image_and_text_item, parent, false);
-            return new ImageAndTextOnlyActivityViewHolder(imageTextView);
+            return new ImageAndTextOnlyActivityViewHolder(view);
         } else if (viewType == IMAGE_TEXT_LIST) {
-            View imageTextListView = LayoutInflater.from(mContext).
+            view = LayoutInflater.from(parent.getContext()).
                     inflate(R.layout.image_text_and_list_item, parent, false);
-            return new ImageAndTextAndListActivityViewHolder(imageTextListView);
-        }else
-            return new ImageAndTextOnlyActivityViewHolder(LayoutInflater.from(mContext).
-                       inflate(R.layout.image_and_text_item, parent, false));
+            return new ImageAndTextAndListActivityViewHolder(view);
+        }
+        assert view != null;
+        return new ImageAndTextOnlyActivityViewHolder(view);
     }
 
-
-
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        FeaturedKicks featuredKicks = mTotalKicks.get(position);
+    protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull FeaturedKicks model) {
+        FeaturedKicks featuredKick = getItem(position);
         holder.getAdapterPosition();
-
         switch (holder.getItemViewType()) {
             case IMAGE_TEXT:
-                ImageAndText currentImageAndText = featuredKicks.getmFeaturedImageAndText();
-                ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(currentImageAndText);
+                ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(featuredKick);
                 break;
             case IMAGE_TEXT_LIST:
-                ImageTextAndList currentImageTextAndList = featuredKicks.getmFeaturedImageTextAndList();
-                ((ImageAndTextAndListActivityViewHolder) holder).bindTo(currentImageTextAndList);
-                mDataBase  = FirebaseDatabase.getInstance().getReference("FeaturedKicks");
-                mDataBase.addValueEventListener(new ValueEventListener() {
+                Query query = FirebaseFirestore.getInstance()
+                        .collection("featuredkicks")
+                        .document(featuredKick.getFeaturedKickId().trim())
+                        .collection("kicksinlist");
+
+                FirestoreRecyclerOptions<KickInFeaturedList> options = new FirestoreRecyclerOptions.Builder<KickInFeaturedList>()
+                        .setQuery(query, KickInFeaturedList.class)
+                        .build();
+
+                FeatureKickListAdapter adapter = new FeatureKickListAdapter(options);
+                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.setAdapter(adapter);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(holder.itemView.getContext());
+                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.setLayoutManager(layoutManager);
+                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.post(new Runnable() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snap: dataSnapshot.child(Constants.IMAGE_TEXT_AND_LIST).child("KickList").getChildren()){
-                            ImageTextAndList imageTextAndList = new ImageTextAndList();
-                            KickInFeaturedList kick = snap.getValue(KickInFeaturedList.class);
-                            mKicksData.add(kick);
-                        }
+                    public void run() {
+                        new CountDownTimer(Integer.MAX_VALUE, 20) {
+                            public void onTick(long millis) {
+                                ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.scrollBy(0, 1);
+                            }
 
-                        mKicksAdapter = new FeatureKickListAdapter(mContext, mKicksData);
-                        ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.
-                                setLayoutManager(new LinearLayoutManager(mContext));
-                        ((ImageAndTextAndListActivityViewHolder) holder).mFeaturedListView.setAdapter(mKicksAdapter);
+                            @Override
+                            public void onFinish() {
 
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.w(TAG, "load featuredKicks:Cancelled", databaseError.toException());
+                            }
+                        }.start();
                     }
                 });
+                adapter.startListening();
+                ((ImageAndTextAndListActivityViewHolder) holder).bindTo(featuredKick);
                 break;
             default:
 
         }
     }
 
-    @Override
-    public int getItemCount() {
-        int totalKicks = mTotalKicks.size();
-        Log.e("number of kicks", Integer.toString(totalKicks));
-//        Log.e("Number of featured Kick",Integer.toString(mKicksData.size()));
-        return mTotalKicks.size();
-    }
 
-
-    class ImageAndTextOnlyActivityViewHolder extends MainViewHolder {
+    class ImageAndTextOnlyActivityViewHolder extends RecyclerView.ViewHolder {
 
         // TODO: Appropriately Name this stuff
 
-        private ImageView mKickImage;
-        private TextView mKickTitle;
+        private ImageView featuredKickImage;
+        private TextView featuredKickTitle, featuredKickSubtitle;
 
 
-        public ImageAndTextOnlyActivityViewHolder(@NonNull View itemView) {
+        ImageAndTextOnlyActivityViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mKickTitle = itemView.findViewById(R.id.kickFeaturedNameTextView);
-            mKickImage = itemView.findViewById(R.id.kickFeaturedImage);
+            featuredKickTitle = itemView.findViewById(R.id.kickFeaturedTitleTextView);
+            featuredKickSubtitle = itemView.findViewById(R.id.kickFeaturedSubtitleTextView);
+            featuredKickImage = itemView.findViewById(R.id.kickFeaturedImage);
         }
 
-        void bindTo(ImageAndText currentImageText) {
+        void bindTo(FeaturedKicks currentFeaturedKick) {
 
-            mKickTitle.setText(currentImageText.getKickTitle());
-            Glide.with(mContext).load(currentImageText.getImageUrl()).into(mKickImage);
+            featuredKickTitle.setText(currentFeaturedKick.getFeaturedTitle());
+            featuredKickSubtitle.setText(currentFeaturedKick.getFeaturedSubTitle());
+            Glide.with(itemView.getContext()).load(currentFeaturedKick.getFeaturedImageUrl()).into(featuredKickImage);
 
         }
     }
 
-    class ImageAndTextAndListActivityViewHolder extends MainViewHolder {
+    static class ImageAndTextAndListActivityViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mKickFeaturedListImage;
         private TextView mFeaturedListTitle;
         private RecyclerView mFeaturedListView;
 
 
-        public ImageAndTextAndListActivityViewHolder(@NonNull View itemView) {
+        ImageAndTextAndListActivityViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mKickFeaturedListImage = itemView.findViewById(R.id.kickFeaturedListImage);
@@ -173,29 +167,29 @@ public class FeaturedFeedAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bindTo(ImageTextAndList currentImageAndTextAndList) {
-            mFeaturedListTitle.setText(currentImageAndTextAndList.getKickListName());
-            Glide.with(mContext).load(currentImageAndTextAndList.getKickListImageUrl()).into(mKickFeaturedListImage);
+        void bindTo(FeaturedKicks currentFeaturedKick) {
+            mFeaturedListTitle.setText(currentFeaturedKick.getFeaturedTitle());
+            Glide.with(itemView.getContext()).load(currentFeaturedKick.getFeaturedImageUrl()).into(mKickFeaturedListImage);
 
         }
 
     }
 
-    class MainViewHolder extends RecyclerView.ViewHolder {
-        public MainViewHolder(@NonNull View itemView) {
+    static class MainViewHolder extends RecyclerView.ViewHolder {
+        MainViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
 
     private void initializeKickData() {
-        String[] kickNames = mContext.getResources().getStringArray(R.array.kicks_titles);
-        String[] kickImages = mContext.getResources().getStringArray(R.array.kicks_image_urls);
-        mKicksData.clear();
-
-        for (int i = 0; i < kickImages.length; i++) {
-            mKicksData.add(new KickInFeaturedList(kickNames[i], kickImages[i],kickNames[i]));
-        }
+//        String[] kickNames = mContext.getResources().getStringArray(R.array.kicks_titles);
+//        String[] kickImages = mContext.getResources().getStringArray(R.array.kicks_image_urls);
+//        mKicksData.clear();
+//
+//        for (int i = 0; i < kickImages.length; i++) {
+//            mKicksData.add(new KickInFeaturedList(kickNames[i], kickImages[i],kickNames[i]));
+//        }
 
     }
 

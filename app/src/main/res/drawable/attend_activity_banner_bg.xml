@@ -5,9 +5,9 @@
         android:color="@color/quantum_white_divider" />
 
     <gradient
-        android:startColor="@color/quantum_vanillablue50"
-        android:endColor="@color/quantum_deeporange500"
-        android:angle="270" />
+        android:startColor="@color/quantum_vanillablue100"
+        android:centerColor="@color/quantum_vanillablue50"
+        android:angle="90" />
 
     <!--    <solid android:color="@color/quantum_deeporange100" />-->
 

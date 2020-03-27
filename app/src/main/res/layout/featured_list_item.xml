@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
 
     <ImageView
         android:id="@+id/featuredKickInlistimageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/img_golf"
+        android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/featuredKickInlistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Poker"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_toEndOf="@id/featuredKickInlistimageView"
-            android:layout_alignBaseline="@id/featuredKickInlistimageView"/>
-        <TextView
-            android:id="@+id/featuredKickInlistShortDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A game Of Holdem"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_below="@id/featuredKickInlistName"
-            android:layout_toEndOf="@id/featuredKickInlistimageView"/>
+    <TextView
+        android:id="@+id/featuredKickInlistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/featuredKickInlistimageView"
+        android:layout_toEndOf="@id/featuredKickInlistimageView"
+        android:text="Poker"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textStyle="bold" />
 
-    </RelativeLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/featuredKickInlistShortDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/featuredKickInlistName"
+        android:layout_toEndOf="@id/featuredKickInlistimageView"
+        android:layout_marginStart="5dp"
+        android:maxWidth="200dp"
+        android:text="A game Of Holdem"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/featuredKickInlistimageView"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark" />
+
+</RelativeLayout>

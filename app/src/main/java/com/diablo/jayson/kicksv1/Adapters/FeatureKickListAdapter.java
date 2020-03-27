@@ -11,42 +11,42 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.Models.KickInFeaturedList;
 import com.diablo.jayson.kicksv1.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class FeatureKickListAdapter extends RecyclerView.Adapter<FeatureKickListAdapter.KickViewHolder>{
+public class FeatureKickListAdapter extends FirestoreRecyclerAdapter<KickInFeaturedList, FeatureKickListAdapter.KickViewHolder> {
 
     private Context mContext;
     private List<KickInFeaturedList> mKicksData;
 
-    public FeatureKickListAdapter(Context mContext, List<KickInFeaturedList> mKicksData) {
-        this.mContext = mContext;
-        this.mKicksData = mKicksData;
+    /**
+     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
+     * FirestoreRecyclerOptions} for configuration options.
+     *
+     * @param options
+     */
+    public FeatureKickListAdapter(@NonNull FirestoreRecyclerOptions<KickInFeaturedList> options) {
+        super(options);
     }
+
 
     @NonNull
     @Override
     public FeatureKickListAdapter.KickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FeatureKickListAdapter.KickViewHolder(LayoutInflater.from(mContext).
+        return new FeatureKickListAdapter.KickViewHolder(LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.featured_list_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeatureKickListAdapter.KickViewHolder holder, int position) {
-        KickInFeaturedList currentKick = mKicksData.get(position);
-        holder.bindTo(currentKick);
+    protected void onBindViewHolder(@NonNull KickViewHolder holder, int position, @NonNull KickInFeaturedList model) {
+        KickInFeaturedList featuredKickList = getItem(position);
+        holder.bindTo(featuredKickList);
     }
 
-
-
-    @Override
-    public int getItemCount() {
-        return mKicksData.size();
-    }
 
     class KickViewHolder extends RecyclerView.ViewHolder {
 
@@ -64,7 +64,7 @@ public class FeatureKickListAdapter extends RecyclerView.Adapter<FeatureKickList
         void bindTo(KickInFeaturedList currentKick){
             mKickName.setText(currentKick.getKickName());
             mKickShortDescription.setText(currentKick.getKickShortDescription());
-            Glide.with(mContext).load(currentKick.getKickImageUrl()).into(mKickImage);
+            Glide.with(itemView.getContext()).load(currentKick.getKickImage()).into(mKickImage);
         }
     }
 }

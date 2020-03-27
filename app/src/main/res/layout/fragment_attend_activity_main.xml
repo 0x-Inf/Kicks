@@ -23,6 +23,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/attendeesRecycler"
                         android:layout_width="match_parent"
+                        android:padding="5dp"
                         android:layout_height="70dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -38,13 +39,13 @@
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         app:cardCornerRadius="5dp"
-                        app:cardElevation="5dp">
+                        app:cardElevation="1dp">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/chatRecycler"
                             android:layout_width="match_parent"
                             android:paddingBottom="70dp"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content" />
                     </androidx.cardview.widget.CardView>
 
 
@@ -76,8 +77,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginTop="50dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     android:background="@drawable/attend_activity_banner_bg"
                     android:layout_gravity="center_vertical|center_horizontal"
@@ -187,10 +186,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="30dp"
-            android:paddingBottom="5dp"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="25dp"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@drawable/message_edit_bg">
 

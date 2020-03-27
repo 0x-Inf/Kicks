@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.diablo.jayson.kicksv1.Adapters.PagerAdapter;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +43,7 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
         PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
         ViewPager viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(1, true);
+        viewPager.setCurrentItem(0, true);
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
