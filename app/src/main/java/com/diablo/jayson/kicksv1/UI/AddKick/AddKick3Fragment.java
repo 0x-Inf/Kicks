@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +25,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -129,10 +127,6 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void updateViewModel() {
-        FirebaseFirestore.getInstance()
-                .document(activityMain.getActivityId()).collection("attendees")
-                .add(Objects.requireNonNull(FirebaseUtil.getHost()));
-
         String activityLocationName = Objects.requireNonNull(mLocationTextInput.getText()).toString();
         activityMain.setmKickLocation(activityLocationName);
         activityMain.setUploadedTime(Calendar.getInstance().getTimeInMillis());

@@ -149,8 +149,15 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                             Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople(), documentSnapshot.toObject(Tag.class).getTagCost(), documentSnapshot.toObject(Tag.class).getTagIconUrl(),
-                                                    documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(), documentSnapshot.toObject(Tag.class).getTagOptimalStartTime(), documentSnapshot.toObject(Tag.class).getTagLocationName()));
+                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
+                                                    documentSnapshot.toObject(Tag.class).getTagLocation(),
+                                                    documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(),
+                                                    documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople(),
+                                                    documentSnapshot.toObject(Tag.class).getTagCost(),
+                                                    documentSnapshot.toObject(Tag.class).getTagIconUrl(),
+                                                    documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
+                                                    documentSnapshot.toObject(Tag.class).getTagOptimalStartTime(),
+                                                    documentSnapshot.toObject(Tag.class).getTagLocationName()));
                                             for (int i = 0; i < allTags.size(); i++) {
                                                 Log.w(TAG, allTags.get(i).getTagName());
                                             }

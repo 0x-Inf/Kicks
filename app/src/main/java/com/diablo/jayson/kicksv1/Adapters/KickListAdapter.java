@@ -88,7 +88,7 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
     }
 
 
-    static class KickViewHolder extends RecyclerView.ViewHolder {
+    class KickViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mKickImage;
         private TextView mKickName;

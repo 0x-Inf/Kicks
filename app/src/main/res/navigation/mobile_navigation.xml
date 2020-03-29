@@ -27,9 +27,9 @@
 
     <fragment
         android:id="@+id/navigation_active_kicks"
-        android:name="com.diablo.jayson.kicksv1.UI.CurrentKIcks.ActiveKicksFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.CurrentKIcks.ActiveActivitiesFragment"
         android:label="Active"
-        tools:layout="@layout/fragment_active_kicks" />
+        tools:layout="@layout/fragment_active_activities" />
 
 
     <fragment

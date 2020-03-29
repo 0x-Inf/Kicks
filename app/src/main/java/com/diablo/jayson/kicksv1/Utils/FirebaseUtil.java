@@ -77,8 +77,8 @@ public class FirebaseUtil {
         User user1 = FirebaseUtil.getUser();
         assert user != null;
         return new AttendingUser(user.getDisplayName(), user.getUid(), "", "",
-                user.getEmail(), Objects.requireNonNull(user.getPhotoUrl().toString()), "", user1.getPhoneNumber(),
-                user1.isStudent());
+                user.getEmail(), Objects.requireNonNull(Objects.requireNonNull(user.getPhotoUrl()).toString()), "", "",
+                false);
     }
 
 }
