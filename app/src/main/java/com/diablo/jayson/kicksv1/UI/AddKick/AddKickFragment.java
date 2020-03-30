@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -181,8 +182,8 @@ public class AddKickFragment extends Fragment {
         List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
         mAttendees = new ArrayList<AttendingUser>();
 
-        activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), "", new Tag(), mAttendees, "");
+        activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, new GeoPoint(1, 1), kickMinRequiredPeople,
+                kickMxnRequiredPeople, "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), "", new Tag(), mAttendees, "");
 
         mLocationTextInput.setOnClickListener(v -> {
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
@@ -298,8 +299,8 @@ public class AddKickFragment extends Fragment {
             Log.e(TAG, tagsList.getClass().toString());
 
 
-            activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", tagList, Calendar.getInstance().getTimeInMillis(),
+            activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, new GeoPoint(1, 1), kickMinRequiredPeople,
+                    kickMxnRequiredPeople, "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
                     Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
                     mAttendees, "");
             db.collection("users")

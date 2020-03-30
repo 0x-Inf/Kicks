@@ -17,11 +17,13 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -35,6 +37,7 @@ public class ActiveActivitiesFragment extends Fragment {
     private static final String TAG = ActiveActivitiesFragment.class.getSimpleName();
 
     private RecyclerView activeRecycler;
+    private RecyclerView hostingRecycler;
 
     private ArrayList<Activity> activeActivities;
     private ArrayList<Activity> allActivities;
@@ -52,6 +55,7 @@ public class ActiveActivitiesFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_active_activities, container, false);
         activeRecycler = root.findViewById(R.id.activeRecyclerView);
+        hostingRecycler = root.findViewById(R.id.hostingRecyclerView);
 
 
         loadActiveActivitiesFromDb();
@@ -79,8 +83,11 @@ public class ActiveActivitiesFragment extends Fragment {
                                         snapshot.toObject(Activity.class).getKickEndTime(),
                                         snapshot.toObject(Activity.class).getkickDate(),
                                         snapshot.toObject(Activity.class).getkickLocation(),
+                                        snapshot.toObject(Activity.class).getKickLocationCordinates(),
                                         snapshot.toObject(Activity.class).getMinRequiredPeople(),
                                         snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
+                                        snapshot.toObject(Activity.class).getMinAge(),
+                                        snapshot.toObject(Activity.class).getMaxAge(),
                                         snapshot.toObject(Activity.class).getimageUrl(),
                                         snapshot.toObject(Activity.class).getTags(),
                                         snapshot.toObject(Activity.class).getUploadedTime(),
@@ -100,16 +107,6 @@ public class ActiveActivitiesFragment extends Fragment {
                             }
                             Log.e(TAG, String.valueOf(allActivities.size()));
                             FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getUserName());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getUid());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getFirstName());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getSecondName());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getUserEmail());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getPhotoUrl());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getIdNumber());
-                            Log.e(TAG, allActivities.get(7).getMattendees().get(0).getPhoneNumber());
-                            Log.e(TAG, String.valueOf(allActivities.get(0).getMattendees().get(0).isStudent()));
-
                             for (int i = 0; i < allActivities.size(); i++) {
                                 attendingUsers = new ArrayList<AttendingUser>();
                                 attendingUsers = allActivities.get(i).getMattendees();
@@ -118,8 +115,11 @@ public class ActiveActivitiesFragment extends Fragment {
                                         activeActivities.add(new Activity(allActivities.get(i).getHost(),
                                                 allActivities.get(i).getkickTitle(), allActivities.get(i).getkickTime(),
                                                 allActivities.get(i).getKickEndTime(), allActivities.get(i).getkickDate(),
-                                                allActivities.get(i).getkickLocation(), allActivities.get(i).getMinRequiredPeople(),
-                                                allActivities.get(i).getMaxRequiredPeeps(), allActivities.get(i).getimageUrl(),
+                                                allActivities.get(i).getkickLocation(), allActivities.get(i).getKickLocationCordinates(),
+                                                allActivities.get(i).getMinRequiredPeople(),
+                                                allActivities.get(i).getMaxRequiredPeeps(),
+                                                allActivities.get(i).getMinAge(), allActivities.get(i).getMaxAge(),
+                                                allActivities.get(i).getimageUrl(),
                                                 allActivities.get(i).getTags(), allActivities.get(i).getUploadedTime(),
                                                 allActivities.get(i).getUploaderId(), allActivities.get(i).getActivityId(),
                                                 allActivities.get(i).getTag(), allActivities.get(i).getMattendees(),
@@ -166,6 +166,20 @@ public class ActiveActivitiesFragment extends Fragment {
 
                     }
                 });
+
+
+        Query query = FirebaseFirestore.getInstance()
+                .collection("activities")
+                .whereEqualTo("host", FirebaseUtil.getHost());
+
+
+        FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
+                .setQuery(query, Activity.class)
+                .build();
+        HostingActivitiesAdapter hostingActivitiesAdapter = new HostingActivitiesAdapter(options);
+        hostingRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false));
+        hostingRecycler.setAdapter(hostingActivitiesAdapter);
+        hostingActivitiesAdapter.startListening();
     }
 
 }

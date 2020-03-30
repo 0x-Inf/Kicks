@@ -4,6 +4,8 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
+import com.google.firebase.firestore.GeoPoint;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +17,20 @@ public class Activity extends BaseObservable implements Serializable {
     private String kickStartTime;
     private String kickEndTime;
     private String kickDate;
-    private String kickLocation;
+    private String kickLocationName;
+    private GeoPoint kickLocationCordinates;
     private String minRequiredPeople;
     private String maxRequiredPeeps;
+    private String minAge;
+    private String maxAge;
     private String imageUrl;
     private String uploaderId;
     private String activityId;
     private String activityCost;
-    private int likes;
     private long uploadedTime;
     private List<String> tags;
     private Tag tag;
     private ArrayList<AttendingUser> mattendees;
-    private String state;
 
 
     public Activity() {
@@ -37,17 +40,22 @@ public class Activity extends BaseObservable implements Serializable {
     //Constructor for Activity data model
 
 
-    public Activity(Host host, String kicktitle, String kickStartTime, String kickEndTime, String kickdate, String kicklocation,
-                    String minrequiredpeople, String maxrequiredpeeps, String imageUrl, List<String> tags, long uploadedtime,
+    public Activity(Host host, String kicktitle, String kickStartTime, String kickEndTime, String kickdate,
+                    String kicklocationname, GeoPoint locationCordinates,
+                    String minrequiredpeople, String maxrequiredpeeps, String minage, String maxage,
+                    String imageUrl, List<String> tags, long uploadedtime,
                     String uploaderUid, String activityId, Tag tag, ArrayList<AttendingUser> mattendees,
                     String activityCost) {
         this.kickTitle = kicktitle;
         this.kickStartTime = kickStartTime;
         this.kickEndTime = kickEndTime;
         this.kickDate = kickdate;
-        this.kickLocation = kicklocation;
+        this.kickLocationName = kicklocationname;
+        this.kickLocationCordinates = locationCordinates;
         this.minRequiredPeople = minrequiredpeople;
         this.maxRequiredPeeps = maxrequiredpeeps;
+        this.minAge = minage;
+        this.maxAge = maxage;
         this.imageUrl = imageUrl;
         this.tags = tags;
         this.uploadedTime = uploadedtime;
@@ -58,6 +66,30 @@ public class Activity extends BaseObservable implements Serializable {
         this.mattendees = mattendees;
         this.activityCost = activityCost;
 
+    }
+
+    public String getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(String minAge) {
+        this.minAge = minAge;
+    }
+
+    public String getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(String maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public GeoPoint getKickLocationCordinates() {
+        return kickLocationCordinates;
+    }
+
+    public void setKickLocationCordinates(GeoPoint kickLocationCordinates) {
+        this.kickLocationCordinates = kickLocationCordinates;
     }
 
     @Bindable
@@ -79,15 +111,7 @@ public class Activity extends BaseObservable implements Serializable {
         this.mattendees = mattendees;
     }
 
-    @Bindable
-    public String getState() {
-        return state;
-    }
 
-    public void setState(String state) {
-        this.state = state;
-        notifyPropertyChanged(BR.state);
-    }
 
     @Bindable
     public Tag getTag() {
@@ -109,15 +133,7 @@ public class Activity extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR.host);
     }
 
-    @Bindable
-    public int getLikes() {
-        return likes;
-    }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
-        notifyPropertyChanged(BR.likes);
-    }
 
 
     public void setmKickTitle(String mKickTitle) {
@@ -175,7 +191,7 @@ public class Activity extends BaseObservable implements Serializable {
     }
 
     public void setmKickLocation(String mKickLocation) {
-        this.kickLocation = mKickLocation;
+        this.kickLocationName = mKickLocation;
         notifyPropertyChanged(BR.kickLocation);
     }
 
@@ -216,7 +232,7 @@ public class Activity extends BaseObservable implements Serializable {
 
     @Bindable
     public String getkickLocation() {
-        return kickLocation;
+        return kickLocationName;
     }
 
     @Bindable

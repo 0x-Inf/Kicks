@@ -33,6 +33,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -250,8 +251,10 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
         nextButton[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTagsTextInput.getText().toString().isEmpty()) {
+                if (mTagsTextInput.getText().toString().isEmpty() || selectedTags.isEmpty()) {
                     mTagsTextInput.setError("Please Pick A Tag");
+                } else if (mActivityTitleInput.getText().toString().isEmpty()) {
+                    mActivityTitleInput.setError("Please Input a Title");
                 } else {
                     updateActivityModel();
 //                viewModel.setActivity1(activityMain);
@@ -266,29 +269,6 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
             }
         });
 
-
-//        uploadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e(TAG, "Wololo");
-//
-//                db.collection("activities").add(activityMain)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.e(TAG, "DocumentSnapshot successfully written!");
-//                                Log.e(TAG, activityMain.getkickTitle());
-//                                startActivity(new Intent(getContext(), MainActivity.class));
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.w(TAG, "Error writing document", e);
-//                            }
-//                        });
-//            }
-//        });
     }
 
     private void updateActivityModel() {
@@ -308,14 +288,15 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
         String tagArray[] = tag.split(",");
 
         List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+        GeoPoint locationCod = new GeoPoint(22, 12);
 
         if (selectedTags.isEmpty()) {
-            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
+            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", locationCod, "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
                     Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
                     mAttendees, "");
             mTagsTextInput.setError("Please Pick a tag");
         } else {
-            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", selectedTags.get(0),
+            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", locationCod, "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", selectedTags.get(0),
                     mAttendees, "");
         }
         db.collection("users")

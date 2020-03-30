@@ -31,7 +31,9 @@
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme" />
-        <activity android:name=".UI.AddKick.AddKickActivity" />
+        <activity
+            android:name=".UI.AddKick.AddKickActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".UI.SignUp.SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />

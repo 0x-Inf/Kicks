@@ -1,7 +1,9 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,11 +26,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +54,11 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = AddKick3Fragment.class.getSimpleName();
     private FragmentActivity myContext;
+    private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
+
+    private LatLng tagLocation;
+    private GoogleMap googleMap;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -98,10 +116,12 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
         FloatingActionButton nextButton = view.findViewById(R.id.nextCreateActivityFab);
         LinearLayout thirdContent = view.findViewById(R.id.locationAndTimeContent);
         // Initialize the SDK
-        Places.initialize(getActivity().getApplicationContext(), "AIzaSyDSiR_IHNqTBXhKXuEBWlkftFF_jLO8rBU");
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
+//        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+
+
 
         viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
@@ -128,6 +148,8 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
 
     private void updateViewModel() {
         String activityLocationName = Objects.requireNonNull(mLocationTextInput.getText()).toString();
+        GeoPoint activityLocationCordinates = activityMain.getTag().getTagLocation();
+        activityMain.setKickLocationCordinates(activityLocationCordinates);
         activityMain.setmKickLocation(activityLocationName);
         activityMain.setUploadedTime(Calendar.getInstance().getTimeInMillis());
         activityMain.setmKickTime(Objects.requireNonNull(mTimeTextInput.getText()).toString());
@@ -145,25 +167,63 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
         mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
 
         // Initialize the SDK
-        Places.initialize(getActivity().getApplicationContext(), "AIzaSyDSiR_IHNqTBXhKXuEBWlkftFF_jLO8rBU");
+        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        mLocationTextInput.setOnClickListener(v -> {
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+            // Start the autocomplete intent.
+            Intent intent = new Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.OVERLAY, fields)
+                    .build(Objects.requireNonNull(getContext()));
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        });
 
         return root;
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                mLocationTextInput.setText(String.format("%s", place.getName()));
+                tagLocation = place.getLatLng();
+                activityMain.setKickLocationCordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15));
+                googleMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName()));
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                assert data != null;
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.e(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        tagLocation = new LatLng(activityMain.getTag().getTagLocation().getLatitude(), activityMain.getTag().getTagLocation().getLongitude());
+        googleMap.addMarker(new MarkerOptions().position(tagLocation)
+                .title(activityMain.getTag().getTagLocationName()));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tagLocation, 15));
+//        googleMap.addMarker(new MarkerOptions().position(activityLocation)
+//                .title("Marker in Sydney"));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 20));
 
         viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                LatLng tagLocation = new LatLng(activity.getTag().getTagLocation().getLatitude(), activity.getTag().getTagLocation().getLongitude());
-                googleMap.addMarker(new MarkerOptions().position(tagLocation)
-                        .title("Marker in Sydney"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tagLocation, 12));
+
             }
         });
     }

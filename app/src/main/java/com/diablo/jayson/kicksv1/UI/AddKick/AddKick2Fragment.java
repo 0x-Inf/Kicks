@@ -5,8 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +37,9 @@ public class AddKick2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextInputEditText minNoPeople, maxNoPeople, costEditText;
+    private TextInputEditText minNoPeople, maxNoPeople, costEditText, minAge, maxAge;
     private FloatingActionButton nextButton;
+    private AutoCompleteTextView ageTextView;
 
     private AddKickViewModel viewModel;
 
@@ -71,9 +72,10 @@ public class AddKick2Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         minNoPeople = view.findViewById(R.id.minPeopleInputEditText);
         maxNoPeople = view.findViewById(R.id.maxPeopleEditText);
+//        minAge = view.findViewById(R.id.minAgeInputEditText);
+//        maxAge = view.findViewById(R.id.maxAgeInputEditText);
         LinearLayout secondContent = view.findViewById(R.id.addNoOfPeopleFragContent);
         FloatingActionButton nextFragment = view.findViewById(R.id.nextCreateActivityFab);
-        Toast.makeText(getContext(), costEditText.getText().toString(), Toast.LENGTH_LONG).show();
         viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
@@ -133,6 +135,7 @@ public class AddKick2Fragment extends Fragment {
         maxNoPeople = root.findViewById(R.id.maxPeopleEditText);
         costEditText = root.findViewById(R.id.costInputEditText);
         nextButton = root.findViewById(R.id.nextCreateActivityFab);
+
         return root;
     }
 
