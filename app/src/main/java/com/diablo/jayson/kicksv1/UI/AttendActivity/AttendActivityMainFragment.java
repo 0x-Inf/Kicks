@@ -135,7 +135,7 @@ public class AttendActivityMainFragment extends Fragment {
         viewModel.getActivityData().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activity.getkickTitle());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activity.getKickTitle());
             }
         });
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
@@ -352,11 +352,11 @@ public class AttendActivityMainFragment extends Fragment {
             public void onChanged(Activity activity) {
                 activityMain = activity;
                 Glide.with(getContext())
-                        .load(activityMain.getimageUrl())
+                        .load(activityMain.getImageUrl())
                         .into(activityImage);
 //                textView.setText(activityMain.getkickTitle());
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activityMain.getkickTitle());
-                title.setText(activityMain.getkickTitle());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(activityMain.getKickTitle());
+                title.setText(activityMain.getKickTitle());
 
 //                loadAttendeesFromDb();
             }

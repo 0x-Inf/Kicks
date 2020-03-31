@@ -75,6 +75,8 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         private TextView mMaxPeopleText;
         private TextView mUploaderName;
         private TextView activityTag;
+        private TextView peopleAgeText;
+        private TextView activityCostText;
         private TextView mNoOfLikes;
         private boolean liked = false;
         private ImageView mKickImage, mUploaderPic, mLikeIcon;
@@ -96,25 +98,30 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             mUploaderPic = itemView.findViewById(R.id.hostPicImageView);
             mKickImage = itemView.findViewById(R.id.activityImageView);
             activityTag = itemView.findViewById(R.id.activityTagTextView);
-
+            peopleAgeText = itemView.findViewById(R.id.activityPeopleAgeTextView);
+            activityCostText = itemView.findViewById(R.id.activityCostTextView);
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
-            mKickTitleText.setText(currentActivity.getkickTitle());
-            mKickStartTimeText.setText(currentActivity.getkickTime());
-            mKickEndTimeText.setText(currentActivity.getkickTime());
-            mKickDateText.setText(currentActivity.getkickDate());
-            mKickLocationText.setText(currentActivity.getkickLocation());
+
+            String ageText = " (" + currentActivity.getMinAge() + " - " + currentActivity.getMaxAge() + " Y/o)";
+            mKickTitleText.setText(currentActivity.getKickTitle());
+            mKickStartTimeText.setText(currentActivity.getKickStartTime());
+            mKickEndTimeText.setText(currentActivity.getKickEndTime());
+            mKickDateText.setText(currentActivity.getKickDate());
+            mKickLocationText.setText(currentActivity.getKickLocationName());
             mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
             mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
             mUploaderName.setText(currentActivity.getUploaderId());
-            activityTag.setText(currentActivity.getTags().get(0));
+            activityTag.setText(currentActivity.getTag().getTagName());
+            peopleAgeText.setText(ageText);
+            activityCostText.setText(currentActivity.getActivityCost());
             Glide.with(itemView.getContext())
                     .load(currentActivity.getHost().getHostPic())
                     .apply(RequestOptions.circleCropTransform())
                     .into(mUploaderPic);
 
-            Glide.with(itemView.getContext()).load(currentActivity.getimageUrl())
+            Glide.with(itemView.getContext()).load(currentActivity.getImageUrl())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))
                     .into(mKickImage);
 

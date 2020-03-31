@@ -64,15 +64,15 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
         void bindTo(Activity availableActivity, OnAvailableActivitySelected listener) {
 
             String noOfPeople = availableActivity.getMinRequiredPeople() + "-" + availableActivity.getMaxRequiredPeeps() + " People";
-            String dateTimeText = availableActivity.getkickTime() + " - " + availableActivity.getKickEndTime() + "  " + availableActivity.getkickDate();
+            String dateTimeText = availableActivity.getKickStartTime() + " - " + availableActivity.getKickEndTime() + "  " + availableActivity.getKickDate();
             Glide.with(itemView.getContext())
-                    .load(availableActivity.getimageUrl())
+                    .load(availableActivity.getImageUrl())
                     .into(availableActivityImage);
 
-            availableActivityTitle.setText(availableActivity.getkickTitle());
+            availableActivityTitle.setText(availableActivity.getKickTitle());
             availableActivityCost.setText(availableActivity.getActivityCost());
             availableActivityNoOfPeople.setText(noOfPeople);
-            availableActivityLocation.setText(availableActivity.getkickLocation());
+            availableActivityLocation.setText(availableActivity.getKickLocationName());
             availableActivityDateTime.setText(dateTimeText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

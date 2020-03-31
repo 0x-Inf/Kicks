@@ -50,7 +50,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.UserProfile.ProfileActivity" />
-        <activity android:name=".UI.Search.SearchActivity" />
+        <activity android:name=".UI.Search.SearchableActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name=".UI.LoginActivity" />
         <activity
             android:name=".MainActivity"
@@ -62,6 +69,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- enable the search dialog to send searches to SearchableActivity -->
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.diablo.jayson.kicksv1.UI.Search.SearchableActivity" />
         </activity>
 
         <provider

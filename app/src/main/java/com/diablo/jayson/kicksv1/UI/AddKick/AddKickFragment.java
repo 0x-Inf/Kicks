@@ -322,7 +322,7 @@ public class AddKickFragment extends Fragment {
                 }
             });
             mViewModel.setActivity1(activityMain);
-            Log.e(TAG, activityMain.getkickTitle());
+            Log.e(TAG, activityMain.getKickTitle());
         }
 
 

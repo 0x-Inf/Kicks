@@ -58,8 +58,8 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
         }
 
         void bindTo(Activity activeActivity) {
-            activityTitle.setText(activeActivity.getkickTitle());
-            Glide.with(itemView.getContext()).load(activeActivity.getimageUrl())
+            activityTitle.setText(activeActivity.getKickTitle());
+            Glide.with(itemView.getContext()).load(activeActivity.getImageUrl())
                     .into(activityImage);
         }
     }

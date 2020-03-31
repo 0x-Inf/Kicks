@@ -1,8 +1,6 @@
 package com.diablo.jayson.kicksv1.Models;
 
 import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
 import com.google.firebase.firestore.GeoPoint;
 
@@ -68,6 +66,78 @@ public class Activity extends BaseObservable implements Serializable {
 
     }
 
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
+    }
+
+    public String getKickTitle() {
+        return kickTitle;
+    }
+
+    public void setKickTitle(String kickTitle) {
+        this.kickTitle = kickTitle;
+    }
+
+    public String getKickStartTime() {
+        return kickStartTime;
+    }
+
+    public void setKickStartTime(String kickStartTime) {
+        this.kickStartTime = kickStartTime;
+    }
+
+    public String getKickEndTime() {
+        return kickEndTime;
+    }
+
+    public void setKickEndTime(String kickEndTime) {
+        this.kickEndTime = kickEndTime;
+    }
+
+    public String getKickDate() {
+        return kickDate;
+    }
+
+    public void setKickDate(String kickDate) {
+        this.kickDate = kickDate;
+    }
+
+    public String getKickLocationName() {
+        return kickLocationName;
+    }
+
+    public void setKickLocationName(String kickLocationName) {
+        this.kickLocationName = kickLocationName;
+    }
+
+    public GeoPoint getKickLocationCordinates() {
+        return kickLocationCordinates;
+    }
+
+    public void setKickLocationCordinates(GeoPoint kickLocationCordinates) {
+        this.kickLocationCordinates = kickLocationCordinates;
+    }
+
+    public String getMinRequiredPeople() {
+        return minRequiredPeople;
+    }
+
+    public void setMinRequiredPeople(String minRequiredPeople) {
+        this.minRequiredPeople = minRequiredPeople;
+    }
+
+    public String getMaxRequiredPeeps() {
+        return maxRequiredPeeps;
+    }
+
+    public void setMaxRequiredPeeps(String maxRequiredPeeps) {
+        this.maxRequiredPeeps = maxRequiredPeeps;
+    }
+
     public String getMinAge() {
         return minAge;
     }
@@ -84,36 +154,54 @@ public class Activity extends BaseObservable implements Serializable {
         this.maxAge = maxAge;
     }
 
-    public GeoPoint getKickLocationCordinates() {
-        return kickLocationCordinates;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setKickLocationCordinates(GeoPoint kickLocationCordinates) {
-        this.kickLocationCordinates = kickLocationCordinates;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    @Bindable
+    public String getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
     public String getActivityCost() {
         return activityCost;
     }
 
     public void setActivityCost(String activityCost) {
         this.activityCost = activityCost;
-        notifyPropertyChanged(BR.activityCost);
     }
 
-    @Bindable
-    public ArrayList<AttendingUser> getMattendees() {
-        return mattendees;
+    public long getUploadedTime() {
+        return uploadedTime;
     }
 
-    public void setMattendees(ArrayList<AttendingUser> mattendees) {
-        this.mattendees = mattendees;
+    public void setUploadedTime(long uploadedTime) {
+        this.uploadedTime = uploadedTime;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
 
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-    @Bindable
     public Tag getTag() {
         return tag;
     }
@@ -122,136 +210,11 @@ public class Activity extends BaseObservable implements Serializable {
         this.tag = tag;
     }
 
-
-    @Bindable
-    public Host getHost() {
-        return host;
+    public ArrayList<AttendingUser> getMattendees() {
+        return mattendees;
     }
 
-    public void setHost(Host host) {
-        this.host = host;
-        notifyPropertyChanged(BR.host);
-    }
-
-
-
-
-    public void setmKickTitle(String mKickTitle) {
-        this.kickTitle = mKickTitle;
-        notifyPropertyChanged(BR.kickTitle);
-    }
-
-    public void setmKickTime(String mKickStartTime) {
-        this.kickStartTime = mKickStartTime;
-        notifyPropertyChanged(BR.kickTime);
-    }
-
-    @Bindable
-    public String getKickEndTime() {
-        return kickEndTime;
-    }
-
-    public void setKickEndTime(String kickEndTime) {
-        this.kickEndTime = kickEndTime;
-    }
-
-    @Bindable
-    public String getUploaderId() {
-        return uploaderId;
-    }
-
-    public void setUploaderId(String uploaderId) {
-        this.uploaderId = uploaderId;
-        notifyPropertyChanged(BR.uploaderId);
-    }
-
-    @Bindable
-    public String getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
-        notifyPropertyChanged(BR.activityId);
-    }
-
-    @Bindable
-    public long getUploadedTime() {
-        return uploadedTime;
-    }
-
-    public void setUploadedTime(long uploadedTime) {
-        this.uploadedTime = uploadedTime;
-        notifyPropertyChanged(BR.uploadedTime);
-    }
-
-    public void setmKickDate(String mKickDate) {
-        this.kickDate = mKickDate;
-        notifyPropertyChanged(BR.kickDate);
-    }
-
-    public void setmKickLocation(String mKickLocation) {
-        this.kickLocationName = mKickLocation;
-        notifyPropertyChanged(BR.kickLocation);
-    }
-
-    public void setMinRequiredPeople(String minRequiredPeople) {
-        this.minRequiredPeople = minRequiredPeople;
-        notifyPropertyChanged(BR.minRequiredPeople);
-    }
-
-    public void setMaxRequiredPeeps(String maxRequiredPeeps) {
-        this.maxRequiredPeeps = maxRequiredPeeps;
-        notifyPropertyChanged(BR.maxRequiredPeeps);
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-        notifyPropertyChanged(BR.tags);
-    }
-
-    public void setmImageUrl(String mImageUrl) {
-        this.imageUrl = mImageUrl;
-        notifyPropertyChanged(BR.imageUrl);
-    }
-
-    @Bindable
-    public String getkickTitle() {
-        return kickTitle;
-    }
-
-    @Bindable
-    public String getkickTime() {
-        return kickStartTime;
-    }
-
-    @Bindable
-    public String getkickDate() {
-        return kickDate;
-    }
-
-    @Bindable
-    public String getkickLocation() {
-        return kickLocationName;
-    }
-
-    @Bindable
-    public String getimageUrl() {
-        return imageUrl;
-    }
-
-    @Bindable
-    public String getMaxRequiredPeeps() {
-        return maxRequiredPeeps;
-    }
-
-    @Bindable
-    public String getMinRequiredPeople() {
-        return minRequiredPeople;
-    }
-
-    @Bindable
-    public List<String> getTags() {
-        return tags;
+    public void setMattendees(ArrayList<AttendingUser> mattendees) {
+        this.mattendees = mattendees;
     }
 }

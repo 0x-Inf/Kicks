@@ -81,8 +81,8 @@ public class AddKickConfirmFragment extends Fragment {
             public void onChanged(Activity activity) {
                 activityMain = activity;
                 hostName.setText(activity.getUploaderId());
-                activityTimeAndDate.setText(activity.getkickTime() + " - " + activity.getKickEndTime() + " " + activity.getkickDate());
-                activityLocation.setText(activity.getkickLocation());
+                activityTimeAndDate.setText(activity.getKickStartTime() + " - " + activity.getKickEndTime() + " " + activity.getKickDate());
+                activityLocation.setText(activity.getKickLocationName());
                 activityPeopleAndCost.setText(activity.getTag().getTagCost() + " Per Person (" + activity.getMinRequiredPeople() + " - " + activity.getMaxRequiredPeeps() + ") People");
             }
         });

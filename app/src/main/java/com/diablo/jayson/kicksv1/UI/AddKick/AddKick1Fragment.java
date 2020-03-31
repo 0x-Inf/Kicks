@@ -313,7 +313,7 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
             }
         });
         viewModel.setActivity1(activityMain);
-        Log.e(TAG, activityMain.getkickTitle());
+        Log.e(TAG, activityMain.getKickTitle());
     }
 
     public void updateActivity() {

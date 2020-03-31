@@ -84,6 +84,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision-face-model:19.0.0'
     implementation 'com.google.firebase:firebase-ml-model-interpreter:22.0.1'
 
+    //algolia search
+    implementation 'com.algolia:algoliasearch-android:3.+'
+    // This will automatically update to the latest v3 release when you build your project
+
 
     annotationProcessor 'androidx.databinding:databinding-compiler:3.6.1'
     implementation "androidx.core:core-ktx:+"

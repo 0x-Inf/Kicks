@@ -56,9 +56,9 @@ public class HostingActivitiesAdapter extends FirestoreRecyclerAdapter<Activity,
         }
 
         void bindTo(Activity hostingActivity) {
-            hostingActivityTitle.setText(hostingActivity.getkickTitle());
+            hostingActivityTitle.setText(hostingActivity.getKickTitle());
             Glide.with(itemView.getContext())
-                    .load(hostingActivity.getimageUrl())
+                    .load(hostingActivity.getImageUrl())
                     .into(hostingActivityImage);
         }
 

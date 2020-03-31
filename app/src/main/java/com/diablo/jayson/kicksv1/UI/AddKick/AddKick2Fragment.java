@@ -105,14 +105,14 @@ public class AddKick2Fragment extends Fragment {
 
         String minNoOfPeople = Objects.requireNonNull(minNoPeople.getText()).toString();
         String maxNoOfPeople = Objects.requireNonNull(maxNoPeople.getText()).toString();
-        String costOfTag = Objects.requireNonNull(costEditText.getText()).toString();
+        String costOfActivity = Objects.requireNonNull(costEditText.getText()).toString();
         String maxAge = maxAgeEditText.getText().toString();
         String minAge = minAgeEditText.getText().toString();
         activityMain.setMinAge(minAge);
         activityMain.setMaxAge(maxAge);
         activityMain.setMinRequiredPeople(minNoOfPeople);
         activityMain.setMaxRequiredPeeps(maxNoOfPeople);
-        activityMain.getTag().setTagCost(costOfTag);
+        activityMain.setActivityCost(costOfActivity);
 
         viewModel.setActivity1(activityMain);
         Log.e(TAG, activityMain.getMinRequiredPeople());
