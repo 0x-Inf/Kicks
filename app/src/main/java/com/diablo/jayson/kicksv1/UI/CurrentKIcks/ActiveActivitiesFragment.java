@@ -157,7 +157,6 @@ public class ActiveActivitiesFragment extends Fragment {
 //                                }
 //
 //                            }
-                            Log.e(TAG, String.valueOf(allActivities.get(7).getMattendees()));
                             Log.e(TAG, String.valueOf(activeActivities.size()));
                             ActiveActivitiesAdapter activeActivitiesAdapter = new ActiveActivitiesAdapter(getContext(), activeActivities);
                             activeRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false));

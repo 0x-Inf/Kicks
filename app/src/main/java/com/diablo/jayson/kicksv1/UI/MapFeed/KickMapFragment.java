@@ -19,9 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -45,7 +50,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class KickMapFragment extends Fragment implements OnMapReadyCallback {
+public class KickMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private static final String TAG = KickMapFragment.class.getSimpleName();
@@ -156,6 +161,8 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        enableLocation();
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -173,44 +180,66 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("activities")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getkickTitle(),
-                                        snapshot.toObject(Activity.class).getkickTime(),
-                                        snapshot.toObject(Activity.class).getKickEndTime(),
-                                        snapshot.toObject(Activity.class).getkickDate(),
-                                        snapshot.toObject(Activity.class).getkickLocation(),
-                                        snapshot.toObject(Activity.class).getKickLocationCordinates(),
-                                        snapshot.toObject(Activity.class).getMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
-                                        snapshot.toObject(Activity.class).getMinAge(),
-                                        snapshot.toObject(Activity.class).getMaxAge(),
-                                        snapshot.toObject(Activity.class).getimageUrl(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getUploadedTime(),
-                                        snapshot.toObject(Activity.class).getUploaderId(),
-                                        snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getTag(),
-                                        snapshot.toObject(Activity.class).getMattendees(),
-                                        snapshot.toObject(Activity.class).getActivityCost()));
-                            }
-                            mMap = googleMap;
-                            Log.e(TAG, String.valueOf(allActivities.get(0).getKickLocationCordinates()));
-                            for (int i = 0; i < allActivities.size(); i++) {
-                                Marker = mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(allActivities.get(i).getKickLocationCordinates().getLatitude(), allActivities.get(i).getKickLocationCordinates().getLongitude()))
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                        .title(allActivities.get(i).getTag().getTagName()));
-                                Marker.setTag(allActivities.get(i).getActivityId());
-                            }
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                            allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
+                                    snapshot.toObject(Activity.class).getkickTitle(),
+                                    snapshot.toObject(Activity.class).getkickTime(),
+                                    snapshot.toObject(Activity.class).getKickEndTime(),
+                                    snapshot.toObject(Activity.class).getkickDate(),
+                                    snapshot.toObject(Activity.class).getkickLocation(),
+                                    snapshot.toObject(Activity.class).getKickLocationCordinates(),
+                                    snapshot.toObject(Activity.class).getMinRequiredPeople(),
+                                    snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
+                                    snapshot.toObject(Activity.class).getMinAge(),
+                                    snapshot.toObject(Activity.class).getMaxAge(),
+                                    snapshot.toObject(Activity.class).getimageUrl(),
+                                    snapshot.toObject(Activity.class).getTags(),
+                                    snapshot.toObject(Activity.class).getUploadedTime(),
+                                    snapshot.toObject(Activity.class).getUploaderId(),
+                                    snapshot.toObject(Activity.class).getActivityId(),
+                                    snapshot.toObject(Activity.class).getTag(),
+                                    snapshot.toObject(Activity.class).getMattendees(),
+                                    snapshot.toObject(Activity.class).getActivityCost()));
                         }
+                        mMap = googleMap;
+                        mFusedLocationClient.getLastLocation().addOnSuccessListener(
+                                new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
+                                        if (location != null) {
+                                            mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12));
+                                        } else {
+                                            Toast.makeText(getActivity(), "Location Not Found", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                        );
+                        Log.e(TAG, String.valueOf(allActivities.get(0).getKickLocationCordinates()));
+                        for (int i = 0; i < allActivities.size(); i++) {
+
+
+                            Marker marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(allActivities.get(i).getKickLocationCordinates().getLatitude(), allActivities.get(i).getKickLocationCordinates().getLongitude()))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                    .title(allActivities.get(i).getTag().getTagName()));
+                            marker.setTag(allActivities.get(i).getActivityId());
+                            Glide.with(getContext())
+                                    .asBitmap()
+                                    .load(allActivities.get(i).getTag().getTagIconUrl())
+                                    .into(new SimpleTarget<Bitmap>(20, 20) {
+                                        @Override
+                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                            marker.setIcon(BitmapDescriptorFactory.fromBitmap(resource));
+                                        }
+                                    });
+                        }
+                        mMap.setOnMarkerClickListener(this::onMarkerClick);
 
                     }
+
                 });
 
 
@@ -221,45 +250,14 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback {
 //            Marker.setTag(activity.getActivityId());
 //        }
 
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-//        mFusedLocationClient.getLastLocation().addOnSuccessListener(
-//                new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        if (location != null) {
-//                            mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                            mMap.addMarker(new MarkerOptions().position(mCurrentLocation).title("You Were/Are Here"));
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 4));
-//                        } else {
-//                            Toast.makeText(getActivity(), "Location Not Found", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }
-//        );
-
-
-//        enableLocation();
 
     }
 
-
-    public static Bitmap getBitmapFromURl(String urlsrc) {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-
-
-        try {
-            URL url = new URL(urlsrc);
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            return image;
-        } catch (IOException e) {
-            System.out.println(e);
-            return null;
-        }
+    @Override
+    public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+        String activityId = marker.getTag().toString();
+        Toast.makeText(getContext(), activityId, Toast.LENGTH_LONG).show();
+        return false;
     }
 
 

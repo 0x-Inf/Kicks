@@ -63,8 +63,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("activities").document();
         Query query = FirebaseFirestore.getInstance()
-                .collection("activities")
-                .whereGreaterThan("imageUrl", "");
+                .collection("activities");
 
 
         FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()

@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
@@ -119,7 +117,6 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
         startTimePickerInput = view.findViewById(R.id.start_time_picker_input);
         endTimePickerInput = view.findViewById(R.id.end_time_picker_input);
         FloatingActionButton nextButton = view.findViewById(R.id.nextCreateActivityFab);
-        LinearLayout thirdContent = view.findViewById(R.id.locationAndTimeContent);
         // Initialize the SDK
 //        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
 //        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
@@ -127,35 +124,28 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
 //        mapFragment.getMapAsync(this);
 
 
-
-        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
-            @Override
-            public void onChanged(Activity activity) {
-                activityMain = activity;
-                mLocationTextInput.setText(String.valueOf(activity.getTag().getTagLocationName()));
-                startTimePickerInput.setText(activity.getTag().getTagOptimalStartTime());
-            }
+        viewModel.getActivity1().observe(requireActivity(), activity -> {
+            activityMain = activity;
+            mLocationTextInput.setText(String.valueOf(activity.getTag().getTagLocationName()));
+            startTimePickerInput.setText(activity.getTag().getTagOptimalStartTime());
         });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateViewModel();
-                AddKickConfirmFragment confirmFragment = new AddKickConfirmFragment();
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayoutbase, confirmFragment, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
+        nextButton.setOnClickListener(v -> {
+            updateViewModel();
+            AddKickConfirmFragment confirmFragment = new AddKickConfirmFragment();
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.framelayoutbase, confirmFragment, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
 //                thirdContent.setVisibility(View.INVISIBLE);
-            }
         });
     }
 
     private void updateViewModel() {
         String activityLocationName = Objects.requireNonNull(mLocationTextInput.getText()).toString();
-        String activityDate = mDateTextInput.getText().toString();
-        String startTime = startTimePickerInput.getText().toString();
-        String endTime = endTimePickerInput.getText().toString();
+        String activityDate = Objects.requireNonNull(mDateTextInput.getText()).toString();
+        String startTime = Objects.requireNonNull(startTimePickerInput.getText()).toString();
+        String endTime = Objects.requireNonNull(endTimePickerInput.getText()).toString();
         activityMain.setmKickDate(activityDate);
         activityMain.setmKickTime(startTime);
         activityMain.setKickEndTime(endTime);
@@ -191,24 +181,9 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
                     .build(Objects.requireNonNull(getContext()));
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
-        startTimePickerInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStartTimePicker();
-            }
-        });
-        endTimePickerInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEndTimePicker();
-            }
-        });
-        mDateTextInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker();
-            }
-        });
+        startTimePickerInput.setOnClickListener(v -> showStartTimePicker());
+        endTimePickerInput.setOnClickListener(v -> showEndTimePicker());
+        mDateTextInput.setOnClickListener(v -> showDatePicker());
 
         return root;
     }
@@ -237,48 +212,24 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void showDatePicker() {
+    private void showDatePicker() {
         DialogFragment newFragment = new DatePickerFragment(mDateTextInput);
 //        newFragment.setTargetFragment(AddKick3Fragment.this,DATE_REQUEST_CODE);
         newFragment.show(getChildFragmentManager(), "datePicker");
     }
 
-    public void processDatePickerResult(int year, int month, int day) {
-        String month_string = Integer.toString(month + 1);
-        String day_string = Integer.toString(day);
-        String year_string = Integer.toString(year);
-        String dateMessage = (day_string +
-                "/" + month_string + "/" + year_string);
-        mDateTextInput.setText(dateMessage);
-    }
 
-    public void showStartTimePicker() {
+    private void showStartTimePicker() {
         DialogFragment newFragment = new TimePickerFragment(startTimePickerInput);
         newFragment.show(getChildFragmentManager(), "starttimePicker");
     }
 
-    public void processStartTimePickerResult(int hour, int minute) {
-        String hour_string = Integer.toString(hour);
-        String minute_string = Integer.toString(minute);
-        String timeMessage = (hour_string + ":" + minute_string);
-        startTimePickerInput.setText(timeMessage);
-        Log.e(TAG, timeMessage);
 
-    }
-
-    public void showEndTimePicker() {
+    private void showEndTimePicker() {
         DialogFragment newFragment = new TimePickerFragment(endTimePickerInput);
         newFragment.show(getChildFragmentManager(), "endtimePicker");
     }
 
-    public void processEndTimePickerResult(int hour, int minute) {
-        String hour_string = Integer.toString(hour);
-        String minute_string = Integer.toString(minute);
-        String timeMessage = (hour_string + ":" + minute_string);
-        endTimePickerInput.setText(timeMessage);
-        Log.e(TAG, timeMessage);
-
-    }
 
 
     @Override
@@ -292,11 +243,8 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
 //                .title("Marker in Sydney"));
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 20));
 
-        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
-            @Override
-            public void onChanged(Activity activity) {
+        viewModel.getActivity1().observe(requireActivity(), activity -> {
 
-            }
         });
     }
 }
