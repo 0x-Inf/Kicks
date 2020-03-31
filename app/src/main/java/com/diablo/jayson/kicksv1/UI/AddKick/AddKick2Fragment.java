@@ -37,7 +37,7 @@ public class AddKick2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextInputEditText minNoPeople, maxNoPeople, costEditText, minAge, maxAge;
+    private TextInputEditText minNoPeople, maxNoPeople, costEditText, minAgeEditText, maxAgeEditText;
     private FloatingActionButton nextButton;
     private AutoCompleteTextView ageTextView;
 
@@ -72,8 +72,8 @@ public class AddKick2Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         minNoPeople = view.findViewById(R.id.minPeopleInputEditText);
         maxNoPeople = view.findViewById(R.id.maxPeopleEditText);
-//        minAge = view.findViewById(R.id.minAgeInputEditText);
-//        maxAge = view.findViewById(R.id.maxAgeInputEditText);
+        minAgeEditText = view.findViewById(R.id.minAgeInputEditText);
+        maxAgeEditText = view.findViewById(R.id.maxAgeInputEditText);
         LinearLayout secondContent = view.findViewById(R.id.addNoOfPeopleFragContent);
         FloatingActionButton nextFragment = view.findViewById(R.id.nextCreateActivityFab);
         viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
@@ -106,7 +106,10 @@ public class AddKick2Fragment extends Fragment {
         String minNoOfPeople = Objects.requireNonNull(minNoPeople.getText()).toString();
         String maxNoOfPeople = Objects.requireNonNull(maxNoPeople.getText()).toString();
         String costOfTag = Objects.requireNonNull(costEditText.getText()).toString();
-
+        String maxAge = maxAgeEditText.getText().toString();
+        String minAge = minAgeEditText.getText().toString();
+        activityMain.setMinAge(minAge);
+        activityMain.setMaxAge(maxAge);
         activityMain.setMinRequiredPeople(minNoOfPeople);
         activityMain.setMaxRequiredPeeps(maxNoOfPeople);
         activityMain.getTag().setTagCost(costOfTag);
@@ -133,6 +136,8 @@ public class AddKick2Fragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_add_kick2, container, false);
         minNoPeople = root.findViewById(R.id.minPeopleInputEditText);
         maxNoPeople = root.findViewById(R.id.maxPeopleEditText);
+        minAgeEditText = root.findViewById(R.id.minAgeInputEditText);
+        maxAgeEditText = root.findViewById(R.id.maxAgeInputEditText);
         costEditText = root.findViewById(R.id.costInputEditText);
         nextButton = root.findViewById(R.id.nextCreateActivityFab);
 

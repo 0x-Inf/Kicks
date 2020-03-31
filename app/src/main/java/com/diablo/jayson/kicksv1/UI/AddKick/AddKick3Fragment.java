@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
@@ -55,9 +56,12 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = AddKick3Fragment.class.getSimpleName();
     private FragmentActivity myContext;
     private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    private final static int DATE_REQUEST_CODE = 10;
 
     private LatLng tagLocation;
     private GoogleMap googleMap;
+
+    private TextInputEditText startTimePickerInput, endTimePickerInput;
 
 
     @Override
@@ -112,7 +116,8 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mLocationTextInput = view.findViewById(R.id.ActivityPLaceEditText);
-        mTimeTextInput = view.findViewById(R.id.time_picker_input);
+        startTimePickerInput = view.findViewById(R.id.start_time_picker_input);
+        endTimePickerInput = view.findViewById(R.id.end_time_picker_input);
         FloatingActionButton nextButton = view.findViewById(R.id.nextCreateActivityFab);
         LinearLayout thirdContent = view.findViewById(R.id.locationAndTimeContent);
         // Initialize the SDK
@@ -128,7 +133,7 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
             public void onChanged(Activity activity) {
                 activityMain = activity;
                 mLocationTextInput.setText(String.valueOf(activity.getTag().getTagLocationName()));
-                mTimeTextInput.setText(activity.getTag().getTagOptimalStartTime());
+                startTimePickerInput.setText(activity.getTag().getTagOptimalStartTime());
             }
         });
 
@@ -141,18 +146,22 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
                         .replace(R.id.framelayoutbase, confirmFragment, "findThisFragment")
                         .addToBackStack(null)
                         .commit();
-                thirdContent.setVisibility(View.INVISIBLE);
+//                thirdContent.setVisibility(View.INVISIBLE);
             }
         });
     }
 
     private void updateViewModel() {
         String activityLocationName = Objects.requireNonNull(mLocationTextInput.getText()).toString();
-        GeoPoint activityLocationCordinates = activityMain.getTag().getTagLocation();
-        activityMain.setKickLocationCordinates(activityLocationCordinates);
+        String activityDate = mDateTextInput.getText().toString();
+        String startTime = startTimePickerInput.getText().toString();
+        String endTime = endTimePickerInput.getText().toString();
+        activityMain.setmKickDate(activityDate);
+        activityMain.setmKickTime(startTime);
+        activityMain.setKickEndTime(endTime);
         activityMain.setmKickLocation(activityLocationName);
         activityMain.setUploadedTime(Calendar.getInstance().getTimeInMillis());
-        activityMain.setmKickTime(Objects.requireNonNull(mTimeTextInput.getText()).toString());
+
         activityMain.setmKickDate(Objects.requireNonNull(mDateTextInput.getText()).toString());
         viewModel.setActivity1(activityMain);
     }
@@ -162,7 +171,8 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_add_kick3, container, false);
-        mTimeTextInput = root.findViewById(R.id.time_picker_input);
+        startTimePickerInput = root.findViewById(R.id.start_time_picker_input);
+        endTimePickerInput = root.findViewById(R.id.end_time_picker_input);
         mDateTextInput = root.findViewById(R.id.date_picker_input);
         mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
 
@@ -180,6 +190,24 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
                     AutocompleteActivityMode.OVERLAY, fields)
                     .build(Objects.requireNonNull(getContext()));
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        });
+        startTimePickerInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStartTimePicker();
+            }
+        });
+        endTimePickerInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndTimePicker();
+            }
+        });
+        mDateTextInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
         });
 
         return root;
@@ -208,6 +236,50 @@ public class AddKick3Fragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
+
+    public void showDatePicker() {
+        DialogFragment newFragment = new DatePickerFragment(mDateTextInput);
+//        newFragment.setTargetFragment(AddKick3Fragment.this,DATE_REQUEST_CODE);
+        newFragment.show(getChildFragmentManager(), "datePicker");
+    }
+
+    public void processDatePickerResult(int year, int month, int day) {
+        String month_string = Integer.toString(month + 1);
+        String day_string = Integer.toString(day);
+        String year_string = Integer.toString(year);
+        String dateMessage = (day_string +
+                "/" + month_string + "/" + year_string);
+        mDateTextInput.setText(dateMessage);
+    }
+
+    public void showStartTimePicker() {
+        DialogFragment newFragment = new TimePickerFragment(startTimePickerInput);
+        newFragment.show(getChildFragmentManager(), "starttimePicker");
+    }
+
+    public void processStartTimePickerResult(int hour, int minute) {
+        String hour_string = Integer.toString(hour);
+        String minute_string = Integer.toString(minute);
+        String timeMessage = (hour_string + ":" + minute_string);
+        startTimePickerInput.setText(timeMessage);
+        Log.e(TAG, timeMessage);
+
+    }
+
+    public void showEndTimePicker() {
+        DialogFragment newFragment = new TimePickerFragment(endTimePickerInput);
+        newFragment.show(getChildFragmentManager(), "endtimePicker");
+    }
+
+    public void processEndTimePickerResult(int hour, int minute) {
+        String hour_string = Integer.toString(hour);
+        String minute_string = Integer.toString(minute);
+        String timeMessage = (hour_string + ":" + minute_string);
+        endTimePickerInput.setText(timeMessage);
+        Log.e(TAG, timeMessage);
+
+    }
+
 
     @Override
     public void onMapReady(GoogleMap map) {

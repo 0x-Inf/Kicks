@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (destination.getId() == R.id.navigation_add_kick) {
                     myToolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.navigation_map_view) {
+                    myToolbar.setVisibility(View.GONE);
                 } else {
                     myToolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);

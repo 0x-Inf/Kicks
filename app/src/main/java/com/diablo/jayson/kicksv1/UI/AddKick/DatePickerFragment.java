@@ -4,20 +4,16 @@ package com.diablo.jayson.kicksv1.UI.AddKick;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.widget.DatePicker;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.TextView;
-
-import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +21,7 @@ import java.util.Calendar;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private TextInputEditText mDatePickerInput;
+    final Calendar c = Calendar.getInstance();
 
 
     public DatePickerFragment(TextInputEditText textInputEditText) {
@@ -34,20 +31,31 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker.
-        final Calendar c  = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it.
-        return new DatePickerDialog(getActivity(),this,year,month,day);
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        mDatePickerInput.setText(day+"/"+month+"/"+year);
+//        AddKick3Fragment fragment = (AddKick3Fragment) getActivity();
+//        fragment.processDatePickerResult(year,month,day);
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        String selectedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(c.getTime());
 
+        mDatePickerInput.setText(selectedDate);
+//        Objects.requireNonNull(getTargetFragment()).onActivityResult(
+//                getTargetRequestCode(),
+//                Activity.RESULT_OK,
+//                new Intent().putExtra("selectedDate", selectedDate)
+//        );
     }
 }
