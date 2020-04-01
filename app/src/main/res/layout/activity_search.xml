@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Search.SearchableActivity">
+    tools:context=".UI.Search.SearchableActivity"
+    android:orientation="vertical">
 
     <ListView
         android:id="@android:id/list"
@@ -11,5 +12,18 @@
         android:layout_height="match_parent"
         android:background="#ffffff"
         android:drawSelectorOnTop="false" />
+
+    <ImageView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back" />
+
+    <!--    <view class="androidx.appcompat.app.AlertController$RecycleListView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--    </view>-->
+
 
 </LinearLayout>
