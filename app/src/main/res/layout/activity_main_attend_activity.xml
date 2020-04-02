@@ -26,21 +26,64 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
-            android:id="@+id/dashItems_fragment_container"
+        <RelativeLayout
+            android:id="@+id/chatActualRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            tools:context=".UI.AttendActivity.MainAttendActivityActivity" />
+            android:visibility="gone"
+            android:layout_marginBottom="50dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatActualRecycler"
+                android:layout_width="match_parent"
+                android:paddingBottom="40dp"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/message_edit_bg">
+
+                <EditText
+                    android:id="@+id/messageEditText"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:hint="Type a message"
+                    android:background="@null"
+                    android:autofillHints="Message"
+                    android:inputType="textLongMessage|textMultiLine" />
+
+
+                <ImageView
+                    android:id="@+id/sendMessageButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_send_message_icon_24dp" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/dash_items_relative_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            >
 
             <ImageView
                 android:id="@+id/activityImageView"
@@ -126,10 +169,16 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/chatRecycler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="70dp" />
+                        android:layout_height="match_parent" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/chatCardOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
             </androidx.cardview.widget.CardView>
 
         </RelativeLayout>

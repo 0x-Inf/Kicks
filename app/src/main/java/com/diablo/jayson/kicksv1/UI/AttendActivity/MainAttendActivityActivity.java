@@ -1,10 +1,12 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -16,14 +18,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -36,11 +43,15 @@ public class MainAttendActivityActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
 
     private RelativeLayout dashItemsRelativeLayout;
+    private RelativeLayout chatActualRelativeLayout;
     private FrameLayout dashItemDetailsFramelayout;
-    private RecyclerView attendeesRecycler, chatRecycler;
+    private RecyclerView attendeesRecycler, chatRecycler, chatActualRecycler;
     private ProgressBar attendeesProress;
     private ArrayList<AttendingUser> attendingUsersData;
     private CardView chatCard;
+    private RelativeLayout chatCardOverlay;
+    private ImageView sendMessageButton;
+    private EditText messageEdit;
 
 
     @Override
@@ -49,10 +60,17 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_attend_activity);
         attendeesRecycler = findViewById(R.id.attendeesRecycler);
         chatRecycler = findViewById(R.id.chatRecycler);
+        chatActualRecycler = findViewById(R.id.chatActualRecycler);
         dashItemsRelativeLayout = findViewById(R.id.dash_items_relative_Layout);
-        dashItemDetailsFramelayout = findViewById(R.id.dashItems_fragment_container);
-        dashItemDetailsFramelayout.setVisibility(View.GONE);
+        chatActualRelativeLayout = findViewById(R.id.chatActualRelativeLayout);
+//        dashItemDetailsFramelayout = findViewById(R.id.dashItems_fragment_container);
+//        dashItemDetailsFramelayout.setVisibility(View.GONE);
+        chatCardOverlay = findViewById(R.id.chatCardOverlay);
         chatCard = findViewById(R.id.activityChatCard);
+        sendMessageButton = findViewById(R.id.sendMessageButton);
+        messageEdit = findViewById(R.id.messageEditText);
+
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -95,21 +113,15 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
                 .setQuery(query, ChatItem.class)
                 .build();
-        chatAdapter = new ChatAdapter(options);
+        chatAdapter = new ChatAdapter(options, getApplicationContext());
         int gridColumnCount = 1;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         chatRecycler.setLayoutManager(layoutManager);
 
 //                layoutManager.setStackFromEnd(true);
 //                layoutManager.setReverseLayout(true);
-//                chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//                    @Override
-//                    public void onItemRangeInserted(int positionStart, int itemCount) {
-//                        super.onItemRangeInserted(positionStart, itemCount);
-//                        chatRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
-//                    }
-//                });
-        chatRecycler.setAdapter(chatAdapter);
+
+
         chatRecycler.post(new Runnable() {
             @Override
             public void run() {
@@ -125,30 +137,85 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                 }.start();
             }
         });
+        chatRecycler.setAdapter(chatAdapter);
 //                chatAdapter.notifyDataSetChanged();
+        LinearLayoutManager chatActuallayoutManager = new LinearLayoutManager(this);
+
+        chatActualRecycler.setLayoutManager(chatActuallayoutManager);
+        chatActualRecycler.setAdapter(chatAdapter);
+        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                chatActualRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+            }
+        });
+
         chatAdapter.startListening();
 
-
-        chatCard.setOnClickListener(new View.OnClickListener() {
+        chatCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(), activityId, Toast.LENGTH_SHORT).show();
+                chatActualRelativeLayout.setVisibility(View.VISIBLE);
                 dashItemsRelativeLayout.setVisibility(View.GONE);
-                ChatFragment chatFragment = new ChatFragment();
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.dashItems_fragment_container, chatFragment)
-                        .commit();
             }
         });
         Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
+
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String message = messageEdit.getText().toString();
+                if (!message.isEmpty()) {
+                    ChatItem messageItem = new ChatItem();
+                    messageItem.setMessage(message);
+                    assert user != null;
+                    messageItem.setSenderName(user.getDisplayName());
+                    messageItem.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
+                    messageItem.setSenderUid(user.getUid());
+                    messageItem.setSender(true);
+                    messageItem.setTimestamp(Timestamp.now());
+
+                    FirebaseFirestore.getInstance().collection("activities").document(activityId)
+                            .collection("chatsession")
+                            .add(messageItem)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.e("Yellow", "Added Mesage");
+                                    messageEdit.setText("");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Try Sending Message Again", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        });
 
 
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(MainAttendActivityActivity.this, MainActivity.class));
+
+        if (chatActualRelativeLayout.getVisibility() == View.VISIBLE) {
+            chatActualRelativeLayout.setVisibility(View.GONE);
+            dashItemsRelativeLayout.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+//
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

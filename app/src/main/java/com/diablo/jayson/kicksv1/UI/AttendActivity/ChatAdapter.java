@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,8 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_SELF = 1;
 
+    private Context context;
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     /**
@@ -37,8 +40,9 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
      *
      * @param options
      */
-    public ChatAdapter(@NonNull FirestoreRecyclerOptions<ChatItem> options) {
+    public ChatAdapter(@NonNull FirestoreRecyclerOptions<ChatItem> options, Context context) {
         super(options);
+        this.context = context;
     }
 
 
@@ -72,7 +76,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
         holder.bindTo(chatItem);
     }
 
-    static class ChatViewHolder extends RecyclerView.ViewHolder {
+    class ChatViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView senderPic;
         private TextView senderName;
@@ -84,7 +88,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
         private TextView messageSelf;
         private TextView timeSendSelf;
 
-        public ChatViewHolder(@NonNull View itemView) {
+        ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             senderPic = itemView.findViewById(R.id.senderProfilePic);
             senderName = itemView.findViewById(R.id.senderName);
@@ -102,7 +106,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
 //            DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
 
             timeSend.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(date));
-            Glide.with(itemView.getContext())
+            Glide.with(context)
                     .load(chatItem.getSenderPicUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(senderPic);

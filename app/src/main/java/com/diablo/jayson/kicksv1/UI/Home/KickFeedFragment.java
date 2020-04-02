@@ -21,6 +21,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -103,7 +104,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
             }
             if (users.contains(user.getUid())) {
                 Log.e(TAG, activity.getMattendees().get(0).getUserName());
-                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
                 attendActivity.putExtra("activityId", activity.getActivityId());
                 attendActivity.putExtra("alreadyAttending", true);
                 startActivity(attendActivity);
