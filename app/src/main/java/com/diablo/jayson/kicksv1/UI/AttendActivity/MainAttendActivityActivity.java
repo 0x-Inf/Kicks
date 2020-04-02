@@ -1,36 +1,58 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
+import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainAttendActivityActivity extends AppCompatActivity {
 
-    private RecyclerView attendeesRecycler;
+    private ChatAdapter chatAdapter;
+
+    private RelativeLayout dashItemsRelativeLayout;
+    private FrameLayout dashItemDetailsFramelayout;
+    private RecyclerView attendeesRecycler, chatRecycler;
     private ProgressBar attendeesProress;
     private ArrayList<AttendingUser> attendingUsersData;
+    private CardView chatCard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_attend_activity);
         attendeesRecycler = findViewById(R.id.attendeesRecycler);
+        chatRecycler = findViewById(R.id.chatRecycler);
+        dashItemsRelativeLayout = findViewById(R.id.dash_items_relative_Layout);
+        dashItemDetailsFramelayout = findViewById(R.id.dashItems_fragment_container);
+        dashItemDetailsFramelayout.setVisibility(View.GONE);
+        chatCard = findViewById(R.id.activityChatCard);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -63,8 +85,70 @@ public class MainAttendActivityActivity extends AppCompatActivity {
             }
         });
 
+        Query query = FirebaseFirestore.getInstance()
+                .collection("activities")
+                .document(activityId)
+                .collection("chatsession")
+                .orderBy("timestamp", Query.Direction.ASCENDING);
+
+
+        FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
+                .setQuery(query, ChatItem.class)
+                .build();
+        chatAdapter = new ChatAdapter(options);
+        int gridColumnCount = 1;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        chatRecycler.setLayoutManager(layoutManager);
+
+//                layoutManager.setStackFromEnd(true);
+//                layoutManager.setReverseLayout(true);
+//                chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//                    @Override
+//                    public void onItemRangeInserted(int positionStart, int itemCount) {
+//                        super.onItemRangeInserted(positionStart, itemCount);
+//                        chatRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+//                    }
+//                });
+        chatRecycler.setAdapter(chatAdapter);
+        chatRecycler.post(new Runnable() {
+            @Override
+            public void run() {
+                new CountDownTimer(Integer.MAX_VALUE, 20) {
+                    public void onTick(long millis) {
+                        chatRecycler.scrollBy(0, 1);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }.start();
+            }
+        });
+//                chatAdapter.notifyDataSetChanged();
+        chatAdapter.startListening();
+
+
+        chatCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dashItemsRelativeLayout.setVisibility(View.GONE);
+                ChatFragment chatFragment = new ChatFragment();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.dashItems_fragment_container, chatFragment)
+                        .commit();
+            }
+        });
         Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(MainAttendActivityActivity.this, MainActivity.class));
     }
 }

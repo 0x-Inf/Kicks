@@ -123,6 +123,9 @@ public class ConfirmAttendFragment extends Fragment {
 //                                    getActivity().getSupportFragmentManager().beginTransaction()
 //                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
 //                                            .commit();
+                                    Intent attendActivityIntent = new Intent(getContext(), MainAttendActivityActivity.class);
+                                    attendActivityIntent.putExtra("activityId", activityId);
+                                    startActivity(attendActivityIntent);
                                 } else {
                                     Toast.makeText(getContext(), "Problem Adding You", Toast.LENGTH_LONG).show();
                                 }

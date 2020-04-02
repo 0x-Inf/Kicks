@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".UI.AttendActivity.MainAttendActivityActivity">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,77 +26,113 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/activityImageView"
+        <FrameLayout
+            android:id="@+id/dashItems_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentStart="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/back" />
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            tools:context=".UI.AttendActivity.MainAttendActivityActivity" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/activityAttendeesCard"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/activityImageView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp">
 
-            <RelativeLayout
+        <RelativeLayout
+            android:id="@+id/dash_items_relative_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ImageView
+                android:id="@+id/activityImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/back" />
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/attendeesProgressBar"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activityAttendeesCard"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@id/activityImageView"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="10dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/attendeesRecycler"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/attendeesRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activityDetailsCard"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@id/activityImageView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/attendeesProgressBar" />
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="5dp">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:textStyle="bold" />
 
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/activityDetailsCard"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/activityImageView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp">
+                </RelativeLayout>
 
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/activityChatCard"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_below="@id/activityAttendeesCard"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activityChatCard"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@id/activityAttendeesCard"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="5dp">
 
-        </androidx.cardview.widget.CardView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chatRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="70dp" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
 
 
     </RelativeLayout>
