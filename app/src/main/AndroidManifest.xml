@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".UI.KickSelect.KickSelectedActivity"></activity>
+        <activity android:name=".UI.AttendActivity.MainAttendActivityActivity"></activity>
+        <activity android:name=".UI.KickSelect.KickSelectedActivity" />
         <activity android:name=".UI.KickSelect.KickSeeAllActivity" />
         <activity android:name=".UI.AttendActivity.AlreadyAttendingActivity" />
         <activity
@@ -54,6 +55,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

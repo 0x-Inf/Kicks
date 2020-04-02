@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -93,11 +94,15 @@ public class AttendActivityActivity extends AppCompatActivity {
             });
 
 
-            AttendActivityMainFragment attending = new AttendActivityMainFragment();
+//            AttendActivityMainFragment attending = new AttendActivityMainFragment();
+//
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.attend_activity_fragment_container, attending)
+//                    .commit();
+            Intent attendActivityIntent = new Intent(AttendActivityActivity.this, MainAttendActivityActivity.class);
+            attendActivityIntent.putExtra("activityId", activityId);
+            startActivity(attendActivityIntent);
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.attend_activity_fragment_container, attending)
-                    .commit();
         } else {
             ConfirmAttendFragment confirmAttend = new ConfirmAttendFragment();
 

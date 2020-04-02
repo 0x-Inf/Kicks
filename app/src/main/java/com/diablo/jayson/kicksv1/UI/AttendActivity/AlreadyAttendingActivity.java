@@ -14,10 +14,10 @@ public class AlreadyAttendingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_already_attending);
 
 
-        AttendActivityMainFragment alreadyAttending = new AttendActivityMainFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.already_attending_activity_fragment_container, alreadyAttending)
-                .commit();
+//        AttendActivityMainFragment alreadyAttending = new AttendActivityMainFragment();
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.already_attending_activity_fragment_container, alreadyAttending)
+//                .commit();
     }
 }

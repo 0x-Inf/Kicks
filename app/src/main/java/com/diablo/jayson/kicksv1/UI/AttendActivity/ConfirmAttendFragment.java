@@ -111,7 +111,7 @@ public class ConfirmAttendFragment extends Fragment {
             public void onClick(View v) {
                 updateViewModel();
                 activity.getMattendees().add(FirebaseUtil.getAttendingUser());
-                AttendActivityMainFragment attendFragment = new AttendActivityMainFragment();
+//                AttendActivityMainFragment attendFragment = new AttendActivityMainFragment();
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = db.collection("activities").document(activityId);
@@ -120,9 +120,9 @@ public class ConfirmAttendFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
-                                            .commit();
+//                                    getActivity().getSupportFragmentManager().beginTransaction()
+//                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
+//                                            .commit();
                                 } else {
                                     Toast.makeText(getContext(), "Problem Adding You", Toast.LENGTH_LONG).show();
                                 }
