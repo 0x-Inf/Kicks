@@ -9,15 +9,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
@@ -44,14 +47,18 @@ public class MainAttendActivityActivity extends AppCompatActivity {
 
     private RelativeLayout dashItemsRelativeLayout;
     private RelativeLayout chatActualRelativeLayout;
+    private RelativeLayout attendeesActualRelativeLayout;
     private FrameLayout dashItemDetailsFramelayout;
-    private RecyclerView attendeesRecycler, chatRecycler, chatActualRecycler;
+    private RecyclerView attendeesRecycler, attendeesActualRecycler, chatRecycler, chatActualRecycler;
     private ProgressBar attendeesProress;
     private ArrayList<AttendingUser> attendingUsersData;
     private CardView chatCard;
+    private ImageView activityImageView;
     private RelativeLayout chatCardOverlay;
+    private RelativeLayout attendeesCardOverlay;
     private ImageView sendMessageButton;
     private EditText messageEdit;
+    private TextView activityDashTimeText, activityDashDateText, activityDashLocationText, activityDashTagText;
 
 
     @Override
@@ -59,17 +66,24 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_attend_activity);
         attendeesRecycler = findViewById(R.id.attendeesRecycler);
+        attendeesActualRecycler = findViewById(R.id.attendeesActualRecycler);
         chatRecycler = findViewById(R.id.chatRecycler);
         chatActualRecycler = findViewById(R.id.chatActualRecycler);
         dashItemsRelativeLayout = findViewById(R.id.dash_items_relative_Layout);
         chatActualRelativeLayout = findViewById(R.id.chatActualRelativeLayout);
+        attendeesActualRelativeLayout = findViewById(R.id.attendeesActualRelativeLayout);
 //        dashItemDetailsFramelayout = findViewById(R.id.dashItems_fragment_container);
 //        dashItemDetailsFramelayout.setVisibility(View.GONE);
         chatCardOverlay = findViewById(R.id.chatCardOverlay);
+        attendeesCardOverlay = findViewById(R.id.attendeesCardOverlay);
         chatCard = findViewById(R.id.activityChatCard);
         sendMessageButton = findViewById(R.id.sendMessageButton);
         messageEdit = findViewById(R.id.messageEditText);
-
+        activityDashTimeText = findViewById(R.id.activityDashTimeText);
+        activityDashDateText = findViewById(R.id.activityDashDateText);
+        activityDashLocationText = findViewById(R.id.activityDashLocationText);
+        activityDashTagText = findViewById(R.id.activityDashTagTextView);
+        activityImageView = findViewById(R.id.activityImageView);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -78,6 +92,10 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         String activityId = bundle.getString("activityId");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.attend_activity_toolbar);
+        setSupportActionBar(myToolbar);
+
+
         assert activityId != null;
         db.collection("activities").document(activityId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -85,6 +103,19 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     assert documentSnapshot != null;
+                    String activityTime = documentSnapshot.toObject(Activity.class).getKickStartTime() + " - " + documentSnapshot.toObject(Activity.class).getKickEndTime();
+                    String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
+                    String activityTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
+                    activityDashTimeText.setText(activityTime);
+                    activityDashLocationText.setText(documentSnapshot.toObject(Activity.class).getKickLocationName());
+                    activityDashTagText.setText(documentSnapshot.toObject(Activity.class).getTag().getTagName());
+                    activityDashDateText.setText(documentSnapshot.toObject(Activity.class).getKickDate());
+                    Glide.with(getApplicationContext())
+                            .load(activityImageUrl)
+                            .into(activityImageView);
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitle);
+
+
                     attendingUsersData = new ArrayList<AttendingUser>();
                     attendingUsersData = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getMattendees();
 //                            Log.e("yooooo", String.valueOf(attendingUsersData.size()));
@@ -100,6 +131,9 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                 AttendeesAdapter attendeesAdapter = new AttendeesAdapter(MainAttendActivityActivity.this, attendingUsersData);
                 attendeesRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.HORIZONTAL, false));
                 attendeesRecycler.setAdapter(attendeesAdapter);
+                AttendeesLargeAdapter attendeesLargeAdapter = new AttendeesLargeAdapter(MainAttendActivityActivity.this, attendingUsersData);
+                attendeesActualRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.VERTICAL, false));
+                attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
             }
         });
 
@@ -161,6 +195,13 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                 dashItemsRelativeLayout.setVisibility(View.GONE);
             }
         });
+        attendeesCardOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attendeesActualRelativeLayout.setVisibility(View.VISIBLE);
+                dashItemsRelativeLayout.setVisibility(View.GONE);
+            }
+        });
         Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
 
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +247,10 @@ public class MainAttendActivityActivity extends AppCompatActivity {
 
         if (chatActualRelativeLayout.getVisibility() == View.VISIBLE) {
             chatActualRelativeLayout.setVisibility(View.GONE);
+            dashItemsRelativeLayout.setVisibility(View.VISIBLE);
+        } else if (attendeesActualRelativeLayout.getVisibility() == View.VISIBLE) {
+
+            attendeesActualRelativeLayout.setVisibility(View.GONE);
             dashItemsRelativeLayout.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
