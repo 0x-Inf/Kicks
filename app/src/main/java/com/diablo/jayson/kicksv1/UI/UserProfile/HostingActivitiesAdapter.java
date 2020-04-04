@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.CurrentKIcks;
+package com.diablo.jayson.kicksv1.UI.UserProfile;
 
 import android.view.LayoutInflater;
 import android.view.View;

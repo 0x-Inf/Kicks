@@ -1,13 +1,10 @@
-package com.diablo.jayson.kicksv1.Adapters;
+package com.diablo.jayson.kicksv1.UI.UserProfile;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.diablo.jayson.kicksv1.UI.UserProfile.KicksAttendedFragment;
-import com.diablo.jayson.kicksv1.UI.UserProfile.RatingsFragment;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
@@ -21,7 +18,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new KicksAttendedFragment();
+                return new ActiveActivitiesFragment();
             case 1:
                 return new RatingsFragment();
             default:
@@ -39,9 +36,9 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "Kicked It";
+                return "Activity";
             case 1:
-                return "Ratings";
+                return "Stats";
             default:
                 return null;
         }

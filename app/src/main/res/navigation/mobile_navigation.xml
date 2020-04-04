@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_active_kicks"
-        android:name="com.diablo.jayson.kicksv1.UI.CurrentKIcks.ActiveActivitiesFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ActiveActivitiesFragment"
         android:label="Active"
         tools:layout="@layout/fragment_active_activities" />
 
@@ -47,6 +47,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSeeAllActivity"
         android:label="activity_kick_see_all"
         tools:layout="@layout/activity_kick_see_all" />
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity"
+        android:label="activity_profile"
+        tools:layout="@layout/activity_profile" />
 
 
 </navigation>

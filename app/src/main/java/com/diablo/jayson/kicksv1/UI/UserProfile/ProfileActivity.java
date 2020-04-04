@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1.UI.UserProfile;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +12,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.Adapters.ProfilePagerAdapter;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
         PagerAdapter profilePagerAdapter = new ProfilePagerAdapter(getSupportFragmentManager());
         profileViewPager.setAdapter(profilePagerAdapter);
         profileTabLayout.setupWithViewPager(profileViewPager);
+        profileTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
+        profileTabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 

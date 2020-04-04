@@ -17,9 +17,9 @@
         android:title="Add" />
 
     <item
-        android:id="@+id/navigation_active_kicks"
-        android:icon="@drawable/ic_active_kicks_icon_24dp"
-        android:title="Active" />
+        android:id="@+id/profileActivity"
+        android:icon="@drawable/ic_profile_icon_24dp"
+        android:title="Profile" />
 
 
     <item
