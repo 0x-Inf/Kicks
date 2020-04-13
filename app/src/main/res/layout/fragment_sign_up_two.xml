@@ -1,112 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.SignUp.SignUpTwo">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/sign_up_two_back1">
 
         <TextView
-            android:id="@+id/contentTitleTextView"
+            android:id="@+id/contactTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Down To Business"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/quantum_googblue500"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/contact_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
 
-        <RelativeLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactTextView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/details_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
+
+        <EditText
+            android:id="@+id/email_addresss_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/first_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/email_address_edit_text_hint"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/emailTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Email"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/design_default_color_secondary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/email_addresss_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_below="@id/emailTitleTextView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <EditText
+            android:id="@+id/phone_number_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_addresss_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/second_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/phone_number_hint_text"
+            android:inputType="phone"
+            android:padding="8dp"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/phoneTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Phone"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/design_default_color_secondary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/phone_number_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_below="@id/phoneTitleTextView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/sign_up_two_next_efab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone_number_edit_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/sign_up_one_next_button_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPurple"
+            app:cornerRadius="2dp"
+            app:elevation="5dp"
+            app:rippleColor="@color/colorMain" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="phone" />
+        <!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+        <!--            android:id="@+id/sign_up_two_back_efab"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_marginBottom="20dp"-->
+        <!--            android:layout_marginStart="20dp"-->
+        <!--            android:text="@string/previous_button_text"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:fontFamily="@font/roboto_medium"-->
+        <!--            android:textColor="@color/colorBlack"-->
+        <!--            app:backgroundTint="@color/colorGoldish"-->
+        <!--            android:theme="@style/MaterialTheme"-->
+        <!--            app:rippleColor="@color/colorTransparentBlack"-->
+        <!--            app:elevation="5dp"-->
+        <!--            app:cornerRadius="2dp"/>-->
 
-            </com.google.android.material.textfield.TextInputLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-
-
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next2_floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_next_icon_24dp" />
 
 </FrameLayout>

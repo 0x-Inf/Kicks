@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -71,8 +71,8 @@ public class SignUpTwo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emailEditText = view.findViewById(R.id.emailEditText);
-        phoneEditText = view.findViewById(R.id.phoneEditText);
+        emailEditText = view.findViewById(R.id.email_addresss_edit_text);
+        phoneEditText = view.findViewById(R.id.phone_number_edit_text);
         userMain = new User();
         viewModel.getUser().observe(requireActivity(), new Observer<User>() {
             @Override
@@ -97,9 +97,10 @@ public class SignUpTwo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up_two, container, false);
-        FloatingActionButton nextSignUpButton = view.findViewById(R.id.next2_floating_action_button);
-        emailEditText = view.findViewById(R.id.emailEditText);
-        phoneEditText = view.findViewById(R.id.phoneEditText);
+        ExtendedFloatingActionButton nextSignUpButton = view.findViewById(R.id.sign_up_two_next_efab);
+//        ExtendedFloatingActionButton backSignUpButton = view.findViewById(R.id.sign_up_two_back_efab);
+        emailEditText = view.findViewById(R.id.email_addresss_edit_text);
+        phoneEditText = view.findViewById(R.id.phone_number_edit_text);
         nextSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +111,7 @@ public class SignUpTwo extends Fragment {
                 if (email.isEmpty() || phone.isEmpty()) {
                     if (email.isEmpty() || isEmailValid(email)) {
                         emailEditText.setError("Set a Valid Email Address");
-                    } else if (phone.isEmpty()) {
+                    } else {
                         phoneEditText.setError("Set a Phone Number");
                     }
                 } else if (!isEmailValid(email)) {
@@ -130,6 +131,20 @@ public class SignUpTwo extends Fragment {
 
             }
         });
+//        backSignUpButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateViewModel();
+//
+//                SignUpOne firstSignUp = new SignUpOne();
+//
+//                FragmentManager manager = getParentFragmentManager();
+//
+//                manager.beginTransaction()
+//                        .replace(R.id.signupfragment_container, firstSignUp)
+//                        .commit();
+//            }
+//        });
         return view;
     }
 

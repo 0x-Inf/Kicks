@@ -175,6 +175,16 @@
     <string name="sign_in_button_text">Sign In</string>
     <string name="sign_up_text">Sign Up</string>
     <string name="forgot_password_text">Forgot Password</string>
+    <string name="your_text">Your</string>
+    <string name="names_text">Names</string>
+    <string name="first_name_hint_text">First Name</string>
+    <string name="username_hint_text">Username</string>
+    <string name="second_name_hint_text">Second Name</string>
+    <string name="sign_up_one_next_button_text">NEXT</string>
+    <string name="contact_text">Contact</string>
+    <string name="details_text">Details</string>
+    <string name="phone_number_hint_text">Phone Number</string>
+    <string name="previous_button_text">Previous</string>
 
 
 </resources>

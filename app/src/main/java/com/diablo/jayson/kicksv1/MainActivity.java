@@ -26,8 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
+import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,19 +44,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mSearchButton, mSettingButton;
     private ImageView mProfilePicImageView;
 
+    SharedPreferences prefs = null;
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        startActivity(new Intent(this, LoginActivity.class));
+        checkFirstRun();
         finish();
-        SharedPreferences preferences;
-
-//        if (mFirebaseUser == null) {
-//            startActivity(new Intent(this, SignUpActivity.class));
-//            finish();
-//        }
+        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
     @Override
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (savedInstanceState != null) {
             getSupportFragmentManager().executePendingTransactions();
             Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.signupfragment_container);
@@ -155,5 +150,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
     }
+
+    private void checkFirstRun() {
+
+        final String PREFS_NAME = "com.color.kicks";
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -1;
+
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+
+        // Get saved version code
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+            // This is just a normal run
+            startActivity(new Intent(this, SignUpActivity.class));
+
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            // TODO This is a new install (or the user cleared the shared preferences)
+            startActivity(new Intent(this, SignUpActivity.class));
+
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO This is an upgrade
+            return;
+        }
+
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
 
 }

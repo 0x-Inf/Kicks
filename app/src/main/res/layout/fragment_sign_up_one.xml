@@ -1,169 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sign_up_one_back2"
     tools:context=".UI.SignUp.SignUpOne">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/sign_up_one_back3">
 
         <TextView
             android:id="@+id/yourTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
-            android:text="Your"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/source_sans_pro_regular"
-            android:textSize="50sp"
-            android:textColor="@color/colorWhite" />
+            android:text="@string/your_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@id/yourTextView"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
-            android:text="Names"
             android:fontFamily="@font/source_sans_pro_regular"
-            android:textSize="50sp"
-            android:textColor="@color/colorWhite" />
+            android:text="@string/names_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
+
+        <EditText
+            android:id="@+id/user_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/first_name_edit_text"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints=""
+            android:background="@android:color/transparent"
+            android:hint="@string/username_hint_text"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/user_name_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
+
+        <EditText
+            android:id="@+id/first_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/first_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/first_name_hint_text"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/first_name_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
+
+        <EditText
+            android:id="@+id/second_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_name_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/second_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/second_name_hint_text"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/second_name_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/sign_up_one_next_efab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/second_name_edit_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="100dp"
+            android:text="@string/sign_up_one_next_button_text"
+            android:fontFamily="@font/roboto_medium"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPurple"
+            app:rippleColor="@color/colorMain"
+            app:elevation="5dp"
+            app:cornerRadius="2dp" />
 
     </RelativeLayout>
-
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/activityPlaceTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="User Name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/design_default_color_secondary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ActivityPlaceInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_below="@id/activityPlaceTitleTextView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/usernameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/firstNameTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="First Name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/design_default_color_secondary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/firstNameInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_below="@id/firstNameTitle"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/firstnameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/secondNameTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Second Name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:textColor="@color/design_default_color_secondary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/secondNameInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_below="@id/secondNameTitle"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/secondnameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>-->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next_floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_next_icon_24dp" />
-    <!--app:srcCompat="@drawable/ic_next_icon"-->
 
 </FrameLayout>

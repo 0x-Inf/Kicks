@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,8 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +28,7 @@ public class SignUpOne extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private TextInputEditText userNameEditText, firstNameEditText, secondNameEditText;
+    private EditText userNameEditText, firstNameEditText, secondNameEditText;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,10 +74,10 @@ public class SignUpOne extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up_one, container, false);
-        FloatingActionButton nextButton = (FloatingActionButton) view.findViewById(R.id.next_floating_action_button);
-        userNameEditText = view.findViewById(R.id.usernameEditText);
-        firstNameEditText = view.findViewById(R.id.firstnameEditText);
-        secondNameEditText = view.findViewById(R.id.secondnameEditText);
+        ExtendedFloatingActionButton nextButton = (ExtendedFloatingActionButton) view.findViewById(R.id.sign_up_one_next_efab);
+        userNameEditText = view.findViewById(R.id.user_name_edit_text);
+        firstNameEditText = view.findViewById(R.id.first_name_edit_text);
+        secondNameEditText = view.findViewById(R.id.second_name_edit_text);
 
 
         nextButton.setOnClickListener(new View.OnClickListener() {
