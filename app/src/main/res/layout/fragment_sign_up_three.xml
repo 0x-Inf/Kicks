@@ -3,94 +3,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.SignUp.SignUpThree">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:background="@drawable/sign_up_three_back2">
         <TextView
-            android:id="@+id/contentTitleTextView"
+            android:id="@+id/keepEverythingTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Keeping Everything Safe"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/quantum_googblue500"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/keep_everything_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
 
-        <RelativeLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/keepEverythingTextView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/safe_text"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp" />
+
+        <EditText
+            android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/password_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/password_hint_text"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textSize="20sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="40dp"
-                android:layout_marginStart="30dp"
-                android:gravity="center_horizontal|center"
-                android:layout_marginEnd="30dp"
-                android:hint="PassWord">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/password_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passWordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal|center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="textPassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <EditText
+            android:id="@+id/confirm_password_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints="@string/confirm_password_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/confirm_password_hint_text"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textSize="20sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordConfirmInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:gravity="center_horizontal"
-                android:hint="Confirm PassWord">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/confirm_password_edit_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordConfirmEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="textPassword" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/sign_up_three_next_efab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/confirm_password_edit_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/sign_up_one_next_button_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/colorPurple"
+            app:cornerRadius="2dp"
+            app:elevation="5dp"
+            app:rippleColor="@color/colorMain" />
 
-            </com.google.android.material.textfield.TextInputLayout>
 
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next_floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_next_icon_24dp" />
-
+    </RelativeLayout>
 
 </FrameLayout>

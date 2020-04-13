@@ -185,6 +185,10 @@
     <string name="details_text">Details</string>
     <string name="phone_number_hint_text">Phone Number</string>
     <string name="previous_button_text">Previous</string>
+    <string name="keep_everything_text">Keep Everything</string>
+    <string name="safe_text">Safe</string>
+    <string name="password_hint_text">Password</string>
+    <string name="confirm_password_hint_text">Confirm Password</string>
 
 
 </resources>

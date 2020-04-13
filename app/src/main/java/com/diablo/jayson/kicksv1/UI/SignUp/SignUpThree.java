@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +34,7 @@ public class SignUpThree extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextInputEditText passWordEditText, passWordConfirmEditText;
+    private EditText passWordEditText, passWordConfirmEditText;
 
     private SignUpViewModel viewModel;
     private User userMain;
@@ -74,8 +74,8 @@ public class SignUpThree extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextInputEditText passWord = view.findViewById(R.id.passWordEditText);
-        TextInputEditText passWordConfirm = view.findViewById(R.id.passwordConfirmEditText);
+        EditText passWord = view.findViewById(R.id.password_edit_text);
+        EditText passWordConfirm = view.findViewById(R.id.confirm_password_edit_text);
         passWord.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,9 +127,9 @@ public class SignUpThree extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up_three, container, false);
-        FloatingActionButton nextButton = view.findViewById(R.id.next_floating_action_button);
-        passWordEditText = view.findViewById(R.id.passWordEditText);
-        passWordConfirmEditText = view.findViewById(R.id.passwordConfirmEditText);
+        ExtendedFloatingActionButton nextButton = view.findViewById(R.id.sign_up_three_next_efab);
+        passWordEditText = view.findViewById(R.id.password_edit_text);
+        passWordConfirmEditText = view.findViewById(R.id.confirm_password_edit_text);
 
 
         nextButton.setOnClickListener(new View.OnClickListener() {
