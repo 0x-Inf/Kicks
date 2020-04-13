@@ -3,6 +3,14 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#ef5350</color>
-</resources>
 
+    <!--    colors with xd -->
+    <color name="colorMain">#D7385E</color>
+    <color name="colorPurple">#522D5B</color>
+    <color name="colorOrange">#FB7B6B</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparentBlack">#50212121</color>
+
+
+</resources>
 

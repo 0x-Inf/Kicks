@@ -26,8 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
-import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,12 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
         SharedPreferences preferences;
 
-        if (mFirebaseUser == null) {
-            startActivity(new Intent(this, SignUpActivity.class));
-            finish();
-        }
+//        if (mFirebaseUser == null) {
+//            startActivity(new Intent(this, SignUpActivity.class));
+//            finish();
+//        }
     }
 
     @Override

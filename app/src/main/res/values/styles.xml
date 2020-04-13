@@ -15,7 +15,7 @@
     </style>
 
     <style name="splashScreenTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/back</item>
+        <item name="android:windowBackground">@drawable/testlarge</item>
     </style>
 
     <style name="MaterialTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">

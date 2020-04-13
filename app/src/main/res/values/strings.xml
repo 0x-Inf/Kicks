@@ -169,6 +169,12 @@
     <string name="confirm_time_date_Title_constant_text">Time &amp; Date</string>
     <string name="example_message">Hey Guys So there is a change of plans the cost was supposed to be 800 but now its 1000</string>
     <string name="example_message_short">Hey There</string>
+    <string name="sign_in_welcome_text">Welcome</string>
+    <string name="sign_in_back_text">Back</string>
+    <string name="password_edit_text_hint">Password</string>
+    <string name="sign_in_button_text">Sign In</string>
+    <string name="sign_up_text">Sign Up</string>
+    <string name="forgot_password_text">Forgot Password</string>
 
 
 </resources>
