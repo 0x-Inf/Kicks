@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        checkFirstRun();
-        finish();
+//        checkFirstRun();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
@@ -60,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkFirstRun();
+
         if (savedInstanceState != null) {
             getSupportFragmentManager().executePendingTransactions();
             Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.signupfragment_container);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_kick_select, R.id.navigation_add_kick,
-                R.id.profileActivity, R.id.navigation_map_view)
+                R.id.navigation_profile, R.id.navigation_map_view)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -167,12 +168,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
             // This is just a normal run
-            startActivity(new Intent(this, SignUpActivity.class));
+//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            assert user != null;
+//            if (Objects.requireNonNull(user.getDisplayName()).isEmpty()) {
+//                startActivity(new Intent(this, LoginActivity.class));
+//                finish();
+//            }else {
+//                return;
+//            }
+            return;
 
         } else if (savedVersionCode == DOESNT_EXIST) {
             // TODO This is a new install (or the user cleared the shared preferences)
             startActivity(new Intent(this, SignUpActivity.class));
-
+            finish();
         } else if (currentVersionCode > savedVersionCode) {
             // TODO This is an upgrade
             return;

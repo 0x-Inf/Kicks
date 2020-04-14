@@ -1,6 +1,5 @@
 package com.diablo.jayson.kicksv1.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +7,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
+import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -25,6 +28,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
 
     public interface OnActivitySelectedListener {
         void onActivitySelected(Activity activity);
+
         void toggleLike(Activity activity);
     }
 
@@ -53,6 +57,12 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     @Override
     protected void onBindViewHolder(@NonNull ActivityViewHolder holder, int position, @NonNull Activity model) {
         Activity currentActivity = getItem(position);
+        ArrayList<AttendingUser> attendeesData;
+        attendeesData = currentActivity.getMattendees();
+        ActivityAttendeesAdapter attendeesAdapter = new ActivityAttendeesAdapter(holder.itemView.getContext(), attendeesData);
+        holder.attendeesRecycler.setAdapter(attendeesAdapter);
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+        holder.attendeesRecycler.setLayoutManager(layoutManager);
         holder.bindTo(currentActivity, mListener);
 
 //        setUpActivity(holder, model, position);
@@ -66,64 +76,50 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {
         // Member Variables for the TextViews
-        private TextView mKickTitleText;
-        private TextView mKickStartTimeText;
-        private TextView mKickEndTimeText;
-        private TextView mKickDateText;
-        private TextView mKickLocationText;
-        private TextView mMinPeopleText;
-        private TextView mMaxPeopleText;
-        private TextView mUploaderName;
-        private TextView activityTag;
-        private TextView peopleAgeText;
-        private TextView activityCostText;
-        private TextView mNoOfLikes;
-        private boolean liked = false;
-        private ImageView mKickImage, mUploaderPic, mLikeIcon;
-        private Context mContext;
-        private android.app.Activity activity;
-
-
+        private TextView activityTitleTextView, activityTimeTextView,
+                activityDateTextView, activityCurrencyTextView, activityCostTextView, activityLocationTextView,
+                activityTagTextView, hostTextView;
+        private ImageView activityImage, uploaderPic;
+        private RecyclerView attendeesRecycler;
 
         ActivityViewHolder(View itemView) {
             super(itemView);
-            mKickTitleText = itemView.findViewById(R.id.activityTitleTextView);
-            mKickStartTimeText = itemView.findViewById(R.id.activityStartTimeTextView);
-            mKickEndTimeText = itemView.findViewById(R.id.activityEndTimeTextView);
-            mKickDateText = itemView.findViewById(R.id.activityDateTextView);
-            mKickLocationText = itemView.findViewById(R.id.activityLocationTextView);
-            mMinPeopleText = itemView.findViewById(R.id.activityMinPeopleTextView);
-            mMaxPeopleText = itemView.findViewById(R.id.activityMaxPeopleTextView);
-            mUploaderName = itemView.findViewById(R.id.hostNameTextView);
-            mUploaderPic = itemView.findViewById(R.id.hostPicImageView);
-            mKickImage = itemView.findViewById(R.id.activityImageView);
-            activityTag = itemView.findViewById(R.id.activityTagTextView);
-            peopleAgeText = itemView.findViewById(R.id.activityPeopleAgeTextView);
-            activityCostText = itemView.findViewById(R.id.activityCostTextView);
+            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
+            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
+            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
+            activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
+            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
+            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
+            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
+//            hostTextView = itemView.findViewById(R.id.host_name_text_view);
+            activityImage = itemView.findViewById(R.id.activity_image_view);
+//            uploaderPic = itemView.findViewById(R.id.host_pic_image_view);
+            attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
 
-            String ageText = " (" + currentActivity.getMinAge() + " - " + currentActivity.getMaxAge() + " Y/o)";
-            mKickTitleText.setText(currentActivity.getKickTitle());
-            mKickStartTimeText.setText(currentActivity.getKickStartTime());
-            mKickEndTimeText.setText(currentActivity.getKickEndTime());
-            mKickDateText.setText(currentActivity.getKickDate());
-            mKickLocationText.setText(currentActivity.getKickLocationName());
-            mMinPeopleText.setText(currentActivity.getMinRequiredPeople());
-            mMaxPeopleText.setText(currentActivity.getMaxRequiredPeeps());
-            mUploaderName.setText(currentActivity.getUploaderId());
-            activityTag.setText(currentActivity.getTag().getTagName());
-            peopleAgeText.setText(ageText);
-            activityCostText.setText(currentActivity.getActivityCost());
-            Glide.with(itemView.getContext())
-                    .load(currentActivity.getHost().getHostPic())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(mUploaderPic);
+            String activityTime = currentActivity.getKickStartTime() + " - " + currentActivity.getKickEndTime();
+            String activityDate = currentActivity.getKickDate();
+            String activityCost = currentActivity.getActivityCost();
+            String activityLocation = currentActivity.getKickLocationName();
+            String hostName = currentActivity.getHost().getUserName();
+            String tagName = currentActivity.getTag().getTagName();
+            activityTitleTextView.setText(currentActivity.getKickTitle());
+            activityTimeTextView.setText(activityTime);
+            activityDateTextView.setText(activityDate);
+            activityCostTextView.setText(activityCost);
+            activityLocationTextView.setText(activityLocation);
+//            hostTextView.setText(hostName);
+            activityTagTextView.setText(tagName);
+//            Glide.with(itemView.getContext())
+//                    .load(currentActivity.getHost().getHostPic())
+//                    .apply(RequestOptions.circleCropTransform())
+//                    .into(uploaderPic);
 
             Glide.with(itemView.getContext()).load(currentActivity.getImageUrl())
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(30, 5)))
-                    .into(mKickImage);
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
+                    .into(activityImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,12 +130,6 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
                 }
             });
 
-
-        }
-
-        private void changeLikeIcon() {
-            liked = true;
-            mLikeIcon.setImageResource(R.drawable.ic_bookmark_icon);
 
         }
     }

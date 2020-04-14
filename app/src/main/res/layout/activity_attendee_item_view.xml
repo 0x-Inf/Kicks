@@ -10,17 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/attendeeitemimage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <ImageView
+            android:id="@+id/activity_attendee_image_view"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:contentDescription="profileexpamleitem"
             android:elevation="2dp"
-            android:src="@drawable/img_soccer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:src="@drawable/img_soccer">
 
         </ImageView>
 

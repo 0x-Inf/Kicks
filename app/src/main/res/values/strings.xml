@@ -189,6 +189,23 @@
     <string name="safe_text">Safe</string>
     <string name="password_hint_text">Password</string>
     <string name="confirm_password_hint_text">Confirm Password</string>
+    <string name="upload_profile_picture_text">Upload Profile Picture</string>
+    <string name="or_pick_one_text">Or Pick One</string>
+    <string name="finish_text_for_efab">FINISH</string>
+    <string name="content_description_profile_pic">Image view for profile pic</string>
+    <string name="activity_image_image_description">activity Image</string>
+    <string name="bowling_and_poker_text">Bowling And Poker</string>
+    <string name="calender_icon_image_description">calender icon</string>
+    <string name="activity_time_placeholder">17:00 – 19:00</string>
+    <string name="activity_date_placeholder">23.05.2020</string>
+    <string name="money_icon_content_description">money icon</string>
+    <string name="currency_placeholder_text">KES</string>
+    <string name="activity_cost_placeholder">800</string>
+    <string name="place_icon_content_description">place icon</string>
+    <string name="activity_location_placeholder">Village Market</string>
+    <string name="activity_tag_placeholder">Bowling</string>
+    <string name="activity_host_pic_desciption">host pic</string>
+    <string name="host_name_placeholder">Jayson</string>
 
 
 </resources>

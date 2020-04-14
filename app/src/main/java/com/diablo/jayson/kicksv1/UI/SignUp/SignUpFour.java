@@ -1,7 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.SignUp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -110,7 +109,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
         View view = inflater.inflate(R.layout.fragment_sign_up_four, container, false);
         recyclerView = view.findViewById(R.id.profilePicsExamplesRecycler);
         profilePicImage = view.findViewById(R.id.profilePicImage);
-        FloatingActionButton signUpButton = view.findViewById(R.id.signUpFAB);
+        ExtendedFloatingActionButton signUpButton = view.findViewById(R.id.sign_up_four_finish_efab);
 
         profilePicImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +186,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_GET) {
             assert data != null;
-            Bitmap thumbnail = data.getParcelableExtra("data");
+//            Bitmap thumbnail = data.getParcelableExtra("data");
             Uri fullPhotoUri = data.getData();
 
 

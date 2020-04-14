@@ -43,37 +43,37 @@
                 android:paddingBottom="40dp"
                 android:layout_height="match_parent" />
 
-            <RelativeLayout
-                android:layout_width="280dp"
-                android:layout_height="45dp"
-                android:layout_marginBottom="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:background="@drawable/message_edit_bg">
+            <!--            <RelativeLayout-->
+            <!--                android:layout_width="280dp"-->
+            <!--                android:layout_height="45dp"-->
+            <!--                android:layout_marginBottom="30dp"-->
+            <!--                android:layout_alignParentBottom="true"-->
+            <!--                android:layout_centerInParent="true"-->
+            <!--                android:background="@drawable/message_edit_bg">-->
 
-                <EditText
-                    android:id="@+id/messageEditText"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:hint="Type a message"
-                    android:background="@null"
-                    android:autofillHints="Message"
-                    android:inputType="textLongMessage|textMultiLine" />
+            <!--                <EditText-->
+            <!--                    android:id="@+id/messageEditText"-->
+            <!--                    android:layout_width="240dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:layout_alignParentStart="true"-->
+            <!--                    android:layout_centerInParent="true"-->
+            <!--                    android:hint="Type a message"-->
+            <!--                    android:background="@null"-->
+            <!--                    android:autofillHints="Message"-->
+            <!--                    android:inputType="textLongMessage|textMultiLine" />-->
 
 
-                <ImageView
-                    android:id="@+id/sendMessageButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="5dp"
-                    android:src="@drawable/ic_send_message_icon_24dp" />
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/sendMessageButton"-->
+            <!--                    android:layout_width="35dp"-->
+            <!--                    android:layout_height="35dp"-->
+            <!--                    android:layout_alignParentEnd="true"-->
+            <!--                    android:layout_centerInParent="true"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:src="@drawable/ic_send_message_icon_24dp" />-->
 
-            </RelativeLayout>
+            <!--            </RelativeLayout>-->
 
 
         </RelativeLayout>
@@ -178,6 +178,7 @@
         <RelativeLayout
             android:id="@+id/activityDetailsActualRelativeLayout"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent">
 
 
@@ -187,33 +188,53 @@
         <RelativeLayout
             android:id="@+id/dash_items_relative_Layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            >
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/activityImageView"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activity_image_card"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_alignParentStart="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/back" />
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="5dp">
+
+
+                <ImageView
+                    android:id="@+id/activityImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back" />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/activity_image_card"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/colorTransparentBlack" />
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/activityAttendeesCard"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_below="@id/activityImageView"
+                android:layout_below="@id/activity_image_card"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="30dp"
+                app:cardElevation="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_rounded"
                     android:padding="10dp">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -235,17 +256,16 @@
                 android:id="@+id/activityDetailsCard"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_below="@id/activityImageView"
+                android:layout_below="@id/activity_image_card"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="30dp"
+                app:cardElevation="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_rounded"
                     android:padding="5dp">
 
                     <TextView
@@ -310,14 +330,13 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                android:layout_marginEnd="100dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_rounded"
                     android:padding="5dp">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -335,10 +354,94 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/activityChatCard"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                app:cardCornerRadius="35dp"
+                app:cardElevation="5dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:padding="5dp"
+                    android:src="@drawable/share_icon_two_24dp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/activityChatCard"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_alignParentEnd="true"
+                app:cardCornerRadius="35dp"
+                app:cardElevation="5dp">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:padding="5dp"
+                    android:src="@drawable/exit_icon_two_24dp" />
+            </androidx.cardview.widget.CardView>
+
         </RelativeLayout>
 
 
     </RelativeLayout>
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/message_input_card"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="50dp"
+        android:minHeight="40dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp">
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:hint="Type a message"
+            android:background="@null"
+            android:autofillHints="Message"
+            android:inputType="textLongMessage|textMultiLine" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/message_send_button_card"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentEnd="true"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp">
+
+        <ImageView
+            android:id="@+id/sendMessageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/send_icon_two_24dp" />
+
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

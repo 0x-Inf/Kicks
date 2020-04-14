@@ -35,6 +35,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class KickFeedFragment extends Fragment implements ActivityFeedListAdapter.OnActivitySelectedListener {
     private static final String TAG = AddKickFragment.class.getSimpleName();
@@ -95,7 +96,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     public void onActivitySelected(Activity activity) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
-        if (user.getDisplayName().isEmpty()) {
+        if (Objects.requireNonNull(user.getDisplayName()).isEmpty()) {
             Toast.makeText(getContext(), "Please Sign Up", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> users = new ArrayList<String>();

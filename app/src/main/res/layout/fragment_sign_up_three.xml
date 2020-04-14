@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/sign_up_three_back2">
+
         <TextView
             android:id="@+id/keepEverythingTextView"
             android:layout_width="wrap_content"
