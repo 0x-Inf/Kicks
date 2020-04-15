@@ -206,6 +206,19 @@
     <string name="activity_tag_placeholder">Bowling</string>
     <string name="activity_host_pic_desciption">host pic</string>
     <string name="host_name_placeholder">Jayson</string>
+    <string name="type_a_message_hint_text">Type a message</string>
+    <string name="image_for_message_sender_pic_description">Image for message sender Pic</string>
+    <string name="message_timestamp_placeholder">13:23</string>
+    <string name="sender_name_placeholder">John Doe</string>
+    <string name="exit_icon_image_description">exit icon image</string>
+    <string name="share_icon_image_description">share icon image</string>
+    <string name="activity_location_long_placeholder">Railways Sports Club Tennis court</string>
+    <string name="attendee_large_image_description">attendee large image</string>
+    <string name="attendee_name_place_holder">John Jane</string>
+    <string name="activity_image_description">activity image in dash</string>
+    <string name="send_message_icon_image_description">send message icon image</string>
+    <string name="activity_time_dash_details_placeholder">5:30 p.m</string>
+    <string name="per_person_text">Per Person</string>
 
 
 </resources>

@@ -2,20 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_marginBottom="20dp">
 
-    <!--        <LinearLayout-->
-    <!--            android:layout_width="20dp"-->
-    <!--            android:layout_height="20dp"-->
-    <!--            android:layout_marginStart="-15dp"-->
-    <!--            android:layout_toEndOf="@id/attendeeitemimage"-->
-    <!--            android:background="@drawable/onlinecircle" />-->
 
     <ImageView
         android:id="@+id/attendeeitemimage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:contentDescription="profileexpamleitem"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="@string/attendee_large_image_description"
         android:elevation="2dp"
         android:src="@drawable/img_soccer">
 
@@ -26,10 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/attendeeitemimage"
-        android:text="John Jane"
-        android:textSize="15sp"
+        android:text="@string/attendee_name_place_holder"
+        android:textSize="20sp"
         android:layout_centerInParent="true"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/colorPurple" />
 
 
 </RelativeLayout>

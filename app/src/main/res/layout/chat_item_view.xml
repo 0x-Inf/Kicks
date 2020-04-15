@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatContent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="5dp"
+    android:layout_marginBottom="20dp">
 
     <ImageView
         android:id="@+id/senderProfilePic"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="5dp" />
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@id/chatMessageLinearLayout"
+        android:layout_marginStart="5dp"
+        android:contentDescription="@string/image_for_message_sender_pic_description" />
 
 
     <LinearLayout
         android:id="@+id/chatMessageLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_toEndOf="@id/senderProfilePic"
         android:background="@drawable/chat_item_bg"
+        android:layout_margin="5dp"
+        android:elevation="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -25,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:text="John Doe"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -43,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
             android:text="13:23"
             android:textSize="10sp" />

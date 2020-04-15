@@ -26,10 +26,17 @@ import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,13 +48,14 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainAttendActivityActivity extends AppCompatActivity {
+public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ChatAdapter chatAdapter;
 
     private RelativeLayout dashItemsRelativeLayout;
     private RelativeLayout chatActualRelativeLayout;
     private RelativeLayout attendeesActualRelativeLayout;
+    private RelativeLayout detailsActualRelativeLayout;
     private FrameLayout dashItemDetailsFramelayout;
     private RecyclerView attendeesRecycler, attendeesActualRecycler, chatRecycler, chatActualRecycler;
     private ProgressBar attendeesProress;
@@ -56,9 +64,15 @@ public class MainAttendActivityActivity extends AppCompatActivity {
     private ImageView activityImageView;
     private RelativeLayout chatCardOverlay;
     private RelativeLayout attendeesCardOverlay;
+    private RelativeLayout detailsCardOverlay;
     private ImageView sendMessageButton;
     private EditText messageEdit;
     private TextView activityDashTimeText, activityDashDateText, activityDashLocationText, activityDashTagText;
+    private TextView activityLocationActualTextView, activityTimeActualTextView;
+
+    private LatLng activityLocation;
+    private GoogleMap googleMap;
+    private String activityTitle;
 
 
     @Override
@@ -72,10 +86,12 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         dashItemsRelativeLayout = findViewById(R.id.dash_items_relative_Layout);
         chatActualRelativeLayout = findViewById(R.id.chatActualRelativeLayout);
         attendeesActualRelativeLayout = findViewById(R.id.attendeesActualRelativeLayout);
+        detailsActualRelativeLayout = findViewById(R.id.activityDetailsActualRelativeLayout);
 //        dashItemDetailsFramelayout = findViewById(R.id.dashItems_fragment_container);
 //        dashItemDetailsFramelayout.setVisibility(View.GONE);
         chatCardOverlay = findViewById(R.id.chatCardOverlay);
         attendeesCardOverlay = findViewById(R.id.attendeesCardOverlay);
+        detailsCardOverlay = findViewById(R.id.detailsCardOverlay);
         chatCard = findViewById(R.id.activityChatCard);
         sendMessageButton = findViewById(R.id.sendMessageButton);
         messageEdit = findViewById(R.id.messageEditText);
@@ -84,6 +100,15 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         activityDashLocationText = findViewById(R.id.activityDashLocationText);
         activityDashTagText = findViewById(R.id.activityDashTagTextView);
         activityImageView = findViewById(R.id.activityImageView);
+        activityLocationActualTextView = findViewById(R.id.activity_actual_location_text_view);
+        activityTimeActualTextView = findViewById(R.id.activity_time_actual_text_view);
+
+        Places.initialize(this, "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
+
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
+                .findFragmentById(R.id.activity_map_location);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -104,17 +129,26 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     assert documentSnapshot != null;
                     String activityTime = documentSnapshot.toObject(Activity.class).getKickStartTime() + " - " + documentSnapshot.toObject(Activity.class).getKickEndTime();
+                    String activityDate = documentSnapshot.toObject(Activity.class).getKickDate();
                     String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
                     String activityTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
+                    String activityLocationName = documentSnapshot.toObject(Activity.class).getKickLocationName();
+                    String activityTag = documentSnapshot.toObject(Activity.class).getTag().getTagName();
+                    activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getKickLocationCordinates().getLatitude(),
+                            documentSnapshot.toObject(Activity.class).getKickLocationCordinates().getLongitude());
                     activityDashTimeText.setText(activityTime);
-                    activityDashLocationText.setText(documentSnapshot.toObject(Activity.class).getKickLocationName());
-                    activityDashTagText.setText(documentSnapshot.toObject(Activity.class).getTag().getTagName());
-                    activityDashDateText.setText(documentSnapshot.toObject(Activity.class).getKickDate());
+                    activityDashLocationText.setText(activityLocationName);
+                    activityDashTagText.setText(activityTag);
+                    activityDashDateText.setText(activityDate);
+                    activityLocationActualTextView.setText(activityLocationName);
+                    activityTimeActualTextView.setText(activityTime);
                     Glide.with(getApplicationContext())
                             .load(activityImageUrl)
                             .into(activityImageView);
                     Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitle);
-
+                    googleMap.addMarker(new MarkerOptions().position(activityLocation)
+                            .title(activityTitle));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
 
                     attendingUsersData = new ArrayList<AttendingUser>();
                     attendingUsersData = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getMattendees();
@@ -190,7 +224,6 @@ public class MainAttendActivityActivity extends AppCompatActivity {
         chatCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), activityId, Toast.LENGTH_SHORT).show();
                 chatActualRelativeLayout.setVisibility(View.VISIBLE);
                 dashItemsRelativeLayout.setVisibility(View.GONE);
             }
@@ -202,7 +235,14 @@ public class MainAttendActivityActivity extends AppCompatActivity {
                 dashItemsRelativeLayout.setVisibility(View.GONE);
             }
         });
-        Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
+        detailsCardOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailsActualRelativeLayout.setVisibility(View.VISIBLE);
+                dashItemsRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+
 
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +292,9 @@ public class MainAttendActivityActivity extends AppCompatActivity {
 
             attendeesActualRelativeLayout.setVisibility(View.GONE);
             dashItemsRelativeLayout.setVisibility(View.VISIBLE);
+        } else if (detailsActualRelativeLayout.getVisibility() == View.VISIBLE) {
+            detailsActualRelativeLayout.setVisibility(View.GONE);
+            dashItemsRelativeLayout.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }
@@ -262,5 +305,11 @@ public class MainAttendActivityActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap gMap) {
+        googleMap = gMap;
+
     }
 }

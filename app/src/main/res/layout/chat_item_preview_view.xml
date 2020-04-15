@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:padding="2dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="20dp">
 
     <ImageView
         android:id="@+id/senderProfilePic"
         android:layout_width="40dp"
-        android:visibility="gone"
         android:layout_height="40dp"
+        android:layout_alignBottom="@id/chatMessageLinearLayout"
         android:layout_margin="5dp"
         android:contentDescription="@string/image_for_message_sender_pic_description" />
 
+
     <LinearLayout
-        android:id="@+id/chatMessageSelfLinearLayout"
+        android:id="@+id/chatMessageLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
-        android:background="@drawable/chat_self_item_bg"
-        android:elevation="10dp"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/chat_item_bg"
+        android:elevation="5dp"
         android:orientation="vertical">
 
         <TextView
@@ -30,34 +29,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="@string/sender_name_placeholder"
-            android:visibility="gone"
-            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:text="John Doe"
+            android:textSize="8sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/chatMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="5dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:maxWidth="170dp"
-            android:minWidth="80dp"
-            android:textSize="15sp"
-            android:text="@string/example_message_short" />
+            android:layout_marginStart="5dp"
+            android:maxWidth="100dp"
+            android:minWidth="20dp"
+            android:textSize="8sp"
+            android:text="@string/example_message" />
 
         <TextView
             android:id="@+id/sendTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
+            android:layout_gravity="right|bottom"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/message_timestamp_placeholder"
-            android:textSize="12sp" />
+            android:layout_marginBottom="10dp"
+            android:text="13:23"
+            android:textSize="5sp" />
 
     </LinearLayout>
+
 
 </RelativeLayout>
