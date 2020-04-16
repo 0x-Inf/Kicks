@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,6 +36,8 @@ public class AttendActivityActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
         String activityId = bundle.getString("activityId");
+        Long activityLatitude = bundle.getLong("activityLatitude");
+        Long activityLongitude = bundle.getLong("activityLongitude");
         Boolean alreadyAttending = bundle.getBoolean("alreadyAttending");
 
         viewModel = new ViewModelProvider(this).get(AttendActivityViewModel.class);
@@ -72,6 +75,7 @@ public class AttendActivityActivity extends AppCompatActivity {
                             String kickDate = documentSnapshot.toObject(Activity.class).getKickDate();
                             String kickTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
                             String kickLocation = documentSnapshot.toObject(Activity.class).getKickLocationName();
+                            GeoPoint kickLocationCordinates = documentSnapshot.toObject(Activity.class).getKickLocationCordinates();
                             String minRequiredPeople = documentSnapshot.toObject(Activity.class).getMinRequiredPeople();
                             String maxRequiredPeeps = documentSnapshot.toObject(Activity.class).getMaxRequiredPeeps();
                             String imageUrl = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getImageUrl();
@@ -82,6 +86,7 @@ public class AttendActivityActivity extends AppCompatActivity {
                             activity.setKickDate(kickDate);
                             activity.setKickTitle(kickTitle);
                             activity.setKickLocationName(kickLocation);
+                            activity.setKickLocationCordinates(kickLocationCordinates);
                             activity.setMinRequiredPeople(minRequiredPeople);
                             activity.setMaxRequiredPeeps(maxRequiredPeeps);
                             activity.setImageUrl(imageUrl);
@@ -101,8 +106,10 @@ public class AttendActivityActivity extends AppCompatActivity {
 //                    .commit();
             Intent attendActivityIntent = new Intent(AttendActivityActivity.this, MainAttendActivityActivity.class);
             attendActivityIntent.putExtra("activityId", activityId);
+            attendActivityIntent.putExtra("activityLatitude", activityLatitude);
+            attendActivityIntent.putExtra("activityLongitude", activityLongitude);
             startActivity(attendActivityIntent);
-
+            finish();
         } else {
             ConfirmAttendFragment confirmAttend = new ConfirmAttendFragment();
 

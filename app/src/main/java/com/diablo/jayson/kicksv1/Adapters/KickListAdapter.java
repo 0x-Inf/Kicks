@@ -28,13 +28,13 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
     private LifecycleOwner owner;
 
 
-    public interface OnKickSelectedListener {
-        void onkickSelected(Kick kick);
+    public interface OnKickSubSelectedListener {
+        void onkickSubSelected(Kick kick);
     }
 
-    private OnKickSelectedListener listener;
+    private OnKickSubSelectedListener listener;
 
-    public KickListAdapter(@NonNull FirestoreRecyclerOptions<Kick> options, OnKickSelectedListener listener) {
+    public KickListAdapter(@NonNull FirestoreRecyclerOptions<Kick> options, OnKickSubSelectedListener listener) {
         super(options);
         this.listener = listener;
     }
@@ -43,7 +43,7 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
     @Override
     public KickListAdapter.KickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KickViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.kick_list_item, parent, false));
+                inflate(R.layout.kick_list_see_all_item, parent, false));
     }
 
 
@@ -100,14 +100,14 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
             mKickName = itemView.findViewById(R.id.kickSelectTextView);
         }
 
-        void bindTo(Kick currentKick, OnKickSelectedListener listener) {
+        void bindTo(Kick currentKick, OnKickSubSelectedListener listener) {
             mKickName.setText(currentKick.getKickName());
             Glide.with(itemView.getContext()).load(currentKick.getKickCardImageUrl()).into(mKickImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onkickSelected(currentKick);
+                        listener.onkickSubSelected(currentKick);
                     }
                 }
             });

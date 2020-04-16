@@ -21,9 +21,16 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
     private Context mContext;
     private ArrayList<Kick> kicksData;
 
-    public KicksAdapter(Context mContext, ArrayList<Kick> kicksData) {
+    public interface OnKickSelectedListener {
+        void onkickSelected(Kick kick);
+    }
+
+    private OnKickSelectedListener listener;
+
+    public KicksAdapter(Context mContext, ArrayList<Kick> kicksData, OnKickSelectedListener listener) {
         this.mContext = mContext;
         this.kicksData = kicksData;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,7 +44,7 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
     public void onBindViewHolder(@NonNull KickViewHolder holder, int position) {
 
         Kick currentKick = kicksData.get(position);
-        holder.bindTo(currentKick);
+        holder.bindTo(currentKick, listener);
     }
 
 
@@ -57,9 +64,17 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
             mKickName = itemView.findViewById(R.id.kickSelectTextView);
         }
 
-        void bindTo(Kick currentKick) {
+        void bindTo(Kick currentKick, OnKickSelectedListener listener) {
             mKickName.setText(currentKick.getKickName());
             Glide.with(itemView.getContext()).load(currentKick.getKickCardImageUrl()).into(mKickImage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onkickSelected(currentKick);
+                    }
+                }
+            });
         }
     }
 }

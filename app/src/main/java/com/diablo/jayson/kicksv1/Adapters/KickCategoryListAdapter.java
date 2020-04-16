@@ -33,7 +33,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     private LayoutInflater mInflater;
     private KickListAdapter adapter;
     //    private ArrayList<Kick> kicksData;
-    private KickListAdapter.OnKickSelectedListener listener1;
+    private KicksAdapter.OnKickSelectedListener listener1;
 
     @NonNull
     @Override
@@ -49,7 +49,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     private OnSeeAllClickedListener listener;
 
 
-    public KickCategoryListAdapter(@NonNull FirestoreRecyclerOptions<KickCategory> options, OnSeeAllClickedListener listener, KickListAdapter.OnKickSelectedListener listener1) {
+    public KickCategoryListAdapter(@NonNull FirestoreRecyclerOptions<KickCategory> options, OnSeeAllClickedListener listener, KicksAdapter.OnKickSelectedListener listener1) {
         super(options);
         this.listener = listener;
         this.listener1 = listener1;
@@ -118,7 +118,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
                                         documentSnapshot.toObject(Kick.class).getTags()));
                             }
 
-                            KicksAdapter adapter = new KicksAdapter(holder.itemView.getContext(), kicksData);
+                            KicksAdapter adapter = new KicksAdapter(holder.itemView.getContext(), kicksData, listener1);
 
                             holder.mkickRecyclerView.setAdapter(adapter);
                             holder.mkickRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false));

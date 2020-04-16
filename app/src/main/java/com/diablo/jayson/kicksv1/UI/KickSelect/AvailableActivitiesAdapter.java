@@ -56,7 +56,6 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
             availableActivityImage = itemView.findViewById(R.id.availableActivityImage);
             availableActivityTitle = itemView.findViewById(R.id.availableActivityTitle);
             availableActivityCost = itemView.findViewById(R.id.availableActivityCostTextView);
-            availableActivityNoOfPeople = itemView.findViewById(R.id.noOfPeopleTextView);
             availableActivityLocation = itemView.findViewById(R.id.availableActivitylocationTextView);
             availableActivityDateTime = itemView.findViewById(R.id.availableActivityDateTimeTextView);
         }
@@ -71,7 +70,6 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
 
             availableActivityTitle.setText(availableActivity.getKickTitle());
             availableActivityCost.setText(availableActivity.getActivityCost());
-            availableActivityNoOfPeople.setText(noOfPeople);
             availableActivityLocation.setText(availableActivity.getKickLocationName());
             availableActivityDateTime.setText(dateTimeText);
             itemView.setOnClickListener(new View.OnClickListener() {

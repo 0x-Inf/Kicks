@@ -219,6 +219,32 @@
     <string name="send_message_icon_image_description">send message icon image</string>
     <string name="activity_time_dash_details_placeholder">5:30 p.m</string>
     <string name="per_person_text">Per Person</string>
+    <string name="kick_category_name_placeholder">Cheap Thrills</string>
+    <string name="image_for_kick_description">Image For Kick</string>
+    <string name="kick_name_placeholder">Monopoly</string>
+    <string name="kick_selected_image_description">kick selected image</string>
+    <string name="kick_selected_description_text">Get out there and quench your Wanderlust with the rolling hills and the mountains of your choosing</string>
+    <string name="available_activity_name_placeholder">Mortal Kombat Tournament</string>
+    <string name="available_activity_cost_placeholder">KES 300</string>
+    <string name="available_activity_location_placeholder">Extreme Gaming Cafe</string>
+    <string name="available_activity_time_placeholder">16:00-18:00 12.05.2020</string>
+    <string name="available_activity_image_description">available activity image</string>
+    <string name="people_text">People</string>
+    <string name="cost_text">Cost</string>
+    <string name="activity_title_edit_text_hint">Activity Title</string>
+    <string name="create_activity_button_text">Create Activity</string>
+    <string name="no_of_people_text">No. of People</string>
+    <string name="min_text">Min</string>
+    <string name="max_text">Max</string>
+    <string name="age_group_text">Age Group</string>
+    <string name="make_private_text">Make Private</string>
+    <string name="location_text">Location</string>
+    <string name="date_and_time_text">Date And Time</string>
+    <string name="tag_text">Tag</string>
+    <string name="duration_text">Duration</string>
+    <string name="hrs_text">HRS</string>
+    <string name="date_text">Date</string>
+    <string name="start_time_text">Start time</string>
 
 
 </resources>

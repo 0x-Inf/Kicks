@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.KickCategoryListAdapter;
 import com.diablo.jayson.kicksv1.Adapters.KickListAdapter;
+import com.diablo.jayson.kicksv1.Adapters.KicksAdapter;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.Models.KickCategory;
 import com.diablo.jayson.kicksv1.R;
@@ -31,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class KickSelectFragment extends Fragment implements KickCategoryListAdapter.OnSeeAllClickedListener, KickListAdapter.OnKickSelectedListener {
+public class KickSelectFragment extends Fragment implements KickCategoryListAdapter.OnSeeAllClickedListener, KicksAdapter.OnKickSelectedListener {
 
     private RecyclerView mCategoryRecyclerView;
     private RecyclerView mKickRecyclerView;
@@ -119,5 +120,8 @@ public class KickSelectFragment extends Fragment implements KickCategoryListAdap
     @Override
     public void onkickSelected(Kick kick) {
         Toast.makeText(getContext(), kick.getKickName(), Toast.LENGTH_SHORT).show();
+        Intent kickSelectedActivity = new Intent(getContext(), KickSelectedActivity.class);
+        kickSelectedActivity.putExtra("kick", kick);
+        startActivity(kickSelectedActivity);
     }
 }

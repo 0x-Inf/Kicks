@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="30dp">
+    android:layout_marginTop="15dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/kickSelectImageCard"
@@ -21,15 +18,14 @@
 
             <ImageView
                 android:id="@+id/kickSelectImage"
-                android:layout_width="119dp"
-                android:scaleType="fitXY"
-                android:layout_height="127dp"
+                android:layout_width="150dp"
+                android:layout_height="160dp"
                 android:contentDescription="@string/image_for_kick_description"
+                android:scaleType="fitXY"
                 android:src="@drawable/img_soccer" />
 
 
         </RelativeLayout>
-
 
     </androidx.cardview.widget.CardView>
 
@@ -37,14 +33,14 @@
         android:id="@+id/kickSelectTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/kick_name_placeholder"
         android:layout_below="@id/kickSelectImageCard"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
         android:fontFamily="@font/roboto_medium"
+        android:textAlignment="center"
+        android:text="@string/kick_name_placeholder"
         android:textColor="@color/colorPurple"
-        android:textSize="17sp" />
-
+        android:textSize="22sp" />
 
 </RelativeLayout>
 

@@ -1,8 +1,10 @@
 package com.diablo.jayson.kicksv1.UI.KickSelect;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -27,6 +29,11 @@ public class KickSeeAllActivity extends AppCompatActivity {
 
         viewModel.setCategoryId(categoryId);
         viewModel.setCategoryName(categoryName);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_kick_category_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setTitle(categoryName);
+        myToolbar.setTitleTextColor(Color.parseColor("#D7385E"));
 
 
         if (savedInstanceState != null) {

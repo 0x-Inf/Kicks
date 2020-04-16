@@ -32,7 +32,7 @@ import java.util.Objects;
  * Use the {@link KicksSeeAllFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnKickSelectedListener {
+public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnKickSubSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -93,14 +93,10 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_kicks_see_all, container, false);
         kickRecyclerView = root.findViewById(R.id.kicksRecyclerView);
-        categoryNameView = root.findViewById(R.id.categoryNameTextView);
-        myToolbar = root.findViewById(R.id.seeAllAppBar);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
         viewModel.getCategoryName().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                myToolbar.setTitle(s);
-                categoryNameView.setText(s);
             }
         });
         loadKicksFromDb();
@@ -120,11 +116,11 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
             FirestoreRecyclerOptions<Kick> options = new FirestoreRecyclerOptions.Builder<Kick>()
                     .setQuery(query, Kick.class)
                     .build();
-            adapter = new KickListAdapter(options, this::onkickSelected);
+            adapter = new KickListAdapter(options, this::onkickSubSelected);
             kickRecyclerView.setAdapter(adapter);
             kickRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
             int spanCount = 2;// 2 columns
-            int spacing = 80; // 100px
+            int spacing = 10; // 40px
             boolean includeEdge = true;
             kickRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
             adapter.startListening();
@@ -144,8 +140,8 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
     }
 
     @Override
-    public void onkickSelected(Kick kick) {
-//        Toast.makeText(getContext(),kick.getKickName(),Toast.LENGTH_SHORT).show();
+    public void onkickSubSelected(Kick kick) {
+
         Intent kickSelectedActivity = new Intent(getContext(), KickSelectedActivity.class);
         kickSelectedActivity.putExtra("kick", kick);
         startActivity(kickSelectedActivity);
@@ -171,6 +167,7 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
             if (includeEdge) {
                 outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
                 outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+//                (column + 1) * spacing / spanCount
 
                 if (position < spanCount) { // top edge
                     outRect.top = 5;

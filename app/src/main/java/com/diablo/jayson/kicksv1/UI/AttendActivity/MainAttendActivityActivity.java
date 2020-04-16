@@ -103,19 +103,18 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         activityLocationActualTextView = findViewById(R.id.activity_actual_location_text_view);
         activityTimeActualTextView = findViewById(R.id.activity_time_actual_text_view);
 
+        Bundle bundle = getIntent().getExtras();
+
+        assert bundle != null;
+        String activityId = bundle.getString("activityId");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Places.initialize(this, "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.activity_map_location);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
-
-        Bundle bundle = getIntent().getExtras();
-
-        assert bundle != null;
-        String activityId = bundle.getString("activityId");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.attend_activity_toolbar);
         setSupportActionBar(myToolbar);
@@ -146,6 +145,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                             .load(activityImageUrl)
                             .into(activityImageView);
                     Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitle);
+                    googleMap.clear();
                     googleMap.addMarker(new MarkerOptions().position(activityLocation)
                             .title(activityTitle));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
@@ -310,6 +310,8 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     @Override
     public void onMapReady(GoogleMap gMap) {
         googleMap = gMap;
-
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0))
+                .title(activityTitle));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 15));
     }
 }

@@ -30,7 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class KickSelectedActivity extends AppCompatActivity implements AvailableActivitiesAdapter.OnAvailableActivitySelected {
 //    private ResultProfileBinding binding;
@@ -54,18 +53,13 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
         Kick kick = (Kick) bundle.get("kick");
         assert kick != null;
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.kick_selected_toolbar);
         setSupportActionBar(myToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(kick.getKickName());
+        myToolbar.setTitle(kick.getKickName());
 
-
-        kickCardImageView = findViewById(R.id.kickCardImage);
+        kickCardImageView = findViewById(R.id.kick_selected_image_view);
         availableActivitiesRecyclerView = findViewById(R.id.availableActivitiesRecycler);
-        noAvailableActivities = findViewById(R.id.noAVailableActivitiesCard);
-        noAvailableActivitiesImage = findViewById(R.id.noAvailableActivities);
         createActivityButton = findViewById(R.id.createActivityButton);
-        noAvailableActivities.setVisibility(View.GONE);
-
         createActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,10 +87,7 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (task.getResult().isEmpty()) {
-                            noAvailableActivities.setVisibility(View.VISIBLE);
-                            Glide.with(getApplicationContext())
-                                    .load("https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/3dec8a93992731.5e7331408ee1b.gif")
-                                    .into(noAvailableActivitiesImage);
+
                         } else {
                             Query query = FirebaseFirestore.getInstance()
                                     .collection("activities")
@@ -144,6 +135,8 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
                 Log.e("names", activity.getMattendees().get(0).getUserName());
                 Intent attendActivity = new Intent(KickSelectedActivity.this, AttendActivityActivity.class);
                 attendActivity.putExtra("activityId", activity.getActivityId());
+                attendActivity.putExtra("activityLatitude", activity.getKickLocationCordinates().getLatitude());
+                attendActivity.putExtra("activityLongitude", activity.getKickLocationCordinates().getLongitude());
                 attendActivity.putExtra("alreadyAttending", true);
                 startActivity(attendActivity);
             } else {

@@ -12,6 +12,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorTransparentBlack">#30000000</color>
+    <color name="colorMoreTransparentBlack">#10000000</color>
     <color name="colorTransparentWhite">#60FFFFFF</color>
     <color name="colorMainTransparent">#40D7385E</color>
 
