@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1015303509875",
+    "firebase_url": "https://kicksv1.firebaseio.com",
+    "project_id": "kicksv1",
+    "storage_bucket": "kicksv1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015303509875:android:5339644bff711b1b7fd706",
+        "android_client_info": {
+          "package_name": "com.diablo.jayson.kicksv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015303509875-1q011fbbua2qqe34d0jpd9e07r48opfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.diablo.jayson.kicksv1",
+            "certificate_hash": "601f54c5c848c17c8574a3e4e902e8d3a7bd8b02"
+          }
+        },
+        {
+          "client_id": "1015303509875-6lta04a47573ign52j1q6rd1vnqbaop8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCODV4Dm-w3BY5JhHE5L-P6_mwhPq9K_NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015303509875-6lta04a47573ign52j1q6rd1vnqbaop8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
