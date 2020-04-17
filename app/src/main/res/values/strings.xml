@@ -227,7 +227,7 @@
     <string name="available_activity_name_placeholder">Mortal Kombat Tournament</string>
     <string name="available_activity_cost_placeholder">KES 300</string>
     <string name="available_activity_location_placeholder">Extreme Gaming Cafe</string>
-    <string name="available_activity_time_placeholder">16:00-18:00 12.05.2020</string>
+    <string name="available_activity_time_placeholder">16:00–18:00 12.05.2020</string>
     <string name="available_activity_image_description">available activity image</string>
     <string name="people_text">People</string>
     <string name="cost_text">Cost</string>
@@ -245,6 +245,18 @@
     <string name="hrs_text">HRS</string>
     <string name="date_text">Date</string>
     <string name="start_time_text">Start time</string>
+    <string name="done_icon_image_description">Done icon image</string>
+    <string name="pick_one_tag_from_below_text">Pick<font color="#D7385E"> One </font>tag from below</string>
+    <string name="selected_tag_text">Selected Tag</string>
+    <string name="selected_tag_image_description">selected tag image</string>
+    <string name="tag_selection_done_button_description">tag selection done button</string>
+    <string name="search_available_tags_hint_text">Search available tags</string>
+    <string name="location_selection_done_button_description">location selection done button</string>
+    <string name="set_the_location_text">Set the Location</string>
+    <string name="search_a_place_or_drag_the_map_and_position_the_location_you_would_like_under_the_pin_text">Search a place or drag the map and position the location you would like under the pin</string>
+    <string name="search_a_place_hint">Search a place</string>
+    <string name="pin_image_description">pin image</string>
+    <string name="set_the_location_text_2">Set the location</string>
 
 
 </resources>

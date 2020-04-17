@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
@@ -109,7 +110,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         String activityId = bundle.getString("activityId");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Places.initialize(this, "AIzaSyDrZtRYNPGMye467hX4Y0SWmkTp9mSUpCs");
+        Places.initialize(this, ApiThings.places_api_key);
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.activity_map_location);

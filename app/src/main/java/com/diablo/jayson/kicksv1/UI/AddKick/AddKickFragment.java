@@ -1,81 +1,92 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.Models.AttendingUser;
-import com.diablo.jayson.kicksv1.Models.Host;
-import com.diablo.jayson.kicksv1.Models.Tag;
-import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class AddKickFragment extends Fragment {
+public class AddKickFragment extends Fragment implements OnMapReadyCallback,
+        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
 
     private static final String TAG = AddKickFragment.class.getSimpleName();
-    private AddKickViewModel mViewModel;
-    private Button mDatePickerButton;
-    private Button mTimePickerButton;
-    private TextInputEditText mTimePickerInput, mDatePickerInput, mLocationTextInput, mActivityTitleInput;
-    private MultiAutoCompleteTextView mTagsAutoCompleteInput;
-    private TextInputEditText mMaxRequiredInput, mMinRequiredInput;
-    private TextInputLayout mActivityTitleInputLayout, mActivityLocationInputLayout, mActivityTimeInputLayout,
-            mActivityDateInputLayout, mActivityMinPeopleInputLayout, mActivityMaxPeopleInputLayout,
-            mActivityTagsInputLayout;
-    private Button mPickALocationButton;
-    private SeekBar mSeekBar;
-    private DatabaseReference mDatabase;
-    private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private ExtendedFloatingActionButton mAddActivityToDb;
-    private ArrayList<AttendingUser> mAttendees;
 
+    private final static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
+    private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    private boolean mLocationPermissionGranted = false;
+    private Context context = getContext();
+
+    private GoogleMap map;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Location lastKnownLocation;
+    private float ZOOM = 17f;
+    private double CBD_LAT = -1.28333;
+    private double CBD_LONG = 36.81667;
+    private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
+
+    private AddKickViewModel viewModel;
     private Activity activityMain;
+    private String activityLocation = "";
+
+    private TextView selectedLocation;
+    private EditText searchLocationEditText;
+    private FloatingActionButton locationSelectionDone;
 
     public static AddKickFragment newInstance() {
         return new AddKickFragment();
@@ -85,117 +96,129 @@ public class AddKickFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton nextButton = view.findViewById(R.id.nextcreateActivityFab);
-        RelativeLayout firstContent = view.findViewById(R.id.addKickFirstContent);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adddatatoDb();
-                mViewModel.setActivity1(activityMain);
-                AddKick1Fragment nextFrag = new AddKick1Fragment();
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
-                firstContent.setVisibility(View.INVISIBLE);
-                nextButton.setVisibility(View.INVISIBLE);
-            }
-        });
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.add_kick_fragment, container, false);
-        mTimePickerInput = root.findViewById(R.id.time_picker_input);
-        mDatePickerInput = root.findViewById(R.id.date_picker_input);
-        mLocationTextInput = root.findViewById(R.id.ActivityPLaceEditText);
-        mAddActivityToDb = root.findViewById(R.id.nextcreateActivityFab);
-        mActivityTitleInput = root.findViewById(R.id.kickNameEditText);
-        mTagsAutoCompleteInput = root.findViewById(R.id.tagsAutoCompleteTextView);
-        mMinRequiredInput = root.findViewById(R.id.minPeopleInputEditText);
-        mMaxRequiredInput = root.findViewById(R.id.maxPeopleEditText);
-        mActivityTitleInputLayout = root.findViewById(R.id.ActivityNameInput);
-        mActivityLocationInputLayout = root.findViewById(R.id.ActivityPlaceInput);
-        mActivityTimeInputLayout = root.findViewById(R.id.activityTimeInput);
-        mActivityDateInputLayout = root.findViewById(R.id.activityDateInput);
-        mActivityMinPeopleInputLayout = root.findViewById(R.id.minPeopleInputLayout);
-        mActivityMaxPeopleInputLayout = root.findViewById(R.id.maxPeopleInputLayout);
-        mActivityTagsInputLayout = root.findViewById(R.id.tagsAutoCompleteInputLayout);
+        View root = inflater.inflate(R.layout.fragment_add_kick, container, false);
+        activityMain = new Activity();
+
+        //Location Stuff
+        selectedLocation = root.findViewById(R.id.setTheLocationTextView);
+        searchLocationEditText = root.findViewById(R.id.searchLocationEditText);
+        locationSelectionDone = root.findViewById(R.id.locationSelectionDoneButton);
 
 
-        // Initialize the SDK
-        Places.initialize(getActivity().getApplicationContext(), "AIzaSyDSiR_IHNqTBXhKXuEBWlkftFF_jLO8rBU");
-
-// Create a new Places client instance
-        PlacesClient placesClient = Places.createClient(getContext());
-
-        mSeekBar = root.findViewById(R.id.seekBar);
-//        final TextInputEditText seekBarProgress = root.findViewById(R.id.minPeopleInputEditText);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        String[] TAGS = new String[]{"Fishing", "Skating", "Puzzles", "Karting", "Fishing", "Skating", "Puzzles", "Karting"};
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(
-                        getContext(),
-                        R.layout.ropdown_menu_popup_item,
-                        TAGS);
-
-//        MultiAutoCompleteTextView editTextFilledExposedDropdown = root.findViewById(R.id.tagsAutoCompleteTextView);
-        mTagsAutoCompleteInput.setAdapter(adapter);
-        mTagsAutoCompleteInput.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        mDatePickerInput.setOnClickListener(new View.OnClickListener() {
+        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), ApiThings.places_api_key);
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
+                .findFragmentById(R.id.location_selecting_map);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
+        searchLocationEditText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showDatePicker();
+            public void onClick(View v) {
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.OVERLAY, fields)
+                        .build(Objects.requireNonNull(getContext()));
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
-        mTimePickerInput.setOnClickListener(new View.OnClickListener() {
+        locationSelectionDone.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showTimePicker();
+            public void onClick(View v) {
+                updateActivityLocation();
             }
         });
-
-        String kickTitle = mActivityTitleInput.getText().toString();
-        String kickLocation = mLocationTextInput.getText().toString();
-        String kickTime = mTimePickerInput.getText().toString();
-        String kickDate = mDatePickerInput.getText().toString();
-        String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
-        String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
-        String tags = mTagsAutoCompleteInput.getText().toString();
-        Host host = FirebaseUtil.getHost();
-
-        String[] tagsList = tags.split(",", -2);
-//            String[] tagList = {};
-        String tag = Arrays.toString(tagsList);
-
-        tag = tag.replace("[", "");
-        tag = tag.replace("]", "");
-
-        String tagArray[] = tag.split(",");
-
-        List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-        mAttendees = new ArrayList<AttendingUser>();
-
-        activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, new GeoPoint(1, 1), kickMinRequiredPeople,
-                kickMxnRequiredPeople, "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), FirebaseAuth.getInstance().getCurrentUser().getUid(), "", new Tag(), mAttendees, "");
-
-        mLocationTextInput.setOnClickListener(v -> {
-            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-            // Start the autocomplete intent.
-            Intent intent = new Autocomplete.IntentBuilder(
-                    AutocompleteActivityMode.OVERLAY, fields)
-                    .build(getContext());
-            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-            mLocationTextInput.setText("CBD");
-        });
-
         return root;
+    }
+
+    private void updateActivityLocation() {
+        if (activityLocation.isEmpty()) {
+            activityMain.setKickLocationCordinates(new GeoPoint(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude));
+            getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
+        }
+//        Toast.makeText(getContext(), String.valueOf(activityMain.getKickLocationCordinates()), Toast.LENGTH_LONG).show();
+
+
+    }
+
+    private void getAddress(double lat, double lng) {
+
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + ApiThings.geocoder_api_key;
+        RequestQueue requestQueue;
+        Cache cache = new DiskBasedCache(Objects.requireNonNull(getContext()).getCacheDir(), 1024 * 1024);
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+        requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.start();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gson gson = new Gson();
+                        String addressExample;
+                        try {
+                            String address = response.getString("status");
+                            JSONArray resultsArray = response.getJSONArray("results");
+                            JSONObject addressComponents = resultsArray.getJSONObject(0);
+                            String formatted_address = addressComponents.getString("formatted_address");
+                            Log.e(TAG, formatted_address);
+                            selectedLocation.setText(formatted_address);
+                            activityMain.setKickLocationName(formatted_address);
+                            addressExample = address;
+                            Toast.makeText(getContext(), formatted_address, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        try {
+//                            JSONObject json_results = response.getJSONObject(response.toString());
+//                            JSONObject results_object = json_results.getJSONObject("results");
+//                            String formattedAddress = results_object.getString("formatted_address");
+//                            Log.e(TAG, formattedAddress);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        Toast.makeText(getContext(),"Hello",Toast.LENGTH_LONG).show();
+
+//                        Log.e(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        viewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
+
+    }
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
     }
 
     @Override
@@ -205,128 +228,111 @@ public class AddKickFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                mLocationTextInput.setText(String.format("%s%s", place.getName(), place.getId()));
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
-                assert data != null;
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Log.e(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
+                activityLocation = place.getName();
+                selectedLocation.setText(place.getName());
+                activityMain.setKickLocationName(place.getName());
+                activityMain.setKickLocationCordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), ZOOM));
             }
         }
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        mLocationPermissionGranted = true;
+                        map.setMyLocationEnabled(true);
+                        map.getUiSettings().setMapToolbarEnabled(true);
+//                        setUsersLastLocation();
+                    }
+                }
+            }
+        }
+        updateLocationUI();
+    }
+
+    private void updateLocationUI() {
+        if (map == null) {
+            return;
+        }
+        try {
+            if (mLocationPermissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+                setUsersLastLocation();
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void setUsersLastLocation() {
+        try {
+            if (mLocationPermissionGranted) {
+                Task locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            lastKnownLocation = (Location) task.getResult();
+                            assert lastKnownLocation != null;
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), ZOOM));
+                        } else {
+                            Log.e(TAG, "Current location is null. Using defaults.");
+                            Log.e(TAG, "Exception: %s", task.getException());
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(CBD, 10f));
+                            map.getUiSettings().setMyLocationButtonEnabled(false);
+                        }
+                    }
+                });
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
-    }
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.setIndoorEnabled(true);
+        map.setBuildingsEnabled(true);
 
-    public void showDatePicker() {
-        DialogFragment newFragment = new DatePickerFragment(mDatePickerInput);
-        newFragment.show(getChildFragmentManager(), "datePicker");
-    }
+        updateLocationUI();
+        setUsersLastLocation();
+        map.setOnCameraMoveStartedListener(this::onCameraMoveStarted);
 
-    public void processDatePickerResult(int year, int month, int day) {
-        String month_string = Integer.toString(month + 1);
-        String day_string = Integer.toString(day);
-        String year_string = Integer.toString(year);
-        String dateMessage = (day_string +
-                "/" + month_string + "/" + year_string);
-        mDatePickerInput.setText(dateMessage);
-    }
-
-
-    public void showTimePicker() {
-        DialogFragment newFragment = new TimePickerFragment(mTimePickerInput);
-        newFragment.show(getChildFragmentManager(), "timePicker");
-    }
-
-    public void processTimePickerResult(int hour, int minute) {
-        String hour_string = Integer.toString(hour);
-        String minute_string = Integer.toString(minute);
-        String timeMessage = (hour_string + ":" + minute_string);
-        mTimePickerInput.setText(timeMessage);
-        Log.e(TAG, timeMessage);
 
     }
 
-    private void adddatatoDb() {
+    @Override
+    public void onCameraIdle() {
+        if (map != null) {
+//            activityLocation  =  map.getCameraPosition().target;
+//            Toast.makeText(getContext(),String.valueOf(activityLocation.latitude),Toast.LENGTH_LONG).show();
+//            selectedLocation.setText(String.valueOf(activityLocation.latitude));
+        } else {
 
+        }
+    }
 
-        // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String kickTitle = mActivityTitleInput.getText().toString();
-        String kickLocation = mLocationTextInput.getText().toString();
-        String kickTime = mTimePickerInput.getText().toString();
-        String kickDate = mDatePickerInput.getText().toString();
-        String kickMinRequiredPeople = mMinRequiredInput.getText().toString();
-        String kickMxnRequiredPeople = mMaxRequiredInput.getText().toString();
-        String tags = mTagsAutoCompleteInput.getText().toString();
-        Host host = FirebaseUtil.getHost();
-
-
-        if (kickTitle.matches("") || kickLocation.matches("")
-                || kickTime.matches("") || kickDate.matches("")
-                || kickMinRequiredPeople.matches("") || kickMxnRequiredPeople.matches("")
-                || tags.matches("")) {
-
-//            if (kickTitle.matches("")) {
-//                mActivityTitleInputLayout.setError("Input Title.E.g The Boys Hang out");
-//            }
-
-            Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
-        } else if (!kickTitle.matches("") && !kickLocation.matches("")
-                && !kickTime.matches("") && !kickDate.matches("")
-                && !kickMinRequiredPeople.matches("") && !kickMxnRequiredPeople.matches("")
-                && !tags.matches("")) {
-
-            String[] tagsList = tags.split(",", -2);
-//            String[] tagList = {};
-            String tag = Arrays.toString(tagsList);
-
-            tag = tag.replace("[", "");
-            tag = tag.replace("]", "");
-
-            String tagArray[] = tag.split(",");
-
-            List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-
-
-            Log.e(TAG, Arrays.toString(tagsList));
-            Log.e(TAG, tagsList.getClass().toString());
-
-
-            activityMain = new Activity(host, kickTitle, kickTime, kickTime, kickDate, kickLocation, new GeoPoint(1, 1), kickMinRequiredPeople,
-                    kickMxnRequiredPeople, "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
-                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
-                    mAttendees, "");
-            db.collection("users")
-                    .whereEqualTo("userEmail", activityMain.getUploaderId())
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                            User user = documentSnapshot.toObject(User.class);
-                            activityMain.setUploaderId(user.getFirstName());
-                        }
-                    }
-                }
-            });
-            mViewModel.setActivity1(activityMain);
-            Log.e(TAG, activityMain.getKickTitle());
+    @Override
+    public void onCameraMoveStarted(int i) {
+        if (i == 1) {
+            activityLocation = "";
+            selectedLocation.setText(R.string.set_the_location_text);
         }
 
-
     }
-
-
 }

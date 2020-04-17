@@ -88,6 +88,12 @@ dependencies {
     implementation 'com.algolia:algoliasearch-android:3.+'
     // This will automatically update to the latest v3 release when you build your project
 
+    //Volley
+    implementation 'com.android.volley:volley:1.1.1'
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 
     annotationProcessor 'androidx.databinding:databinding-compiler:3.6.2'
     implementation "androidx.core:core-ktx:+"
