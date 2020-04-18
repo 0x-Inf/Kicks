@@ -5,11 +5,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 import com.google.firebase.firestore.core.QueryListener;
@@ -58,15 +60,20 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
     }
 
     static class TagViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTagTextView;
+        private TextView tagNameTextView;
+        private ImageView tagImageView;
 
         public TagViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTagTextView = itemView.findViewById(R.id.activityTagTextView);
+            tagNameTextView = itemView.findViewById(R.id.tagNameTextView);
+            tagImageView = itemView.findViewById(R.id.tagImageView);
         }
 
         void bindTo(Tag currentTag, OnTagSelectedListener listener) {
-            mTagTextView.setText(currentTag.getTagName());
+            tagNameTextView.setText(currentTag.getTagName());
+            Glide.with(itemView.getContext())
+                    .load(currentTag.getTagIconUrl())
+                    .into(tagImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

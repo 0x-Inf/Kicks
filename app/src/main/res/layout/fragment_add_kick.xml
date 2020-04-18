@@ -9,7 +9,7 @@
         android:id="@+id/add_activity_main_dash_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <EditText
@@ -43,23 +43,18 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            app:contentPadding="-8dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/people_text"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="30sp" />
-
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/people_text"
+                android:textColor="@color/colorPurple"
+                android:textSize="30sp" />
 
             <RelativeLayout
                 android:id="@+id/peopleCardOverlay"
@@ -209,7 +204,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/sign_up_four_finish_efab"
+            android:id="@+id/create_activity_finish_efab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/add_activity_location_card"
@@ -339,30 +334,22 @@
 
         <Switch
             android:id="@+id/makePrivateSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_below="@id/makePrivateTextView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/doneImageCard"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/peopleSelectionDoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/makePrivateSwitch"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="@color/colorMain"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="5dp">
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:contentDescription="@string/done_icon_image_description"
-                android:padding="15dp"
-                android:src="@drawable/done_icon_two_24dp" />
-        </androidx.cardview.widget.CardView>
+            android:layout_marginBottom="55dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
 
     </RelativeLayout>
 
@@ -458,26 +445,16 @@
 
         </RelativeLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/doneImageCardDate"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dateTimeSelectionDoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/duration_relative_layout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/colorMain"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="2dp">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:contentDescription="@string/share_icon_image_description"
-                android:padding="15dp"
-                android:src="@drawable/done_icon_two_24dp" />
-        </androidx.cardview.widget.CardView>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
 
 
     </RelativeLayout>
@@ -487,6 +464,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/closeTagRelativelayoutButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/close_icon_24dp"
+            android:contentDescription="@string/close_icon_image_description" />
 
         <TextView
             android:id="@+id/tagTextView"
@@ -549,18 +537,21 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tags_recycler_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_below="@id/separator_line_view" />
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/selectedTagCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="30dp"
+            android:visibility="gone"
             app:cardCornerRadius="20dp"
-            app:cardElevation="5dp">
+            app:cardElevation="6dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -616,13 +607,21 @@
 
         </androidx.cardview.widget.CardView>
 
+        <RelativeLayout
+            android:id="@+id/selectedTagOverlayRelativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:visibility="gone"
+            android:background="@color/colorTransparentBlack" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/add_activity_location_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/locationTextSearchCard"
@@ -702,7 +701,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
+            android:layout_marginBottom="60dp"
             android:contentDescription="@string/location_selection_done_button_description"
             android:src="@drawable/done_icon_two_24dp"
             app:backgroundTint="@color/colorMain" />
@@ -720,6 +719,62 @@
             android:translationY="-22.5dp"
             android:layout_height="45dp"
             android:contentDescription="@string/pin_image_description" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_activity_cost_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/costPerPersonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/cost_per_person_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="45sp" />
+
+        <EditText
+            android:id="@+id/activity_cost_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:translationY="-20dp"
+            android:autofillHints="@string/activity_cost_hint"
+            android:hint="@string/activity_cost_hint"
+            android:inputType="number"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="72sp" />
+
+        <TextView
+            android:id="@+id/currency_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/activity_cost_edit_text"
+            android:layout_centerVertical="true"
+            android:translationY="-20dp"
+            android:text="@string/currency_placeholder_text"
+            android:textColor="@color/colorOrange"
+            android:textSize="40sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/costInputDoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
+
 
     </RelativeLayout>
 

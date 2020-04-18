@@ -15,6 +15,10 @@ import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activity, AvailableActivitiesAdapter.AvailableActivityViewHolder> {
 
 
@@ -61,16 +65,21 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
         }
 
         void bindTo(Activity availableActivity, OnAvailableActivitySelected listener) {
+            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+            calendar.setTimeInMillis(availableActivity.getActivityDate().getSeconds());
+            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(availableActivity.getActivityDate().toDate());
+            String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(availableActivity.getActivityStartTime().toDate());
+            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(availableActivity.getActivityEndTime().toDate());
 
-            String noOfPeople = availableActivity.getMinRequiredPeople() + "-" + availableActivity.getMaxRequiredPeeps() + " People";
-            String dateTimeText = availableActivity.getKickStartTime() + " - " + availableActivity.getKickEndTime() + "  " + availableActivity.getKickDate();
+            String noOfPeople = availableActivity.getActivityMinRequiredPeople() + "-" + availableActivity.getActivityMaxRequiredPeople() + " People";
+            String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
             Glide.with(itemView.getContext())
                     .load(availableActivity.getImageUrl())
                     .into(availableActivityImage);
 
-            availableActivityTitle.setText(availableActivity.getKickTitle());
+            availableActivityTitle.setText(availableActivity.getActivityTitle());
             availableActivityCost.setText(availableActivity.getActivityCost());
-            availableActivityLocation.setText(availableActivity.getKickLocationName());
+            availableActivityLocation.setText(availableActivity.getActivityLocationName());
             availableActivityDateTime.setText(dateTimeText);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

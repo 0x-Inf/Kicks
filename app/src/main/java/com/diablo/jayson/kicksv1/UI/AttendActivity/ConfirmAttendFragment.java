@@ -20,8 +20,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.Models.AttendingUser;
-import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +30,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -110,7 +107,7 @@ public class ConfirmAttendFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updateViewModel();
-                activity.getMattendees().add(FirebaseUtil.getAttendingUser());
+                activity.getActivityAttendees().add(FirebaseUtil.getAttendingUser());
 //                AttendActivityMainFragment attendFragment = new AttendActivityMainFragment();
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -172,31 +169,32 @@ public class ConfirmAttendFragment extends Fragment {
                             DocumentSnapshot documentSnapshot = task.getResult();
                             assert documentSnapshot != null;
                             if (documentSnapshot.exists()) {
-                                Host host = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getHost();
-                                String kickStartTime = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getKickStartTime();
-                                String kickEndTime = documentSnapshot.toObject(Activity.class).getKickEndTime();
-                                String kickDate = documentSnapshot.toObject(Activity.class).getKickDate();
-                                String kickTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
-                                String kickLocation = documentSnapshot.toObject(Activity.class).getKickLocationName();
-                                String minRequiredPeople = documentSnapshot.toObject(Activity.class).getMinRequiredPeople();
-                                String maxRequiredPeeps = documentSnapshot.toObject(Activity.class).getMaxRequiredPeeps();
-                                String imageUrl = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getImageUrl();
-                                ArrayList<AttendingUser> mattendees = documentSnapshot.toObject(Activity.class).getMattendees();
-                                activity.setHost(host);
-                                activity.setKickStartTime(kickStartTime);
-                                activity.setKickEndTime(kickEndTime);
-                                activity.setKickDate(kickDate);
-                                activity.setKickTitle(kickTitle);
-                                activity.setKickLocationName(kickLocation);
-                                activity.setMinRequiredPeople(minRequiredPeople);
-                                activity.setMaxRequiredPeeps(maxRequiredPeeps);
-                                activity.setImageUrl(imageUrl);
-                                activity.setMattendees(mattendees);
-                                Glide.with(Objects.requireNonNull(getContext())).load(imageUrl)
+                                activity = documentSnapshot.toObject(Activity.class);
+//                                Host host = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getHost();
+//                                String kickStartTime = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getKickStartTime();
+//                                String kickEndTime = documentSnapshot.toObject(Activity.class).getKickEndTime();
+//                                String kickDate = documentSnapshot.toObject(Activity.class).getKickDate();
+//                                String kickTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
+//                                String kickLocation = documentSnapshot.toObject(Activity.class).getKickLocationName();
+//                                String minRequiredPeople = documentSnapshot.toObject(Activity.class).getMinRequiredPeople();
+//                                String maxRequiredPeeps = documentSnapshot.toObject(Activity.class).getMaxRequiredPeeps();
+//                                String imageUrl = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getImageUrl();
+//                                ArrayList<AttendingUser> mattendees = documentSnapshot.toObject(Activity.class).getMattendees();
+//                                activity.setHost(host);
+//                                activity.setKickStartTime(kickStartTime);
+//                                activity.setKickEndTime(kickEndTime);
+//                                activity.setKickDate(kickDate);
+//                                activity.setKickTitle(kickTitle);
+//                                activity.setKickLocationName(kickLocation);
+//                                activity.setMinRequiredPeople(minRequiredPeople);
+//                                activity.setMaxRequiredPeeps(maxRequiredPeeps);
+//                                activity.setImageUrl(imageUrl);
+//                                activity.setMattendees(mattendees);
+                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
                                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
                                         .into(imageView);
-                                titleTextView.setText(kickTitle);
-                                Log.e(TAG, imageUrl);
+                                titleTextView.setText(activity.getActivityTitle());
+                                Log.e(TAG, activity.getImageUrl());
                             }
                         }
                     }

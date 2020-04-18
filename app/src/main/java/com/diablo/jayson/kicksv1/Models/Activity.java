@@ -2,6 +2,7 @@ package com.diablo.jayson.kicksv1.Models;
 
 import androidx.databinding.BaseObservable;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
@@ -11,24 +12,25 @@ import java.util.List;
 public class Activity extends BaseObservable implements Serializable {
 
     private Host host;
-    private String kickTitle;
-    private String kickStartTime;
-    private String kickEndTime;
-    private String kickDate;
-    private String kickLocationName;
-    private GeoPoint kickLocationCordinates;
-    private String minRequiredPeople;
-    private String maxRequiredPeeps;
-    private String minAge;
-    private String maxAge;
+    private String activityTitle;
+    private Timestamp activityStartTime;
+    private Timestamp activityEndTime;
+    private Timestamp activityDate;
+    private String activityLocationName;
+    private GeoPoint activityLocationCoordinates;
+    private int activityMinRequiredPeople;
+    private int activityMaxRequiredPeople;
+    private int activityMinAge;
+    private int activityMaxAge;
     private String imageUrl;
-    private String uploaderId;
+    private String activityUploaderId;
     private String activityId;
     private String activityCost;
-    private long uploadedTime;
+    private Timestamp activityUploadedTime;
     private List<String> tags;
-    private Tag tag;
-    private ArrayList<AttendingUser> mattendees;
+    private Tag activityTag;
+    private ArrayList<AttendingUser> activityAttendees;
+    private boolean isActivityPrivate;
 
 
     public Activity() {
@@ -38,32 +40,32 @@ public class Activity extends BaseObservable implements Serializable {
     //Constructor for Activity data model
 
 
-    public Activity(Host host, String kicktitle, String kickStartTime, String kickEndTime, String kickdate,
-                    String kicklocationname, GeoPoint locationCordinates,
-                    String minrequiredpeople, String maxrequiredpeeps, String minage, String maxage,
-                    String imageUrl, List<String> tags, long uploadedtime,
-                    String uploaderUid, String activityId, Tag tag, ArrayList<AttendingUser> mattendees,
-                    String activityCost) {
-        this.kickTitle = kicktitle;
-        this.kickStartTime = kickStartTime;
-        this.kickEndTime = kickEndTime;
-        this.kickDate = kickdate;
-        this.kickLocationName = kicklocationname;
-        this.kickLocationCordinates = locationCordinates;
-        this.minRequiredPeople = minrequiredpeople;
-        this.maxRequiredPeeps = maxrequiredpeeps;
-        this.minAge = minage;
-        this.maxAge = maxage;
-        this.imageUrl = imageUrl;
-        this.tags = tags;
-        this.uploadedTime = uploadedtime;
-        this.uploaderId = uploaderUid;
+    public Activity(Host host, String activityTitle, com.google.firebase.Timestamp activityStartTime, com.google.firebase.Timestamp activityEndTime,
+                    com.google.firebase.Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates,
+                    int activityMinRequiredPeople, int activityMaxRequiredPeople, int activityMinAge,
+                    int activityMaxAge, String imageUrl, String activityUploaderId, String activityId,
+                    String activityCost, com.google.firebase.Timestamp activityUploadedTime, List<String> tags, Tag activityTag,
+                    ArrayList<AttendingUser> activityAttendees, boolean isActivityPrivate) {
         this.host = host;
+        this.activityTitle = activityTitle;
+        this.activityStartTime = activityStartTime;
+        this.activityEndTime = activityEndTime;
+        this.activityDate = activityDate;
+        this.activityLocationName = activityLocationName;
+        this.activityLocationCoordinates = activityLocationCoordinates;
+        this.activityMinRequiredPeople = activityMinRequiredPeople;
+        this.activityMaxRequiredPeople = activityMaxRequiredPeople;
+        this.activityMinAge = activityMinAge;
+        this.activityMaxAge = activityMaxAge;
+        this.imageUrl = imageUrl;
+        this.activityUploaderId = activityUploaderId;
         this.activityId = activityId;
-        this.tag = tag;
-        this.mattendees = mattendees;
         this.activityCost = activityCost;
-
+        this.activityUploadedTime = activityUploadedTime;
+        this.tags = tags;
+        this.activityTag = activityTag;
+        this.activityAttendees = activityAttendees;
+        this.isActivityPrivate = isActivityPrivate;
     }
 
     public Host getHost() {
@@ -74,84 +76,84 @@ public class Activity extends BaseObservable implements Serializable {
         this.host = host;
     }
 
-    public String getKickTitle() {
-        return kickTitle;
+    public String getActivityTitle() {
+        return activityTitle;
     }
 
-    public void setKickTitle(String kickTitle) {
-        this.kickTitle = kickTitle;
+    public void setActivityTitle(String activityTitle) {
+        this.activityTitle = activityTitle;
     }
 
-    public String getKickStartTime() {
-        return kickStartTime;
+    public Timestamp getActivityStartTime() {
+        return activityStartTime;
     }
 
-    public void setKickStartTime(String kickStartTime) {
-        this.kickStartTime = kickStartTime;
+    public void setActivityStartTime(Timestamp activityStartTime) {
+        this.activityStartTime = activityStartTime;
     }
 
-    public String getKickEndTime() {
-        return kickEndTime;
+    public Timestamp getActivityEndTime() {
+        return activityEndTime;
     }
 
-    public void setKickEndTime(String kickEndTime) {
-        this.kickEndTime = kickEndTime;
+    public void setActivityEndTime(Timestamp activityEndTime) {
+        this.activityEndTime = activityEndTime;
     }
 
-    public String getKickDate() {
-        return kickDate;
+    public Timestamp getActivityDate() {
+        return activityDate;
     }
 
-    public void setKickDate(String kickDate) {
-        this.kickDate = kickDate;
+    public void setActivityDate(Timestamp activityDate) {
+        this.activityDate = activityDate;
     }
 
-    public String getKickLocationName() {
-        return kickLocationName;
+    public String getActivityLocationName() {
+        return activityLocationName;
     }
 
-    public void setKickLocationName(String kickLocationName) {
-        this.kickLocationName = kickLocationName;
+    public void setActivityLocationName(String activityLocationName) {
+        this.activityLocationName = activityLocationName;
     }
 
-    public GeoPoint getKickLocationCordinates() {
-        return kickLocationCordinates;
+    public GeoPoint getActivityLocationCoordinates() {
+        return activityLocationCoordinates;
     }
 
-    public void setKickLocationCordinates(GeoPoint kickLocationCordinates) {
-        this.kickLocationCordinates = kickLocationCordinates;
+    public void setActivityLocationCordinates(GeoPoint activityLocationCoordinates) {
+        this.activityLocationCoordinates = activityLocationCoordinates;
     }
 
-    public String getMinRequiredPeople() {
-        return minRequiredPeople;
+    public int getActivityMinRequiredPeople() {
+        return activityMinRequiredPeople;
     }
 
-    public void setMinRequiredPeople(String minRequiredPeople) {
-        this.minRequiredPeople = minRequiredPeople;
+    public void setActivityMinRequiredPeople(int activityMinRequiredPeople) {
+        this.activityMinRequiredPeople = activityMinRequiredPeople;
     }
 
-    public String getMaxRequiredPeeps() {
-        return maxRequiredPeeps;
+    public int getActivityMaxRequiredPeople() {
+        return activityMaxRequiredPeople;
     }
 
-    public void setMaxRequiredPeeps(String maxRequiredPeeps) {
-        this.maxRequiredPeeps = maxRequiredPeeps;
+    public void setActivityMaxRequiredPeople(int activityMaxRequiredPeople) {
+        this.activityMaxRequiredPeople = activityMaxRequiredPeople;
     }
 
-    public String getMinAge() {
-        return minAge;
+    public int getActivityMinAge() {
+        return activityMinAge;
     }
 
-    public void setMinAge(String minAge) {
-        this.minAge = minAge;
+    public void setActivityMinAge(int activityMinAge) {
+        this.activityMinAge = activityMinAge;
     }
 
-    public String getMaxAge() {
-        return maxAge;
+    public int getActivityMaxAge() {
+        return activityMaxAge;
     }
 
-    public void setMaxAge(String maxAge) {
-        this.maxAge = maxAge;
+    public void setActivityMaxAge(int activityMaxAge) {
+        this.activityMaxAge = activityMaxAge;
     }
 
     public String getImageUrl() {
@@ -162,12 +164,12 @@ public class Activity extends BaseObservable implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public String getUploaderId() {
-        return uploaderId;
+    public String getActivityUploaderId() {
+        return activityUploaderId;
     }
 
-    public void setUploaderId(String uploaderId) {
-        this.uploaderId = uploaderId;
+    public void setActivityUploaderId(String activityUploaderId) {
+        this.activityUploaderId = activityUploaderId;
     }
 
     public String getActivityId() {
@@ -186,12 +188,12 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityCost = activityCost;
     }
 
-    public long getUploadedTime() {
-        return uploadedTime;
+    public com.google.firebase.Timestamp getActivityUploadedTime() {
+        return activityUploadedTime;
     }
 
-    public void setUploadedTime(long uploadedTime) {
-        this.uploadedTime = uploadedTime;
+    public void setActivityUploadedTime(com.google.firebase.Timestamp activityUploadedTime) {
+        this.activityUploadedTime = activityUploadedTime;
     }
 
     public List<String> getTags() {
@@ -202,19 +204,27 @@ public class Activity extends BaseObservable implements Serializable {
         this.tags = tags;
     }
 
-    public Tag getTag() {
-        return tag;
+    public Tag getActivityTag() {
+        return activityTag;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setActivityTag(Tag activityTag) {
+        this.activityTag = activityTag;
     }
 
-    public ArrayList<AttendingUser> getMattendees() {
-        return mattendees;
+    public ArrayList<AttendingUser> getActivityAttendees() {
+        return activityAttendees;
     }
 
-    public void setMattendees(ArrayList<AttendingUser> mattendees) {
-        this.mattendees = mattendees;
+    public void setActivityAttendees(ArrayList<AttendingUser> activityAttendees) {
+        this.activityAttendees = activityAttendees;
+    }
+
+    public boolean isActivityPrivate() {
+        return isActivityPrivate;
+    }
+
+    public void setActivityPrivate(boolean activityPrivate) {
+        isActivityPrivate = activityPrivate;
     }
 }

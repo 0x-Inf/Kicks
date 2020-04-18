@@ -19,6 +19,7 @@ import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -58,7 +59,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     protected void onBindViewHolder(@NonNull ActivityViewHolder holder, int position, @NonNull Activity model) {
         Activity currentActivity = getItem(position);
         ArrayList<AttendingUser> attendeesData;
-        attendeesData = currentActivity.getMattendees();
+        attendeesData = currentActivity.getActivityAttendees();
         ActivityAttendeesAdapter attendeesAdapter = new ActivityAttendeesAdapter(holder.itemView.getContext(), attendeesData);
         holder.attendeesRecycler.setAdapter(attendeesAdapter);
         GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
@@ -98,14 +99,18 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
+            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(currentActivity.getActivityDate().toDate());
+//            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
+            String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(currentActivity.getActivityStartTime().toDate());
+            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(currentActivity.getActivityEndTime().toDate());
 
-            String activityTime = currentActivity.getKickStartTime() + " - " + currentActivity.getKickEndTime();
-            String activityDate = currentActivity.getKickDate();
+
+            String activityTime = activityStartTime + " - " + activityEndTime;
             String activityCost = currentActivity.getActivityCost();
-            String activityLocation = currentActivity.getKickLocationName();
+            String activityLocation = currentActivity.getActivityLocationName();
             String hostName = currentActivity.getHost().getUserName();
-            String tagName = currentActivity.getTag().getTagName();
-            activityTitleTextView.setText(currentActivity.getKickTitle());
+            String tagName = currentActivity.getActivityTag().getTagName();
+            activityTitleTextView.setText(currentActivity.getActivityTitle());
             activityTimeTextView.setText(activityTime);
             activityDateTextView.setText(activityDate);
             activityCostTextView.setText(activityCost);

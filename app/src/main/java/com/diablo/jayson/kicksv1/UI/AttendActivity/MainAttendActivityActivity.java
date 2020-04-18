@@ -2,6 +2,7 @@ package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -69,7 +70,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     private ImageView sendMessageButton;
     private EditText messageEdit;
     private TextView activityDashTimeText, activityDashDateText, activityDashLocationText, activityDashTagText;
-    private TextView activityLocationActualTextView, activityTimeActualTextView;
+    private TextView activityLocationActualTextView, activityTimeActualTextView, activityDateActualTextView;
 
     private LatLng activityLocation;
     private GoogleMap googleMap;
@@ -103,6 +104,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         activityImageView = findViewById(R.id.activityImageView);
         activityLocationActualTextView = findViewById(R.id.activity_actual_location_text_view);
         activityTimeActualTextView = findViewById(R.id.activity_time_actual_text_view);
+        activityDateActualTextView = findViewById(R.id.activity_actual_date_text_view);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -128,31 +130,35 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     assert documentSnapshot != null;
-                    String activityTime = documentSnapshot.toObject(Activity.class).getKickStartTime() + " - " + documentSnapshot.toObject(Activity.class).getKickEndTime();
-                    String activityDate = documentSnapshot.toObject(Activity.class).getKickDate();
+                    String activityDate = DateFormat.getMediumDateFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityDate().toDate());
+                    String activityStartTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityStartTime().toDate());
+                    String activityEndTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityEndTime().toDate());
+
+                    String activityTime = activityStartTime + " - " + activityEndTime;
                     String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
-                    String activityTitle = documentSnapshot.toObject(Activity.class).getKickTitle();
-                    String activityLocationName = documentSnapshot.toObject(Activity.class).getKickLocationName();
-                    String activityTag = documentSnapshot.toObject(Activity.class).getTag().getTagName();
-                    activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getKickLocationCordinates().getLatitude(),
-                            documentSnapshot.toObject(Activity.class).getKickLocationCordinates().getLongitude());
+                    String activityTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
+                    String activityLocationName = documentSnapshot.toObject(Activity.class).getActivityLocationName();
+                    String activityTag = documentSnapshot.toObject(Activity.class).getActivityTag().getTagName();
+                    activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLatitude(),
+                            documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLongitude());
                     activityDashTimeText.setText(activityTime);
                     activityDashLocationText.setText(activityLocationName);
                     activityDashTagText.setText(activityTag);
                     activityDashDateText.setText(activityDate);
                     activityLocationActualTextView.setText(activityLocationName);
                     activityTimeActualTextView.setText(activityTime);
+                    activityDateActualTextView.setText(activityDate);
                     Glide.with(getApplicationContext())
                             .load(activityImageUrl)
                             .into(activityImageView);
                     Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitle);
-                    googleMap.clear();
-                    googleMap.addMarker(new MarkerOptions().position(activityLocation)
-                            .title(activityTitle));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
+//                    googleMap.clear();
+//                    googleMap.addMarker(new MarkerOptions().position(activityLocation)
+//                            .title(activityTitle));
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
 
                     attendingUsersData = new ArrayList<AttendingUser>();
-                    attendingUsersData = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getMattendees();
+                    attendingUsersData = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getActivityAttendees();
 //                            Log.e("yooooo", String.valueOf(attendingUsersData.size()));
 //                            Log.e("yooooo", attendingUsersData.get(0).getUserName());
 //                            Log.e("yooooo", attendingUsersData.get(1).getUserName());
@@ -171,6 +177,18 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
             }
         });
+        if (googleMap != null) {
+            googleMap.clear();
+            googleMap.addMarker(new MarkerOptions().position(activityLocation)
+                    .title(activityTitle));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
+        } else {
+
+        }
+
+
+
+
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("activities")
@@ -311,6 +329,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     @Override
     public void onMapReady(GoogleMap gMap) {
         googleMap = gMap;
+
         googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0))
                 .title(activityTitle));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 15));

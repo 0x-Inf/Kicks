@@ -257,6 +257,10 @@
     <string name="search_a_place_hint">Search a place</string>
     <string name="pin_image_description">pin image</string>
     <string name="set_the_location_text_2">Set the location</string>
+    <string name="cost_per_person_text">Cost Per Person</string>
+    <string name="activity_cost_hint">999</string>
+    <string name="private_text">Private</string>
+    <string name="close_icon_image_description">Close Icon Image</string>
 
 
 </resources>

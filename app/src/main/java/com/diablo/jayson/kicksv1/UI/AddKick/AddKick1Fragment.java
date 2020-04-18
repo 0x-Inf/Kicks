@@ -25,13 +25,11 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
@@ -40,7 +38,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -258,11 +255,11 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
                 } else {
                     updateActivityModel();
 //                viewModel.setActivity1(activityMain);
-                    AddKick2Fragment nextFrag = new AddKick2Fragment();
-                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
-                            .addToBackStack(null)
-                            .commit();
+//                    AddKick2Fragment nextFrag = new AddKick2Fragment();
+//                    Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.framelayoutbase, nextFrag, "findThisFragment")
+//                            .addToBackStack(null)
+//                            .commit();
                     firstContent.setVisibility(View.INVISIBLE);
                     nextButton[0].setVisibility(View.INVISIBLE);
                 }
@@ -291,29 +288,26 @@ public class AddKick1Fragment extends Fragment implements TagListAdapter.OnTagSe
         GeoPoint locationCod = new GeoPoint(22, 12);
 
         if (selectedTags.isEmpty()) {
-            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", locationCod, "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(),
-                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", new Tag(),
-                    mAttendees, "");
+            activityMain = new Activity();
             mTagsTextInput.setError("Please Pick a tag");
         } else {
-            activityMain = new Activity(FirebaseUtil.getHost(), activityTitle, "", "", "", "", locationCod, "", "", "", "", "", tagList, Calendar.getInstance().getTimeInMillis(), Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(), "", selectedTags.get(0),
-                    mAttendees, "");
+            activityMain = new Activity();
         }
         db.collection("users")
-                .whereEqualTo("userEmail", activityMain.getUploaderId())
+                .whereEqualTo("userEmail", activityMain.getActivityUploaderId())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                         AttendingUser user = documentSnapshot.toObject(AttendingUser.class);
-                        activityMain.setUploaderId(user.getFirstName());
+                        activityMain.setActivityUploaderId(user.getFirstName());
                     }
                 }
             }
         });
         viewModel.setActivity1(activityMain);
-        Log.e(TAG, activityMain.getKickTitle());
+        Log.e(TAG, activityMain.getActivityTitle());
     }
 
     public void updateActivity() {

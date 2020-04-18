@@ -94,6 +94,9 @@ dependencies {
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    //Joda time
+    implementation 'joda-time:joda-time:2.10.5'
+
 
     annotationProcessor 'androidx.databinding:databinding-compiler:3.6.2'
     implementation "androidx.core:core-ktx:+"

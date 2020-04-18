@@ -2,13 +2,11 @@ package com.diablo.jayson.kicksv1.UI.MapFeed;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,7 +45,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class KickMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -112,24 +108,25 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                 allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getKickTitle(),
-                                        snapshot.toObject(Activity.class).getKickStartTime(),
-                                        snapshot.toObject(Activity.class).getKickEndTime(),
-                                        snapshot.toObject(Activity.class).getKickDate(),
-                                        snapshot.toObject(Activity.class).getKickLocationName(),
-                                        snapshot.toObject(Activity.class).getKickLocationCordinates(),
-                                        snapshot.toObject(Activity.class).getMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
-                                        snapshot.toObject(Activity.class).getMinAge(),
-                                        snapshot.toObject(Activity.class).getMaxAge(),
+                                        snapshot.toObject(Activity.class).getActivityTitle(),
+                                        snapshot.toObject(Activity.class).getActivityStartTime(),
+                                        snapshot.toObject(Activity.class).getActivityEndTime(),
+                                        snapshot.toObject(Activity.class).getActivityDate(),
+                                        snapshot.toObject(Activity.class).getActivityLocationName(),
+                                        snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
+                                        snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
+                                        snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
+                                        snapshot.toObject(Activity.class).getActivityMinAge(),
+                                        snapshot.toObject(Activity.class).getActivityMaxAge(),
                                         snapshot.toObject(Activity.class).getImageUrl(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getUploadedTime(),
-                                        snapshot.toObject(Activity.class).getUploaderId(),
+                                        snapshot.toObject(Activity.class).getActivityUploaderId(),
                                         snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getTag(),
-                                        snapshot.toObject(Activity.class).getMattendees(),
-                                        snapshot.toObject(Activity.class).getActivityCost()));
+                                        snapshot.toObject(Activity.class).getActivityCost(),
+                                        snapshot.toObject(Activity.class).getActivityUploadedTime(),
+                                        snapshot.toObject(Activity.class).getTags(),
+                                        snapshot.toObject(Activity.class).getActivityTag(),
+                                        snapshot.toObject(Activity.class).getActivityAttendees(),
+                                        snapshot.toObject(Activity.class).isActivityPrivate()));
                             }
                         }
                     }
@@ -163,19 +160,20 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onMapReady(GoogleMap googleMap) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         enableLocation();
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = googleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            Objects.requireNonNull(getContext()), R.raw.map_style));
-
-            if (!success) {
-                Log.e(TAG, "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e(TAG, "Can't find style. Error: ", e);
-        }
+//        try {
+//            // Customise the styling of the base map using a JSON object defined
+//            // in a raw resource file.
+//            boolean success = googleMap.setMapStyle(
+//                    MapStyleOptions.loadRawResourceStyle(
+//                            Objects.requireNonNull(getContext()), R.raw.map_style));
+//
+//            if (!success) {
+//                Log.e(TAG, "Style parsing failed.");
+//            }
+//        } catch (Resources.NotFoundException e) {
+//            Log.e(TAG, "Can't find style. Error: ", e);
+//        }
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         allActivities = new ArrayList<Activity>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("activities")
@@ -184,24 +182,25 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
                             allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                    snapshot.toObject(Activity.class).getKickTitle(),
-                                    snapshot.toObject(Activity.class).getKickStartTime(),
-                                    snapshot.toObject(Activity.class).getKickEndTime(),
-                                    snapshot.toObject(Activity.class).getKickDate(),
-                                    snapshot.toObject(Activity.class).getKickLocationName(),
-                                    snapshot.toObject(Activity.class).getKickLocationCordinates(),
-                                    snapshot.toObject(Activity.class).getMinRequiredPeople(),
-                                    snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
-                                    snapshot.toObject(Activity.class).getMinAge(),
-                                    snapshot.toObject(Activity.class).getMaxAge(),
+                                    snapshot.toObject(Activity.class).getActivityTitle(),
+                                    snapshot.toObject(Activity.class).getActivityStartTime(),
+                                    snapshot.toObject(Activity.class).getActivityEndTime(),
+                                    snapshot.toObject(Activity.class).getActivityDate(),
+                                    snapshot.toObject(Activity.class).getActivityLocationName(),
+                                    snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
+                                    snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
+                                    snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
+                                    snapshot.toObject(Activity.class).getActivityMinAge(),
+                                    snapshot.toObject(Activity.class).getActivityMaxAge(),
                                     snapshot.toObject(Activity.class).getImageUrl(),
-                                    snapshot.toObject(Activity.class).getTags(),
-                                    snapshot.toObject(Activity.class).getUploadedTime(),
-                                    snapshot.toObject(Activity.class).getUploaderId(),
+                                    snapshot.toObject(Activity.class).getActivityUploaderId(),
                                     snapshot.toObject(Activity.class).getActivityId(),
-                                    snapshot.toObject(Activity.class).getTag(),
-                                    snapshot.toObject(Activity.class).getMattendees(),
-                                    snapshot.toObject(Activity.class).getActivityCost()));
+                                    snapshot.toObject(Activity.class).getActivityCost(),
+                                    snapshot.toObject(Activity.class).getActivityUploadedTime(),
+                                    snapshot.toObject(Activity.class).getTags(),
+                                    snapshot.toObject(Activity.class).getActivityTag(),
+                                    snapshot.toObject(Activity.class).getActivityAttendees(),
+                                    snapshot.toObject(Activity.class).isActivityPrivate()));
                         }
                         mMap = googleMap;
                         mFusedLocationClient.getLastLocation().addOnSuccessListener(
@@ -217,18 +216,18 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                                     }
                                 }
                         );
-                        Log.e(TAG, String.valueOf(allActivities.get(0).getKickLocationCordinates()));
+//                        Log.e(TAG, String.valueOf(allActivities.get(0).getActivityLocationCoordinates()));
                         for (int i = 0; i < allActivities.size(); i++) {
 
 
                             Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(allActivities.get(i).getKickLocationCordinates().getLatitude(), allActivities.get(i).getKickLocationCordinates().getLongitude()))
+                                    .position(new LatLng(allActivities.get(i).getActivityLocationCoordinates().getLatitude(), allActivities.get(i).getActivityLocationCoordinates().getLongitude()))
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                    .title(allActivities.get(i).getTag().getTagName()));
+                                    .title(allActivities.get(i).getActivityTag().getTagName()));
                             marker.setTag(allActivities.get(i).getActivityId());
                             Glide.with(getContext())
                                     .asBitmap()
-                                    .load(allActivities.get(i).getTag().getTagIconUrl())
+                                    .load(allActivities.get(i).getActivityTag().getTagIconUrl())
                                     .into(new SimpleTarget<Bitmap>(20, 20) {
                                         @Override
                                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

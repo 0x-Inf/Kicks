@@ -80,10 +80,10 @@ public class AddKickConfirmFragment extends Fragment {
             @Override
             public void onChanged(Activity activity) {
                 activityMain = activity;
-                hostName.setText(activity.getUploaderId());
-                activityTimeAndDate.setText(activity.getKickStartTime() + " - " + activity.getKickEndTime() + " " + activity.getKickDate());
-                activityLocation.setText(activity.getKickLocationName());
-                activityPeopleAndCost.setText(activity.getTag().getTagCost() + " Per Person (" + activity.getMinRequiredPeople() + " - " + activity.getMaxRequiredPeeps() + ") People");
+                hostName.setText(activity.getActivityUploaderId());
+                activityTimeAndDate.setText(activity.getActivityStartTime() + " - " + activity.getActivityEndTime() + " " + activity.getActivityDate());
+                activityLocation.setText(activity.getActivityLocationName());
+                activityPeopleAndCost.setText(activity.getActivityTag().getTagCost() + " Per Person (" + activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + ") People");
             }
         });
 
@@ -115,7 +115,7 @@ public class AddKickConfirmFragment extends Fragment {
             @Override
             public void onChanged(Activity activity) {
                 activityMain = activity;
-                activityMain.getMattendees().add(FirebaseUtil.getAttendingUser());
+                activityMain.getActivityAttendees().add(FirebaseUtil.getAttendingUser());
             }
         });
 

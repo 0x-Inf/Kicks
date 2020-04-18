@@ -163,7 +163,7 @@ public class SearchableActivity extends AppCompatActivity {
             }
 
             void bindTo(Activity searchedActivity) {
-                searchedTagName.setText(searchedActivity.getKickTitle());
+                searchedTagName.setText(searchedActivity.getActivityTitle());
             }
         }
     }

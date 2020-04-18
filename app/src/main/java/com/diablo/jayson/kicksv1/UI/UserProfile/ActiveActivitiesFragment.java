@@ -78,52 +78,55 @@ public class ActiveActivitiesFragment extends Fragment {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
 //                                Log.e(TAG, snapshot.getId() + " => " + snapshot.getData());
                                 allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getKickTitle(),
-                                        snapshot.toObject(Activity.class).getKickStartTime(),
-                                        snapshot.toObject(Activity.class).getKickEndTime(),
-                                        snapshot.toObject(Activity.class).getKickDate(),
-                                        snapshot.toObject(Activity.class).getKickLocationName(),
-                                        snapshot.toObject(Activity.class).getKickLocationCordinates(),
-                                        snapshot.toObject(Activity.class).getMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getMaxRequiredPeeps(),
-                                        snapshot.toObject(Activity.class).getMinAge(),
-                                        snapshot.toObject(Activity.class).getMaxAge(),
+                                        snapshot.toObject(Activity.class).getActivityTitle(),
+                                        snapshot.toObject(Activity.class).getActivityStartTime(),
+                                        snapshot.toObject(Activity.class).getActivityEndTime(),
+                                        snapshot.toObject(Activity.class).getActivityDate(),
+                                        snapshot.toObject(Activity.class).getActivityLocationName(),
+                                        snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
+                                        snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
+                                        snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
+                                        snapshot.toObject(Activity.class).getActivityMinAge(),
+                                        snapshot.toObject(Activity.class).getActivityMaxAge(),
                                         snapshot.toObject(Activity.class).getImageUrl(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getUploadedTime(),
-                                        snapshot.toObject(Activity.class).getUploaderId(),
+                                        snapshot.toObject(Activity.class).getActivityUploaderId(),
                                         snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getTag(),
-                                        snapshot.toObject(Activity.class).getMattendees(),
-                                        snapshot.toObject(Activity.class).getActivityCost()));
+                                        snapshot.toObject(Activity.class).getActivityCost(),
+                                        snapshot.toObject(Activity.class).getActivityUploadedTime(),
+                                        snapshot.toObject(Activity.class).getTags(),
+                                        snapshot.toObject(Activity.class).getActivityTag(),
+                                        snapshot.toObject(Activity.class).getActivityAttendees(),
+                                        snapshot.toObject(Activity.class).isActivityPrivate()));
 //                                for (int i = 0; i < allActivities.size(); i++) {
 //                                    Log.w(TAG, allActivities.get(i).getkickTitle());
 //                                }
                                 ArrayList<String> users = new ArrayList<String>();
                                 attendingUsers = new ArrayList<AttendingUser>();
                                 for (int i = 0; i < allActivities.size(); i++) {
-                                    attendingUsers = allActivities.get(i).getMattendees();
+                                    attendingUsers = allActivities.get(i).getActivityAttendees();
                                 }
                             }
                             Log.e(TAG, String.valueOf(allActivities.size()));
                             FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
                             for (int i = 0; i < allActivities.size(); i++) {
                                 attendingUsers = new ArrayList<AttendingUser>();
-                                attendingUsers = allActivities.get(i).getMattendees();
+                                attendingUsers = allActivities.get(i).getActivityAttendees();
                                 for (int j = 0; j < attendingUsers.size(); j++) {
                                     if (attendingUsers.get(j).getUid().equals(user1.getUid())) {
                                         activeActivities.add(new Activity(allActivities.get(i).getHost(),
-                                                allActivities.get(i).getKickTitle(), allActivities.get(i).getKickStartTime(),
-                                                allActivities.get(i).getKickEndTime(), allActivities.get(i).getKickDate(),
-                                                allActivities.get(i).getKickLocationName(), allActivities.get(i).getKickLocationCordinates(),
-                                                allActivities.get(i).getMinRequiredPeople(),
-                                                allActivities.get(i).getMaxRequiredPeeps(),
-                                                allActivities.get(i).getMinAge(), allActivities.get(i).getMaxAge(),
+                                                allActivities.get(i).getActivityTitle(), allActivities.get(i).getActivityStartTime(),
+                                                allActivities.get(i).getActivityEndTime(), allActivities.get(i).getActivityDate(),
+                                                allActivities.get(i).getActivityLocationName(), allActivities.get(i).getActivityLocationCoordinates(),
+                                                allActivities.get(i).getActivityMinRequiredPeople(),
+                                                allActivities.get(i).getActivityMaxRequiredPeople(),
+                                                allActivities.get(i).getActivityMinAge(), allActivities.get(i).getActivityMaxAge(),
                                                 allActivities.get(i).getImageUrl(),
-                                                allActivities.get(i).getTags(), allActivities.get(i).getUploadedTime(),
-                                                allActivities.get(i).getUploaderId(), allActivities.get(i).getActivityId(),
-                                                allActivities.get(i).getTag(), allActivities.get(i).getMattendees(),
-                                                allActivities.get(i).getActivityCost()));
+                                                allActivities.get(i).getActivityCost(),
+                                                allActivities.get(i).getActivityUploaderId(), allActivities.get(i).getActivityId(),
+                                                allActivities.get(i).getActivityUploadedTime(),
+                                                allActivities.get(i).getTags(),
+                                                allActivities.get(i).getActivityTag(), allActivities.get(i).getActivityAttendees(),
+                                                allActivities.get(i).isActivityPrivate()));
                                     }
 
                                 }

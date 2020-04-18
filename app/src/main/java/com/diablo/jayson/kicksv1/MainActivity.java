@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);

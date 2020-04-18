@@ -128,15 +128,15 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
             Toast.makeText(this, "Please Sign Up", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> users = new ArrayList<String>();
-            for (int i = 0; i < activity.getMattendees().size(); i++) {
-                users.add(activity.getMattendees().get(i).getUid());
+            for (int i = 0; i < activity.getActivityAttendees().size(); i++) {
+                users.add(activity.getActivityAttendees().get(i).getUid());
             }
             if (users.contains(user.getUid())) {
-                Log.e("names", activity.getMattendees().get(0).getUserName());
+                Log.e("names", activity.getActivityAttendees().get(0).getUserName());
                 Intent attendActivity = new Intent(KickSelectedActivity.this, AttendActivityActivity.class);
                 attendActivity.putExtra("activityId", activity.getActivityId());
-                attendActivity.putExtra("activityLatitude", activity.getKickLocationCordinates().getLatitude());
-                attendActivity.putExtra("activityLongitude", activity.getKickLocationCordinates().getLongitude());
+                attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
+                attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
                 attendActivity.putExtra("alreadyAttending", true);
                 startActivity(attendActivity);
             } else {
