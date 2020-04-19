@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1015303509875:android:99421227c8b9e5707fd706",
+        "android_client_info": {
+          "package_name": "com.color.kicks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015303509875-6lta04a47573ign52j1q6rd1vnqbaop8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCODV4Dm-w3BY5JhHE5L-P6_mwhPq9K_NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015303509875-6lta04a47573ign52j1q6rd1vnqbaop8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1015303509875:android:5339644bff711b1b7fd706",
         "android_client_info": {
           "package_name": "com.diablo.jayson.kicksv1"

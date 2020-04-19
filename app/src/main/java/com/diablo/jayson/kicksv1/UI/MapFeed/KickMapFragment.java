@@ -55,6 +55,10 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     private Location mLastLocation;
     private LatLng mCurrentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private float ZOOM = 17f;
+    private double CBD_LAT = -1.28333;
+    private double CBD_LONG = 36.81667;
+    private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
 
     private ArrayList<Activity> allActivities;
     private Marker Marker;
@@ -62,8 +66,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
     }
 
     @Override
@@ -158,21 +161,8 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         enableLocation();
-//        try {
-//            // Customise the styling of the base map using a JSON object defined
-//            // in a raw resource file.
-//            boolean success = googleMap.setMapStyle(
-//                    MapStyleOptions.loadRawResourceStyle(
-//                            Objects.requireNonNull(getContext()), R.raw.map_style));
-//
-//            if (!success) {
-//                Log.e(TAG, "Style parsing failed.");
-//            }
-//        } catch (Resources.NotFoundException e) {
-//            Log.e(TAG, "Can't find style. Error: ", e);
-//        }
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         allActivities = new ArrayList<Activity>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -209,9 +199,9 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                                     public void onSuccess(Location location) {
                                         if (location != null) {
                                             mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12));
+                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12));
                                         } else {
-                                            Toast.makeText(getActivity(), "Location Not Found", Toast.LENGTH_SHORT).show();
+                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CBD, 12));
                                         }
                                     }
                                 }

@@ -2,7 +2,6 @@ package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +111,7 @@ public class ConfirmAttendFragment extends Fragment {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = db.collection("activities").document(activityId);
-                documentReference.update("mattendees", FieldValue.arrayUnion(FirebaseUtil.getAttendingUser()))
+                documentReference.update("activityAttendees", FieldValue.arrayUnion(FirebaseUtil.getAttendingUser()))
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -194,7 +193,6 @@ public class ConfirmAttendFragment extends Fragment {
                                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
                                         .into(imageView);
                                 titleTextView.setText(activity.getActivityTitle());
-                                Log.e(TAG, activity.getImageUrl());
                             }
                         }
                     }

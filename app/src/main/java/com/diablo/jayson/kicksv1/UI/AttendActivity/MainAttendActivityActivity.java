@@ -177,14 +177,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
             }
         });
-        if (googleMap != null) {
-            googleMap.clear();
-            googleMap.addMarker(new MarkerOptions().position(activityLocation)
-                    .title(activityTitle));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
-        } else {
 
-        }
 
 
 
@@ -259,6 +252,14 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
             public void onClick(View v) {
                 detailsActualRelativeLayout.setVisibility(View.VISIBLE);
                 dashItemsRelativeLayout.setVisibility(View.GONE);
+                if (googleMap != null) {
+                    googleMap.clear();
+                    googleMap.addMarker(new MarkerOptions().position(activityLocation)
+                            .title(activityTitle));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
+                } else {
+
+                }
             }
         });
 

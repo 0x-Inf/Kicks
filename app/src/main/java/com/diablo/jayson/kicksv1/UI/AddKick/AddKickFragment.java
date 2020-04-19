@@ -291,6 +291,10 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                     } else if (activityMaxAgeEditText.getText().toString().isEmpty()) {
                         activityMaxAgeEditText.setError("Input a Number");
                     }
+                } else if (Integer.parseInt(activityMinPeopleEditText.getText().toString()) > Integer.parseInt(activityMaxPeopleEditText.getText().toString())) {
+                    activityMinPeopleEditText.setError("Invalid input");
+                } else if (Integer.parseInt(activityMinAgeEditText.getText().toString()) > Integer.parseInt(activityMaxAgeEditText.getText().toString())) {
+                    activityMinPeopleEditText.setError("Invalid input");
                 } else {
                     updateActivityPeople();
                     addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
@@ -441,6 +445,11 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
             public void onClick(View v) {
                 if (activityTitleEditText.getText().toString().isEmpty()) {
                     activityTitleEditText.setError("Set a Suitable Title");
+                } else if (String.valueOf(activityMain.getActivityMinRequiredPeople()).isEmpty() ||
+                        String.valueOf(activityMain.getActivityMaxRequiredPeople()).isEmpty() ||
+                        String.valueOf(activityMain.getActivityMinAge()).isEmpty() ||
+                        String.valueOf(activityMain.getActivityMaxAge()).isEmpty()) {
+
                 } else {
                     String activityTitle = activityTitleEditText.getText().toString();
                     activityMain.setActivityTitle(activityTitle);
