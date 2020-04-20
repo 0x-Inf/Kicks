@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sign_in_back1"
+    android:background="@drawable/sign_in_back2"
     tools:context=".UI.LoginActivity">
 
     <TextView

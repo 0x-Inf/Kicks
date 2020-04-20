@@ -110,12 +110,12 @@ public class AttendActivityActivity extends AppCompatActivity {
             startActivity(attendActivityIntent);
             finish();
         } else {
+
             ConfirmAttendFragment confirmAttend = new ConfirmAttendFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.attend_activity_fragment_container, confirmAttend)
                     .commit();
-            finish();
         }
 
     }

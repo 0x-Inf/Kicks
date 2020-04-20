@@ -261,6 +261,7 @@
     <string name="activity_cost_hint">999</string>
     <string name="private_text">Private</string>
     <string name="close_icon_image_description">Close Icon Image</string>
+    <string name="solo_text">Solo</string>
 
 
 </resources>

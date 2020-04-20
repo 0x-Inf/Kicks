@@ -104,7 +104,6 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
                 users.add(activity.getActivityAttendees().get(i).getUid());
             }
             if (users.contains(user.getUid())) {
-                Log.e(TAG, activity.getActivityAttendees().get(0).getUserName());
                 Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
                 attendActivity.putExtra("activityId", activity.getActivityId());
                 attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());

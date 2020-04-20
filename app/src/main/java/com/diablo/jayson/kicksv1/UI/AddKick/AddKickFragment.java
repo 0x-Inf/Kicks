@@ -445,10 +445,12 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
             public void onClick(View v) {
                 if (activityTitleEditText.getText().toString().isEmpty()) {
                     activityTitleEditText.setError("Set a Suitable Title");
-                } else if (String.valueOf(activityMain.getActivityMinRequiredPeople()).isEmpty() ||
-                        String.valueOf(activityMain.getActivityMaxRequiredPeople()).isEmpty() ||
-                        String.valueOf(activityMain.getActivityMinAge()).isEmpty() ||
-                        String.valueOf(activityMain.getActivityMaxAge()).isEmpty()) {
+                } else if (activityMinPeopleEditText.getText().toString().isEmpty() ||
+                        selectedTagTextView.getText().toString().isEmpty() ||
+                        activityCostEditText.getText().toString().isEmpty() ||
+                        activityLocationTextView.getText().toString().isEmpty()) {
+
+                    Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_LONG).show();
 
                 } else {
                     String activityTitle = activityTitleEditText.getText().toString();
