@@ -262,6 +262,12 @@
     <string name="private_text">Private</string>
     <string name="close_icon_image_description">Close Icon Image</string>
     <string name="solo_text">Solo</string>
+    <string name="full_name_placeholder">Kazuhira Miller</string>
+    <string name="username_placeholder">\'@\'Kaz</string>
+    <string name="activities_text">Activities</string>
+    <string name="activities_card_bg_image_description">activities card bg image</string>
+    <string name="messages_text">Messages</string>
+    <string name="attributes_text">Attributes</string>
 
 
 </resources>

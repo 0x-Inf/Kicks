@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,14 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -55,16 +51,12 @@ public class ActiveActivitiesFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_active_activities, container, false);
         activeRecycler = root.findViewById(R.id.activeRecyclerView);
-        hostingRecycler = root.findViewById(R.id.hostingRecyclerView);
-
-
         loadActiveActivitiesFromDb();
 
         return root;
     }
 
     private void loadActiveActivitiesFromDb() {
-        Toast.makeText(getContext(), FirebaseUtil.getAttendingUser().getPhotoUrl(), Toast.LENGTH_LONG).show();
         allActivities = new ArrayList<Activity>();
         activeActivities = new ArrayList<Activity>();
 
@@ -162,26 +154,12 @@ public class ActiveActivitiesFragment extends Fragment {
 //                            }
                             Log.e(TAG, String.valueOf(activeActivities.size()));
                             ActiveActivitiesAdapter activeActivitiesAdapter = new ActiveActivitiesAdapter(getContext(), activeActivities);
-                            activeRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false));
+                            activeRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
                             activeRecycler.setAdapter(activeActivitiesAdapter);
                         }
 
                     }
                 });
-
-
-        Query query = FirebaseFirestore.getInstance()
-                .collection("activities")
-                .whereEqualTo("host", FirebaseUtil.getHost());
-
-
-        FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
-                .setQuery(query, Activity.class)
-                .build();
-        HostingActivitiesAdapter hostingActivitiesAdapter = new HostingActivitiesAdapter(options);
-        hostingRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false));
-        hostingRecycler.setAdapter(hostingActivitiesAdapter);
-        hostingActivitiesAdapter.startListening();
     }
 
 }

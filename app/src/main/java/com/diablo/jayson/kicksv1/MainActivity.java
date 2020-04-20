@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myToolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_map_view) {
+                    myToolbar.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.navigation_profile) {
                     myToolbar.setVisibility(View.GONE);
                 } else {
                     myToolbar.setVisibility(View.VISIBLE);
@@ -174,15 +177,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
             // This is just a normal run
-//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//            assert user != null;
-//            if (Objects.requireNonNull(user.getDisplayName()).isEmpty()) {
-//                startActivity(new Intent(this, LoginActivity.class));
-//                finish();
-//            }else {
-//                return;
-//            }
-            return;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                return;
+            } else {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
 
         } else if (savedVersionCode == DOESNT_EXIST) {
             // TODO This is a new install (or the user cleared the shared preferences)

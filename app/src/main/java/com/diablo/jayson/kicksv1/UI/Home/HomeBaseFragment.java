@@ -30,10 +30,7 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.swipable_feed_fragment,container,false);
-//        mSearchButton = root.findViewById(R.id.searchImageButton);
-//        mSettingButton = root.findViewById(R.id.settingsImageButton);
-//        mProfilePicImageView = root.findViewById(R.id.profilePicImageView);
-//        setClickListeners();
+
         return root;
 
     }
@@ -47,17 +44,8 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
 
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
-        tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
-
-//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
-        String photoUrl = "https://comps.canstockphoto.com/bowling-eps-vectors_csp2647543.jpg";
-
-//        Glide.with(this)
-//                .load(photoUrl)
-//                .apply(RequestOptions.circleCropTransform())
-//                .into(mProfilePicImageView);
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#D7385E"));
+        tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#D7385E"));
 
     }
 
@@ -67,12 +55,5 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-//        if (view.equals(mSearchButton)){
-//            startActivity(new Intent(getContext(), SearchActivity.class));
-//        }else if (view.equals(mSettingButton)){
-//            startActivity(new Intent(getContext(),SearchActivity.class));
-//        }else if (view.equals(mProfilePicImageView)){
-//            startActivity(new Intent(getContext(), ProfileActivity.class));
-//        }
     }
 }

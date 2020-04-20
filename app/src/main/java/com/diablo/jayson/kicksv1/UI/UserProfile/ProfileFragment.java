@@ -2,12 +2,16 @@ package com.diablo.jayson.kicksv1.UI.UserProfile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.color.kicks.R;
+import com.diablo.jayson.kicksv1.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +24,20 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //Main Dash stuff
+    private RelativeLayout activitiesCardOverlay;
+    private ImageView activitiesCardImageView;
+
+    //Active Activities Stuff
+    private RelativeLayout activiteActivitiesRelativeLayout;
+    private CardView activeActivitiesActualCard;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private float y1, y2;
+    static final int MIN_DISTANCE = 150;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -59,6 +74,46 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        activitiesCardOverlay = root.findViewById(R.id.activitiesCardOverlay);
+        activitiesCardImageView = root.findViewById(R.id.activitiesCardImageView);
+
+        activiteActivitiesRelativeLayout = root.findViewById(R.id.active_activities_relative_layout);
+        activeActivitiesActualCard = root.findViewById(R.id.activeActivitiesActualCard);
+
+        activitiesCardOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activiteActivitiesRelativeLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        activeActivitiesActualCard.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        y1 = event.getY();
+                        break;
+//                        activiteActivitiesRelativeLayout.setVisibility(View.GONE);
+//                        return true;
+                    case MotionEvent.ACTION_UP:
+                        y2 = event.getY();
+                        float deltaY = y2 - y1;
+                        if (Math.abs(deltaY) > MIN_DISTANCE) {
+                            activiteActivitiesRelativeLayout.setVisibility(View.GONE);
+                            return true;
+                        } else {
+                            return true;
+                        }
+                    default:
+                        return true;
+                }
+                return true;
+            }
+        });
+
+        return root;
     }
 }

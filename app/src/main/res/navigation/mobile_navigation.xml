@@ -25,11 +25,11 @@
         android:label="AddKick"
         tools:layout="@layout/fragment_add_kick" />
 
-    <activity
+    <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileActivity"
-        android:label="activity_profile"
-        tools:layout="@layout/activity_profile" />
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 
     <fragment

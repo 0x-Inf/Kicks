@@ -20,9 +20,9 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new ActiveActivitiesFragment();
             case 1:
-                return new RatingsFragment();
+                return new SolosFragment();
             default:
-                return new RatingsFragment();
+                return new ActiveActivitiesFragment();
         }
     }
 
@@ -38,7 +38,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "Activity";
             case 1:
-                return "Stats";
+                return "Solos";
             default:
                 return null;
         }
