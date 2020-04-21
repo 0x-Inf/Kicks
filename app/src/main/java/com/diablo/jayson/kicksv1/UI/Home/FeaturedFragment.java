@@ -51,7 +51,7 @@ public class FeaturedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_featured, container, false);
-        View root1 = inflater.inflate(R.layout.swipable_feed_fragment,container,false);
+        View root1 = inflater.inflate(R.layout.fragment_swipable_feed, container, false);
         loadFeaturedKicksFromFireBase();
         mRecyclerView = root.findViewById(R.id.featuredRecyclerView);
 //        mRelativeLayout = root1.findViewById(R.id.searchAndProfileRelativeView);

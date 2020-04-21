@@ -51,7 +51,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.kick_feed_fragment, container, false);
+        View root = inflater.inflate(R.layout.fragment_kick_feed, container, false);
         mRecyclerView = root.findViewById(R.id.recyclerview);
 //        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
         loadActivitiesFromFirebase();
@@ -109,11 +109,13 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
                 attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
                 attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
                 attendActivity.putExtra("alreadyAttending", true);
+                attendActivity.putExtra("fromGroupMessages", false);
                 startActivity(attendActivity);
             } else {
                 Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
                 attendActivity.putExtra("activityId", activity.getActivityId());
                 attendActivity.putExtra("alreadyAttending", false);
+                attendActivity.putExtra("fromGroupMessages", false);
                 startActivity(attendActivity);
             }
         }

@@ -37,7 +37,7 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
     @Override
     public KickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KickViewHolder(LayoutInflater.from(mContext).
-                inflate(R.layout.kick_list_item, parent, false));
+                inflate(R.layout.recycler_kick_list_item, parent, false));
     }
 
     @Override

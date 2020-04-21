@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.UserProfile;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +13,17 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,7 +46,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = ProfileFragment.class.getSimpleName();
 
     //Main Dash stuff
-    private RelativeLayout activitiesCardOverlay, attributesCardOverlay;
+    private RelativeLayout activitiesCardOverlay, attributesCardOverlay, messagesCardOverlay;
     private ImageView activitiesCardImageView;
 
     //Active Activities Stuff
@@ -56,6 +60,10 @@ public class ProfileFragment extends Fragment {
     //Attributes Stuff
     private RelativeLayout attributesRelativeLayout;
     private CardView attributesActualCard;
+
+    //Messages Stuff
+    private RelativeLayout messagesRelativeLayout;
+    private CardView messagesActualCard;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -102,6 +110,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         activitiesCardOverlay = root.findViewById(R.id.activitiesCardOverlay);
         attributesCardOverlay = root.findViewById(R.id.attributesCardOverlay);
+        messagesCardOverlay = root.findViewById(R.id.messagesCardOverlay);
         activitiesCardImageView = root.findViewById(R.id.activitiesCardImageView);
 
         //Active activities views
@@ -112,6 +121,12 @@ public class ProfileFragment extends Fragment {
         //Attributes views
         attributesRelativeLayout = root.findViewById(R.id.attributes_relative_layout);
         attributesActualCard = root.findViewById(R.id.attributesActualCard);
+
+        //Messages views
+        messagesRelativeLayout = root.findViewById(R.id.messages_relative_layout);
+        messagesActualCard = root.findViewById(R.id.messagesActualCard);
+        TabLayout profileTabLayout = root.findViewById(R.id.messages_tab_layout);
+        ViewPager profileViewPager = root.findViewById(R.id.messagesViewPager);
 
         //Active activities implementation
         activitiesCardOverlay.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +197,47 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        //Messages Implementation
+        messagesCardOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messagesRelativeLayout.setVisibility(View.VISIBLE);
+                MessagesPagerAdapter messagesPagerAdapter = new MessagesPagerAdapter(getParentFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+                profileViewPager.setAdapter(messagesPagerAdapter);
+                profileTabLayout.setupWithViewPager(profileViewPager);
+                profileTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
+                profileTabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
+            }
+        });
+
+        messagesActualCard.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        y1 = event.getY();
+                        break;
+//                        activiteActivitiesRelativeLayout.setVisibility(View.GONE);
+//                        return true;
+                    case MotionEvent.ACTION_UP:
+                        y2 = event.getY();
+                        float deltaY = y2 - y1;
+                        if (deltaY > MIN_DISTANCE) {
+                            messagesRelativeLayout.setVisibility(View.GONE);
+                            return true;
+                        } else {
+                            return true;
+                        }
+                    default:
+                        return true;
+                }
+                return true;
+            }
+        });
+
+
+
         return root;
     }
 
@@ -242,8 +298,9 @@ public class ProfileFragment extends Fragment {
                                                 allActivities.get(i).getActivityMaxRequiredPeople(),
                                                 allActivities.get(i).getActivityMinAge(), allActivities.get(i).getActivityMaxAge(),
                                                 allActivities.get(i).getImageUrl(),
+                                                allActivities.get(i).getActivityUploaderId(),
+                                                allActivities.get(i).getActivityId(),
                                                 allActivities.get(i).getActivityCost(),
-                                                allActivities.get(i).getActivityUploaderId(), allActivities.get(i).getActivityId(),
                                                 allActivities.get(i).getActivityUploadedTime(),
                                                 allActivities.get(i).getTags(),
                                                 allActivities.get(i).getActivityTag(), allActivities.get(i).getActivityAttendees(),

@@ -60,7 +60,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     @Override
     public KickCategoryListAdapter.KickCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KickCategoryViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.kick_category_list_item, parent, false));
+                inflate(R.layout.recycler_kick_category_list_item, parent, false));
     }
 
 

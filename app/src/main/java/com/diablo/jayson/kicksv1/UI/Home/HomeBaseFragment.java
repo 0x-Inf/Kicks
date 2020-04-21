@@ -29,7 +29,7 @@ public class HomeBaseFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.swipable_feed_fragment,container,false);
+        View root = inflater.inflate(R.layout.fragment_swipable_feed, container, false);
 
         return root;
 

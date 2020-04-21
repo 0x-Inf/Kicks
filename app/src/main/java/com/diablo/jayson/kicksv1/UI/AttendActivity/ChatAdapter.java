@@ -52,10 +52,10 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
         View view;
         if (viewType == MSG_SELF) {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.chat_item_self, parent, false);
+                    .inflate(R.layout.recycler_chat_item_self, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.chat_item_view, parent, false);
+                    .inflate(R.layout.recycler_chat_item_view, parent, false);
         }
         return new ChatViewHolder(view);
     }

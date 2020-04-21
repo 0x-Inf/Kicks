@@ -34,8 +34,8 @@
 
                 <ImageView
                     android:id="@+id/availableActivityImage"
-                    android:layout_width="110dp"
-                    android:layout_height="115dp"
+                    android:layout_width="90dp"
+                    android:layout_height="95dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/img_golf"
                     android:contentDescription="@string/available_activity_image_description" />

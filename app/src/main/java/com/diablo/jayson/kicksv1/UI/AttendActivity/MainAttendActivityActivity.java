@@ -106,11 +106,22 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         activityTimeActualTextView = findViewById(R.id.activity_time_actual_text_view);
         activityDateActualTextView = findViewById(R.id.activity_actual_date_text_view);
 
+
         Bundle bundle = getIntent().getExtras();
 
         assert bundle != null;
         String activityId = bundle.getString("activityId");
+        boolean fromGroupMessage = bundle.getBoolean("fromGroupMessages");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (fromGroupMessage) {
+            chatActualRelativeLayout.setVisibility(View.VISIBLE);
+            dashItemsRelativeLayout.setVisibility(View.GONE);
+        } else {
+            dashItemsRelativeLayout.setVisibility(View.VISIBLE);
+        }
+
+        Log.e("nnn", activityId);
 
         Places.initialize(this, ApiThings.places_api_key);
 
@@ -130,6 +141,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     assert documentSnapshot != null;
+                    Log.e("date boi", documentSnapshot.toObject(Activity.class).getActivityTitle());
                     String activityDate = DateFormat.getMediumDateFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityDate().toDate());
                     String activityStartTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityStartTime().toDate());
                     String activityEndTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityEndTime().toDate());

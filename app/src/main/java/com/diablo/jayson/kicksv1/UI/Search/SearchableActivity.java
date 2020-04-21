@@ -102,7 +102,7 @@ public class SearchableActivity extends AppCompatActivity {
         @Override
         public SearchedTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new SearchedTagViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.searched_tag_item, parent, false));
+                    .inflate(R.layout.recycler_searched_tag_item, parent, false));
         }
 
         @Override
@@ -143,7 +143,7 @@ public class SearchableActivity extends AppCompatActivity {
         @Override
         public SearchedActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new SearchedActivityViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.searched_tag_item, parent, false));
+                    .inflate(R.layout.recycler_searched_tag_item, parent, false));
         }
 
         @Override

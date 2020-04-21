@@ -29,6 +29,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppBarLayout appBarLayout = findViewById(R.id.mainAppBarlayout);
         checkFirstRun();
 
         if (savedInstanceState != null) {
@@ -99,6 +101,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myToolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
                     myToolbar.setVisibility(View.GONE);
+
+                    Toolbar toolbar = findViewById(R.id.my_toolbar);  // or however you need to do it for your code
+                    AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.setScrollFlags(0);
+//                    ViewCompat.isLaidOut(appBarLayout);
+//                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+//                    AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+//                    assert behavior != null;
+//                    behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+//                        @Override
+//                        public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+//                            return false;
+//                        }
+//                    });
 //                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
 //                            navigationView.getLayoutParams();
 //

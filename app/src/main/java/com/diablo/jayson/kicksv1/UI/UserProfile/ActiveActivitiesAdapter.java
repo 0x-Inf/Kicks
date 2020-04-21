@@ -11,14 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActivitiesAdapter.ActiveActivityViewHolder> {
 
@@ -34,7 +33,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
     @Override
     public ActiveActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ActiveActivityViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.activity_list_item, parent, false));
+                .inflate(R.layout.recycler_available_activities_item, parent, false));
     }
 
     @Override
@@ -50,64 +49,38 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
     }
 
     static class ActiveActivityViewHolder extends RecyclerView.ViewHolder {
-        private TextView activityTitleTextView, activityTimeTextView,
-                activityDateTextView, activityCurrencyTextView, activityCostTextView, activityLocationTextView,
-                activityTagTextView, hostTextView;
-        private ImageView activityImage, uploaderPic;
-        private RecyclerView attendeesRecycler;
+        private ImageView availableActivityImage;
+        private TextView availableActivityTitle, availableActivityCost,
+                availableActivityNoOfPeople, availableActivityLocation,
+                availableActivityDateTime;
 
         ActiveActivityViewHolder(View itemView) {
             super(itemView);
-            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
-            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
-            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
-            activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
-            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
-            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
-            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
-//            hostTextView = itemView.findViewById(R.id.host_name_text_view);
-            activityImage = itemView.findViewById(R.id.activity_image_view);
-//            uploaderPic = itemView.findViewById(R.id.host_pic_image_view);
-            attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
+            availableActivityImage = itemView.findViewById(R.id.availableActivityImage);
+            availableActivityTitle = itemView.findViewById(R.id.availableActivityTitle);
+            availableActivityCost = itemView.findViewById(R.id.availableActivityCostTextView);
+            availableActivityLocation = itemView.findViewById(R.id.availableActivitylocationTextView);
+            availableActivityDateTime = itemView.findViewById(R.id.availableActivityDateTimeTextView);
         }
 
 
         void bindTo(Activity activeActivity) {
-            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activeActivity.getActivityDate().toDate());
-//            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
-            String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
+            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+            calendar.setTimeInMillis(activeActivity.getActivityDate().getSeconds());
+            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(activeActivity.getActivityDate().toDate());
+            String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
             String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
 
+            String noOfPeople = activeActivity.getActivityMinRequiredPeople() + "-" + activeActivity.getActivityMaxRequiredPeople() + " People";
+            String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
+            Glide.with(itemView.getContext())
+                    .load(activeActivity.getImageUrl())
+                    .into(availableActivityImage);
 
-            String activityTime = activityStartTime + " - " + activityEndTime;
-            String activityCost = String.valueOf(activeActivity.getActivityCost());
-            String activityLocation = activeActivity.getActivityLocationName();
-            String hostName = activeActivity.getHost().getUserName();
-            String tagName = activeActivity.getActivityTag().getTagName();
-            activityTitleTextView.setText(activeActivity.getActivityTitle());
-            activityTimeTextView.setText(activityTime);
-            activityDateTextView.setText(activityDate);
-            activityCostTextView.setText(activityCost);
-            activityLocationTextView.setText(activityLocation);
-//            hostTextView.setText(hostName);
-            activityTagTextView.setText(tagName);
-//            Glide.with(itemView.getContext())
-//                    .load(currentActivity.getHost().getHostPic())
-//                    .apply(RequestOptions.circleCropTransform())
-//                    .into(uploaderPic);
-
-            Glide.with(itemView.getContext()).load(activeActivity.getImageUrl())
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
-                    .into(activityImage);
-
-//                itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (listener != null) {
-//                            listener.onActivitySelected(currentActivity);
-//                        }
-//                    }
-//                });
+            availableActivityTitle.setText(activeActivity.getActivityTitle());
+            availableActivityCost.setText(activeActivity.getActivityCost());
+            availableActivityLocation.setText(activeActivity.getActivityLocationName());
+            availableActivityDateTime.setText(dateTimeText);
         }
     }
 }

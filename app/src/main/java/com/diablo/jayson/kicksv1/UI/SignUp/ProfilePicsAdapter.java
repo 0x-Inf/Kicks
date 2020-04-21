@@ -40,7 +40,7 @@ public class ProfilePicsAdapter extends FirestoreRecyclerAdapter<ProfilePicExamp
     @Override
     public ProfilePicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ProfilePicViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.profile_pic_example_item, parent, false));
+                .inflate(R.layout.recycler_profile_pic_example_item, parent, false));
     }
 
     @Override

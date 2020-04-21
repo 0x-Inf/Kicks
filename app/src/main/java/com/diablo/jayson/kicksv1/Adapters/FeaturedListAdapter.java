@@ -22,7 +22,7 @@ public class FeaturedListAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View root = View.inflate(getContext(),R.layout.featured_list_item,parent);
+        View root = View.inflate(getContext(), R.layout.recycler_featured_list_item, parent);
         return root;
     }
 }

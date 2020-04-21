@@ -38,7 +38,7 @@ public class FeatureKickListAdapter extends FirestoreRecyclerAdapter<KickInFeatu
     @Override
     public FeatureKickListAdapter.KickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new FeatureKickListAdapter.KickViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.featured_list_item,parent,false));
+                inflate(R.layout.recycler_featured_list_item, parent, false));
     }
 
     @Override

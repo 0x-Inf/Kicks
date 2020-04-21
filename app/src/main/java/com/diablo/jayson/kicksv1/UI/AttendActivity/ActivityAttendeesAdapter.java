@@ -31,7 +31,7 @@ public class ActivityAttendeesAdapter extends FirestoreRecyclerAdapter<Attending
     @Override
     public AttendeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AttendeeViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.attendees_item_view, parent, false));
+                .inflate(R.layout.recycler_attendees_item_view, parent, false));
     }
 
     @Override

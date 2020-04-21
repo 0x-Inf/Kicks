@@ -38,7 +38,7 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
     @Override
     public AvailableActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AvailableActivityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.available_activities_item, parent, false));
+                .inflate(R.layout.recycler_available_activities_item, parent, false));
     }
 
     @Override

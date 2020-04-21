@@ -69,11 +69,11 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
 
         if (viewType == IMAGE_TEXT) {
             view = LayoutInflater.from(parent.getContext()).
-                    inflate(R.layout.image_and_text_item, parent, false);
+                    inflate(R.layout.recycler_image_and_text_item, parent, false);
             return new ImageAndTextOnlyActivityViewHolder(view);
         } else if (viewType == IMAGE_TEXT_LIST) {
             view = LayoutInflater.from(parent.getContext()).
-                    inflate(R.layout.image_text_and_list_item, parent, false);
+                    inflate(R.layout.recycler_image_text_and_list_item, parent, false);
             return new ImageAndTextAndListActivityViewHolder(view);
         }
         assert view != null;

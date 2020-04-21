@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/groupProfilePic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/circleback"
+        android:contentDescription="@string/image_for_message_sender_pic_description" />
+
+    <TextView
+        android:id="@+id/groupMessageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dublin Karting Tournament"
+        android:layout_toEndOf="@id/groupProfilePic"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/source_sans_pro_semibold"
+        android:textColor="@color/colorPurple" />
+
+</RelativeLayout>

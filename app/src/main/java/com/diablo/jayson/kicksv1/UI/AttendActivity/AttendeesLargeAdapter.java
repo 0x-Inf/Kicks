@@ -31,7 +31,7 @@ public class AttendeesLargeAdapter extends RecyclerView.Adapter<AttendeesLargeAd
     @Override
     public AttendeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AttendeesLargeAdapter.AttendeeViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.attendees_item_view_large, parent, false));
+                .inflate(R.layout.recycler_attendees_item_view_large, parent, false));
     }
 
     @Override

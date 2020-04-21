@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
         android:label="Home"
-        tools:layout="@layout/swipable_feed_fragment">
+        tools:layout="@layout/fragment_swipable_feed">
         <action
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
@@ -18,7 +18,7 @@
         android:id="@+id/navigation_kick_select"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectFragment"
         android:label="Explore"
-        tools:layout="@layout/kick_select_fragment"/>
+        tools:layout="@layout/fragment_kick_select" />
     <fragment
         android:id="@+id/navigation_add_kick"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment"
@@ -29,14 +29,18 @@
         android:id="@+id/navigation_profile"
         android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_mainAttendActivityActivity"
+            app:destination="@id/mainAttendActivityActivity" />
+    </fragment>
 
 
     <fragment
         android:id="@+id/navigation_map_view"
         android:name="com.diablo.jayson.kicksv1.UI.MapFeed.KickMapFragment"
         android:label="Maps"
-        tools:layout="@layout/kick_map_fragment"/>
+        tools:layout="@layout/fragment_kick_map" />
 
     <fragment
         android:id="@+id/navigation_active_kicks"
@@ -53,6 +57,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSeeAllActivity"
         android:label="activity_kick_see_all"
         tools:layout="@layout/activity_kick_see_all" />
+    <activity
+        android:id="@+id/mainAttendActivityActivity"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity"
+        android:label="activity_main_attend_activity"
+        tools:layout="@layout/activity_main_attend_activity" />
 
 
 </navigation>

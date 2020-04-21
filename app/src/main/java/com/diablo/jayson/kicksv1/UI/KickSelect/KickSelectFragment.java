@@ -43,7 +43,7 @@ public class KickSelectFragment extends Fragment implements KickCategoryListAdap
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.kick_select_fragment,container,false);
+        View root = inflater.inflate(R.layout.fragment_kick_select, container, false);
 
         mKickRecyclerView = root.findViewById(R.id.kicksRecyclerView);
 //        mCategoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));

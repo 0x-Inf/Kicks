@@ -88,7 +88,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.kick_map_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_kick_map, container, false);
         loadActiveActivitiesFromDb();
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
