@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myToolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
                     myToolbar.setVisibility(View.GONE);
+//                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+//                            navigationView.getLayoutParams();
+//
+//                    params.setBehavior(new AppBarLayout.Behavior(navigationView.getContext(),null));
                 } else {
                     myToolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);

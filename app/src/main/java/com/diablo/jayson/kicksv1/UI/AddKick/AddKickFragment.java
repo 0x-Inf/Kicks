@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -414,6 +415,8 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                 Intent intent = new Autocomplete.IntentBuilder(
                         AutocompleteActivityMode.OVERLAY, fields)
                         .build(Objects.requireNonNull(getContext()));
+                InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(android.app.Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
@@ -656,6 +659,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                 activityMain.setActivityLocationName(place.getName());
                 activityMain.setActivityLocationCordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), ZOOM));
+
             }
         }
     }

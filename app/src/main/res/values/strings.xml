@@ -268,6 +268,16 @@
     <string name="activities_card_bg_image_description">activities card bg image</string>
     <string name="messages_text">Messages</string>
     <string name="attributes_text">Attributes</string>
+    <string name="active_activities_text">Active Activities</string>
+    <string name="contact_details_text">Contact Details</string>
+    <string name="email_subt_text">Email:</string>
+    <string name="email_placeholder">randomemail@gmail.com</string>
+    <string name="phone_subt_text">Phone:</string>
+    <string name="phone_placeholder">0702262663</string>
+    <string name="participated_text">Participated</string>
+    <string name="participated_number_placeholder">123</string>
+    <string name="hosted_text">Hosted</string>
+    <string name="hosted_number_placeholder">33</string>
 
 
 </resources>

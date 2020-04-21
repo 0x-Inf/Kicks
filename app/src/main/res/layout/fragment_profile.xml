@@ -220,11 +220,11 @@
         android:visibility="gone">
 
         <RelativeLayout
-            android:elevation="3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.8"
-            android:background="@color/colorTransparentBlack" />
+            android:background="@color/colorTransparentBlack"
+            android:elevation="3dp" />
 
         <!--        <ImageView-->
         <!--            android:id="@+id/closeActivitiesRelativelayoutButton"-->
@@ -251,6 +251,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/activeActivitiesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/active_activities_text"
+                    android:textColor="@color/colorMain"
+                    android:textSize="30sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activeActivitiesRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/activeActivitiesTextView"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp" />
+
                 <!--                <androidx.viewpager.widget.ViewPager-->
                 <!--                    android:id="@+id/profileViewPager"-->
                 <!--                    android:layout_width="match_parent"-->
@@ -268,6 +287,185 @@
 
         </androidx.cardview.widget.CardView>
 
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/attributes_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@color/colorTransparentBlack"
+            android:elevation="3dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/attributesActualCard"
+            android:layout_width="match_parent"
+            android:layout_height="650dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="50dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/contactCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/contactDetailsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/contact_details_text"
+                            android:textColor="@color/colorMain"
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/emailTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/contactDetailsTextView"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/email_subt_text"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/emailActualTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/emailTextView"
+                            android:layout_toEndOf="@id/emailTextView"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/email_placeholder"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/phoneTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/emailTextView"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/phone_subt_text"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/phoneActualTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/phoneTextView"
+                            android:layout_toEndOf="@id/phoneTextView"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/phone_placeholder"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="17sp" />
+
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/activityCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/contactCard"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="10dp">
+
+                            <TextView
+                                android:id="@+id/participatedTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/participated_text"
+                                android:textColor="@color/colorMain"
+                                android:textSize="25sp" />
+
+                            <TextView
+                                android:id="@+id/participatedNumberTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/participatedTextView"
+                                android:layout_centerHorizontal="true"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/participated_number_placeholder"
+                                android:textColor="@color/colorPurple"
+                                android:textSize="25sp" />
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp">
+
+                            <TextView
+                                android:id="@+id/hostedTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/hosted_text"
+                                android:textColor="@color/colorMain"
+                                android:textSize="25sp" />
+
+                            <TextView
+                                android:id="@+id/hostedNumberTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/hostedTextView"
+                                android:layout_centerHorizontal="true"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/hosted_number_placeholder"
+                                android:textColor="@color/colorPurple"
+                                android:textSize="25sp" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
