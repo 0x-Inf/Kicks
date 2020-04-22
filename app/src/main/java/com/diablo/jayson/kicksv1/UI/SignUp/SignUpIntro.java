@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,7 @@ import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +39,7 @@ public class SignUpIntro extends Fragment {
     private String mParam2;
 
     private FirebaseAuth mAuth;
+    private TextView guestTextView;
 
     public SignUpIntro() {
         // Required empty public constructor
@@ -75,9 +77,9 @@ public class SignUpIntro extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_sign_up_intro, container, false);
-        FloatingActionButton signUpMainButton = root.findViewById(R.id.signUpMain);
-        FloatingActionButton sighUpAnonymously = root.findViewById(R.id.signUpAnonymously);
-        sighUpAnonymously.setOnClickListener(new View.OnClickListener() {
+        ExtendedFloatingActionButton signUpMainButton = root.findViewById(R.id.signUpMain);
+        guestTextView = root.findViewById(R.id.guestTextView);
+        guestTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUpAnonymously();

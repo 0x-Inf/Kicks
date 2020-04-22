@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -18,8 +19,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
+import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +51,9 @@ public class ProfileFragment extends Fragment {
 
     //Main Dash stuff
     private RelativeLayout activitiesCardOverlay, attributesCardOverlay, messagesCardOverlay;
-    private ImageView activitiesCardImageView;
+    private ImageView activitiesCardImageView, profilePictureImageView;
+    private TextView fullNameTextView, usernameTextView, emailActualTextView, phoneActualTextView;
+    private ArrayList<User> allUsers;
 
     //Active Activities Stuff
     private RelativeLayout activiteActivitiesRelativeLayout;
@@ -112,6 +118,12 @@ public class ProfileFragment extends Fragment {
         attributesCardOverlay = root.findViewById(R.id.attributesCardOverlay);
         messagesCardOverlay = root.findViewById(R.id.messagesCardOverlay);
         activitiesCardImageView = root.findViewById(R.id.activitiesCardImageView);
+        profilePictureImageView = root.findViewById(R.id.profile_picture_image_view);
+        fullNameTextView = root.findViewById(R.id.full_name_text_view);
+        usernameTextView = root.findViewById(R.id.user_name_text_view);
+        emailActualTextView = root.findViewById(R.id.emailActualTextView);
+        phoneActualTextView = root.findViewById(R.id.phoneActualTextView);
+
 
         //Active activities views
         activiteActivitiesRelativeLayout = root.findViewById(R.id.active_activities_relative_layout);
@@ -122,11 +134,25 @@ public class ProfileFragment extends Fragment {
         attributesRelativeLayout = root.findViewById(R.id.attributes_relative_layout);
         attributesActualCard = root.findViewById(R.id.attributesActualCard);
 
+
         //Messages views
         messagesRelativeLayout = root.findViewById(R.id.messages_relative_layout);
         messagesActualCard = root.findViewById(R.id.messagesActualCard);
         TabLayout profileTabLayout = root.findViewById(R.id.messages_tab_layout);
         ViewPager profileViewPager = root.findViewById(R.id.messagesViewPager);
+
+
+        //Dash Implementation
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String picUrl = user.getPhotoUrl().toString();
+        String userName = "@" + user.getDisplayName();
+        Glide.with(getContext())
+                .load(picUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(profilePictureImageView);
+        usernameTextView.setText(userName);
+        loadCurrentUserFromDb();
+
 
         //Active activities implementation
         activitiesCardOverlay.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +265,39 @@ public class ProfileFragment extends Fragment {
 
 
         return root;
+    }
+
+    private void loadCurrentUserFromDb() {
+        allUsers = new ArrayList<User>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").whereEqualTo("uid", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                        allUsers.add(new User(snapshot.toObject(User.class).getUserName(),
+                                snapshot.toObject(User.class).getFirstName(),
+                                snapshot.toObject(User.class).getSecondName(),
+                                snapshot.toObject(User.class).getUserEmail(),
+                                snapshot.toObject(User.class).getPassWord(),
+                                snapshot.toObject(User.class).getPhotoUrl(),
+                                snapshot.toObject(User.class).getIdNumber(),
+                                snapshot.toObject(User.class).getPhoneNumber(),
+                                snapshot.toObject(User.class).isStudent(),
+                                snapshot.toObject(User.class).getSchoolName(),
+                                snapshot.toObject(User.class).getUid()));
+                        String fullName = allUsers.get(0).getFirstName() + " " + allUsers.get(0).getSecondName();
+                        String phoneNumber = allUsers.get(0).getPhoneNumber();
+                        String emailAddress = allUsers.get(0).getUserEmail();
+                        fullNameTextView.setText(fullName);
+                        emailActualTextView.setText(emailAddress);
+                        phoneActualTextView.setText(phoneNumber);
+                    }
+
+                }
+            }
+        });
     }
 
     private void loadActiveActivitiesFromDb() {

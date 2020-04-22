@@ -16,233 +16,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/img_bowling" />
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
-
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/activity_title_text_view"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="8dp"-->
-    <!--            android:layout_marginTop="16dp"-->
-    <!--            android:layout_marginEnd="8dp"-->
-    <!--            android:fontFamily="@font/roboto_medium"-->
-    <!--            android:text="@string/bowling_and_poker_text"-->
-    <!--            android:textAlignment="center"-->
-    <!--            android:textColor="@color/colorPurple"-->
-    <!--            android:textSize="27sp"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--        <RelativeLayout-->
-    <!--            android:id="@+id/date_time_linear_layout"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_alignParentStart="true"-->
-    <!--            android:layout_marginTop="20dp"-->
-    <!--            app:layout_constraintEnd_toStartOf="@+id/activity_cost_linear"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/activity_title_text_view">-->
-
-    <!--            <ImageView-->
-    <!--                android:id="@+id/calenderIcon"-->
-    <!--                android:layout_width="56dp"-->
-    <!--                android:layout_height="48dp"-->
-    <!--                android:layout_centerHorizontal="true"-->
-    <!--                android:contentDescription="@string/calender_icon_image_description"-->
-    <!--                android:src="@drawable/calender_icon_24dp" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/activity_time_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_below="@id/calenderIcon"-->
-    <!--                android:layout_centerHorizontal="true"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:text="@string/activity_time_placeholder"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="18sp" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/activity_date_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_below="@id/activity_time_text_view"-->
-    <!--                android:layout_centerHorizontal="true"-->
-    <!--                android:layout_marginTop="2dp"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:text="@string/activity_date_placeholder"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="18sp" />-->
-
-
-    <!--        </RelativeLayout>-->
-
-
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/activity_cost_linear"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_centerHorizontal="true"-->
-    <!--            android:layout_marginStart="10dp"-->
-    <!--            android:layout_marginTop="20dp"-->
-    <!--            android:layout_marginEnd="10dp"-->
-    <!--            android:orientation="vertical"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/activity_title_text_view">-->
-
-
-    <!--            <ImageView-->
-    <!--                android:layout_width="56dp"-->
-    <!--                android:layout_height="48dp"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:contentDescription="@string/money_icon_content_description"-->
-    <!--                android:src="@drawable/money512" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/currency_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:text="@string/currency_placeholder_text"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="18sp" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/activity_cost_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:text="@string/activity_cost_placeholder"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="18sp" />-->
-
-
-    <!--        </LinearLayout>-->
-
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/location_linear_layout"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_alignParentEnd="true"-->
-    <!--            android:layout_marginTop="20dp"-->
-    <!--            android:orientation="vertical"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toEndOf="@+id/activity_cost_linear"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/activity_title_text_view">-->
-
-
-    <!--            <ImageView-->
-    <!--                android:layout_width="56dp"-->
-    <!--                android:layout_height="48dp"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:contentDescription="@string/place_icon_content_description"-->
-    <!--                android:src="@drawable/location_four512" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/activity_location_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_gravity="center_horizontal"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:maxWidth="100dp"-->
-    <!--                android:text="@string/activity_location_placeholder"-->
-    <!--                android:textAlignment="center"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="18sp" />-->
-
-
-    <!--        </LinearLayout>-->
-
-    <!--        <RelativeLayout-->
-    <!--            android:id="@+id/attendees_part"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="8dp"-->
-    <!--            android:layout_marginTop="10dp"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/location_linear_layout">-->
-
-    <!--            <androidx.recyclerview.widget.RecyclerView-->
-    <!--                android:id="@+id/activity_attendees_recycler"-->
-    <!--                android:background="@drawable/bg_rounded"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="30dp"-->
-    <!--                android:layout_alignParentStart="true"-->
-    <!--                android:layout_marginStart="10dp"-->
-    <!--                android:layout_marginTop="10dp" />-->
-
-    <!--            <LinearLayout-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_alignParentEnd="true"-->
-    <!--                android:layout_marginTop="10dp"-->
-    <!--                android:layout_marginEnd="10dp"-->
-    <!--                android:background="@drawable/activity_tag_back">-->
-
-    <!--                <TextView-->
-    <!--                    android:id="@+id/activity_tag_text_view"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_gravity="center|center_vertical"-->
-    <!--                    android:layout_margin="4dp"-->
-    <!--                    android:fontFamily="@font/roboto_medium"-->
-    <!--                    android:text="@string/activity_tag_placeholder"-->
-    <!--                    android:textColor="@color/colorMain"-->
-    <!--                    android:textSize="15sp" />-->
-
-    <!--            </LinearLayout>-->
-
-
-    <!--        </RelativeLayout>-->
-
-
-    <!--        <RelativeLayout-->
-    <!--            android:id="@+id/activity_host_part"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="30dp"-->
-    <!--            android:layout_alignParentBottom="true"-->
-    <!--            android:background="@color/quantum_white_100"-->
-    <!--            app:layout_constraintTop_toBottomOf="@id/attendees_part"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent">-->
-
-    <!--            <ImageView-->
-    <!--                android:id="@+id/host_pic_image_view"-->
-    <!--                android:layout_width="20dp"-->
-    <!--                android:layout_height="20dp"-->
-    <!--                android:layout_alignParentStart="true"-->
-    <!--                android:layout_centerInParent="true"-->
-    <!--                android:layout_marginStart="10dp"-->
-    <!--                android:background="@drawable/circleback"-->
-    <!--                android:contentDescription="@string/activity_host_pic_desciption" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/host_name_text_view"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_centerInParent="true"-->
-    <!--                android:layout_marginStart="10dp"-->
-    <!--                android:layout_toEndOf="@id/host_pic_image_view"-->
-    <!--                android:fontFamily="@font/roboto_medium"-->
-    <!--                android:text="@string/host_name_placeholder"-->
-    <!--                android:textColor="@color/colorPurple"-->
-    <!--                android:textSize="15sp" />-->
-
-
-    <!--        </RelativeLayout>-->
-
-
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -253,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/source_sans_pro_semibold"
             android:text="@string/bowling_and_poker_text"
             android:textColor="@color/colorPurple"
             android:textSize="22sp" />
@@ -290,7 +63,7 @@
                     android:layout_below="@id/calenderIcon"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="@string/activity_time_placeholder"
                     android:textColor="@color/colorPurple"
                     android:textSize="15sp" />
@@ -302,7 +75,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/activity_time_text_view"
                     android:layout_marginTop="2dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="@string/activity_date_placeholder"
                     android:textColor="@color/colorPurple"
                     android:textSize="15sp" />
@@ -333,7 +106,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/costIcon"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="@string/currency_placeholder_text"
                     android:textColor="@color/colorPurple"
                     android:textSize="15sp" />
@@ -344,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/currency_text_view"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:text="@string/activity_cost_placeholder"
                     android:textColor="@color/colorPurple"
                     android:textSize="15sp" />
@@ -378,7 +151,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/locationIcon"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_regular"
                     android:maxWidth="100dp"
                     android:text="@string/activity_location_placeholder"
                     android:textAlignment="center"
@@ -419,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
                     android:layout_margin="4dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_semibold"
                     android:text="@string/activity_tag_placeholder"
                     android:textColor="@color/colorMain"
                     android:textSize="15sp" />
@@ -428,39 +201,6 @@
 
 
         </RelativeLayout>
-
-        <!--                <RelativeLayout-->
-        <!--                    android:id="@+id/activity_host_part"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="40dp"-->
-        <!--                    android:layout_below="@id/attendees_part"-->
-        <!--                    android:background="@color/quantum_white_100">-->
-
-        <!--                    <ImageView-->
-        <!--                        android:id="@+id/host_pic_image_view"-->
-        <!--                        android:layout_width="20dp"-->
-        <!--                        android:layout_height="20dp"-->
-        <!--                        android:layout_alignParentStart="true"-->
-        <!--                        android:layout_centerInParent="true"-->
-        <!--                        android:layout_marginStart="10dp"-->
-        <!--                        android:background="@drawable/circleback"-->
-        <!--                        android:contentDescription="@string/activity_host_pic_desciption" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:id="@+id/host_name_text_view"-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_centerInParent="true"-->
-        <!--                        android:layout_marginStart="10dp"-->
-        <!--                        android:layout_toEndOf="@id/host_pic_image_view"-->
-        <!--                        android:fontFamily="@font/roboto_medium"-->
-        <!--                        android:text="@string/host_name_placeholder"-->
-        <!--                        android:textColor="@color/colorPurple"-->
-        <!--                        android:textSize="15sp" />-->
-
-
-        <!--                </RelativeLayout>-->
-
 
     </RelativeLayout>
 

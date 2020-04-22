@@ -21,6 +21,8 @@ import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
 import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -49,9 +52,17 @@ public class ConfirmAttendFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private float ZOOM = 17f;
+    private double CBD_LAT = -1.28333;
+    private double CBD_LONG = 36.81667;
+    private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
+    private GoogleMap map;
+
     private AttendActivityViewModel viewModel;
-    private TextView titleTextView;
-    private ImageView imageView;
+    private TextView titleTextView, usernameTextView, activityDateTextView, activityCostTextView,
+            activityStartTimeTextView, activityPeopleNumberTextView, activityPeopleAgeTextView,
+            activityLocationTextView;
+    private ImageView imageView, hostProfilePicImageView;
 
     private String activityId;
     private Activity activity;
@@ -95,7 +106,9 @@ public class ConfirmAttendFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_confirm_attend, container, false);
         ExtendedFloatingActionButton imIn = root.findViewById(R.id.AttendActivityFab);
-        ExtendedFloatingActionButton imOut = root.findViewById(R.id.CancelAttendFab);
+        ExtendedFloatingActionButton imOut = root.findViewById(R.id.cancelActivityFab);
+
+
         imOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +166,14 @@ public class ConfirmAttendFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         imageView = view.findViewById(R.id.activityImageView);
         titleTextView = view.findViewById(R.id.activityNameTitleTextView);
+        hostProfilePicImageView = view.findViewById(R.id.hostProfilePicImageView);
+        usernameTextView = view.findViewById(R.id.usernameTextView);
+        activityDateTextView = view.findViewById(R.id.activity_actual_date_text_view);
+        activityCostTextView = view.findViewById(R.id.activity_actual_cost_text_view);
+        activityStartTimeTextView = view.findViewById(R.id.activity_time_actual_text_view);
+        activityPeopleNumberTextView = view.findViewById(R.id.noOfPeopleByTextView);
+        activityPeopleAgeTextView = view.findViewById(R.id.agesNoTextView);
+        activityLocationTextView = view.findViewById(R.id.activity_actual_location_text_view);
 
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
             @Override
@@ -189,10 +210,32 @@ public class ConfirmAttendFragment extends Fragment {
 //                                activity.setMaxRequiredPeeps(maxRequiredPeeps);
 //                                activity.setImageUrl(imageUrl);
 //                                activity.setMattendees(mattendees);
+                                String hostName = activity.getHost().getUserName();
+                                String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
+                                String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
+                                String activityCost = activity.getActivityCost();
+                                String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";
+                                String activityPeopleAge = activity.getActivityMinAge() + " - " + activity.getActivityMaxAge();
+                                String activityLocationName = activity.getActivityLocationName();
+                                usernameTextView.setText(hostName);
+                                activityDateTextView.setText(activityDate);
+                                activityCostTextView.setText(activityCost);
+                                activityStartTimeTextView.setText(activityStartTime);
+                                activityPeopleNumberTextView.setText(activityPeopleNumber);
+                                activityPeopleAgeTextView.setText(activityPeopleAge);
+                                activityLocationTextView.setText(activityLocationName);
+
                                 Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
                                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
                                         .into(imageView);
+                                Glide.with(getContext())
+                                        .load(activity.getHost().getHostPic())
+                                        .apply(RequestOptions.circleCropTransform())
+                                        .into(hostProfilePicImageView);
                                 titleTextView.setText(activity.getActivityTitle());
+
+                                LatLng activityLocation = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
+
                             }
                         }
                     }
@@ -200,4 +243,5 @@ public class ConfirmAttendFragment extends Fragment {
             }
         });
     }
+
 }

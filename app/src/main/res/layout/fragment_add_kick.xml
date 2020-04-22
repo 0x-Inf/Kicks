@@ -47,6 +47,17 @@
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
 
+            <ImageView
+                android:id="@+id/people_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@drawable/img_bowling" />
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,6 +85,16 @@
             android:layout_marginTop="20dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/cost_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@drawable/img_basketball" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -109,6 +130,16 @@
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
 
+            <ImageView
+                android:id="@+id/tag_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@drawable/img_swimming" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -142,6 +173,16 @@
             android:layout_marginEnd="20dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/time_date_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@drawable/img_cycling" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -177,6 +218,16 @@
             android:layout_marginTop="20dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/location_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@drawable/img_soccer" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

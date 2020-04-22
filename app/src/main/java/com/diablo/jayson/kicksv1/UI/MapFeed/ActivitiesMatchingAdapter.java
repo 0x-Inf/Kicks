@@ -3,11 +3,13 @@ package com.diablo.jayson.kicksv1.UI.MapFeed;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -30,7 +32,7 @@ public class ActivitiesMatchingAdapter extends FirestoreRecyclerAdapter<Activity
     @Override
     public MatchedActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MatchedActivityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_searched_tag_item, parent, false));
+                .inflate(R.layout.recycler_matched_tag_item, parent, false));
     }
 
     @Override
@@ -42,15 +44,20 @@ public class ActivitiesMatchingAdapter extends FirestoreRecyclerAdapter<Activity
 
     static class MatchedActivityViewHolder extends RecyclerView.ViewHolder {
         private TextView searchedTagName;
+        private ImageView activityImage;
 
         MatchedActivityViewHolder(@NonNull View itemView) {
             super(itemView);
 
             searchedTagName = itemView.findViewById(R.id.searchedTagTextView);
+            activityImage = itemView.findViewById(R.id.matchedActivityImage);
         }
 
         void bindTo(Activity matchedActivity, OnActivitySelectedListener listener) {
             searchedTagName.setText(matchedActivity.getActivityTitle());
+            Glide.with(itemView.getContext())
+                    .load(matchedActivity.getImageUrl())
+                    .into(activityImage);
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onActivitySelected(matchedActivity);

@@ -121,6 +121,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
     private CardView addActivityPeopleCard, addActivityCostCard, addActivityTagCard, addActivityTimeAndDateCard,
             addActivityLocationCard;
     private TextView activityLocationTextView;
+    private ImageView peopleCardImageView, tagCardImageView, costCardImageView, locationCardImageView, timeDateCardImage;
     private ExtendedFloatingActionButton createActivityFinishEfab;
 
     //People Stuff
@@ -195,6 +196,11 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
         addActivityTimeAndDateCard = root.findViewById(R.id.add_activity_time_date_card);
         activityLocationTextView = root.findViewById(R.id.activity_location_text_view);
         createActivityFinishEfab = root.findViewById(R.id.create_activity_finish_efab);
+        peopleCardImageView = root.findViewById(R.id.people_card_image_view);
+        tagCardImageView = root.findViewById(R.id.tag_card_image_view);
+        costCardImageView = root.findViewById(R.id.cost_card_image_view);
+        locationCardImageView = root.findViewById(R.id.location_card_image_view);
+        timeDateCardImage = root.findViewById(R.id.time_date_card_image_view);
 
         //People Stuff
         addActivityPeopleRelativeLayout = root.findViewById(R.id.add_activity_people_relative_layout);
@@ -300,6 +306,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                     updateActivityPeople();
                     addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
                     addActivityPeopleRelativeLayout.setVisibility(View.GONE);
+                    peopleCardImageView.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -329,6 +336,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                 addActivityTagRelativeLayout.setVisibility(View.GONE);
                 selectedTagOverlayRelativeLayout.setVisibility(View.GONE);
                 selectedTagCard.setVisibility(View.GONE);
+                tagCardImageView.setVisibility(View.VISIBLE);
             }
         });
         closeTagRelativeLayoutIcon.setOnClickListener(new View.OnClickListener() {
@@ -398,6 +406,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                 activityMain.setActivityEndTime(activityEndTimestamp);
                 addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
                 addActivityDateTimeRelativeLayout.setVisibility(View.GONE);
+                timeDateCardImage.setVisibility(View.VISIBLE);
 //                Toast.makeText(getContext(),DateTimeFormat.mediumTime().print(activityMain.getActivityStartTime().getTime()),Toast.LENGTH_SHORT).show();
             }
         });
@@ -424,6 +433,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onClick(View v) {
                 updateActivityLocation();
+                locationCardImageView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -437,6 +447,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                     updateActivityCost();
                     addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
                     addActivityCostRelativeLayout.setVisibility(View.GONE);
+                    costCardImageView.setVisibility(View.VISIBLE);
                 }
 
             }
