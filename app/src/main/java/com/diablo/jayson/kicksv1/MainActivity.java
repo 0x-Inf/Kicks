@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     myToolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);
+                    Toolbar toolbar = findViewById(R.id.my_toolbar);  // or however you need to do it for your code
+                    AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                 }
 
             }

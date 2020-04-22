@@ -3,9 +3,7 @@ package com.diablo.jayson.kicksv1.UI.MapFeed;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -39,17 +38,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class KickMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private static final String TAG = KickMapFragment.class.getSimpleName();
+
+    private MapFragmentViewModel viewModel;
 
     private GoogleMap mMap;
     private Location mLastLocation;
@@ -67,6 +64,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        viewModel = new ViewModelProvider(requireActivity()).get(MapFragmentViewModel.class);
     }
 
     @Override
@@ -206,7 +204,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                                     }
                                 }
                         );
-//                        Log.e(TAG, String.valueOf(allActivities.get(0).getActivityLocationCoordinates()));
+
                         for (int i = 0; i < allActivities.size(); i++) {
 
 
@@ -214,7 +212,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                                     .position(new LatLng(allActivities.get(i).getActivityLocationCoordinates().getLatitude(), allActivities.get(i).getActivityLocationCoordinates().getLongitude()))
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                                     .title(allActivities.get(i).getActivityTag().getTagName()));
-                            marker.setTag(allActivities.get(i).getActivityId());
+                            marker.setTag(allActivities.get(i).getActivityTag().getTagName());
                             Glide.with(getContext())
                                     .asBitmap()
                                     .load(allActivities.get(i).getActivityTag().getTagIconUrl())
@@ -231,81 +229,19 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
 
                 });
 
-
-//        for (Activity activity : allActivities) {
-//            Marker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(activity.getKickLocationCordinates().getLatitude(), activity.getKickLocationCordinates().getLongitude()))
-//                    .title(activity.getTag().getTagName()));
-//            Marker.setTag(activity.getActivityId());
-//        }
-
-
     }
 
     @Override
     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
-        String activityId = marker.getTag().toString();
-        Toast.makeText(getContext(), activityId, Toast.LENGTH_LONG).show();
+        String tagName = Objects.requireNonNull(marker.getTag()).toString();
+        viewModel.setTagName(tagName);
+        AvailableActivitiesBottomDialogFragment availableActivitiesBottomDialogFragment = AvailableActivitiesBottomDialogFragment.newInstance();
+        availableActivitiesBottomDialogFragment.show(getParentFragmentManager(), "available_activities");
+
+
+//
+//        Toast.makeText(getContext(), activityId, Toast.LENGTH_LONG).show();
         return false;
     }
-
-
-    public static class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
-        protected Bitmap doInBackground(String... urls) {
-            Bitmap networkBitmap = null;
-
-
-            String networkUrl = urls[0];//Load the first element
-            URL url = null;
-            try {
-                url = new URL(networkUrl);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                networkBitmap = BitmapFactory.decodeStream(
-                        url.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return networkBitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-        }
-    }
-
-    AsyncTask<String, Void, Bitmap> loadImageTask = new AsyncTask<String, Void, Bitmap>() {
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bmImg = null;
-            try {
-                URL url = new URL(params[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream is = conn.getInputStream();
-                bmImg = BitmapFactory.decodeStream(is);
-            } catch (IOException e) {
-                e.printStackTrace();
-                bmImg = null;
-            }
-
-            return bmImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            // TODO: do what you need with resulting bitmap - add marker to map
-
-
-        }
-    };
-
 
 }
