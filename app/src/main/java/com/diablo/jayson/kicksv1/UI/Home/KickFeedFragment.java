@@ -65,7 +65,8 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("activities").document();
         Query query = FirebaseFirestore.getInstance()
-                .collection("activities");
+                .collection("activities")
+                .orderBy("activityUploadedTime", Query.Direction.DESCENDING);
 
 
         FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()

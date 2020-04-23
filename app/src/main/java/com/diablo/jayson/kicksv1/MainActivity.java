@@ -22,6 +22,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
@@ -70,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         AppBarLayout appBarLayout = findViewById(R.id.mainAppBarlayout);
         checkFirstRun();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
+
 
         if (savedInstanceState != null) {
             getSupportFragmentManager().executePendingTransactions();
@@ -152,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             case R.id.action_signOut:
                 FirebaseAuth.getInstance().signOut();
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 finish();
                 return true;
             default:

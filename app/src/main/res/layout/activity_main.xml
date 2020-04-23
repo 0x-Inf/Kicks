@@ -15,9 +15,8 @@
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?android:attr/colorBackground"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
@@ -44,9 +43,9 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        app:itemIconTint="@color/bottom_navigation_colors"
-        app:itemTextColor="@color/bottom_navigation_colors"
-        android:background="?android:attr/windowBackground"
+        app:itemIconTint="?attr/colorControlNormal"
+        app:itemTextColor="?android:attr/textColorPrimary"
+        android:background="?android:attr/colorBackground"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
