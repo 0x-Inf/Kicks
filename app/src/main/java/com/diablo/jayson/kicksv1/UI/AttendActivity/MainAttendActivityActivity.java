@@ -343,8 +343,8 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     public void onMapReady(GoogleMap gMap) {
         googleMap = gMap;
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0))
-                .title(activityTitle));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 15));
+//        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0))
+//                .title(activityTitle));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 15));
     }
 }
