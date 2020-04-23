@@ -1,37 +1,34 @@
 package com.diablo.jayson.kicksv1.Models;
 
+import com.google.firebase.Timestamp;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String userName;
     private String uid;
+    private String userName;
     private String firstName;
     private String secondName;
     private String userEmail;
     private String passWord;
     private String photoUrl;
-    private String idNumber;
     private String phoneNumber;
-    private boolean isStudent;
-    private String schoolName;
+    private Timestamp signedUpTime;
 
+    public User() {
+    }
 
-    public User(String userName, String firstName, String secondName, String userEmail, String passWord, String photoUrl, String idNumber, String phoneNumber, boolean isStudent, String schoolName, String uid) {
+    public User(String uid, String userName, String firstName, String secondName, String userEmail, String passWord, String photoUrl, String phoneNumber, Timestamp signedUpTime) {
+        this.uid = uid;
         this.userName = userName;
         this.firstName = firstName;
         this.secondName = secondName;
         this.userEmail = userEmail;
         this.passWord = passWord;
         this.photoUrl = photoUrl;
-        this.idNumber = idNumber;
-        this.isStudent = isStudent;
-        this.schoolName = schoolName;
         this.phoneNumber = phoneNumber;
-        this.uid = uid;
-    }
-
-    public User() {
+        this.signedUpTime = signedUpTime;
     }
 
     public String getUid() {
@@ -40,14 +37,6 @@ public class User implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getUserName() {
@@ -98,27 +87,19 @@ public class User implements Serializable {
         this.photoUrl = photoUrl;
     }
 
-    public String getIdNumber() {
-        return idNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isStudent() {
-        return isStudent;
+    public Timestamp getSignedUpTime() {
+        return signedUpTime;
     }
 
-    public void setStudent(boolean student) {
-        isStudent = student;
-    }
-
-    public String getSchoolName() {
-        return schoolName;
-    }
-
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    public void setSignedUpTime(Timestamp signedUpTime) {
+        this.signedUpTime = signedUpTime;
     }
 }

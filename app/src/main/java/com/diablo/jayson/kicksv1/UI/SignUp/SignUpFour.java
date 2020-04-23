@@ -30,16 +30,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 /**
@@ -127,6 +129,16 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                 updateViewModel();
                 mAuth = FirebaseAuth.getInstance();
                 AuthCredential credential = EmailAuthProvider.getCredential(mainUser.getUserEmail(), mainUser.getPassWord());
+                MessageDigest messageDigest = null;
+                try {
+                    messageDigest = MessageDigest.getInstance("SHA-256");
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                assert messageDigest != null;
+                messageDigest.update(mainUser.getPassWord().getBytes());
+                String encryptedString = new String(messageDigest.digest());
+                mainUser.setPassWord(encryptedString);
                 Objects.requireNonNull(mAuth.getCurrentUser()).linkWithCredential(credential)
                         .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
                             @Override
@@ -137,27 +149,26 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                                     assert user != null;
                                     mainUser.setUid(user.getUid());
                                     FirebaseFirestore.getInstance().collection("users")
-                                            .add(user.getUid())
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                            .setDisplayName(mainUser.getUserName())
-                                                            .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
-                                                            .build();
-                                                    user.updateProfile(profileUpdates)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        Log.e(TAG, "User profile updated.");
-                                                                    }
-                                                                }
-                                                            });
-                                                    startActivity(new Intent(getContext(), MainActivity.class));
-                                                }
-                                            })
+                                            .document(user.getUid())
+                                            .set(mainUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(mainUser.getUserName())
+                                                    .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
+                                                    .build();
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.e(TAG, "User profile updated.");
+                                                            }
+                                                        }
+                                                    });
+                                            startActivity(new Intent(getContext(), MainActivity.class));
+                                        }
+                                    })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
@@ -178,7 +189,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
     }
 
     private void updateViewModel() {
-
+        mainUser.setSignedUpTime(Timestamp.now());
     }
 
     @Override
@@ -245,3 +256,32 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
         mainUser.setPhotoUrl(picUrl);
     }
 }
+
+
+//
+//.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//@Override
+//public void onSuccess(DocumentReference documentReference) {
+//        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//        .setDisplayName(mainUser.getUserName())
+//        .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
+//        .build();
+//        user.updateProfile(profileUpdates)
+//        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//@Override
+//public void onComplete(@NonNull Task<Void> task) {
+//        if (task.isSuccessful()) {
+//        Log.e(TAG, "User profile updated.");
+//        }
+//        }
+//        });
+//        startActivity(new Intent(getContext(), MainActivity.class));
+//        }
+//        })
+//        .addOnFailureListener(new OnFailureListener() {
+//@Override
+//public void onFailure(@NonNull Exception e) {
+//
+//        }
+//        });

@@ -276,17 +276,15 @@ public class ProfileFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                        allUsers.add(new User(snapshot.toObject(User.class).getUserName(),
+                        allUsers.add(new User(snapshot.toObject(User.class).getUid(),
+                                snapshot.toObject(User.class).getUserName(),
                                 snapshot.toObject(User.class).getFirstName(),
                                 snapshot.toObject(User.class).getSecondName(),
                                 snapshot.toObject(User.class).getUserEmail(),
                                 snapshot.toObject(User.class).getPassWord(),
                                 snapshot.toObject(User.class).getPhotoUrl(),
-                                snapshot.toObject(User.class).getIdNumber(),
                                 snapshot.toObject(User.class).getPhoneNumber(),
-                                snapshot.toObject(User.class).isStudent(),
-                                snapshot.toObject(User.class).getSchoolName(),
-                                snapshot.toObject(User.class).getUid()));
+                                snapshot.toObject(User.class).getSignedUpTime()));
                         String fullName = allUsers.get(0).getFirstName() + " " + allUsers.get(0).getSecondName();
                         String phoneNumber = allUsers.get(0).getPhoneNumber();
                         String emailAddress = allUsers.get(0).getUserEmail();
