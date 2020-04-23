@@ -1,8 +1,6 @@
 package com.diablo.jayson.kicksv1.Models;
 
 import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
 import com.google.firebase.firestore.GeoPoint;
 
@@ -11,55 +9,58 @@ import java.io.Serializable;
 public class Tag extends BaseObservable implements Serializable {
 
     private String tagName;
+    private String tagShortDescription;
     private GeoPoint tagLocation;
-    private String tagOptimalMinPeople;
-    private String tagOptimalMaxPeople;
     private String tagCost;
     private String tagIconUrl;
     private String tagImageLargeUrl;
-    private String tagOptimalStartTime;
     private String tagLocationName;
 
+    public Tag() {
+    }
 
-    public Tag(String tagName, GeoPoint tagLocation, String tagOptimalMinPeople, String tagOptimalMaxPeople, String tagCost, String tagIconUrl, String tagImageLargeUrl, String tagOptimalStartTime, String tagLocationName) {
+    public Tag(String tagName, String tagShortDescription, GeoPoint tagLocation, String tagCost, String tagIconUrl, String tagImageLargeUrl, String tagLocationName) {
         this.tagName = tagName;
+        this.tagShortDescription = tagShortDescription;
         this.tagLocation = tagLocation;
-        this.tagOptimalMinPeople = tagOptimalMinPeople;
-        this.tagOptimalMaxPeople = tagOptimalMaxPeople;
         this.tagCost = tagCost;
         this.tagIconUrl = tagIconUrl;
         this.tagImageLargeUrl = tagImageLargeUrl;
-        this.tagOptimalStartTime = tagOptimalStartTime;
         this.tagLocationName = tagLocationName;
     }
 
-    public Tag() {
-
+    public String getTagName() {
+        return tagName;
     }
 
-    public <T> Tag(T toObject) {
-
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
     }
 
-    @Bindable
-    public String getTagLocationName() {
-        return tagLocationName;
+    public String getTagShortDescription() {
+        return tagShortDescription;
     }
 
-    public void setTagLocationName(String tagLocationName) {
-        this.tagLocationName = tagLocationName;
+    public void setTagShortDescription(String tagShortDescription) {
+        this.tagShortDescription = tagShortDescription;
     }
 
-    @Bindable
-    public String getTagOptimalStartTime() {
-        return tagOptimalStartTime;
+    public GeoPoint getTagLocation() {
+        return tagLocation;
     }
 
-    public void setTagOptimalStartTime(String tagOptimalStartTime) {
-        this.tagOptimalStartTime = tagOptimalStartTime;
+    public void setTagLocation(GeoPoint tagLocation) {
+        this.tagLocation = tagLocation;
     }
 
-    @Bindable
+    public String getTagCost() {
+        return tagCost;
+    }
+
+    public void setTagCost(String tagCost) {
+        this.tagCost = tagCost;
+    }
+
     public String getTagIconUrl() {
         return tagIconUrl;
     }
@@ -68,7 +69,6 @@ public class Tag extends BaseObservable implements Serializable {
         this.tagIconUrl = tagIconUrl;
     }
 
-    @Bindable
     public String getTagImageLargeUrl() {
         return tagImageLargeUrl;
     }
@@ -77,54 +77,11 @@ public class Tag extends BaseObservable implements Serializable {
         this.tagImageLargeUrl = tagImageLargeUrl;
     }
 
-
-    @Bindable
-    public String getTagName() {
-        return tagName;
+    public String getTagLocationName() {
+        return tagLocationName;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-        notifyPropertyChanged(BR.tagName);
-    }
-
-    @Bindable
-    public String getTagCost() {
-        return tagCost;
-    }
-
-    public void setTagCost(String tagCost) {
-        this.tagCost = tagCost;
-        notifyPropertyChanged(BR.tagCost);
-    }
-
-    @Bindable
-    public GeoPoint getTagLocation() {
-        return tagLocation;
-    }
-
-    public void setTagLocation(GeoPoint tagLocation) {
-        this.tagLocation = tagLocation;
-        notifyPropertyChanged(BR.tagLocation);
-    }
-
-    @Bindable
-    public String getTagOptimalMinPeople() {
-        return tagOptimalMinPeople;
-    }
-
-    public void setTagOptimalMinPeople(String tagOptimalMinPeople) {
-        this.tagOptimalMinPeople = tagOptimalMinPeople;
-        notifyPropertyChanged(BR.tagOptimalMinPeople);
-    }
-
-    @Bindable
-    public String getTagOptimalMaxPeople() {
-        return tagOptimalMaxPeople;
-    }
-
-    public void setTagOptimalMaxPeople(String tagOptimalMaxPeople) {
-        this.tagOptimalMaxPeople = tagOptimalMaxPeople;
-        notifyPropertyChanged(BR.tagOptimalMaxPeople);
+    public void setTagLocationName(String tagLocationName) {
+        this.tagLocationName = tagLocationName;
     }
 }

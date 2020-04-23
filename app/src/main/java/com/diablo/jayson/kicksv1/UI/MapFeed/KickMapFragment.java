@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -58,6 +59,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
 
     private ArrayList<Activity> allActivities;
+    private ArrayList<Tag> allTags;
     private Marker Marker;
 
     @Override
@@ -87,7 +89,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_kick_map, container, false);
-        loadActiveActivitiesFromDb();
+//        loadActiveActivitiesFromDb();
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
@@ -161,73 +163,63 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onMapReady(GoogleMap googleMap) {
         enableLocation();
 
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        allActivities = new ArrayList<Activity>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("activities")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                    snapshot.toObject(Activity.class).getActivityTitle(),
-                                    snapshot.toObject(Activity.class).getActivityStartTime(),
-                                    snapshot.toObject(Activity.class).getActivityEndTime(),
-                                    snapshot.toObject(Activity.class).getActivityDate(),
-                                    snapshot.toObject(Activity.class).getActivityLocationName(),
-                                    snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
-                                    snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
-                                    snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
-                                    snapshot.toObject(Activity.class).getActivityMinAge(),
-                                    snapshot.toObject(Activity.class).getActivityMaxAge(),
-                                    snapshot.toObject(Activity.class).getImageUrl(),
-                                    snapshot.toObject(Activity.class).getActivityUploaderId(),
-                                    snapshot.toObject(Activity.class).getActivityId(),
-                                    snapshot.toObject(Activity.class).getActivityCost(),
-                                    snapshot.toObject(Activity.class).getActivityUploadedTime(),
-                                    snapshot.toObject(Activity.class).getTags(),
-                                    snapshot.toObject(Activity.class).getActivityTag(),
-                                    snapshot.toObject(Activity.class).getActivityAttendees(),
-                                    snapshot.toObject(Activity.class).isActivityPrivate()));
+        mMap = googleMap;
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(
+                new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12));
+                        } else {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CBD, 12));
                         }
-                        mMap = googleMap;
-                        mFusedLocationClient.getLastLocation().addOnSuccessListener(
-                                new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        if (location != null) {
-                                            mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12));
-                                        } else {
-                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CBD, 12));
-                                        }
-                                    }
-                                }
-                        );
-
-                        for (int i = 0; i < allActivities.size(); i++) {
-
-
-                            Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(allActivities.get(i).getActivityLocationCoordinates().getLatitude(), allActivities.get(i).getActivityLocationCoordinates().getLongitude()))
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                    .title(allActivities.get(i).getActivityTag().getTagName()));
-                            marker.setTag(allActivities.get(i).getActivityTag().getTagName());
-                            Glide.with(getContext())
-                                    .asBitmap()
-                                    .load(allActivities.get(i).getActivityTag().getTagIconUrl())
-                                    .into(new SimpleTarget<Bitmap>(20, 20) {
-                                        @Override
-                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                            marker.setIcon(BitmapDescriptorFactory.fromBitmap(resource));
-                                        }
-                                    });
-                        }
-                        mMap.setOnMarkerClickListener(this::onMarkerClick);
-
                     }
+                }
+        );
 
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        allTags = new ArrayList<Tag>();
+        db.collection("tags").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
+                                        documentSnapshot.toObject(Tag.class).getTagShortDescription(),
+                                        documentSnapshot.toObject(Tag.class).getTagLocation(),
+                                        documentSnapshot.toObject(Tag.class).getTagCost(),
+                                        documentSnapshot.toObject(Tag.class).getTagIconUrl(),
+                                        documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
+                                        documentSnapshot.toObject(Tag.class).getTagLocationName()));
+                            }
+
+                            for (int i = 0; i < allTags.size(); i++) {
+
+
+                                Marker marker = mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(allTags.get(i).getTagLocation().getLatitude(), allTags.get(i).getTagLocation().getLongitude()))
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                        .title(allTags.get(i).getTagName()));
+                                marker.setTag(allTags.get(i).getTagName());
+                                Glide.with(getContext())
+                                        .asBitmap()
+                                        .load(allTags.get(i).getTagIconUrl())
+                                        .into(new SimpleTarget<Bitmap>(30, 30) {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                marker.setIcon(BitmapDescriptorFactory.fromBitmap(resource));
+                                            }
+                                        });
+                            }
+
+                        }
+                    }
                 });
+
+        mMap.setOnMarkerClickListener(this::onMarkerClick);
 
     }
 

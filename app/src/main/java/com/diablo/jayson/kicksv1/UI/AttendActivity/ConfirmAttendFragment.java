@@ -34,8 +34,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DateFormat;
 import java.util.Objects;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ConfirmAttendFragment#newInstance} factory method to
@@ -164,7 +162,7 @@ public class ConfirmAttendFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        imageView = view.findViewById(R.id.activityImageView);
+//        imageView = view.findViewById(R.id.activityImageView);
         titleTextView = view.findViewById(R.id.activityNameTitleTextView);
         hostProfilePicImageView = view.findViewById(R.id.hostProfilePicImageView);
         usernameTextView = view.findViewById(R.id.usernameTextView);
@@ -225,10 +223,10 @@ public class ConfirmAttendFragment extends Fragment {
                                 activityPeopleAgeTextView.setText(activityPeopleAge);
                                 activityLocationTextView.setText(activityLocationName);
 
-                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
-                                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
-                                        .into(imageView);
-                                Glide.with(getContext())
+//                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
+//                                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
+//                                        .into(imageView);
+                                Glide.with(Objects.requireNonNull(getContext()))
                                         .load(activity.getHost().getHostPic())
                                         .apply(RequestOptions.circleCropTransform())
                                         .into(hostProfilePicImageView);

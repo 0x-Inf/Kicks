@@ -121,8 +121,8 @@ public class ProfileFragment extends Fragment {
         profilePictureImageView = root.findViewById(R.id.profile_picture_image_view);
         fullNameTextView = root.findViewById(R.id.full_name_text_view);
         usernameTextView = root.findViewById(R.id.user_name_text_view);
-        emailActualTextView = root.findViewById(R.id.emailActualTextView);
-        phoneActualTextView = root.findViewById(R.id.phoneActualTextView);
+//        emailActualTextView = root.findViewById(R.id.emailActualTextView);
+//        phoneActualTextView = root.findViewById(R.id.phoneActualTextView);
 
 
         //Active activities views
@@ -291,8 +291,8 @@ public class ProfileFragment extends Fragment {
                         String phoneNumber = allUsers.get(0).getPhoneNumber();
                         String emailAddress = allUsers.get(0).getUserEmail();
                         fullNameTextView.setText(fullName);
-                        emailActualTextView.setText(emailAddress);
-                        phoneActualTextView.setText(phoneNumber);
+//                        emailActualTextView.setText(emailAddress);
+//                        phoneActualTextView.setText(phoneNumber);
                     }
 
                 }

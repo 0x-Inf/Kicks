@@ -315,162 +315,76 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/contactCard"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/participatedNumberTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="2dp">
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/participated_number_placeholder"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="50sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/contactDetailsTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/contact_details_text"
-                            android:textColor="@color/colorMain"
-                            android:textSize="30sp" />
-
-                        <TextView
-                            android:id="@+id/emailTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/contactDetailsTextView"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/email_subt_text"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/emailActualTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@id/emailTextView"
-                            android:layout_toEndOf="@id/emailTextView"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/email_placeholder"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/phoneTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/emailTextView"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/phone_subt_text"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/phoneActualTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@id/phoneTextView"
-                            android:layout_toEndOf="@id/phoneTextView"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/phone_placeholder"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="17sp" />
-
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/activityParticipatedCard"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/participatedTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/contactCard"
-                    android:layout_marginHorizontal="80dp"
-                    android:layout_marginTop="30dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="2dp">
+                    android:layout_below="@id/participatedNumberTextView"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/participated_text"
+                    android:textColor="@color/colorMain"
+                    android:textSize="25sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/participatedTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:layout_centerHorizontal="true"
-                            android:text="@string/participated_text"
-                            android:textColor="@color/colorMain"
-                            android:textSize="25sp" />
-
-                        <TextView
-                            android:id="@+id/participatedNumberTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/participatedTextView"
-                            android:layout_centerHorizontal="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/participated_number_placeholder"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="25sp" />
-
-
-                    </RelativeLayout>
-
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/activityHostingCard"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/hostedNumberTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activityParticipatedCard"
-                    android:layout_marginHorizontal="80dp"
+                    android:layout_below="@id/participatedTextView"
                     android:layout_marginTop="30dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="2dp">
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/hosted_number_placeholder"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="50sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp"
-                        android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/hostedTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:layout_centerHorizontal="true"
-                            android:text="@string/hosted_text"
-                            android:textColor="@color/colorMain"
-                            android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/hostedTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hostedNumberTextView"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/hosted_text"
+                    android:textColor="@color/colorMain"
+                    android:textSize="25sp" />
 
-                        <TextView
-                            android:id="@+id/hostedNumberTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/hostedTextView"
-                            android:layout_centerHorizontal="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/hosted_number_placeholder"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="25sp" />
-                    </RelativeLayout>
+                <TextView
+                    android:id="@+id/solosNumberTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hostedTextView"
+                    android:layout_marginTop="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/solos_number_placeholder"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="50sp" />
 
-                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/solosTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/solosNumberTextView"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/solos_text"
+                    android:textColor="@color/colorMain"
+                    android:textSize="25sp" />
 
 
             </RelativeLayout>
@@ -511,10 +425,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="@string/messages_text"
-                    android:textSize="30sp"
                     android:fontFamily="@font/source_sans_pro_regular"
-                    android:textColor="@color/colorPurple" />
+                    android:text="@string/messages_text"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="30sp" />
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/messagesViewPager"

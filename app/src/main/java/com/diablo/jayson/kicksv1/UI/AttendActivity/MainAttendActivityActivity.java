@@ -68,7 +68,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     private RelativeLayout attendeesCardOverlay;
     private RelativeLayout detailsCardOverlay;
     private ImageView sendMessageButton;
-    private EditText messageEdit;
+    private EditText messageEdit, searchTagsEditText;
     private TextView activityDashTimeText, activityDashDateText, activityDashLocationText, activityDashTagText;
     private TextView activityLocationActualTextView, activityTimeActualTextView, activityDateActualTextView;
 

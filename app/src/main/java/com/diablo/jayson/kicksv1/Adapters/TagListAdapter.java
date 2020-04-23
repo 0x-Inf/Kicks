@@ -72,7 +72,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
         void bindTo(Tag currentTag, OnTagSelectedListener listener) {
             tagNameTextView.setText(currentTag.getTagName());
             Glide.with(itemView.getContext())
-                    .load(currentTag.getTagIconUrl())
+                    .load(currentTag.getTagImageLargeUrl())
                     .into(tagImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

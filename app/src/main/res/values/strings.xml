@@ -279,6 +279,8 @@
     <string name="hosted_text">Hosted</string>
     <string name="hosted_number_placeholder">33</string>
     <string name="available_activities_text">Available Activities</string>
+    <string name="solos_number_placeholder">21</string>
+    <string name="solos_text">Solos</string>
 
 
 </resources>

@@ -3,10 +3,11 @@ package com.diablo.jayson.kicksv1.UI.AddKick;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,10 +93,10 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AddKickFragment extends Fragment implements OnMapReadyCallback,
+public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener, TagListAdapter.OnTagSelectedListener {
 
-    private static final String TAG = AddKickFragment.class.getSimpleName();
+    private static final String TAG = AddActivityFragment.class.getSimpleName();
 
     private final static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
     private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -148,7 +149,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
     private ImageView selectedTagImageView, closeTagRelativeLayoutIcon;
     private FloatingActionButton tagSelectionDoneButton;
     private ArrayList<Tag> allTags;
-    private AddKickFragment listener;
+    private AddActivityFragment listener;
     private Tag activityTag;
 
     //Location Stuff
@@ -163,8 +164,8 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
     private FloatingActionButton costInputDoneButton;
 
 
-    public static AddKickFragment newInstance() {
-        return new AddKickFragment();
+    public static AddActivityFragment newInstance() {
+        return new AddActivityFragment();
     }
 
 
@@ -177,7 +178,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_add_kick, container, false);
+        View root = inflater.inflate(R.layout.fragment_add_activity, container, false);
         activityMain = new Activity();
         activityMain.setActivityPrivate(false);
 
@@ -263,6 +264,7 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
         tagCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadTagsFromDb();
                 addActivityTagRelativeLayout.setVisibility(View.VISIBLE);
                 addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
@@ -326,8 +328,67 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
 
 
         //Tag Implemetation
-        loadTagsFromDb();
         activityTag = new Tag();
+        searchTagsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String tagName = s.toString();
+                if (tagName.isEmpty()) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("tags")
+                            .whereEqualTo("tagName", "")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                            Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
+                                                    documentSnapshot.toObject(Tag.class).getTagShortDescription(),
+                                                    documentSnapshot.toObject(Tag.class).getTagLocation(),
+                                                    documentSnapshot.toObject(Tag.class).getTagCost(),
+                                                    documentSnapshot.toObject(Tag.class).getTagIconUrl(),
+                                                    documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
+                                                    documentSnapshot.toObject(Tag.class).getTagLocationName()));
+                                            for (int i = 0; i < allTags.size(); i++) {
+                                                Log.w(TAG, allTags.get(i).getTagName());
+                                            }
+                                        }
+                                        TagListAdapter mAdapter = new TagListAdapter(getContext(), allTags, listener);
+                                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
+                                        tagsRecyclerView.setLayoutManager(gridLayoutManager);
+                                        tagsRecyclerView.setAdapter(mAdapter);
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
+                } else {
+                    ArrayList<Tag> filteredTags = new ArrayList<Tag>();
+                    for (Tag tag : allTags) {
+                        if (tag.getTagName().toLowerCase(Locale.ROOT).contains(s)) {
+                            filteredTags.add(new Tag(tag.getTagName(), tag.getTagShortDescription(), tag.getTagLocation(), tag.getTagCost(),
+                                    tag.getTagIconUrl(), tag.getTagImageLargeUrl(), tag.getTagLocationName()));
+                        }
+                    }
+                    TagListAdapter mAdapter = new TagListAdapter(getContext(), filteredTags, listener);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
+                    tagsRecyclerView.setLayoutManager(gridLayoutManager);
+                    tagsRecyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         tagSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -520,9 +581,6 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
         activityMain.setActivityMaxRequiredPeople(activityMaxPeople);
         activityMain.setActivityMinAge(activityMinAge);
         activityMain.setActivityMaxAge(activityMaxAge);
-        int color = getResources().getColor(R.color.colorMainTransparent);
-        addActivityLocationCard.setCardBackgroundColor(ColorStateList.valueOf(color));
-
     }
 
     private void updateActivityLocation() {
@@ -557,8 +615,13 @@ public class AddKickFragment extends Fragment implements OnMapReadyCallback,
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(), documentSnapshot.toObject(Tag.class).getTagLocation(), documentSnapshot.toObject(Tag.class).getTagOptimalMinPeople(), documentSnapshot.toObject(Tag.class).getTagOptimalMaxPeople(),
-                                        documentSnapshot.toObject(Tag.class).getTagCost(), documentSnapshot.toObject(Tag.class).getTagIconUrl(), documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(), documentSnapshot.toObject(Tag.class).getTagOptimalStartTime(), documentSnapshot.toObject(Tag.class).getTagLocationName()));
+                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
+                                        documentSnapshot.toObject(Tag.class).getTagShortDescription(),
+                                        documentSnapshot.toObject(Tag.class).getTagLocation(),
+                                        documentSnapshot.toObject(Tag.class).getTagCost(),
+                                        documentSnapshot.toObject(Tag.class).getTagIconUrl(),
+                                        documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
+                                        documentSnapshot.toObject(Tag.class).getTagLocationName()));
                                 for (int i = 0; i < allTags.size(); i++) {
                                     Log.w(TAG, allTags.get(i).getTagName());
                                 }

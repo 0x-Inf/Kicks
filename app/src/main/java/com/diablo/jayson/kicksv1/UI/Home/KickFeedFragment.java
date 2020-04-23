@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddKickFragment;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class KickFeedFragment extends Fragment implements ActivityFeedListAdapter.OnActivitySelectedListener {
-    private static final String TAG = AddKickFragment.class.getSimpleName();
+    private static final String TAG = AddActivityFragment.class.getSimpleName();
 
     private ArrayList<Activity> mKicksData;
     private RecyclerView mRecyclerView;

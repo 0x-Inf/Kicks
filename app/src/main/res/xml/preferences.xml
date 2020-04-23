@@ -1,13 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="darkmode"
-        app:title="Toggle Dark Mode" />
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:iconSpaceReserved="false"
+        app:title="Display">
+
+        <SwitchPreferenceCompat
+            app:key="darkmode"
+            app:title="Toggle Dark Mode"
+            app:iconSpaceReserved="false"
+            app:allowDividerBelow="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:iconSpaceReserved="false"
+        app:title="About">
+
+        <Preference
+            app:key="Privacy"
+            app:iconSpaceReserved="false"
+            app:title="About Kicks &amp; Privacy"
+            app:allowDividerBelow="true" />
+
+        <Preference
+            app:key="terms"
+            app:iconSpaceReserved="false"
+            app:title="Kicks Terms &amp; Conditions"
+            app:allowDividerBelow="true" />
+
+        <Preference
+            app:key="feedback"
+            app:title="Send feedback"
+            app:iconSpaceReserved="false"
+            app:summary="Report technical issues or suggest new features"
+            app:allowDividerBelow="true" />
+
+        <Preference
+            app:key="terms"
+            app:iconSpaceReserved="false"
+            app:title="Version: 1.0.0"
+            app:allowDividerBelow="true" />
+
+
+    </PreferenceCategory>
 
     <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features" />
+        app:key="copyright"
+        app:iconSpaceReserved="false"
+        app:summary="Copyright © 2020, Color Corporation." />
 
 </PreferenceScreen>

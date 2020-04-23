@@ -137,7 +137,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                                     assert user != null;
                                     mainUser.setUid(user.getUid());
                                     FirebaseFirestore.getInstance().collection("users")
-                                            .add(mainUser)
+                                            .add(user.getUid())
                                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                 @Override
                                                 public void onSuccess(DocumentReference documentReference) {

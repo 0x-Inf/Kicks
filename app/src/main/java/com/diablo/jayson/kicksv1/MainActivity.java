@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton mSearchButton, mSettingButton;
     private ImageView mProfilePicImageView;
+    private Toolbar toolbar;
 
     SharedPreferences prefs = null;
 
@@ -79,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .commit();
             }
         }
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -95,36 +96,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDestinationChanged(@NonNull NavController controller,
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.navigation_add_kick) {
-                    myToolbar.setVisibility(View.GONE);
+                    toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_map_view) {
-                    myToolbar.setVisibility(View.GONE);
+                    toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
-                    myToolbar.setVisibility(View.GONE);
-
-                    Toolbar toolbar = findViewById(R.id.my_toolbar);  // or however you need to do it for your code
-                    AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-                    params.setScrollFlags(0);
-//                    ViewCompat.isLaidOut(appBarLayout);
-//                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-//                    AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-//                    assert behavior != null;
-//                    behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-//                        @Override
-//                        public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
-//                            return false;
-//                        }
-//                    });
-//                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
-//                            navigationView.getLayoutParams();
-//
-//                    params.setBehavior(new AppBarLayout.Behavior(navigationView.getContext(),null));
-                } else {
-                    myToolbar.setVisibility(View.VISIBLE);
-                    navigationView.setVisibility(View.VISIBLE);
-                    Toolbar toolbar = findViewById(R.id.my_toolbar);  // or however you need to do it for your code
+                    toolbar.setVisibility(View.GONE);
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+                } else {
+                    toolbar.setVisibility(View.VISIBLE);
+                    navigationView.setVisibility(View.VISIBLE);
+                    AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
                 }
 
             }
