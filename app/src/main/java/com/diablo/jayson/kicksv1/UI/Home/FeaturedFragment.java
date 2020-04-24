@@ -87,7 +87,9 @@ public class FeaturedFragment extends Fragment implements
     @Override
     public void onFeaturedImageTextListSelected(FeaturedKicks featuredKick) {
 
-        Intent imageTextAndListIntent = new Intent(getContext(), ImageTextAndListActivity.class);
-        startActivity(imageTextAndListIntent);
+//        Intent imageTextAndListIntent = new Intent(getContext(), ImageTextAndListActivity.class);
+//        startActivity(imageTextAndListIntent);
+
+
     }
 }

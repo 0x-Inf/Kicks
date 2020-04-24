@@ -35,6 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
+        fixGoogleMapBug();
         setContentView(R.layout.activity_main);
         AppBarLayout appBarLayout = findViewById(R.id.mainAppBarlayout);
         checkFirstRun();
@@ -138,6 +140,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchView.setQueryHint("Search tags");
 
         return true;
+    }
+
+    private void fixGoogleMapBug() {
+        SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
+        if (!googleBug.contains("fixed")) {
+            File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
+            corruptedZoomTables.delete();
+            googleBug.edit().putBoolean("fixed", true).apply();
+        }
     }
 
     @Override
