@@ -38,14 +38,28 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
     private List<FeaturedKicks> mTotalKicks;
     private DatabaseReference mDataBase;
 
+    public interface OnFeaturedImageTextSelected {
+        void onFeaturedImageTextSelected(FeaturedKicks featuredKick);
+    }
+
+    public interface OnFeaturedImageTextListSelected {
+        void onFeaturedImageTextListSelected(FeaturedKicks featuredKick);
+    }
+
+    private OnFeaturedImageTextSelected imageTextListener;
+    private OnFeaturedImageTextListSelected imageTextListListener;
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public FeaturedFeedAdapter(@NonNull FirestoreRecyclerOptions<FeaturedKicks> options) {
+    public FeaturedFeedAdapter(@NonNull FirestoreRecyclerOptions<FeaturedKicks> options,
+                               OnFeaturedImageTextSelected imageTextListener,
+                               OnFeaturedImageTextListSelected imageTextListListener) {
         super(options);
+        this.imageTextListener = imageTextListener;
+        this.imageTextListListener = imageTextListListener;
     }
 
 
@@ -86,7 +100,7 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
         holder.getAdapterPosition();
         switch (holder.getItemViewType()) {
             case IMAGE_TEXT:
-                ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(featuredKick);
+                ((ImageAndTextOnlyActivityViewHolder) holder).bindTo(featuredKick, imageTextListener);
                 break;
             case IMAGE_TEXT_LIST:
                 Query query = FirebaseFirestore.getInstance()
@@ -118,7 +132,7 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
                     }
                 });
                 adapter.startListening();
-                ((ImageAndTextAndListActivityViewHolder) holder).bindTo(featuredKick);
+                ((ImageAndTextAndListActivityViewHolder) holder).bindTo(featuredKick, imageTextListListener);
                 break;
             default:
 
@@ -126,7 +140,7 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
     }
 
 
-    class ImageAndTextOnlyActivityViewHolder extends RecyclerView.ViewHolder {
+    static class ImageAndTextOnlyActivityViewHolder extends RecyclerView.ViewHolder {
 
         // TODO: Appropriately Name this stuff
 
@@ -142,11 +156,19 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
             featuredKickImage = itemView.findViewById(R.id.kickFeaturedImage);
         }
 
-        void bindTo(FeaturedKicks currentFeaturedKick) {
+        void bindTo(FeaturedKicks currentFeaturedKick, OnFeaturedImageTextSelected imageTextListener) {
 
             featuredKickTitle.setText(currentFeaturedKick.getFeaturedTitle());
             featuredKickSubtitle.setText(currentFeaturedKick.getFeaturedSubTitle());
             Glide.with(itemView.getContext()).load(currentFeaturedKick.getFeaturedImageUrl()).into(featuredKickImage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (imageTextListener != null) {
+                        imageTextListener.onFeaturedImageTextSelected(currentFeaturedKick);
+                    }
+                }
+            });
 
         }
     }
@@ -167,10 +189,17 @@ public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks,
 
         }
 
-        void bindTo(FeaturedKicks currentFeaturedKick) {
+        void bindTo(FeaturedKicks currentFeaturedKick, OnFeaturedImageTextListSelected imageTextListListener) {
             mFeaturedListTitle.setText(currentFeaturedKick.getFeaturedTitle());
             Glide.with(itemView.getContext()).load(currentFeaturedKick.getFeaturedImageUrl()).into(mKickFeaturedListImage);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (imageTextListListener != null) {
+                        imageTextListListener.onFeaturedImageTextListSelected(currentFeaturedKick);
+                    }
+                }
+            });
         }
 
     }

@@ -14,13 +14,15 @@
 
     <application
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".UI.AttendActivity.MainAttendActivityActivity"></activity>
+        <activity android:name=".UI.Home.ImageTextAndListActivity"></activity>
+        <activity android:name=".UI.Home.ImageAndTextOnlyActivity" />
+        <activity android:name=".UI.AttendActivity.MainAttendActivityActivity" />
         <activity android:name=".UI.KickSelect.KickSelectedActivity" />
         <activity android:name=".UI.KickSelect.KickSeeAllActivity" />
         <activity android:name=".UI.AttendActivity.AlreadyAttendingActivity" />

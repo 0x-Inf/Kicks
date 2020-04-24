@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeaturedFragment extends Fragment {
+public class FeaturedFragment extends Fragment implements
+        FeaturedFeedAdapter.OnFeaturedImageTextListSelected,
+        FeaturedFeedAdapter.OnFeaturedImageTextSelected {
 
     private static final String TAG = FeaturedFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -53,6 +56,8 @@ public class FeaturedFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_featured, container, false);
         View root1 = inflater.inflate(R.layout.fragment_swipable_feed, container, false);
         mRecyclerView = root.findViewById(R.id.featuredRecyclerView);
+
+
 //        mRelativeLayout = root1.findViewById(R.id.searchAndProfileRelativeView);
 //        mSearchImageButton = root1.findViewById(R.id.searchImageButton);
 //        mSettingsImageButton = root1.findViewById(R.id.settingsImageButton);
@@ -62,7 +67,7 @@ public class FeaturedFragment extends Fragment {
         FirestoreRecyclerOptions<FeaturedKicks> options = new FirestoreRecyclerOptions.Builder<FeaturedKicks>()
                 .setQuery(query, FeaturedKicks.class)
                 .build();
-        mAdapter = new FeaturedFeedAdapter(options);
+        mAdapter = new FeaturedFeedAdapter(options, this::onFeaturedImageTextSelected, this::onFeaturedImageTextListSelected);
         int gridColumnCount = 1;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
         mRecyclerView.setAdapter(mAdapter);
@@ -71,4 +76,18 @@ public class FeaturedFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onFeaturedImageTextSelected(FeaturedKicks featuredKick) {
+
+        Intent imageAndTextOnlyIntent = new Intent(getContext(), ImageAndTextOnlyActivity.class);
+        startActivity(imageAndTextOnlyIntent);
+
+    }
+
+    @Override
+    public void onFeaturedImageTextListSelected(FeaturedKicks featuredKick) {
+
+        Intent imageTextAndListIntent = new Intent(getContext(), ImageTextAndListActivity.class);
+        startActivity(imageTextAndListIntent);
+    }
 }
