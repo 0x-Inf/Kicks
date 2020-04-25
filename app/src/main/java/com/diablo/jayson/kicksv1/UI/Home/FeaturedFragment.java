@@ -1,7 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.Home;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,12 +43,18 @@ public class FeaturedFragment extends Fragment implements
     private List<FeaturedKicks> mFeaturedKicksTotal = new ArrayList<>();
     private RelativeLayout mRelativeLayout;
     private ImageButton mSearchImageButton,mSettingsImageButton;
+    private FeaturedViewModel featuredViewModel;
 
 
     public FeaturedFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        featuredViewModel = new ViewModelProvider(requireActivity()).get(FeaturedViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,8 +86,11 @@ public class FeaturedFragment extends Fragment implements
     @Override
     public void onFeaturedImageTextSelected(FeaturedKicks featuredKick) {
 
-        Intent imageAndTextOnlyIntent = new Intent(getContext(), ImageAndTextOnlyActivity.class);
-        startActivity(imageAndTextOnlyIntent);
+//        Intent imageAndTextOnlyIntent = new Intent(getContext(), ImageAndTextOnlyActivity.class);
+//        startActivity(imageAndTextOnlyIntent);
+
+        ImageAndTextDialogFragment imageAndTextDialogFragment = new ImageAndTextDialogFragment();
+        imageAndTextDialogFragment.show(getParentFragmentManager(), "Custom dialog fragment");
 
     }
 
@@ -89,7 +99,6 @@ public class FeaturedFragment extends Fragment implements
 
 //        Intent imageTextAndListIntent = new Intent(getContext(), ImageTextAndListActivity.class);
 //        startActivity(imageTextAndListIntent);
-
 
     }
 }
