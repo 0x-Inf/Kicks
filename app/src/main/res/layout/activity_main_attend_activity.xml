@@ -101,18 +101,16 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/addPeopleFab"
-                style="@style/Widget.MaterialComponents.FloatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                app:backgroundTint="@color/colorMain"
-                app:srcCompat="@drawable/ic_add_icon" />
+            <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+            <!--                android:id="@+id/addPeopleFab"-->
+            <!--                style="@style/Widget.MaterialComponents.FloatingActionButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignParentEnd="true"-->
+            <!--                android:layout_alignParentBottom="true"-->
+            <!--                android:layout_centerInParent="true"-->
+            <!--                android:layout_marginEnd="20dp"-->
+            <!--                android:layout_marginBottom="20dp"-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/attendeesActualRecycler"
@@ -440,42 +438,63 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/shareActivityFab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/activityChatCard"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                app:cardCornerRadius="35dp"
-                app:cardElevation="5dp">
+                android:layout_marginTop="10dp"
+                app:backgroundTint="@color/colorWhite"
+                app:srcCompat="@drawable/share_icon_two_24dp" />
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:contentDescription="@string/share_icon_image_description"
-                    android:padding="15dp"
-                    android:src="@drawable/share_icon_two_24dp" />
-            </androidx.cardview.widget.CardView>
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignTop="@id/activityChatCard"-->
+            <!--                android:layout_alignParentEnd="true"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:layout_marginEnd="20dp"-->
+            <!--                app:cardCornerRadius="35dp"-->
+            <!--                app:cardElevation="5dp">-->
 
-            <androidx.cardview.widget.CardView
+            <!--                <ImageView-->
+            <!--                    android:layout_width="70dp"-->
+            <!--                    android:layout_height="70dp"-->
+            <!--                    android:contentDescription="@string/share_icon_image_description"-->
+            <!--                    android:padding="15dp"-->
+            <!--                    android:src="@drawable/share_icon_two_24dp" />-->
+            <!--            </androidx.cardview.widget.CardView>-->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/exitActivityFab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/activityChatCard"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
-                android:padding="5dp"
-                app:cardCornerRadius="35dp"
-                app:cardElevation="5dp">
+                app:backgroundTint="@color/colorOrange"
+                app:srcCompat="@drawable/exit_icon_two_24dp" />
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:contentDescription="@string/exit_icon_image_description"
-                    android:padding="15dp"
-                    android:src="@drawable/exit_icon_two_24dp" />
-            </androidx.cardview.widget.CardView>
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignBottom="@id/activityChatCard"-->
+            <!--                android:layout_alignParentEnd="true"-->
+            <!--                android:layout_marginEnd="20dp"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:padding="5dp"-->
+            <!--                app:cardCornerRadius="35dp"-->
+            <!--                app:cardElevation="5dp">-->
+
+            <!--                <ImageView-->
+            <!--                    android:layout_width="70dp"-->
+            <!--                    android:layout_height="70dp"-->
+            <!--                    android:contentDescription="@string/exit_icon_image_description"-->
+            <!--                    android:padding="15dp"-->
+            <!--                    android:src="@drawable/exit_icon_two_24dp" />-->
+            <!--            </androidx.cardview.widget.CardView>-->
 
         </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.format.DateFormat;
@@ -23,10 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.ApiThings;
+import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,11 +42,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -71,6 +76,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     private EditText messageEdit, searchTagsEditText;
     private TextView activityDashTimeText, activityDashDateText, activityDashLocationText, activityDashTagText;
     private TextView activityLocationActualTextView, activityTimeActualTextView, activityDateActualTextView;
+    private FloatingActionButton shareActivityFab, exitActivityFab;
 
     private LatLng activityLocation;
     private GoogleMap googleMap;
@@ -105,6 +111,8 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         activityLocationActualTextView = findViewById(R.id.activity_actual_location_text_view);
         activityTimeActualTextView = findViewById(R.id.activity_time_actual_text_view);
         activityDateActualTextView = findViewById(R.id.activity_actual_date_text_view);
+        shareActivityFab = findViewById(R.id.shareActivityFab);
+        exitActivityFab = findViewById(R.id.exitActivityFab);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -187,6 +195,36 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 AttendeesLargeAdapter attendeesLargeAdapter = new AttendeesLargeAdapter(MainAttendActivityActivity.this, attendingUsersData);
                 attendeesActualRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.VERTICAL, false));
                 attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
+            }
+        });
+
+        exitActivityFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference documentReference = db.collection("activities").document(activityId);
+                documentReference.update("activityAttendees", FieldValue.arrayRemove(FirebaseUtil.getAttendingUser()))
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                }
+                            }
+                        });
+            }
+        });
+
+        shareActivityFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
             }
         });
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Kick implements Serializable {
 
     private String kickName;
+    private String kickShortDescription;
     private String kickCardImageUrl;
     private String kickLargeImageUrl;
     private ArrayList<String> tags;
@@ -15,8 +16,9 @@ public class Kick implements Serializable {
 
     }
 
-    public Kick(String kickName, String kickCardImageUrl, String kickLargeImageUrl, ArrayList<String> tags) {
+    public Kick(String kickName, String kickShortDescription, String kickCardImageUrl, String kickLargeImageUrl, ArrayList<String> tags) {
         this.kickName = kickName;
+        this.kickShortDescription = kickShortDescription;
         this.kickCardImageUrl = kickCardImageUrl;
         this.kickLargeImageUrl = kickLargeImageUrl;
         this.tags = tags;
@@ -28,6 +30,14 @@ public class Kick implements Serializable {
 
     public void setKickName(String kickName) {
         this.kickName = kickName;
+    }
+
+    public String getKickShortDescription() {
+        return kickShortDescription;
+    }
+
+    public void setKickShortDescription(String kickShortDescription) {
+        this.kickShortDescription = kickShortDescription;
     }
 
     public String getKickCardImageUrl() {

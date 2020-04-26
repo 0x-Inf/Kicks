@@ -91,11 +91,16 @@ public class FeaturedFragment extends Fragment implements
 
         ImageAndTextDialogFragment imageAndTextDialogFragment = new ImageAndTextDialogFragment();
         imageAndTextDialogFragment.show(getParentFragmentManager(), "Custom dialog fragment");
+        featuredViewModel.setFeaturedId(featuredKick.getFeaturedKickId().trim());
 
     }
 
     @Override
     public void onFeaturedImageTextListSelected(FeaturedKicks featuredKick) {
+
+        ImageTextAndListDialogFragment imageTextAndListDialogFragment = new ImageTextAndListDialogFragment();
+        imageTextAndListDialogFragment.show(getParentFragmentManager(), "Custom dialog fragment");
+        featuredViewModel.setFeaturedId(featuredKick.getFeaturedKickId().trim());
 
 //        Intent imageTextAndListIntent = new Intent(getContext(), ImageTextAndListActivity.class);
 //        startActivity(imageTextAndListIntent);

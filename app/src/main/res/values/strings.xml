@@ -281,6 +281,10 @@
     <string name="available_activities_text">Available Activities</string>
     <string name="solos_number_placeholder">21</string>
     <string name="solos_text">Solos</string>
+    <string name="imageAndText_placeholder_description">Get to particicpate in the most popular activity right now in your City and have Fun</string>
+    <string name="image_and_text_title_placeHolder">Popular In Nairobi</string>
+    <string name="diving_text">Diving</string>
+    <string name="image_for_image_and_text_featured_description">Image for Image and Text Featured</string>
 
 
 </resources>

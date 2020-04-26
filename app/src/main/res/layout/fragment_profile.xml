@@ -189,26 +189,37 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/goToSettingsFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/attributesCard"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="55dp"
             android:layout_marginBottom="35dp"
-            android:padding="5dp"
-            app:cardCornerRadius="35dp"
-            app:cardElevation="5dp">
+            app:backgroundTint="@color/colorMain"
+            app:srcCompat="@drawable/account_settings_icon_24dp" />
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:contentDescription="@string/exit_icon_image_description"
-                android:padding="15dp"
-                android:src="@drawable/account_settings_icon_24dp" />
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignBottom="@id/attributesCard"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_marginEnd="55dp"-->
+        <!--            android:layout_marginBottom="35dp"-->
+        <!--            android:padding="5dp"-->
+        <!--            app:cardCornerRadius="35dp"-->
+        <!--            app:cardElevation="5dp">-->
+
+        <!--            <ImageView-->
+        <!--                android:layout_width="70dp"-->
+        <!--                android:layout_height="70dp"-->
+        <!--                android:contentDescription="@string/exit_icon_image_description"-->
+        <!--                android:padding="15dp"-->
+        <!--                android:src="@drawable/account_settings_icon_24dp" />-->
 
 
-        </androidx.cardview.widget.CardView>
+        <!--        </androidx.cardview.widget.CardView>-->
 
 
     </RelativeLayout>

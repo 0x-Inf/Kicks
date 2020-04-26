@@ -1,10 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.Home.ImageAndTextFragment">
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -12,43 +11,97 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <ImageView
+                android:id="@+id/imageAndTextImage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:text="@string/hello_blank_fragment" />
+                android:layout_height="200dp"
+                android:contentDescription="@string/image_for_image_and_text_featured_description"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_soccer" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:text="@string/hello_blank_fragment" />
+                android:id="@+id/imageAndTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/source_sans_pro_semibold"
+                android:text="@string/image_and_text_title_placeHolder"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="45sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:text="@string/hello_blank_fragment" />
+                android:id="@+id/featuredKickDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageAndTextImage"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/source_sans_pro_regular"
+                android:text="@string/imageAndText_placeholder_description"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
-            <TextView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/featuredKickCard"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:text="@string/hello_blank_fragment" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/featuredKickDescription"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/featuredKickNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/source_sans_pro_regular"
+                        android:text="@string/diving_text"
+                        android:textColor="@color/colorMain"
+                        android:textSize="30sp" />
+
+                    <ImageView
+                        android:id="@+id/featured_kick_image_view"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_below="@id/featuredKickNameTextView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/circleback"
+                        android:contentDescription="@string/selected_tag_image_description" />
+
+                    <TextView
+                        android:id="@+id/featuredKickDescriptionTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/featured_kick_image_view"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/source_sans_pro_regular"
+                        android:text="@string/kick_selected_description_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPurple"
+                        android:textSize="22sp" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
         </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>
-
-    <!-- TODO: Update blank fragment layout -->
 
 
 </FrameLayout>

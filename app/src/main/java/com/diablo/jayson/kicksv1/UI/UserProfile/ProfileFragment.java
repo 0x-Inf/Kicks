@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.UserProfile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,8 +26,10 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,6 +57,7 @@ public class ProfileFragment extends Fragment {
     private ImageView activitiesCardImageView, profilePictureImageView;
     private TextView fullNameTextView, usernameTextView, emailActualTextView, phoneActualTextView;
     private ArrayList<User> allUsers;
+    private FloatingActionButton goToSettingsFab;
 
     //Active Activities Stuff
     private RelativeLayout activiteActivitiesRelativeLayout;
@@ -121,6 +125,7 @@ public class ProfileFragment extends Fragment {
         profilePictureImageView = root.findViewById(R.id.profile_picture_image_view);
         fullNameTextView = root.findViewById(R.id.full_name_text_view);
         usernameTextView = root.findViewById(R.id.user_name_text_view);
+        goToSettingsFab = root.findViewById(R.id.goToSettingsFab);
 //        emailActualTextView = root.findViewById(R.id.emailActualTextView);
 //        phoneActualTextView = root.findViewById(R.id.phoneActualTextView);
 
@@ -152,6 +157,12 @@ public class ProfileFragment extends Fragment {
                 .into(profilePictureImageView);
         usernameTextView.setText(userName);
         loadCurrentUserFromDb();
+        goToSettingsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SettingsActivity.class));
+            }
+        });
 
 
         //Active activities implementation

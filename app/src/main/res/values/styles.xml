@@ -29,13 +29,13 @@
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowBackground">@color/colorTransparentWhite</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:layout_marginTop">40dp</item>
-        <item name="android:layout_marginBottom">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
-        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
     </style>
 
     <!--To fix rendering in preview -->

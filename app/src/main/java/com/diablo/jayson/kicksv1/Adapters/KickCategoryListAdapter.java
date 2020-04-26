@@ -113,6 +113,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.e("kicks", documentSnapshot.getId() + " => " + documentSnapshot.getData());
                                 kicksData.add(new Kick(documentSnapshot.toObject(Kick.class).getKickName(),
+                                        documentSnapshot.toObject(Kick.class).getKickShortDescription(),
                                         documentSnapshot.toObject(Kick.class).getKickCardImageUrl(),
                                         documentSnapshot.toObject(Kick.class).getKickLargeImageUrl(),
                                         documentSnapshot.toObject(Kick.class).getTags()));

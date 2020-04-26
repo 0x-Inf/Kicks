@@ -1,6 +1,8 @@
 package com.diablo.jayson.kicksv1.Models;
 
-public class FeaturedKicks {
+import java.io.Serializable;
+
+public class FeaturedKicks implements Serializable {
 
     private String featuredType;
     private String featuredTitle;

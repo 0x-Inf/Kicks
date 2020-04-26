@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.diablo.jayson.kicksv1.R;
 
-public class ImageAndTextDialogFragment extends DialogFragment {
+public class ImageTextAndListDialogFragment extends DialogFragment {
 
 
     @Nullable
@@ -22,12 +22,12 @@ public class ImageAndTextDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.image_and_text_dialog_fragment, container, false);
 
-        ImageAndTextFragment imageAndTextOnlyFragment = new ImageAndTextFragment();
+        ImageTextAndListFragment imageTextAndListFragment = new ImageTextAndListFragment();
 
         FragmentManager manager = getChildFragmentManager();
 
         manager.beginTransaction()
-                .replace(R.id.imageAndTextFragmentcontainer, imageAndTextOnlyFragment)
+                .replace(R.id.imageAndTextFragmentcontainer, imageTextAndListFragment)
                 .commit();
         return root;
     }
