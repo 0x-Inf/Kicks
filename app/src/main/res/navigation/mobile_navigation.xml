@@ -53,11 +53,6 @@
         android:label="activity_attend_activity"
         tools:layout="@layout/activity_attend_activity" />
     <activity
-        android:id="@+id/kickSeeAllActivity"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSeeAllActivity"
-        android:label="activity_kick_see_all"
-        tools:layout="@layout/activity_kick_see_all" />
-    <activity
         android:id="@+id/mainAttendActivityActivity"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity"
         android:label="activity_main_attend_activity"
@@ -66,7 +61,10 @@
         android:id="@+id/navigation_kick_selected"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedActivity"
         android:label="activity_kick_selected"
-        tools:layout="@layout/activity_kick_selected" />
+        tools:layout="@layout/activity_kick_selected"></activity>
+    <action
+        android:id="@+id/action_global_navigation_add_kick"
+        app:destination="@id/navigation_add_kick" />
 
 
 </navigation>

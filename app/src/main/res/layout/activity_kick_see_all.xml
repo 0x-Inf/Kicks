@@ -14,7 +14,7 @@
             android:id="@+id/my_kick_category_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?android:attr/colorBackground"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_scrollFlags="noScroll"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />

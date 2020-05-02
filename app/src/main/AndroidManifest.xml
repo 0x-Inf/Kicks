@@ -23,7 +23,10 @@
         <activity android:name=".UI.Home.ImageTextAndListActivity"></activity>
         <activity android:name=".UI.Home.ImageAndTextOnlyActivity" />
         <activity android:name=".UI.AttendActivity.MainAttendActivityActivity" />
-        <activity android:name=".UI.KickSelect.KickSelectedActivity" />
+        <activity android:name=".UI.KickSelect.KickSelectedActivity">
+
+            <nav-graph android:value="@navigation/mobile_navigation" />
+        </activity>
         <activity android:name=".UI.KickSelect.KickSeeAllActivity" />
         <activity android:name=".UI.AttendActivity.AlreadyAttendingActivity" />
         <activity
@@ -68,8 +71,18 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <!--                <action android:name="com.color.kicks.SHARE_ACTION"/>-->
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="android-app"
+                    android:host="com.color.kicks" />
             </intent-filter>
             <!-- enable the search dialog to send searches to SearchableActivity -->
             <meta-data

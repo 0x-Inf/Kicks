@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,7 +54,8 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.kick_selected_toolbar);
         setSupportActionBar(myToolbar);
-        myToolbar.setTitle(kick.getKickName());
+        getSupportActionBar().setTitle(kick.getKickName());
+//        Toast.makeText(getApplicationContext(),kick.getKickName(),Toast.LENGTH_LONG).show();
 
         kickCardImageView = findViewById(R.id.kick_selected_image_view);
         availableActivitiesRecyclerView = findViewById(R.id.availableActivitiesRecycler);
@@ -63,7 +63,7 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
         createActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.createNavigateOnClickListener(R.id.navigation_add_kick, null);
+//                Navigation.findNavController(KickSelectedActivity.this, R.id.selected_nav_host_fragment).navigate(R.id.action_global_navigation_add_kick);
             }
         });
 

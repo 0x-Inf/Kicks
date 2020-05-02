@@ -41,8 +41,8 @@
         android:layout_centerHorizontal="true"
         android:text="@string/kick_name_placeholder"
         android:layout_below="@id/kickSelectImageCard"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/colorPurple"
+        android:fontFamily="@font/source_sans_pro_semibold"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="17sp" />
 
 

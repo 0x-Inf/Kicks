@@ -285,6 +285,7 @@
     <string name="image_and_text_title_placeHolder">Popular In Nairobi</string>
     <string name="diving_text">Diving</string>
     <string name="image_for_image_and_text_featured_description">Image for Image and Text Featured</string>
+    <string name="add_to_calendar_text">Add to Calendar</string>
 
 
 </resources>

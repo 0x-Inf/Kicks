@@ -55,7 +55,7 @@
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@drawable/img_bowling" />
+                android:background="@drawable/card_bg_color_purple" />
 
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/people_text"
-                android:textColor="@color/colorPurple"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="30sp" />
 
             <RelativeLayout
@@ -94,7 +94,7 @@
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@drawable/img_basketball" />
+                android:background="@drawable/card_bg_color_goldish" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/cost_text"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="30sp" />
 
             </RelativeLayout>
@@ -138,7 +138,7 @@
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@drawable/img_swimming" />
+                android:background="@drawable/card_bg_color_goldish" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -150,7 +150,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/tag_text"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="30sp" />
 
             </RelativeLayout>
@@ -182,7 +182,7 @@
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@drawable/img_cycling" />
+                android:background="@drawable/card_bg_color_main" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/date_and_time_text"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="30sp" />
 
             </RelativeLayout>
@@ -227,7 +227,7 @@
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@drawable/img_soccer" />
+                android:background="@drawable/card_bg_color_orange" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -241,7 +241,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/location_text"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="30sp" />
 
             </RelativeLayout>
@@ -261,7 +261,7 @@
             android:layout_below="@id/add_activity_location_card"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/source_sans_pro_semibold"
             android:text="@string/create_activity_button_text"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"

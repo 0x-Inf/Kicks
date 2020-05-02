@@ -1,10 +1,16 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.CalendarContract;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -18,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +62,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback, ExitActivityDialog.ExitActivityDialogListener {
 
     private ChatAdapter chatAdapter;
 
@@ -80,7 +87,14 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 
     private LatLng activityLocation;
     private GoogleMap googleMap;
-    private String activityTitle;
+    private String title;
+    private String activityIdMain;
+
+    private Location location;
+    private Timestamp startTime;
+    private Timestamp endTime;
+
+
 
 
     @Override
@@ -119,6 +133,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 
         assert bundle != null;
         String activityId = bundle.getString("activityId");
+        activityIdMain = activityId;
         boolean fromGroupMessage = bundle.getBoolean("fromGroupMessages");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -154,11 +169,15 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                     String activityStartTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityStartTime().toDate());
                     String activityEndTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityEndTime().toDate());
 
+
                     String activityTime = activityStartTime + " - " + activityEndTime;
                     String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
                     String activityTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
                     String activityLocationName = documentSnapshot.toObject(Activity.class).getActivityLocationName();
                     String activityTag = documentSnapshot.toObject(Activity.class).getActivityTag().getTagName();
+                    startTime = documentSnapshot.toObject(Activity.class).getActivityStartTime();
+                    endTime = documentSnapshot.toObject(Activity.class).getActivityEndTime();
+                    title = activityTitle;
                     activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLatitude(),
                             documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLongitude());
                     activityDashTimeText.setText(activityTime);
@@ -201,36 +220,35 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         exitActivityFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference = db.collection("activities").document(activityId);
-                documentReference.update("activityAttendees", FieldValue.arrayRemove(FirebaseUtil.getAttendingUser()))
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                }
-                            }
-                        });
+                DialogFragment exitActivityDialogFragment = new ExitActivityDialog();
+                exitActivityDialogFragment.show(getSupportFragmentManager(), "exit");
+
             }
         });
 
         shareActivityFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PackageManager packageManager = getPackageManager();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is an invitation to join "+FirebaseUtil.getHost().getUserName()+" in a Kicks Activity");
+                Intent appIntent = new Intent();
+                appIntent.setAction(Intent.ACTION_VIEW);
+//                appIntent.setAction("com.color.kicks.SHARE_ACTION");
+                appIntent.setPackage("com.color.kicks");
+//                appIntent.setPackage("com.diablo.jayson.kicksv1");
+                ComponentName componentName = new ComponentName("com.color.kicks", "com.diablo.jayson.kicksv1.MainActivity");
+                appIntent.setComponent(componentName);
+                appIntent.putExtra("activityId", activityId);
+                String appUri = appIntent.toUri(Intent.URI_ANDROID_APP_SCHEME);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, appUri);
                 sendIntent.setType("text/plain");
 
                 Intent shareIntent = Intent.createChooser(sendIntent, null);
                 startActivity(shareIntent);
             }
         });
-
-
-
-
 
 
         Query query = FirebaseFirestore.getInstance()
@@ -305,7 +323,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 if (googleMap != null) {
                     googleMap.clear();
                     googleMap.addMarker(new MarkerOptions().position(activityLocation)
-                            .title(activityTitle));
+                            .title(title));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
                 } else {
 
@@ -353,6 +371,30 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.attend_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_to_calendar:
+                Intent addEventIntent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.Events.TITLE, title)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime);
+                if (addEventIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(addEventIntent);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
 
         if (chatActualRelativeLayout.getVisibility() == View.VISIBLE) {
@@ -384,5 +426,32 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 //        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0))
 //                .title(activityTitle));
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 15));
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("activities").document(activityIdMain);
+        documentReference.update("activityAttendees", FieldValue.arrayRemove(FirebaseUtil.getAttendingUser()))
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                            mainActivityIntent.setAction(Intent.ACTION_VIEW);
+                            startActivity(mainActivityIntent);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        return;
+    }
+
+    @Override
+    public void onDialogNeutralClick(DialogFragment dialog) {
+        return;
     }
 }

@@ -8,14 +8,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/profile_back_two"
         android:visibility="visible">
 
 
         <ImageView
             android:id="@+id/profile_picture_image_view"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
@@ -32,7 +31,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/source_sans_pro_regular"
             android:text="@string/full_name_placeholder"
-            android:textColor="@color/colorPurple"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -75,7 +74,7 @@
                 android:alpha="0.5"
                 android:contentDescription="@string/activities_card_bg_image_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_golf" />
+                android:src="@drawable/card_bg_color_orange" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -86,9 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_semibold"
                     android:text="@string/activities_text"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="20sp" />
 
             </RelativeLayout>
@@ -119,7 +118,7 @@
                 android:alpha="0.5"
                 android:contentDescription="@string/activities_card_bg_image_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_cycling" />
+                android:src="@drawable/card_bg_color_purple" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -130,9 +129,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_semibold"
                     android:text="@string/messages_text"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="20sp" />
 
             </RelativeLayout>
@@ -163,7 +162,7 @@
                 android:alpha="0.5"
                 android:contentDescription="@string/activities_card_bg_image_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_tabletennis" />
+                android:src="@drawable/card_bg_color_goldish" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -174,9 +173,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/source_sans_pro_semibold"
                     android:text="@string/attributes_text"
-                    android:textColor="@color/colorPurple"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="20sp" />
 
             </RelativeLayout>

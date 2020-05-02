@@ -19,291 +19,297 @@
         <!--            android:layout_height="match_parent"-->
         <!--            android:scaleType="fitXY"/>-->
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/activityNameTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:text="Host"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/colorPurple"
-                android:textSize="35sp" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/hostDetailsCard"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activityNameTitleTextView"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:padding="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/activityNameTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Host"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="35sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/hostDetailsCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityNameTitleTextView"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp">
 
-                    <TextView
-                        android:id="@+id/hostedByTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="Hosted By: "
-                        android:textColor="@color/colorPurple"
-                        android:textSize="30sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/usernameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/hostedByTextView"
-                        android:fontFamily="@font/source_sans_pro_regular"
-                        android:text="Cyclonator"
-                        android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/hostedByTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="Hosted By: "
+                            android:textColor="@color/colorPurple"
+                            android:textSize="30sp" />
 
-                    <ImageView
-                        android:id="@+id/hostProfilePicImageView"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignBaseline="@id/usernameTextView"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@id/usernameTextView"
-                        android:background="@drawable/circleback" />
+                        <TextView
+                            android:id="@+id/usernameTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/hostedByTextView"
+                            android:fontFamily="@font/source_sans_pro_regular"
+                            android:text="Cyclonator"
+                            android:textSize="20sp" />
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/hostProfilePicImageView"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignBaseline="@id/usernameTextView"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@id/usernameTextView"
+                            android:background="@drawable/circleback" />
 
-            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/dateTimeCashDetailsCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/hostDetailsCard"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:padding="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dateTimeCashDetailsCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hostDetailsCard"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    android:padding="20dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
 
-                    <TextView
-                        android:id="@+id/activity_actual_date_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="@string/activity_date_placeholder"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="30sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/activity_actual_currency_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="@string/currency_placeholder_text"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="30sp" />
+                        <TextView
+                            android:id="@+id/activity_actual_date_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="@string/activity_date_placeholder"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="30sp" />
 
-                    <TextView
-                        android:id="@+id/activity_actual_cost_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/activity_actual_currency_text_view"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/source_sans_pro_regular"
-                        android:text="@string/activity_cost_placeholder"
-                        android:textColor="@color/colorMain"
-                        android:textSize="35sp" />
+                        <TextView
+                            android:id="@+id/activity_actual_currency_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="@string/currency_placeholder_text"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="30sp" />
 
-                    <TextView
-                        android:id="@+id/activity_per_person_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/activity_actual_cost_text_view"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="@string/per_person_text"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="25sp" />
+                        <TextView
+                            android:id="@+id/activity_actual_cost_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/activity_actual_currency_text_view"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/source_sans_pro_regular"
+                            android:text="@string/activity_cost_placeholder"
+                            android:textColor="@color/colorMain"
+                            android:textSize="35sp" />
 
-
-                    <TextView
-                        android:id="@+id/activity_time_actual_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/activity_per_person_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="@string/activity_time_dash_details_placeholder"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/activity_per_person_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/activity_actual_cost_text_view"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="@string/per_person_text"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="25sp" />
 
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/activity_time_actual_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/activity_per_person_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="@string/activity_time_dash_details_placeholder"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="20sp" />
 
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/peopleNumberDetailsCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dateTimeCashDetailsCard"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:padding="15dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                    </RelativeLayout>
 
-                <RelativeLayout
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/peopleNumberDetailsCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dateTimeCashDetailsCard"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    android:padding="15dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
 
-                    <TextView
-                        android:id="@+id/approximatelyByTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="Approximately"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="30sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/noOfPeopleByTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/approximatelyByTextView"
-                        android:fontFamily="@font/source_sans_pro_regular"
-                        android:text="5 - 10 People"
-                        android:layout_marginStart="10dp"
-                        android:textAlignment="center"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="25sp" />
+                        <TextView
+                            android:id="@+id/approximatelyByTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="Approximately"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="30sp" />
 
-                    <TextView
-                        android:id="@+id/agesTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/source_sans_pro_semibold"
-                        android:text="Ages"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="30sp" />
+                        <TextView
+                            android:id="@+id/noOfPeopleByTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/approximatelyByTextView"
+                            android:fontFamily="@font/source_sans_pro_regular"
+                            android:text="5 - 10 People"
+                            android:layout_marginStart="10dp"
+                            android:textAlignment="center"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="25sp" />
 
-                    <TextView
-                        android:id="@+id/agesNoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/approximatelyByTextView"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/source_sans_pro_regular"
-                        android:text="19 - 23"
-                        android:layout_marginEnd="10dp"
-                        android:textAlignment="center"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="25sp" />
+                        <TextView
+                            android:id="@+id/agesTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/source_sans_pro_semibold"
+                            android:text="Ages"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="30sp" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/agesNoTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/approximatelyByTextView"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/source_sans_pro_regular"
+                            android:text="19 - 23"
+                            android:layout_marginEnd="10dp"
+                            android:textAlignment="center"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="25sp" />
 
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/locationDetailsCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/peopleNumberDetailsCard"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="5dp"
-                android:padding="10dp"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/activity_actual_location_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/activity_location_long_placeholder"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="35sp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textAlignment="center" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/AttendActivityFab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationDetailsCard"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="40dp"
-                android:contentDescription="extendedfloatingactionbutton"
-                android:text="CONFIRM"
-                android:textColor="@color/colorWhite"
-                android:textAlignment="center"
-                app:backgroundTint="@color/colorMain"
-                app:rippleColor="@color/colorPurple" />
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/cancelActivityFab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationDetailsCard"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:contentDescription="extendedfloatingactionbutton"
-                android:text="CANCEL"
-                android:textColor="@color/colorBlack"
-                android:textAlignment="center"
-                app:backgroundTint="@color/colorGoldish"
-                app:rippleColor="@color/colorPurple" />
+                    </RelativeLayout>
 
 
-        </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/locationDetailsCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/peopleNumberDetailsCard"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="10dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/activity_actual_location_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_location_long_placeholder"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/colorPurple"
+                            android:textSize="35sp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textAlignment="center" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/AttendActivityFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/locationDetailsCard"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="40dp"
+                    android:contentDescription="extendedfloatingactionbutton"
+                    android:text="CONFIRM"
+                    android:textColor="@color/colorWhite"
+                    android:textAlignment="center"
+                    app:backgroundTint="@color/colorMain"
+                    app:rippleColor="@color/colorPurple" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/cancelActivityFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/locationDetailsCard"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:contentDescription="extendedfloatingactionbutton"
+                    android:text="CANCEL"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"
+                    app:backgroundTint="@color/colorGoldish"
+                    app:rippleColor="@color/colorPurple" />
+
+
+            </RelativeLayout>
+        </ScrollView>
 
 
     </androidx.cardview.widget.CardView>

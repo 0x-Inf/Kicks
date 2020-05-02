@@ -73,7 +73,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         AppBarLayout appBarLayout = findViewById(R.id.mainAppBarlayout);
         checkFirstRun();
-
+//        Intent intent = getIntent();
+//        if (getIntent().getAction().equals(Intent.ACTION_VIEW)){
+//            String activityId = getIntent().getStringExtra("S.activityId");
+////            Log.e("This one",activityId);
+////            Uri data = getIntent().getData();
+////            String id  = data.getQueryParameter("ActivityId");
+////            Intent attendActivity = new Intent(MainActivity.this, AttendActivityActivity.class);
+////            attendActivity.putExtra("activityId", activityId);
+////            attendActivity.putExtra("alreadyAttending", false);
+////            startActivity(attendActivity);
+////            Toast.makeText(getApplicationContext(),activityId,Toast.LENGTH_LONG).show();
+//        }
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
 

@@ -97,7 +97,7 @@
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/money_icon_content_description"
-                    android:src="@drawable/money512" />
+                    android:src="@drawable/money_icon_24dp" />
 
                 <TextView
                     android:id="@+id/currency_text_view"
@@ -142,7 +142,7 @@
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/place_icon_content_description"
-                    android:src="@drawable/location_three_512" />
+                    android:src="@drawable/location_icon_two_24dp" />
 
                 <TextView
                     android:id="@+id/activity_location_text_view"
