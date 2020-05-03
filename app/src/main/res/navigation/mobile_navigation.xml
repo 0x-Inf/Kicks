@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
@@ -24,6 +25,7 @@
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment"
         android:label="AddKick"
         tools:layout="@layout/fragment_add_activity" />
+
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -57,14 +59,6 @@
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity"
         android:label="activity_main_attend_activity"
         tools:layout="@layout/activity_main_attend_activity" />
-    <activity
-        android:id="@+id/navigation_kick_selected"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedActivity"
-        android:label="activity_kick_selected"
-        tools:layout="@layout/activity_kick_selected"></activity>
-    <action
-        android:id="@+id/action_global_navigation_add_kick"
-        app:destination="@id/navigation_add_kick" />
 
 
 </navigation>

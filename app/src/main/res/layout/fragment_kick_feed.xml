@@ -8,6 +8,24 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <RelativeLayout
+        android:id="@+id/loading_screen"
+        android:background="@color/colorTransparentBlack"
+        android:alpha="1.0"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBarSignUp"
+            style="?android:attr/progressBarStyle"
+            android:layout_centerInParent="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="0dp"

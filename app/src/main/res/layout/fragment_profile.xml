@@ -269,7 +269,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:text="@string/active_activities_text"
-                    android:textColor="@color/colorMain"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:textColor="@color/colorPurple"
                     android:textSize="30sp" />
 
                 <androidx.recyclerview.widget.RecyclerView

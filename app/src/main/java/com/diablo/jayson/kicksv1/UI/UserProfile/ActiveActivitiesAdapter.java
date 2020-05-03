@@ -24,9 +24,16 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
     private Context context;
     private ArrayList<Activity> activitiesData;
 
-    public ActiveActivitiesAdapter(Context context, ArrayList<Activity> activitiesData) {
+    public interface OnActiveActivitySelectedListener {
+        void onActiveActivitySelected(Activity activeActivity);
+    }
+
+    private OnActiveActivitySelectedListener listener;
+
+    public ActiveActivitiesAdapter(Context context, ArrayList<Activity> activitiesData, OnActiveActivitySelectedListener listener) {
         this.context = context;
         this.activitiesData = activitiesData;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,7 +46,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
     @Override
     public void onBindViewHolder(@NonNull ActiveActivityViewHolder holder, int position) {
         Activity activeActivity = activitiesData.get(position);
-        holder.bindTo(activeActivity);
+        holder.bindTo(activeActivity, listener);
     }
 
 
@@ -64,7 +71,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
         }
 
 
-        void bindTo(Activity activeActivity) {
+        void bindTo(Activity activeActivity, OnActiveActivitySelectedListener listener) {
             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
             calendar.setTimeInMillis(activeActivity.getActivityDate().getSeconds());
             String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(activeActivity.getActivityDate().toDate());
@@ -81,6 +88,14 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             availableActivityCost.setText(activeActivity.getActivityCost());
             availableActivityLocation.setText(activeActivity.getActivityLocationName());
             availableActivityDateTime.setText(dateTimeText);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onActiveActivitySelected(activeActivity);
+                    }
+                }
+            });
         }
     }
 }

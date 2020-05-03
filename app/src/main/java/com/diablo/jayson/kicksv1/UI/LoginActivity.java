@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPassword;
     private TextView signUpTextView, forgotPasswordTextView;
     private ExtendedFloatingActionButton mSignInButton;
+    private RelativeLayout loadingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,13 @@ public class LoginActivity extends AppCompatActivity {
 
         forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView);
         signUpTextView = findViewById(R.id.signUpTextView);
+        loadingScreen = findViewById(R.id.loading_screen);
 
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+                showLoadingScreen();
             }
         });
 
@@ -74,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showLoadingScreen();
                 String email = mEmailAddress.getText().toString();
                 String password = mPassword.getText().toString();
 
@@ -83,11 +88,13 @@ public class LoginActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
 //                                    Log.d(TAG, "signInWithEmail:success");
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                hideLoadingScreen();
                                 finish();
                                 FirebaseUser user = mAuth.getCurrentUser();
                             } else {
                                 // If sign in fails, display a message to the user.
 //                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                hideLoadingScreen();
                                 Toast.makeText(LoginActivity.this, "Authentication failed.Check details",
                                         Toast.LENGTH_SHORT).show();
                                 // ...
@@ -101,5 +108,19 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void hideLoadingScreen() {
+        loadingScreen.setVisibility(View.GONE);
+    }
+
+    private void showLoadingScreen() {
+        loadingScreen.setVisibility(View.VISIBLE);
+        loadingScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
     }
 }

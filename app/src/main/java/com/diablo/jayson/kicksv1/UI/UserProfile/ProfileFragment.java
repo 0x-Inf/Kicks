@@ -26,6 +26,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements ActiveActivitiesAdapter.OnActiveActivitySelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,6 +67,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<Activity> activeActivities;
     private ArrayList<Activity> allActivities;
     private ArrayList<AttendingUser> attendingUsers;
+    private ActiveActivitiesAdapter.OnActiveActivitySelectedListener listener;
 
     //Attributes Stuff
     private RelativeLayout attributesRelativeLayout;
@@ -310,6 +312,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadActiveActivitiesFromDb() {
+        listener = this::onActiveActivitySelected;
         allActivities = new ArrayList<Activity>();
         activeActivities = new ArrayList<Activity>();
 
@@ -407,12 +410,21 @@ public class ProfileFragment extends Fragment {
 //
 //                            }
                             Log.e(TAG, String.valueOf(activeActivities.size()));
-                            ActiveActivitiesAdapter activeActivitiesAdapter = new ActiveActivitiesAdapter(getContext(), activeActivities);
+                            ActiveActivitiesAdapter activeActivitiesAdapter = new ActiveActivitiesAdapter(getContext(), activeActivities, listener);
                             activeActivitiesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
                             activeActivitiesRecycler.setAdapter(activeActivitiesAdapter);
                         }
 
                     }
                 });
+    }
+
+    @Override
+    public void onActiveActivitySelected(Activity activeActivity) {
+        Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
+        attendActivity.putExtra("activityId", activeActivity.getActivityId());
+        attendActivity.putExtra("alreadyAttending", true);
+        attendActivity.putExtra("fromGroupMessages", false);
+        startActivity(attendActivity);
     }
 }

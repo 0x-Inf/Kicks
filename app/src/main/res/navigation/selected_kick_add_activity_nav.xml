@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selected_kick_add_activity_nav.xml"
+    app:startDestination="@id/kickSelectedActivity">
+
+
+    <fragment
+        android:id="@+id/addActivityFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment"
+        android:label="AddActivityFragment" />
+    <activity
+        android:id="@+id/kickSelectedActivity"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedActivity"
+        android:label="activity_kick_selected"
+        tools:layout="@layout/activity_kick_selected" />
+
+    <action
+        android:id="@+id/action_global_addActivityFragment"
+        app:destination="@id/addActivityFragment" />
+</navigation>

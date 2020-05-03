@@ -117,7 +117,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
     //Main Dash Stuff
     private RelativeLayout addActivityMainDashRelativeLayout, peopleCardOverlay, costCardOverlay, tagCardOverlay,
-            dateTimeCardOverlay, locationCardOverlay;
+            dateTimeCardOverlay, locationCardOverlay, loadingScreen;
     private EditText activityTitleEditText;
     private CardView addActivityPeopleCard, addActivityCostCard, addActivityTagCard, addActivityTimeAndDateCard,
             addActivityLocationCard;
@@ -202,6 +202,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         costCardImageView = root.findViewById(R.id.cost_card_image_view);
         locationCardImageView = root.findViewById(R.id.location_card_image_view);
         timeDateCardImage = root.findViewById(R.id.time_date_card_image_view);
+        loadingScreen = root.findViewById(R.id.loading_screen);
 
         //People Stuff
         addActivityPeopleRelativeLayout = root.findViewById(R.id.add_activity_people_relative_layout);
@@ -531,6 +532,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                     String activityTitle = activityTitleEditText.getText().toString();
                     activityMain.setActivityTitle(activityTitle);
                     updateAttendeesAndHostAndTime();
+                    showLoadingScreen();
                     FirebaseFirestore.getInstance().collection("activities")
                             .add(activityMain)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -538,6 +540,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                     startActivity(new Intent(getContext(), MainActivity.class));
+                                    hideLoadingScreen();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -549,8 +552,28 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                 }
             }
         });
+//        loadingScreen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                return;
+//            }
+//        });
 
         return root;
+    }
+
+    private void hideLoadingScreen() {
+        loadingScreen.setVisibility(View.GONE);
+    }
+
+    private void showLoadingScreen() {
+        loadingScreen.setVisibility(View.VISIBLE);
+        loadingScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
     }
 
     private void updateAttendeesAndHostAndTime() {

@@ -44,7 +44,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     private RecyclerView mRecyclerView;
     private ActivityFeedListAdapter mAdapter;
     private ImageView likeButton;
-    private RelativeLayout mRelativelayout;
+    private RelativeLayout mRelativelayout, loadingScreen;
 
 
     @Override
@@ -53,11 +53,23 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
 
         View root = inflater.inflate(R.layout.fragment_kick_feed, container, false);
         mRecyclerView = root.findViewById(R.id.recyclerview);
+        loadingScreen = root.findViewById(R.id.loading_screen);
 //        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
+        showLoadingScreen();
         loadActivitiesFromFirebase();
 
         return root;
 
+    }
+
+    private void showLoadingScreen() {
+        loadingScreen.setVisibility(View.VISIBLE);
+        loadingScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
     }
 
 
@@ -77,8 +89,13 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+        hideLoadingScreen();
 
 
+    }
+
+    private void hideLoadingScreen() {
+        loadingScreen.setVisibility(View.GONE);
     }
 
     @Override

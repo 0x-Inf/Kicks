@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityActivity;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.FirebaseApp;
@@ -57,13 +58,17 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
         getSupportActionBar().setTitle(kick.getKickName());
 //        Toast.makeText(getApplicationContext(),kick.getKickName(),Toast.LENGTH_LONG).show();
 
+
         kickCardImageView = findViewById(R.id.kick_selected_image_view);
         availableActivitiesRecyclerView = findViewById(R.id.availableActivitiesRecycler);
         createActivityButton = findViewById(R.id.createActivityButton);
+        kickShortDescription = findViewById(R.id.kickShortDescriptionTextView);
+        kickShortDescription.setText(kick.getKickShortDescription());
         createActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Navigation.findNavController(KickSelectedActivity.this, R.id.selected_nav_host_fragment).navigate(R.id.action_global_navigation_add_kick);
+//                Navigation.findNavController(KickSelectedActivity.this, R.id.selected_nav_host_fragment).navigate(R.id.action_global_addActivityFragment);
+                startActivity(new Intent(KickSelectedActivity.this, AddActivityActivity.class));
             }
         });
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
 
     private RecyclerView recyclerView;
     private ImageView profilePicImage;
+    private RelativeLayout loadingScreen;
 
     private FirebaseAuth mAuth;
 
@@ -111,6 +113,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
         View view = inflater.inflate(R.layout.fragment_sign_up_four, container, false);
         recyclerView = view.findViewById(R.id.profilePicsExamplesRecycler);
         profilePicImage = view.findViewById(R.id.profilePicImage);
+        loadingScreen = view.findViewById(R.id.loading_screen);
         ExtendedFloatingActionButton signUpButton = view.findViewById(R.id.sign_up_four_finish_efab);
 
         profilePicImage.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +142,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                 messageDigest.update(mainUser.getPassWord().getBytes());
                 String encryptedString = new String(messageDigest.digest());
                 mainUser.setPassWord(encryptedString);
+                showLoadingScreen();
                 Objects.requireNonNull(mAuth.getCurrentUser()).linkWithCredential(credential)
                         .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
                             @Override
@@ -167,18 +171,21 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                                                         }
                                                     });
                                             startActivity(new Intent(getContext(), MainActivity.class));
+                                            hideLoadingScreen();
                                         }
                                     })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-
+                                                    hideLoadingScreen();
                                                 }
                                             });
 
                                 } else {
+                                    hideLoadingScreen();
                                     Log.w(TAG, "linkWithCredential:failure", task.getException());
                                     Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+
                                 }
                             }
                         });
@@ -186,6 +193,21 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
         });
         loadPicsFromFirebase();
         return view;
+    }
+
+    private void showLoadingScreen() {
+        loadingScreen.setVisibility(View.VISIBLE);
+        loadingScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
+    }
+
+    private void hideLoadingScreen() {
+        loadingScreen.setVisibility(View.GONE);
+
     }
 
     private void updateViewModel() {
