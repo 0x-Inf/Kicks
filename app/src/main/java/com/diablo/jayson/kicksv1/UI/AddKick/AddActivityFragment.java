@@ -474,7 +474,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         });
 
         //Location Implementation
-        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), ApiThings.places_api_key);
+        Places.initialize(requireActivity().getApplicationContext(), "");
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.location_selecting_map);
         assert mapFragment != null;
@@ -485,7 +485,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                 List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
                 Intent intent = new Autocomplete.IntentBuilder(
                         AutocompleteActivityMode.OVERLAY, fields)
-                        .build(Objects.requireNonNull(getContext()));
+                        .build(requireContext());
                 InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(android.app.Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
@@ -669,9 +669,9 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     private void getAddress(double lat, double lng) {
 
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + ApiThings.geocoder_api_key;
+        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + "";
         RequestQueue requestQueue;
-        Cache cache = new DiskBasedCache(Objects.requireNonNull(getContext()).getCacheDir(), 1024 * 1024);
+        Cache cache = new DiskBasedCache(requireContext().getCacheDir(), 1024 * 1024);
         // Set up the network to use HttpURLConnection as the HTTP client.
         Network network = new BasicNetwork(new HurlStack());
         requestQueue = Volley.newRequestQueue(getContext());
@@ -721,7 +721,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
         viewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
 
     }
@@ -732,7 +732,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+        if (ContextCompat.checkSelfPermission(requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
@@ -803,7 +803,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         try {
             if (mLocationPermissionGranted) {
                 Task locationResult = fusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener() {
+                locationResult.addOnCompleteListener(requireActivity(), new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful() && task.getResult() != null) {

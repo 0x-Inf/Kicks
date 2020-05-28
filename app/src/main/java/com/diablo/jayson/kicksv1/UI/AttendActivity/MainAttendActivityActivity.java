@@ -146,7 +146,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 
         Log.e("nnn", activityId);
 
-        Places.initialize(this, ApiThings.places_api_key);
+        Places.initialize(this,"");
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.activity_map_location);
