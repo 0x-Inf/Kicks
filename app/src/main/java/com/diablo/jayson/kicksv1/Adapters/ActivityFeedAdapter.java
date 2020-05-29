@@ -108,7 +108,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
 //                    .into(uploaderPic);
 
             Glide.with(itemView.getContext()).load(activity.getImageUrl())
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
+//                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
                     .into(activityImage);
 
 //            itemView.setOnClickListener(new View.OnClickListener() {

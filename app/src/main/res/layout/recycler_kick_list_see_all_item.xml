@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
-        app:cardElevation="5dp">
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
         android:fontFamily="@font/roboto_medium"
         android:textAlignment="center"
         android:text="@string/kick_name_placeholder"
-        android:textColor="@color/colorPurple"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="22sp" />
 
 </RelativeLayout>

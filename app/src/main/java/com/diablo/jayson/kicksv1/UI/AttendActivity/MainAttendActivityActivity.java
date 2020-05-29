@@ -146,7 +146,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 
         Log.e("nnn", activityId);
 
-        Places.initialize(this,"");
+        Places.initialize(this,ApiThings.places_api_key);
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.activity_map_location);
@@ -157,7 +157,6 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         setSupportActionBar(myToolbar);
 
 
-        assert activityId != null;
         db.collection("activities").document(activityId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

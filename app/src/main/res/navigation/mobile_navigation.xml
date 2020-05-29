@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.diablo.jayson.kicksv1.UI.Home.HomeBaseFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.KickFeedFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_swipable_feed">
+        tools:layout="@layout/fragment_kick_feed">
         <action
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
