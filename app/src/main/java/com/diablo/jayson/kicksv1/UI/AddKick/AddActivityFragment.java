@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -116,8 +117,9 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     private String activityLocation = "";
 
     //Main Dash Stuff
-    private RelativeLayout addActivityMainDashRelativeLayout, peopleCardOverlay, costCardOverlay, tagCardOverlay,
+    private RelativeLayout peopleCardOverlay, costCardOverlay, tagCardOverlay,
             dateTimeCardOverlay, locationCardOverlay, loadingScreen;
+    private ConstraintLayout addActivityMainDashRelativeLayout;
     private EditText activityTitleEditText;
     private CardView addActivityPeopleCard, addActivityCostCard, addActivityTagCard, addActivityTimeAndDateCard,
             addActivityLocationCard;
@@ -474,7 +476,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         });
 
         //Location Implementation
-        Places.initialize(requireActivity().getApplicationContext(), "");
+        Places.initialize(requireActivity().getApplicationContext(), ApiThings.places_api_key);
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.location_selecting_map);
         assert mapFragment != null;

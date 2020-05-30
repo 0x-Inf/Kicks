@@ -74,12 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
-        if (darkMode){
+        if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        }else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         fixGoogleMapBug();
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 ////            startActivity(attendActivity);
 ////            Toast.makeText(getApplicationContext(),activityId,Toast.LENGTH_LONG).show();
 //        }
-
 
 
         if (savedInstanceState != null) {
@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.navigation_add_kick) {
                     toolbar.setVisibility(View.GONE);
-                    navigationView.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_map_view) {
                     toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
@@ -245,6 +244,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
-
-
 }
