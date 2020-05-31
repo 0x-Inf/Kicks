@@ -79,7 +79,7 @@
                 android:id="@+id/people_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
                 android:background="@drawable/card_bg_color_purple"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
@@ -94,7 +94,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="50dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="26dp"
                     android:layout_marginBottom="50dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/people_text"
@@ -107,11 +107,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <RelativeLayout
-                android:id="@+id/peopleCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
 
         </androidx.cardview.widget.CardView>
@@ -136,7 +131,7 @@
                 android:id="@+id/tag_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
                 android:background="@drawable/card_bg_color_goldish"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
@@ -194,7 +189,7 @@
                 android:id="@+id/cost_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
                 android:background="@drawable/card_bg_color_goldish"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
@@ -250,7 +245,7 @@
                 android:id="@+id/time_date_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
                 android:background="@drawable/card_bg_color_main"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
@@ -307,7 +302,7 @@
                 android:id="@+id/location_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
                 android:background="@drawable/card_bg_color_orange"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"

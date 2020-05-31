@@ -24,7 +24,11 @@
         android:id="@+id/navigation_add_kick"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment"
         android:label="AddKick"
-        tools:layout="@layout/fragment_add_activity" />
+        tools:layout="@layout/fragment_add_activity" >
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityPeopleFragment"
+            app:destination="@id/addActivityPeopleFragment" />
+    </fragment>
 
 
     <fragment
@@ -59,6 +63,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity"
         android:label="activity_main_attend_activity"
         tools:layout="@layout/activity_main_attend_activity" />
+    <fragment
+        android:id="@+id/addActivityPeopleFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleFragment"
+        android:label="fragment_add_activity_people"
+        tools:layout="@layout/fragment_add_activity_people" />
 
 
 </navigation>

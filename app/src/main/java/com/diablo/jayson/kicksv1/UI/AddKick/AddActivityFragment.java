@@ -31,6 +31,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -186,7 +188,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
         //Main Dash Views
         addActivityMainDashRelativeLayout = root.findViewById(R.id.add_activity_main_dash_relative_layout);
-        peopleCardOverlay = root.findViewById(R.id.peopleCardOverlay);
+//        peopleCardOverlay = root.findViewById(R.id.peopleCardOverlay);
         costCardOverlay = root.findViewById(R.id.costCardOverlay);
         tagCardOverlay = root.findViewById(R.id.tagCardOverlay);
         dateTimeCardOverlay = root.findViewById(R.id.dateTimeCardOverlay);
@@ -250,21 +252,23 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
 
         //Main Dash Implementation
-        peopleCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityPeopleCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                NavDirections addPeopleAction = AddActivityFragmentDirections.actionGlobalAddActivityFragment();
+//                Navigation.findNavController(requireView()).navigate(addPeopleAction);
                 addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
                 addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
-        costCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityCostCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addActivityCostRelativeLayout.setVisibility(View.VISIBLE);
                 addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
-        tagCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityTagCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadTagsFromDb();
@@ -272,14 +276,14 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                 addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
-        dateTimeCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityTimeAndDateCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addActivityDateTimeRelativeLayout.setVisibility(View.VISIBLE);
                 addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
-        locationCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityLocationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addActivityLocationRelativeLayout.setVisibility(View.VISIBLE);
