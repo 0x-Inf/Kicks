@@ -31,6 +31,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavAction;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -255,10 +257,12 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         addActivityPeopleCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                NavDirections addPeopleAction = AddActivityFragmentDirections.actionGlobalAddActivityFragment();
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddPeople = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityPeopleFragment();
+                navController.navigate(actionAddPeople);
 //                Navigation.findNavController(requireView()).navigate(addPeopleAction);
-                addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+//                addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
         addActivityCostCard.setOnClickListener(new View.OnClickListener() {

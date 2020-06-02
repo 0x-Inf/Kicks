@@ -6,17 +6,10 @@
     app:startDestination="@id/kickSelectedActivity">
 
 
-    <fragment
-        android:id="@+id/addActivityFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment"
-        android:label="AddActivityFragment" />
     <activity
         android:id="@+id/kickSelectedActivity"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedActivity"
         android:label="activity_kick_selected"
         tools:layout="@layout/activity_kick_selected" />
 
-    <action
-        android:id="@+id/action_global_addActivityFragment"
-        app:destination="@id/addActivityFragment" />
 </navigation>

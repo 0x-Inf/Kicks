@@ -28,6 +28,18 @@
         <action
             android:id="@+id/action_navigation_add_kick_to_addActivityPeopleFragment"
             app:destination="@id/addActivityPeopleFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityLocationFragment"
+            app:destination="@id/addActivityLocationFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityDateTimeFragment"
+            app:destination="@id/addActivityDateTimeFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityCostFragment"
+            app:destination="@id/addActivityCostFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityTagFragment"
+            app:destination="@id/addActivityTagFragment" />
     </fragment>
 
 
@@ -67,7 +79,47 @@
         android:id="@+id/addActivityPeopleFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleFragment"
         android:label="fragment_add_activity_people"
-        tools:layout="@layout/fragment_add_activity_people" />
+        tools:layout="@layout/fragment_add_activity_people" >
+        <action
+            android:id="@+id/action_addActivityPeopleFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityTagFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagFragment"
+        android:label="fragment_add_activity_tag"
+        tools:layout="@layout/fragment_add_activity_tag" >
+        <action
+            android:id="@+id/action_addActivityTagFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityCostFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostFragment"
+        android:label="fragment_add_activity_cost"
+        tools:layout="@layout/fragment_add_activity_cost" >
+        <action
+            android:id="@+id/action_addActivityCostFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityDateTimeFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeFragment"
+        android:label="fragment_add_activity_date_time"
+        tools:layout="@layout/fragment_add_activity_date_time" >
+        <action
+            android:id="@+id/action_addActivityDateTimeFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityLocationFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationFragment"
+        android:label="fragment_add_activity_location"
+        tools:layout="@layout/fragment_add_activity_location" >
+        <action
+            android:id="@+id/action_addActivityLocationFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick" />
+    </fragment>
 
 
 </navigation>
