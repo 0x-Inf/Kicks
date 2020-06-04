@@ -131,13 +131,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     private ImageView peopleCardImageView, tagCardImageView, costCardImageView, locationCardImageView, timeDateCardImage;
     private ExtendedFloatingActionButton createActivityFinishEfab;
 
-    //People Stuff
-    private RelativeLayout addActivityPeopleRelativeLayout;
-    private EditText activityMinPeopleEditText, activityMaxPeopleEditText, activityMinAgeEditText,
-            activityMaxAgeEditText;
-    private TextView makePrivateTextView;
-    private Switch makePrivateSwitch;
-    private FloatingActionButton peopleSelectionDoneButton;
+
 
     //Date Time Stuff
     private RelativeLayout addActivityDateTimeRelativeLayout;
@@ -210,15 +204,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         timeDateCardImage = root.findViewById(R.id.time_date_card_image_view);
         loadingScreen = root.findViewById(R.id.loading_screen);
 
-        //People Stuff
-        addActivityPeopleRelativeLayout = root.findViewById(R.id.add_activity_people_relative_layout);
-        activityMinPeopleEditText = root.findViewById(R.id.activity_min_people_edit_text);
-        activityMaxPeopleEditText = root.findViewById(R.id.activity_max_people_edit_text);
-        activityMinAgeEditText = root.findViewById(R.id.activity_min_age_edit_text);
-        activityMaxAgeEditText = root.findViewById(R.id.activity_max_age_edit_text);
-        makePrivateTextView = root.findViewById(R.id.makePrivateTextView);
-        makePrivateSwitch = root.findViewById(R.id.makePrivateSwitch);
-        peopleSelectionDoneButton = root.findViewById(R.id.peopleSelectionDoneButton);
+
 
         //Date Time Views
         addActivityDateTimeRelativeLayout = root.findViewById(R.id.add_activity_time_date_relative_layout);
@@ -295,47 +281,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
-        //People Implementation
-        peopleSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activityMinPeopleEditText.getText().toString().isEmpty() || activityMaxPeopleEditText.getText().toString().isEmpty()
-                        || activityMinAgeEditText.getText().toString().isEmpty() || activityMaxAgeEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Please Enter Missing Details", Toast.LENGTH_LONG).show();
-                    if (activityMinPeopleEditText.getText().toString().isEmpty()) {
-                        activityMinPeopleEditText.setError("Input a Number");
-                    } else if (activityMaxPeopleEditText.getText().toString().isEmpty()) {
-                        activityMaxPeopleEditText.setError("Input a Number");
-                    } else if (activityMinAgeEditText.getText().toString().isEmpty()) {
-                        activityMinAgeEditText.setError("Input a Number");
-                    } else if (activityMaxAgeEditText.getText().toString().isEmpty()) {
-                        activityMaxAgeEditText.setError("Input a Number");
-                    }
-                } else if (Integer.parseInt(activityMinPeopleEditText.getText().toString()) > Integer.parseInt(activityMaxPeopleEditText.getText().toString())) {
-                    activityMinPeopleEditText.setError("Invalid input");
-                } else if (Integer.parseInt(activityMinAgeEditText.getText().toString()) > Integer.parseInt(activityMaxAgeEditText.getText().toString())) {
-                    activityMinPeopleEditText.setError("Invalid input");
-                } else {
-                    updateActivityPeople();
-                    addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                    addActivityPeopleRelativeLayout.setVisibility(View.GONE);
-                    peopleCardImageView.setVisibility(View.VISIBLE);
-                }
 
-            }
-        });
-        makePrivateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    activityMain.setActivityPrivate(isChecked);
-                    makePrivateTextView.setText(R.string.private_text);
-                } else {
-                    activityMain.setActivityPrivate(false);
-                    makePrivateTextView.setText(R.string.make_private_text);
-                }
-            }
-        });
 
 
         //Tag Implemetation
@@ -531,7 +477,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
             public void onClick(View v) {
                 if (activityTitleEditText.getText().toString().isEmpty()) {
                     activityTitleEditText.setError("Set a Suitable Title");
-                } else if (activityMinPeopleEditText.getText().toString().isEmpty() ||
+                } else if (
                         selectedTagTextView.getText().toString().isEmpty() ||
                         activityCostEditText.getText().toString().isEmpty() ||
                         activityLocationTextView.getText().toString().isEmpty()) {
@@ -603,18 +549,6 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
-
-    private void updateActivityPeople() {
-
-        int activityMinPeople = Integer.parseInt(activityMinPeopleEditText.getText().toString());
-        int activityMaxPeople = Integer.parseInt(activityMaxPeopleEditText.getText().toString());
-        int activityMinAge = Integer.parseInt(activityMinAgeEditText.getText().toString());
-        int activityMaxAge = Integer.parseInt(activityMaxAgeEditText.getText().toString());
-        activityMain.setActivityMinRequiredPeople(activityMinPeople);
-        activityMain.setActivityMaxRequiredPeople(activityMaxPeople);
-        activityMain.setActivityMinAge(activityMinAge);
-        activityMain.setActivityMaxAge(activityMaxAge);
-    }
 
     private void updateActivityLocation() {
         if (activityLocation.isEmpty()) {
