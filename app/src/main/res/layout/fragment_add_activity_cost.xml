@@ -2,12 +2,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/add_activity_cost_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/costPerPersonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/cost_per_person_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="45sp" />
+
+        <EditText
+            android:id="@+id/activity_cost_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:translationY="-20dp"
+            android:autofillHints="@string/activity_cost_hint"
+            android:hint="@string/activity_cost_hint"
+            android:inputType="number"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="72sp" />
+
+        <TextView
+            android:id="@+id/currency_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/activity_cost_edit_text"
+            android:layout_centerVertical="true"
+            android:translationY="-20dp"
+            android:text="@string/currency_placeholder_text"
+            android:textColor="@color/colorOrange"
+            android:textSize="40sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/costInputDoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
+
+
+    </RelativeLayout>
+
 
 </FrameLayout>

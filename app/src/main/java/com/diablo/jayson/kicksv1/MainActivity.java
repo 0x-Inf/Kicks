@@ -127,12 +127,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.navigation_add_kick) {
                     toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.VISIBLE);
                 } else if (destination.getId() == R.id.navigation_map_view) {
                     toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
                     toolbar.setVisibility(View.GONE);
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+                } else if (destination.getId() == R.id.addActivityPeopleFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityCostFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityTagFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityDateTimeFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityLocationFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);

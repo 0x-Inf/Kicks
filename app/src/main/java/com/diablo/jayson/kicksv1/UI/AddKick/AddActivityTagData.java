@@ -1,10 +1,14 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.diablo.jayson.kicksv1.Models.Tag;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AddActivityTagData {
+public class AddActivityTagData implements Parcelable {
 
     private List<String> tags;
     private Tag activityTag;
@@ -16,6 +20,22 @@ public class AddActivityTagData {
         this.tags = tags;
         this.activityTag = activityTag;
     }
+
+    protected AddActivityTagData(Parcel in) {
+        tags = in.createStringArrayList();
+    }
+
+    public static final Creator<AddActivityTagData> CREATOR = new Creator<AddActivityTagData>() {
+        @Override
+        public AddActivityTagData createFromParcel(Parcel in) {
+            return new AddActivityTagData(in);
+        }
+
+        @Override
+        public AddActivityTagData[] newArray(int size) {
+            return new AddActivityTagData[size];
+        }
+    };
 
     public List<String> getTags() {
         return tags;
@@ -31,5 +51,15 @@ public class AddActivityTagData {
 
     public void setActivityTag(Tag activityTag) {
         this.activityTag = activityTag;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(tags);
     }
 }

@@ -1,6 +1,8 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
-public class AddActivityPeopleData {
+import java.io.Serializable;
+
+public class AddActivityPeopleData implements Serializable {
 
     private int activityMinRequiredPeople;
     private int activityMaxRequiredPeople;

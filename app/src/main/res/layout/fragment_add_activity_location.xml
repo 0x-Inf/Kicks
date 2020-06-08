@@ -2,12 +2,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/add_activity_location_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/locationTextSearchCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/setTheLocationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="@string/set_the_location_text"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/setTheLocationInstructionsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setTheLocationTextView"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="@string/search_a_place_or_drag_the_map_and_position_the_location_you_would_like_under_the_pin_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="17sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/location_search_input_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setTheLocationInstructionsTextView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp">
+
+                    <EditText
+                        android:id="@+id/searchLocationEditText"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:autofillHints="@string/search_available_tags_hint_text"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/search_a_place_hint"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:inputType="text"
+                        android:padding="5dp"
+                        android:textSize="20sp" />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/locationSelectionDoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/location_selecting_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:src="@drawable/pin"
+            android:layout_centerInParent="true"
+            android:translationY="-22.5dp"
+            android:layout_height="45dp"
+            android:contentDescription="@string/pin_image_description" />
+
+    </RelativeLayout>
 
 </FrameLayout>

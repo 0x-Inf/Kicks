@@ -2,12 +2,165 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/add_activity_tag_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/closeTagRelativelayoutButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/close_icon_24dp"
+            android:contentDescription="@string/close_icon_image_description" />
+
+        <TextView
+            android:id="@+id/tagTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/tag_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="50sp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tag_search_input_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tagTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="5dp">
+
+            <EditText
+                android:id="@+id/searchTagsEditText"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:autofillHints="@string/search_available_tags_hint_text"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_available_tags_hint_text"
+                android:inputType="text"
+                android:padding="5dp"
+                android:textSize="20sp" />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/pickOneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_search_input_card"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/pick_one_tag_from_below_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="27sp" />
+
+        <View
+            android:id="@+id/separator_line_view"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/pickOneTextView"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/colorTransparentBlack" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tags_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@id/separator_line_view" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/selectedTagCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/selectedTagTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="@string/selected_tag_text"
+                    android:textColor="@color/colorMain"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/selected_tag_image_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@id/selectedTagTextView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/circleback"
+                    android:contentDescription="@string/selected_tag_image_description" />
+
+                <TextView
+                    android:id="@+id/selectedTagDescriptionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/selected_tag_image_view"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/source_sans_pro_regular"
+                    android:text="@string/kick_selected_description_text"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPurple"
+                    android:textSize="27sp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/tagSelectionDoneButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/selectedTagDescriptionTextView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/tag_selection_done_button_description"
+                    android:src="@drawable/done_icon_two_24dp"
+                    android:theme="@style/MaterialTheme"
+                    app:backgroundTint="@color/colorMain" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/selectedTagOverlayRelativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:visibility="gone"
+            android:background="@color/colorTransparentBlack" />
+
+    </RelativeLayout>
+
 
 </FrameLayout>

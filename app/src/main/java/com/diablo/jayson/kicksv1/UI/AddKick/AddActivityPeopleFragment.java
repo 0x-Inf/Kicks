@@ -87,7 +87,7 @@ public class AddActivityPeopleFragment extends Fragment {
                 } else {
                     updateActivityPeople();
                     NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                    NavDirections actionAddActivityMain = AddActivityPeopleFragmentDirections.actionAddActivityPeopleFragmentToNavigationAddKick();
+                    NavDirections actionAddActivityMain = AddActivityPeopleFragmentDirections.actionAddActivityPeopleFragmentToNavigationAddKick(activityPeopleData);
                     navController.navigate(actionAddActivityMain);
                 }
 

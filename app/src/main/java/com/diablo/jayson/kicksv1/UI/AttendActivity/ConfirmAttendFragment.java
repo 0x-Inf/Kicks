@@ -226,7 +226,7 @@ public class ConfirmAttendFragment extends Fragment {
 //                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
 //                                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
 //                                        .into(imageView);
-                                Glide.with(Objects.requireNonNull(getContext()))
+                                Glide.with(requireContext())
                                         .load(activity.getHost().getHostPic())
                                         .apply(RequestOptions.circleCropTransform())
                                         .into(hostProfilePicImageView);
