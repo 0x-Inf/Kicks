@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -43,7 +46,7 @@ import com.google.firebase.firestore.Transaction;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class KickFeedFragment extends Fragment implements ActivityFeedListAdapter.OnActivitySelectedListener {
+public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.OnActivitySelectedListener {
     private static final String TAG = AddActivityFragment.class.getSimpleName();
 
     private ArrayList<Activity> mKicksData;
@@ -53,6 +56,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     private ImageView likeButton;
     private RelativeLayout mRelativelayout, loadingScreen;
     private ViewPager2 feedViewPager2;
+    private KickFeedFragment listener;
 
 
     @Override
@@ -93,7 +97,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
         FirestoreRecyclerOptions<Activity> options = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(query, Activity.class)
                 .build();
-        mAdapter = new ActivityFeedListAdapter(options, this);
+//        mAdapter = new ActivityFeedListAdapter(options, this);
 //        int gridColumnCount = 1;
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
 //        mRecyclerView.setAdapter(mAdapter);
@@ -106,6 +110,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     }
 
     private void getActivitiesData(){
+        listener = this;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         mKicksData = new ArrayList<Activity>();
         db.collection("activities")
@@ -138,7 +143,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
                                         snapshot.toObject(Activity.class).isActivityPrivate()));
                             }
 
-                            feedViewPager2.setAdapter(new ActivityFeedAdapter(mKicksData,feedViewPager2,getContext()));
+                            feedViewPager2.setAdapter(new ActivityFeedAdapter(mKicksData,feedViewPager2,getContext(),listener));
                             feedViewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
                             hideLoadingScreen();
                         }
@@ -165,8 +170,9 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
     @Override
     public void onActivitySelected(Activity activity) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         assert user != null;
-        if (Objects.requireNonNull(user.getDisplayName()).isEmpty()) {
+        if (user.isAnonymous()) {
             Toast.makeText(getContext(), "Please Sign Up", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> users = new ArrayList<String>();
@@ -182,43 +188,45 @@ public class KickFeedFragment extends Fragment implements ActivityFeedListAdapte
                 attendActivity.putExtra("fromGroupMessages", false);
                 startActivity(attendActivity);
             } else {
-                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
-                attendActivity.putExtra("activityId", activity.getActivityId());
-                attendActivity.putExtra("alreadyAttending", false);
-                attendActivity.putExtra("fromGroupMessages", false);
-                startActivity(attendActivity);
+//                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+                NavDirections actionConfirmAttend = KickFeedFragmentDirections.actionNavigationHomeToConfirmAttendFragment(activity.getActivityId());
+                navController.navigate(actionConfirmAttend);
+//                attendActivity.putExtra("activityId", activity.getActivityId());
+//                attendActivity.putExtra("alreadyAttending", false);
+//                attendActivity.putExtra("fromGroupMessages", false);
+//                startActivity(attendActivity);
             }
         }
 
 
     }
 
-    @Override
-    public void toggleLike(Activity activity) {
-        String activityId = activity.getActivityId();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("activities").document(activityId);
-        db.runTransaction(new Transaction.Function<Void>() {
-
-            @Nullable
-            @Override
-            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                DocumentSnapshot snapshot = transaction.get(documentReference);
-                double newLikes = snapshot.getDouble("likes") + 1;
-                transaction.update(documentReference, "likes", (int) newLikes);
-                return null;
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Transaction success!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Transaction failure.", e);
-            }
-        });
-        Toast.makeText(getContext(), activityId, Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void toggleLike(Activity activity) {
+//        String activityId = activity.getActivityId();
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        DocumentReference documentReference = db.collection("activities").document(activityId);
+//        db.runTransaction(new Transaction.Function<Void>() {
+//
+//            @Nullable
+//            @Override
+//            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+//                DocumentSnapshot snapshot = transaction.get(documentReference);
+//                double newLikes = snapshot.getDouble("likes") + 1;
+//                transaction.update(documentReference, "likes", (int) newLikes);
+//                return null;
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Log.d(TAG, "Transaction success!");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.w(TAG, "Transaction failure.", e);
+//            }
+//        });
+//        Toast.makeText(getContext(), activityId, Toast.LENGTH_SHORT).show();
+//    }
 }

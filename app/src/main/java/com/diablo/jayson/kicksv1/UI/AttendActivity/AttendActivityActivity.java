@@ -12,6 +12,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ConfirmAttendFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;

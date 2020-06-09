@@ -25,14 +25,22 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapter.ActivityItemHolder> {
 
+    public interface OnActivitySelectedListener{
+        void onActivitySelected(Activity activity);
+    }
+
+    private OnActivitySelectedListener listener;
+
     private ArrayList<Activity> activitiesData;
     private ViewPager2 viewPager2;
     private Context context;
 
-    public ActivityFeedAdapter(ArrayList<Activity> activitiesData, ViewPager2 viewPager2,Context context) {
+
+    public ActivityFeedAdapter(ArrayList<Activity> activitiesData, ViewPager2 viewPager2,Context context, OnActivitySelectedListener listener) {
         this.activitiesData = activitiesData;
         this.viewPager2 = viewPager2;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,7 +59,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
         holder.attendeesRecycler.setAdapter(attendeesAdapter);
         GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
         holder.attendeesRecycler.setLayoutManager(layoutManager);
-        holder.bindTo(activity);
+        holder.bindTo(activity,listener);
     }
 
     @Override
@@ -83,7 +91,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
         }
 
-        void bindTo(Activity activity){
+        void bindTo(Activity activity,OnActivitySelectedListener listener){
             String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
 //            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
             String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
@@ -111,14 +119,14 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
 //                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
                     .into(activityImage);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null) {
-//                        listener.onActivitySelected(activity);
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onActivitySelected(activity);
+                    }
+                }
+            });
 
         }
     }

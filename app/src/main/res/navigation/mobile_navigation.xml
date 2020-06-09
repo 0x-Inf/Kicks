@@ -14,6 +14,13 @@
         <action
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_confirmAttendFragment"
+            app:destination="@id/confirmAttendFragment" >
+            <argument
+                android:name="activityId"
+                app:argType="string"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
@@ -180,6 +187,16 @@
                 android:name="activityLocationData"
                 app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData" />
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/confirmAttendFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ConfirmAttendFragment"
+        android:label="fragment_confirm_attend"
+        tools:layout="@layout/fragment_confirm_attend" >
+        <argument
+            android:name="activityId"
+            app:argType="string"
+            android:defaultValue="0"/>
     </fragment>
 
 
