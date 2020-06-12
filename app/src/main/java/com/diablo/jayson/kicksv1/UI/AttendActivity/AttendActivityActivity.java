@@ -39,7 +39,7 @@ public class AttendActivityActivity extends AppCompatActivity {
         String activityId = bundle.getString("activityId");
         Long activityLatitude = bundle.getLong("activityLatitude");
         Long activityLongitude = bundle.getLong("activityLongitude");
-        Boolean alreadyAttending = bundle.getBoolean("alreadyAttending");
+        boolean alreadyAttending = bundle.getBoolean("alreadyAttending");
 
         viewModel = new ViewModelProvider(this).get(AttendActivityViewModel.class);
 
