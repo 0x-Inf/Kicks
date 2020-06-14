@@ -21,6 +21,13 @@
                 android:name="activityId"
                 app:argType="string"/>
         </action>
+        <action
+            android:id="@+id/action_navigation_home_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
+            <argument
+                android:name="activityId"
+                app:argType="string"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
@@ -198,6 +205,41 @@
             app:argType="string"
             android:defaultValue="0"/>
     </fragment>
+    <fragment
+        android:id="@+id/attendActivityMainFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.AttendActivityMainFragment"
+        android:label="fragment_attend_activity_main2"
+        tools:layout="@layout/fragment_attend_activity_main2" >
+
+        <argument
+            android:name="activityId"
+            app:argType="string"
+            android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_attendActivityMainFragment_to_activityDetailsFragment"
+            app:destination="@id/activityDetailsFragment" />
+        <action
+            android:id="@+id/action_attendActivityMainFragment_to_attendeesFragment"
+            app:destination="@id/attendeesFragment" />
+        <action
+            android:id="@+id/action_attendActivityMainFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityDetailsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ActivityDetailsFragment"
+        android:label="fragment_activity_details"
+        tools:layout="@layout/fragment_activity_details" />
+    <fragment
+        android:id="@+id/attendeesFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.AttendeesFragment"
+        android:label="fragment_attendees"
+        tools:layout="@layout/fragment_attendees" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 
 
 </navigation>

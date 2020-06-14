@@ -72,7 +72,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     private RelativeLayout detailsActualRelativeLayout;
     private FrameLayout dashItemDetailsFramelayout;
     private RecyclerView attendeesRecycler, attendeesActualRecycler, chatRecycler, chatActualRecycler;
-    private ProgressBar attendeesProress;
+    private ProgressBar attendeesProgress;
     private ArrayList<AttendingUser> attendingUsersData;
     private CardView chatCard;
     private ImageView activityImageView;

@@ -67,26 +67,25 @@
                 android:alpha="0.5"
                 android:background="@drawable/card_bg_color_orange"
                 android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="" />
+                android:scaleType="fitXY" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="0dp"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
-                    android:text="Attendees"
+                    android:text="@string/attendees_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
+                    android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,26 +117,25 @@
                 android:alpha="0.5"
                 android:background="@drawable/card_bg_color_main"
                 android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="" />
+                android:scaleType="fitXY" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Chat"
-                    android:textAlignment="center"
                     android:maxLines="1"
+                    android:text="@string/chat_text"
+                    android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
+                    android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -177,18 +175,18 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
-                    android:text="Details"
+                    android:text="@string/details_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
+                    android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -199,6 +197,53 @@
 
         </androidx.cardview.widget.CardView>
 
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/shareActivityFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:backgroundTint="@color/background"
+            app:layout_constraintBottom_toTopOf="@+id/exitActivityFab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/activityOptionsFab"
+            app:layout_constraintTop_toBottomOf="@+id/activity_details_card"
+            android:src="@drawable/share_icon_two_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/exitActivityFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/colorOrange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/activityEmergencyFab"
+            app:layout_constraintTop_toBottomOf="@+id/shareActivityFab"
+            android:src="@drawable/exit_icon_two_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activityOptionsFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="?android:attr/colorBackground"
+            app:layout_constraintBottom_toTopOf="@+id/activityEmergencyFab"
+            app:layout_constraintEnd_toStartOf="@+id/shareActivityFab"
+            app:layout_constraintStart_toStartOf="@+id/activity_details_card"
+            app:layout_constraintTop_toBottomOf="@+id/activity_details_card"
+            app:srcCompat="@drawable/exit_icon_two_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activityEmergencyFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/exitActivityFab"
+            app:layout_constraintStart_toStartOf="@+id/activity_details_card"
+            app:layout_constraintTop_toBottomOf="@+id/activityOptionsFab"
+            android:src="@drawable/exit_icon_two_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,13 +2,21 @@ package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
 
 
 /**
@@ -26,6 +34,12 @@ public class AttendActivityMainFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String activityId;
+    private AttendActivityViewModel viewModel;
+
+    //views
+    private CardView chatCard,attendeesCard,detailsCard;
 
     public AttendActivityMainFragment() {
         // Required empty public constructor
@@ -56,12 +70,50 @@ public class AttendActivityMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        viewModel = new ViewModelProvider(requireActivity()).get(AttendActivityViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_attend_activity_main2, container, false);
+        View root = inflater.inflate(R.layout.fragment_attend_activity_main2, container, false);
+        chatCard = root.findViewById(R.id.activity_chat_card);
+        attendeesCard = root.findViewById(R.id.activity_attendees_card);
+        detailsCard  = root.findViewById(R.id.activity_details_card);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+
+        attendeesCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections actionAttendees = AttendActivityMainFragmentDirections.actionAttendActivityMainFragmentToAttendeesFragment();
+                navController.navigate(actionAttendees);
+            }
+        });
+        chatCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections actionChat = AttendActivityMainFragmentDirections.actionAttendActivityMainFragmentToChatFragment();
+                navController.navigate(actionChat);
+
+            }
+        });
+        detailsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections actionDetails = AttendActivityMainFragmentDirections.actionAttendActivityMainFragmentToActivityDetailsFragment();
+                navController.navigate(actionDetails);
+            }
+        });
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        assert getArguments() != null;
+        activityId = AttendActivityMainFragmentArgs.fromBundle(getArguments()).getActivityId();
+        viewModel.setActivityId(activityId);
     }
 }

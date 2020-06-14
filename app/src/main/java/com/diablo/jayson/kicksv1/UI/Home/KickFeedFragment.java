@@ -180,13 +180,15 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
                 users.add(activity.getActivityAttendees().get(i).getUid());
             }
             if (users.contains(user.getUid())) {
-                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
-                attendActivity.putExtra("activityId", activity.getActivityId());
-                attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
-                attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
-                attendActivity.putExtra("alreadyAttending", true);
-                attendActivity.putExtra("fromGroupMessages", false);
-                startActivity(attendActivity);
+                NavDirections actionMainAttend = KickFeedFragmentDirections.actionNavigationHomeToAttendActivityMainFragment(activity.getActivityId());
+                navController.navigate(actionMainAttend);
+//                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
+//                attendActivity.putExtra("activityId", activity.getActivityId());
+//                attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
+//                attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
+//                attendActivity.putExtra("alreadyAttending", true);
+//                attendActivity.putExtra("fromGroupMessages", false);
+//                startActivity(attendActivity);
             } else {
 //                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
                 NavDirections actionConfirmAttend = KickFeedFragmentDirections.actionNavigationHomeToConfirmAttendFragment(activity.getActivityId());
