@@ -4,5 +4,9 @@
     <color name="systemNavBarColor">#121212</color>
     <color name="iconColor">#ffffff</color>
     <color name="colorTransparentBlack">#30ffffff</color>
+    <color name="messageInputBg">#727373</color>
+    <color name="messageItemBg">#727373</color>
+
+
 
 </resources>

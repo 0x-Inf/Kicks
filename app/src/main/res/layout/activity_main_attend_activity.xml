@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chatActualRecycler"
@@ -262,7 +262,7 @@
             android:id="@+id/dash_items_relative_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/activity_image_card"

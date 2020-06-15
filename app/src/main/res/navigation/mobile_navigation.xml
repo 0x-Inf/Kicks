@@ -238,7 +238,7 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ChatFragment"
-        android:label="fragment_chat"
+        android:label="Chat"
         tools:layout="@layout/fragment_chat" />
 
 

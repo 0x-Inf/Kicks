@@ -1,19 +1,38 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.ChatAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,9 +50,15 @@ public class ChatFragment extends Fragment {
     private String mParam2;
 
     private AttendActivityViewModel viewModel;
+    private ChatAdapter chatAdapter;
 
     //views
     private TextView testing;
+    private String activityId;
+    private RecyclerView chatRecycler;
+    private ImageButton sendMessageButton;
+    private EditText messageEditText;
+
 
     public ChatFragment() {
         // Required empty public constructor
@@ -72,17 +97,95 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_chat, container, false);
-        testing = root.findViewById(R.id.testingString);
+        getActivityIdModel();
+        chatRecycler = root.findViewById(R.id.chatRecycler);
+        sendMessageButton = root.findViewById(R.id.sendButton);
+        messageEditText = root.findViewById(R.id.messageEditText);
+        Query query = FirebaseFirestore.getInstance()
+                .collection("activities")
+                .document(activityId)
+                .collection("chatsession")
+                .orderBy("timestamp", Query.Direction.ASCENDING);
+
+
+        FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
+                .setQuery(query, ChatItem.class)
+                .build();
+        chatAdapter = new ChatAdapter(options, getContext());
+        int gridColumnCount = 1;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        chatRecycler.setLayoutManager(layoutManager);
+        chatRecycler.setAdapter(chatAdapter);
+        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                chatRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+            }
+        });
+
+
+
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String message = messageEditText.getText().toString();
+                if (!message.isEmpty()) {
+                    ChatItem messageItem = new ChatItem();
+                    messageItem.setMessage(message);
+                    assert user != null;
+                    messageItem.setSenderName(user.getDisplayName());
+                    messageItem.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
+                    messageItem.setSenderUid(user.getUid());
+                    messageItem.setSender(true);
+                    messageItem.setTimestamp(Timestamp.now());
+
+                    FirebaseFirestore.getInstance().collection("activities").document(activityId)
+                            .collection("chatsession")
+                            .add(messageItem)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.e("Yellow", "Added Mesage");
+                                    messageEditText.setText("");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "Try Sending Message Again", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        });
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        chatAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        chatAdapter.stopListening();
+    }
+
+    public void getActivityIdModel(){
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                testing.setText(s);
+                activityId = s;
             }
         });
     }

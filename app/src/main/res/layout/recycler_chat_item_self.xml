@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chatContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:padding="2dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="5dp">
 
     <ImageView
         android:id="@+id/senderProfilePic"
@@ -20,9 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/chat_self_item_bg"
         android:elevation="10dp"
+        android:minHeight="40dp"
         android:orientation="vertical">
 
         <TextView
@@ -45,19 +47,19 @@
             android:layout_marginEnd="8dp"
             android:maxWidth="170dp"
             android:minWidth="80dp"
-            android:textSize="15sp"
+            app:autoSizeTextType="uniform"
             android:text="@string/example_message_short" />
 
-        <TextView
-            android:id="@+id/sendTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/message_timestamp_placeholder"
-            android:textSize="12sp" />
+
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/sendTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chatMessageSelfLinearLayout"
+        android:layout_alignEnd="@id/chatMessageSelfLinearLayout"
+        android:layout_marginEnd="8dp"
+        android:text="@string/message_timestamp_placeholder"/>
 
 </RelativeLayout>
