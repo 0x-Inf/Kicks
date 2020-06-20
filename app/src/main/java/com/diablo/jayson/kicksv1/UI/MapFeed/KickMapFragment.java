@@ -1,6 +1,7 @@
 package com.diablo.jayson.kicksv1.UI.MapFeed;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -12,9 +13,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -161,6 +164,15 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+//        boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
+//        if (darkMode){
+//
+//
+//        }else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         enableLocation();
 
         mMap = googleMap;
@@ -178,7 +190,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                 }
         );
 
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         allTags = new ArrayList<Tag>();
         db.collection("tags").get()

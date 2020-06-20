@@ -1,0 +1,113 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeFragment">
+
+    <RelativeLayout
+        android:id="@+id/add_activity_time_date_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/date_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="35sp" />
+
+        <DatePicker
+            android:id="@+id/activity_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_below="@id/dateTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="2dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/startTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_date_picker"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/start_time_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="35sp" />
+
+
+        <TimePicker
+            android:id="@+id/activity_time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_below="@id/startTimeTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:timePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/durationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_time_picker"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/duration_text"
+            android:textColor="@color/colorPurple"
+            android:textSize="35sp" />
+
+        <RelativeLayout
+            android:id="@+id/duration_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/durationTextView"
+            android:layout_centerHorizontal="true">
+
+            <NumberPicker
+                android:id="@+id/durationPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/durationPicker"
+                android:text="@string/hrs_text"
+                android:textColor="@color/colorOrange"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dateTimeSelectionDoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp"
+            android:contentDescription="@string/location_selection_done_button_description"
+            android:src="@drawable/done_icon_two_24dp"
+            app:backgroundTint="@color/colorMain" />
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -182,7 +182,6 @@
     <string name="second_name_hint_text">Second Name</string>
     <string name="sign_up_one_next_button_text">NEXT</string>
     <string name="contact_text">Contact</string>
-    <string name="details_text">Details</string>
     <string name="phone_number_hint_text">Phone Number</string>
     <string name="previous_button_text">Previous</string>
     <string name="keep_everything_text">Keep Everything</string>
@@ -286,6 +285,11 @@
     <string name="diving_text">Diving</string>
     <string name="image_for_image_and_text_featured_description">Image for Image and Text Featured</string>
     <string name="add_to_calendar_text">Add to Calendar</string>
+    <string name="attendees_text">Attendees</string>
+    <string name="chat_text">Chat</string>
+    <string name="details_text">Details</string>
+    <string name="type_something_hint_text">Type Something…</string>
+    <string name="image_button_for_send_image_description">image button for send</string>
 
 
 </resources>

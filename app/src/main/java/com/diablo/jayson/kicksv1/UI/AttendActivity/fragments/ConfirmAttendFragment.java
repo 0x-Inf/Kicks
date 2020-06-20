@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AttendActivity;
+package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,7 +34,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -172,22 +173,19 @@ public class ConfirmAttendFragment extends Fragment {
         activityPeopleNumberTextView = view.findViewById(R.id.noOfPeopleByTextView);
         activityPeopleAgeTextView = view.findViewById(R.id.agesNoTextView);
         activityLocationTextView = view.findViewById(R.id.activity_actual_location_text_view);
-
-        viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
+        assert getArguments() != null;
+        activityId = ConfirmAttendFragmentArgs.fromBundle(getArguments()).getActivityId();
+        loadActivityFromDb();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("activities").document(activityId);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onChanged(String s) {
-                activityId = s;
-                loadActivityFromDb();
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference documentReference = db.collection("activities").document(activityId);
-                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            assert documentSnapshot != null;
-                            if (documentSnapshot.exists()) {
-                                activity = documentSnapshot.toObject(Activity.class);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    assert documentSnapshot != null;
+                    if (documentSnapshot.exists()) {
+                        activity = documentSnapshot.toObject(Activity.class);
 //                                Host host = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getHost();
 //                                String kickStartTime = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getKickStartTime();
 //                                String kickEndTime = documentSnapshot.toObject(Activity.class).getKickEndTime();
@@ -208,36 +206,42 @@ public class ConfirmAttendFragment extends Fragment {
 //                                activity.setMaxRequiredPeeps(maxRequiredPeeps);
 //                                activity.setImageUrl(imageUrl);
 //                                activity.setMattendees(mattendees);
-                                String hostName = activity.getHost().getUserName();
-                                String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
-                                String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
-                                String activityCost = activity.getActivityCost();
-                                String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";
-                                String activityPeopleAge = activity.getActivityMinAge() + " - " + activity.getActivityMaxAge();
-                                String activityLocationName = activity.getActivityLocationName();
-                                usernameTextView.setText(hostName);
-                                activityDateTextView.setText(activityDate);
-                                activityCostTextView.setText(activityCost);
-                                activityStartTimeTextView.setText(activityStartTime);
-                                activityPeopleNumberTextView.setText(activityPeopleNumber);
-                                activityPeopleAgeTextView.setText(activityPeopleAge);
-                                activityLocationTextView.setText(activityLocationName);
+                        String hostName = activity.getHost().getUserName();
+                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
+                        String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
+                        String activityCost = activity.getActivityCost();
+                        String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";
+                        String activityPeopleAge = activity.getActivityMinAge() + " - " + activity.getActivityMaxAge();
+                        String activityLocationName = activity.getActivityLocationName();
+                        usernameTextView.setText(hostName);
+                        activityDateTextView.setText(activityDate);
+                        activityCostTextView.setText(activityCost);
+                        activityStartTimeTextView.setText(activityStartTime);
+                        activityPeopleNumberTextView.setText(activityPeopleNumber);
+                        activityPeopleAgeTextView.setText(activityPeopleAge);
+                        activityLocationTextView.setText(activityLocationName);
 
 //                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())
 //                                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(20, 5)))
 //                                        .into(imageView);
-                                Glide.with(Objects.requireNonNull(getContext()))
-                                        .load(activity.getHost().getHostPic())
-                                        .apply(RequestOptions.circleCropTransform())
-                                        .into(hostProfilePicImageView);
-                                titleTextView.setText(activity.getActivityTitle());
+                        Glide.with(requireContext())
+                                .load(activity.getHost().getHostPic())
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(hostProfilePicImageView);
+                        titleTextView.setText(activity.getActivityTitle());
 
-                                LatLng activityLocation = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
+                        LatLng activityLocation = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
 
-                            }
-                        }
                     }
-                });
+                }
+            }
+        });
+
+        viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+//                activityId = s;
+
             }
         });
     }

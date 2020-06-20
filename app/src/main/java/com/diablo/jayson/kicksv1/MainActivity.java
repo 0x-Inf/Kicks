@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mProfileImage;
@@ -67,6 +72,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
+        if (darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setTheme(R.style.MaterialTheme);
         super.onCreate(savedInstanceState);
         fixGoogleMapBug();
@@ -85,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 ////            startActivity(attendActivity);
 ////            Toast.makeText(getApplicationContext(),activityId,Toast.LENGTH_LONG).show();
 //        }
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
 
 
         if (savedInstanceState != null) {
@@ -115,13 +127,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.navigation_add_kick) {
                     toolbar.setVisibility(View.GONE);
-                    navigationView.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.VISIBLE);
                 } else if (destination.getId() == R.id.navigation_map_view) {
                     toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.navigation_profile) {
                     toolbar.setVisibility(View.GONE);
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+                } else if (destination.getId() == R.id.addActivityPeopleFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityCostFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityTagFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityDateTimeFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityLocationFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);
@@ -233,6 +260,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
-
-
 }

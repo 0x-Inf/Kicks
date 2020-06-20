@@ -27,7 +27,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks, RecyclerView.ViewHolder> {
+public class    FeaturedFeedAdapter extends FirestoreRecyclerAdapter<FeaturedKicks, RecyclerView.ViewHolder> {
 
     private static final String TAG = FeaturedFragment.class.getSimpleName();
     private static final int IMAGE_TEXT = 1;

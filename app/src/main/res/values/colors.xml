@@ -3,6 +3,11 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D7385E</color>
+    <color name="background">#ffffff</color>
+    <color name="systemNavBarColor">#ffffff</color>
+    <color name="iconColor">#000000</color>
+    <color name="messageInputBg">#E0E0E0</color>
+    <color name="messageItemBg">#E0E0E0</color>
 
     <!--    colors with xd -->
     <color name="colorMain">#D7385E</color>
@@ -14,7 +19,8 @@
     <color name="colorTransparentBlack">#30000000</color>
     <color name="colorMoreTransparentBlack">#10000000</color>
     <color name="colorTransparentWhite">#60FFFFFF</color>
-    <color name="colorMainTransparent">#40D7385E</color>
+    <color name="colorMainTransparent">#60D7385E</color>
+    <color name="buttonBackground">#30121212</color>
 
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/framelayoutbase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,12 +24,10 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add_activity_main_dash_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/activity_title_edit_text"
@@ -36,142 +35,131 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:autofillHints="@string/activity_title_edit_text_hint"
             android:background="@android:color/transparent"
             android:hint="@string/activity_title_edit_text_hint"
             android:inputType="text"
             android:padding="8dp"
             android:textAlignment="center"
-            android:textSize="35sp" />
+            android:textSize="35sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
+            android:id="@+id/view"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_below="@id/activity_title_edit_text"
-            android:layout_marginHorizontal="50dp"
-            android:background="@color/colorTransparentBlack" />
-
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_title_edit_text" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/add_activity_people_card"
-            android:layout_width="150dp"
-            android:layout_height="170dp"
-            android:layout_below="@id/activity_title_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            app:contentPadding="-8dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:contentPadding="-8dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_activity_tag_card"
+            app:layout_constraintEnd_toStartOf="@+id/add_activity_cost_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintVertical_weight="2">
 
             <ImageView
                 android:id="@+id/people_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
+                android:background="@drawable/card_bg_color_purple"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:background="@drawable/card_bg_color_purple" />
+                android:visibility="gone" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/people_text"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="30sp" />
-
-            <RelativeLayout
-                android:id="@+id/peopleCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_cost_card"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/add_activity_people_card"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
-
-            <ImageView
-                android:id="@+id/cost_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                android:background="@drawable/card_bg_color_goldish" />
-
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginBottom="50dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/cost_text"
+                    android:text="@string/people_text"
+                    android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp" />
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/costCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/add_activity_tag_card"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/activity_title_edit_text"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_activity_location_card"
+            app:layout_constraintEnd_toStartOf="@+id/add_activity_time_date_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_activity_people_card"
+            app:layout_constraintVertical_weight="1">
 
             <ImageView
                 android:id="@+id/tag_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
+                android:background="@drawable/card_bg_color_goldish"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:background="@drawable/card_bg_color_goldish" />
+                android:visibility="gone" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/tag_text"
+                    android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp" />
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:id="@+id/tagCardOverlay"
@@ -182,41 +170,109 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_time_date_card"
-            android:layout_width="150dp"
-            android:layout_height="170dp"
-            android:layout_below="@id/add_activity_tag_card"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:id="@+id/add_activity_cost_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_activity_time_date_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_activity_people_card"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintVertical_weight="1">
+
+            <ImageView
+                android:id="@+id/cost_card_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5"
+                android:background="@drawable/card_bg_color_goldish"
+                android:contentDescription="@string/activity_image_image_description"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/cost_text"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/costCardOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_activity_time_date_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_activity_tag_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_activity_tag_card"
+            app:layout_constraintTop_toBottomOf="@+id/add_activity_cost_card"
+            app:layout_constraintVertical_weight="2">
 
             <ImageView
                 android:id="@+id/time_date_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
+                android:background="@drawable/card_bg_color_main"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:background="@drawable/card_bg_color_main" />
+                android:visibility="gone" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/date_and_time_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp" />
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:id="@+id/dateTimeCardOverlay"
@@ -229,40 +285,53 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/add_activity_location_card"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_below="@id/add_activity_cost_card"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/create_activity_finish_efab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_activity_tag_card"
+            app:layout_constraintVertical_weight="2">
 
             <ImageView
                 android:id="@+id/location_card_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
+                android:alpha="0.5"
+                android:background="@drawable/card_bg_color_orange"
                 android:contentDescription="@string/activity_image_image_description"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:background="@drawable/card_bg_color_orange" />
+                android:visibility="gone" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/activity_location_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_centerInParent="true"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="50dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/location_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp" />
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:id="@+id/locationCardOverlay"
@@ -274,599 +343,28 @@
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/create_activity_finish_efab"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/add_activity_location_card"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/source_sans_pro_semibold"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="@string/create_activity_button_text"
             android:textAlignment="center"
+            android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="25sp"
-            android:theme="@style/MaterialTheme"
             app:backgroundTint="@color/colorMain"
             app:cornerRadius="2dp"
             app:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_activity_location_card"
             app:rippleColor="@color/colorGoldish" />
 
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_activity_people_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/soloTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/solo_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="40sp" />
-
-        <Switch
-            android:id="@+id/makeSoloSwitch"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_toEndOf="@id/soloTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp" />
-
-        <TextView
-            android:id="@+id/noOfPeopleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/soloTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/no_of_people_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="40sp" />
-
-        <EditText
-            android:id="@+id/activity_min_people_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/noOfPeopleTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="@string/min_text"
-            android:hint="@string/min_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="50sp" />
-
-        <EditText
-            android:id="@+id/activity_max_people_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/noOfPeopleTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:autofillHints="@string/max_text"
-            android:hint="@string/max_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="52sp" />
-
-        <TextView
-            android:id="@+id/ageGroupTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_min_people_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/age_group_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="40sp" />
-
-        <EditText
-            android:id="@+id/activity_min_age_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageGroupTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="@string/min_text"
-            android:hint="@string/min_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="50sp" />
-
-        <EditText
-            android:id="@+id/activity_max_age_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageGroupTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:autofillHints="@string/max_text"
-            android:hint="@string/max_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="52sp" />
-
-        <TextView
-            android:id="@+id/makePrivateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_min_age_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/make_private_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="40sp" />
-
-        <Switch
-            android:id="@+id/makePrivateSwitch"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/makePrivateTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/peopleSelectionDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/add_activity_time_date_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/date_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
-
-        <DatePicker
-            android:id="@+id/activity_date_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_below="@id/dateTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="2dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner" />
-
-        <TextView
-            android:id="@+id/startTimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_date_picker"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/start_time_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
-
-
-        <TimePicker
-            android:id="@+id/activity_time_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_below="@id/startTimeTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp"
-            android:timePickerMode="spinner" />
-
-        <TextView
-            android:id="@+id/durationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_time_picker"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/duration_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
-
-        <RelativeLayout
-            android:id="@+id/duration_relative_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/durationTextView"
-            android:layout_centerHorizontal="true">
-
-            <NumberPicker
-                android:id="@+id/durationPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="110dp"
-                android:layout_centerHorizontal="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/durationPicker"
-                android:text="@string/hrs_text"
-                android:textColor="@color/colorOrange"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/dateTimeSelectionDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_activity_tag_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/closeTagRelativelayoutButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/close_icon_24dp"
-            android:contentDescription="@string/close_icon_image_description" />
-
-        <TextView
-            android:id="@+id/tagTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/tag_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="50sp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/tag_search_input_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tagTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:visibility="visible"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="5dp">
-
-            <EditText
-                android:id="@+id/searchTagsEditText"
-                android:layout_width="260dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:autofillHints="@string/search_available_tags_hint_text"
-                android:background="@android:color/transparent"
-                android:hint="@string/search_available_tags_hint_text"
-                android:inputType="text"
-                android:padding="5dp"
-                android:textSize="20sp" />
-
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/pickOneTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tag_search_input_card"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/pick_one_tag_from_below_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="27sp" />
-
-        <View
-            android:id="@+id/separator_line_view"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/pickOneTextView"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/colorTransparentBlack" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tags_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_below="@id/separator_line_view" />
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/selectedTagCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="30dp"
-            android:visibility="gone"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="6dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/selectedTagTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/selected_tag_text"
-                    android:textColor="@color/colorMain"
-                    android:textSize="30sp" />
-
-                <ImageView
-                    android:id="@+id/selected_tag_image_view"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_below="@id/selectedTagTextView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/circleback"
-                    android:contentDescription="@string/selected_tag_image_description" />
-
-                <TextView
-                    android:id="@+id/selectedTagDescriptionTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/selected_tag_image_view"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/kick_selected_description_text"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="27sp" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/tagSelectionDoneButton"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_below="@id/selectedTagDescriptionTextView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/tag_selection_done_button_description"
-                    android:src="@drawable/done_icon_two_24dp"
-                    android:theme="@style/MaterialTheme"
-                    app:backgroundTint="@color/colorMain" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <RelativeLayout
-            android:id="@+id/selectedTagOverlayRelativelayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="5dp"
-            android:visibility="gone"
-            android:background="@color/colorTransparentBlack" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_activity_location_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/locationTextSearchCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="5dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/setTheLocationTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/set_the_location_text"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/setTheLocationInstructionsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/setTheLocationTextView"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/search_a_place_or_drag_the_map_and_position_the_location_you_would_like_under_the_pin_text"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="17sp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/location_search_input_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/setTheLocationInstructionsTextView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:visibility="visible"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp">
-
-                    <EditText
-                        android:id="@+id/searchLocationEditText"
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="10dp"
-                        android:autofillHints="@string/search_available_tags_hint_text"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/search_a_place_hint"
-                        android:focusable="false"
-                        android:clickable="true"
-                        android:inputType="text"
-                        android:padding="5dp"
-                        android:textSize="20sp" />
-
-                </androidx.cardview.widget.CardView>
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/locationSelectionDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/location_selecting_map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:src="@drawable/pin"
-            android:layout_centerInParent="true"
-            android:translationY="-22.5dp"
-            android:layout_height="45dp"
-            android:contentDescription="@string/pin_image_description" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_activity_cost_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/costPerPersonTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/cost_per_person_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="45sp" />
-
-        <EditText
-            android:id="@+id/activity_cost_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:translationY="-20dp"
-            android:autofillHints="@string/activity_cost_hint"
-            android:hint="@string/activity_cost_hint"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="72sp" />
-
-        <TextView
-            android:id="@+id/currency_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/activity_cost_edit_text"
-            android:layout_centerVertical="true"
-            android:translationY="-20dp"
-            android:text="@string/currency_placeholder_text"
-            android:textColor="@color/colorOrange"
-            android:textSize="40sp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/costInputDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
-
-
-    </RelativeLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

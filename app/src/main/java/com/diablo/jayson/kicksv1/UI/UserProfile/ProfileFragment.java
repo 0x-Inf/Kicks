@@ -151,12 +151,12 @@ public class ProfileFragment extends Fragment implements ActiveActivitiesAdapter
 
         //Dash Implementation
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String picUrl = user.getPhotoUrl().toString();
+//        String picUrl = user.getPhotoUrl().toString();
         String userName = "@" + user.getDisplayName();
-        Glide.with(getContext())
-                .load(picUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(profilePictureImageView);
+//        Glide.with(getContext())
+//                .load(picUrl)
+//                .apply(RequestOptions.circleCropTransform())
+//                .into(profilePictureImageView);
         usernameTextView.setText(userName);
         loadCurrentUserFromDb();
         goToSettingsFab.setOnClickListener(new View.OnClickListener() {

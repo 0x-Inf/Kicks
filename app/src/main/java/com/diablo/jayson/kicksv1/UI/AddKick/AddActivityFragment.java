@@ -27,9 +27,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavAction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,75 +99,29 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener, TagListAdapter.OnTagSelectedListener {
+public class AddActivityFragment extends Fragment {
 
     private static final String TAG = AddActivityFragment.class.getSimpleName();
 
-    private final static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 101;
-    private final static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private boolean mLocationPermissionGranted = false;
-    private Context context = getContext();
-
-    private GoogleMap map;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private Location lastKnownLocation;
-    private float ZOOM = 17f;
-    private double CBD_LAT = -1.28333;
-    private double CBD_LONG = 36.81667;
-    private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
 
     private AddKickViewModel viewModel;
     private Activity activityMain;
-    private String activityLocation = "";
+    private AddActivityPeopleData activityPeopleData;
+    private AddActivityCostData activityCostData;
+    private AddActivityDateTimeData activityDateTimeData;
+    private AddActivityLocationData activityLocationData;
+    private AddActivityTagData activityTagData;
 
     //Main Dash Stuff
-    private RelativeLayout addActivityMainDashRelativeLayout, peopleCardOverlay, costCardOverlay, tagCardOverlay,
+    private RelativeLayout peopleCardOverlay, costCardOverlay, tagCardOverlay,
             dateTimeCardOverlay, locationCardOverlay, loadingScreen;
+    private ConstraintLayout addActivityMainDashRelativeLayout;
     private EditText activityTitleEditText;
     private CardView addActivityPeopleCard, addActivityCostCard, addActivityTagCard, addActivityTimeAndDateCard,
             addActivityLocationCard;
     private TextView activityLocationTextView;
     private ImageView peopleCardImageView, tagCardImageView, costCardImageView, locationCardImageView, timeDateCardImage;
     private ExtendedFloatingActionButton createActivityFinishEfab;
-
-    //People Stuff
-    private RelativeLayout addActivityPeopleRelativeLayout;
-    private EditText activityMinPeopleEditText, activityMaxPeopleEditText, activityMinAgeEditText,
-            activityMaxAgeEditText;
-    private TextView makePrivateTextView;
-    private Switch makePrivateSwitch;
-    private FloatingActionButton peopleSelectionDoneButton;
-
-    //Date Time Stuff
-    private RelativeLayout addActivityDateTimeRelativeLayout;
-    private DatePicker activityDatePicker;
-    private TimePicker activityTimePicker;
-    private NumberPicker activityDurationPicker;
-    private FloatingActionButton dateTimeSelectionDoneButton;
-
-    //Tag Stuff
-    private RelativeLayout addActivityTagRelativeLayout, selectedTagOverlayRelativeLayout;
-    private EditText searchTagsEditText;
-    private RecyclerView tagsRecyclerView;
-    private CardView selectedTagCard;
-    private TextView selectedTagTextView, selectedTagDescriptionTextView;
-    private ImageView selectedTagImageView, closeTagRelativeLayoutIcon;
-    private FloatingActionButton tagSelectionDoneButton;
-    private ArrayList<Tag> allTags;
-    private AddActivityFragment listener;
-    private Tag activityTag;
-
-    //Location Stuff
-    private RelativeLayout addActivityLocationRelativeLayout;
-    private TextView selectedLocation;
-    private EditText searchLocationEditText;
-    private FloatingActionButton locationSelectionDone;
-
-    //Cost Stuff
-    private RelativeLayout addActivityCostRelativeLayout;
-    private EditText activityCostEditText;
-    private FloatingActionButton costInputDoneButton;
 
 
     public static AddActivityFragment newInstance() {
@@ -172,7 +132,126 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                activityMain = activity;
+                for (int i = 0; i < 5; i++) {
+                    switch (i) {
+                        case 0:
+                            if (!String.valueOf(activity.getActivityMinRequiredPeople()).isEmpty()) {
+                                peopleCardImageView.setVisibility(View.VISIBLE);
+                            }
+                        case 1:
+                            if (activity.getActivityCost() != null) {
+                                costCardImageView.setVisibility(View.VISIBLE);
+                            }
+                        case 2:
+                            if (activity.getActivityTag() != null) {
+                                tagCardImageView.setVisibility(View.VISIBLE);
+                            }
+                        case 3:
+                            if (activity.getActivityDate() != null) {
+                                timeDateCardImage.setVisibility(View.VISIBLE);
+                            }
+                        case 4:
+                            if (activity.getActivityLocationName() != null) {
+                                locationCardImageView.setVisibility(View.VISIBLE);
+                            }
+                    }
+                }
+            }
+        });
+        if (activityMain.getActivityTitle() != null){
+            activityTitleEditText.setText(activityMain.getActivityTitle());
+            Toast.makeText(getContext(),activityMain.getActivityTitle(),Toast.LENGTH_SHORT).show();
+        }
 
+
+        assert getArguments() != null;
+        if (getArguments().get("activityPeopleData") != null) {
+            activityPeopleData = new AddActivityPeopleData();
+            activityPeopleData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityPeopleData();
+//            Toast.makeText(getContext(), String.valueOf(activityPeopleData.getActivityMaxAge()), Toast.LENGTH_LONG).show();
+            updateActivityPeopleModel();
+        }
+
+        if (getArguments().get("activityCostData") != null) {
+            activityCostData = new AddActivityCostData();
+            activityCostData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityCostData();
+            updateActivityCostModel();
+        }
+
+        if (getArguments().get("activityTagData") != null) {
+            activityTagData = new AddActivityTagData();
+            activityTagData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityTagData();
+            updateActivityTagModel();
+        }
+
+        if (getArguments().get("activityDateTimeData") != null) {
+            activityDateTimeData = new AddActivityDateTimeData();
+            activityDateTimeData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityDateTimeData();
+            updateActivityDateTimeModel();
+        }
+
+        if (getArguments().get("activityLocationData") != null) {
+            activityLocationData = new AddActivityLocationData();
+            activityLocationData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityLocationData();
+            updateActivityLocationModel();
+        }
+
+//        if (String.valueOf(activityPeopleData.getActivityMinRequiredPeople()).isEmpty()){
+//
+//        }else {
+//            Toast.makeText(getContext(),String.valueOf(activityPeopleData.getActivityMaxAge()),Toast.LENGTH_LONG).show();
+//            updateActivityPeople();
+//            if (activityMain.getActivityMinRequiredPeople() >= 0){
+//                peopleCardImageView.setVisibility(View.VISIBLE);
+//            }else {
+//                peopleCardImageView.setVisibility(View.GONE);
+//            }
+//        }
+
+    }
+
+    private void updateActivityLocationModel() {
+        activityMain.setActivityLocationName(activityLocationData.getActivityLocationName());
+        activityMain.setActivityLocationCordinates(activityLocationData.getActivityLocationCoordinates());
+        activityLocationTextView.setText(activityLocationData.getActivityLocationName());
+        locationCardImageView.setVisibility(View.VISIBLE);
+        viewModel.setActivity1(activityMain);
+    }
+
+    private void updateActivityDateTimeModel() {
+        activityMain.setActivityDate(activityDateTimeData.getActivityDate());
+        activityMain.setActivityStartTime(activityDateTimeData.getActivityStartTime());
+        activityMain.setActivityEndTime(activityDateTimeData.getActivityEndTime());
+        timeDateCardImage.setVisibility(View.VISIBLE);
+        viewModel.setActivity1(activityMain);
+    }
+
+    private void updateActivityTagModel() {
+        activityMain.setActivityTag(activityTagData.getActivityTag());
+        activityMain.setTags(activityTagData.getTags());
+        tagCardImageView.setVisibility(View.VISIBLE);
+        viewModel.setActivity1(activityMain);
+    }
+
+    private void updateActivityCostModel() {
+        activityMain.setActivityCost(activityCostData.getActivityCost());
+        costCardImageView.setVisibility(View.VISIBLE);
+        viewModel.setActivity1(activityMain);
+    }
+
+    private void updateActivityPeopleModel() {
+        activityMain.setActivityMinRequiredPeople(activityPeopleData.getActivityMinRequiredPeople());
+        activityMain.setActivityMaxRequiredPeople(activityPeopleData.getActivityMaxRequiredPeople());
+        activityMain.setActivityMinAge(activityPeopleData.getActivityMinAge());
+        activityMain.setActivityMaxAge(activityPeopleData.getActivityMaxAge());
+        activityMain.setActivityPrivate(activityPeopleData.isActivityPrivate());
+        peopleCardImageView.setVisibility(View.VISIBLE);
+        Log.e(TAG, String.valueOf(activityMain.getActivityMaxRequiredPeople()));
+        viewModel.setActivity1(activityMain);
     }
 
     @Override
@@ -184,7 +263,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
         //Main Dash Views
         addActivityMainDashRelativeLayout = root.findViewById(R.id.add_activity_main_dash_relative_layout);
-        peopleCardOverlay = root.findViewById(R.id.peopleCardOverlay);
+//        peopleCardOverlay = root.findViewById(R.id.peopleCardOverlay);
         costCardOverlay = root.findViewById(R.id.costCardOverlay);
         tagCardOverlay = root.findViewById(R.id.tagCardOverlay);
         dateTimeCardOverlay = root.findViewById(R.id.dateTimeCardOverlay);
@@ -204,133 +283,63 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
         timeDateCardImage = root.findViewById(R.id.time_date_card_image_view);
         loadingScreen = root.findViewById(R.id.loading_screen);
 
-        //People Stuff
-        addActivityPeopleRelativeLayout = root.findViewById(R.id.add_activity_people_relative_layout);
-        activityMinPeopleEditText = root.findViewById(R.id.activity_min_people_edit_text);
-        activityMaxPeopleEditText = root.findViewById(R.id.activity_max_people_edit_text);
-        activityMinAgeEditText = root.findViewById(R.id.activity_min_age_edit_text);
-        activityMaxAgeEditText = root.findViewById(R.id.activity_max_age_edit_text);
-        makePrivateTextView = root.findViewById(R.id.makePrivateTextView);
-        makePrivateSwitch = root.findViewById(R.id.makePrivateSwitch);
-        peopleSelectionDoneButton = root.findViewById(R.id.peopleSelectionDoneButton);
-
-        //Date Time Views
-        addActivityDateTimeRelativeLayout = root.findViewById(R.id.add_activity_time_date_relative_layout);
-        activityDatePicker = root.findViewById(R.id.activity_date_picker);
-        activityTimePicker = root.findViewById(R.id.activity_time_picker);
-        activityDurationPicker = root.findViewById(R.id.durationPicker);
-        dateTimeSelectionDoneButton = root.findViewById(R.id.dateTimeSelectionDoneButton);
-
-        //Tag Views
-        addActivityTagRelativeLayout = root.findViewById(R.id.add_activity_tag_relative_layout);
-        selectedTagOverlayRelativeLayout = root.findViewById(R.id.selectedTagOverlayRelativelayout);
-        searchTagsEditText = root.findViewById(R.id.searchTagsEditText);
-        tagsRecyclerView = root.findViewById(R.id.tags_recycler_view);
-        selectedTagCard = root.findViewById(R.id.selectedTagCard);
-        selectedTagTextView = root.findViewById(R.id.selectedTagTextView);
-        selectedTagDescriptionTextView = root.findViewById(R.id.selectedTagDescriptionTextView);
-        selectedTagImageView = root.findViewById(R.id.selected_tag_image_view);
-        tagSelectionDoneButton = root.findViewById(R.id.tagSelectionDoneButton);
-        closeTagRelativeLayoutIcon = root.findViewById(R.id.closeTagRelativelayoutButton);
-        //Tag Data
-        allTags = new ArrayList<Tag>();
-
-        //Location Views
-        selectedLocation = root.findViewById(R.id.setTheLocationTextView);
-        searchLocationEditText = root.findViewById(R.id.searchLocationEditText);
-        locationSelectionDone = root.findViewById(R.id.locationSelectionDoneButton);
-        addActivityLocationRelativeLayout = root.findViewById(R.id.add_activity_location_relative_layout);
-
-        //Cost Views
-        addActivityCostRelativeLayout = root.findViewById(R.id.add_activity_cost_relative_layout);
-        activityCostEditText = root.findViewById(R.id.activity_cost_edit_text);
-        costInputDoneButton = root.findViewById(R.id.costInputDoneButton);
-
 
         //Main Dash Implementation
-        peopleCardOverlay.setOnClickListener(new View.OnClickListener() {
+        addActivityPeopleCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-        costCardOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addActivityCostRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-        tagCardOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadTagsFromDb();
-                addActivityTagRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-        dateTimeCardOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addActivityDateTimeRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-        locationCardOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addActivityLocationRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-
-        //People Implementation
-        peopleSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activityMinPeopleEditText.getText().toString().isEmpty() || activityMaxPeopleEditText.getText().toString().isEmpty()
-                        || activityMinAgeEditText.getText().toString().isEmpty() || activityMaxAgeEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Please Enter Missing Details", Toast.LENGTH_LONG).show();
-                    if (activityMinPeopleEditText.getText().toString().isEmpty()) {
-                        activityMinPeopleEditText.setError("Input a Number");
-                    } else if (activityMaxPeopleEditText.getText().toString().isEmpty()) {
-                        activityMaxPeopleEditText.setError("Input a Number");
-                    } else if (activityMinAgeEditText.getText().toString().isEmpty()) {
-                        activityMinAgeEditText.setError("Input a Number");
-                    } else if (activityMaxAgeEditText.getText().toString().isEmpty()) {
-                        activityMaxAgeEditText.setError("Input a Number");
-                    }
-                } else if (Integer.parseInt(activityMinPeopleEditText.getText().toString()) > Integer.parseInt(activityMaxPeopleEditText.getText().toString())) {
-                    activityMinPeopleEditText.setError("Invalid input");
-                } else if (Integer.parseInt(activityMinAgeEditText.getText().toString()) > Integer.parseInt(activityMaxAgeEditText.getText().toString())) {
-                    activityMinPeopleEditText.setError("Invalid input");
-                } else {
-                    updateActivityPeople();
-                    addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                    addActivityPeopleRelativeLayout.setVisibility(View.GONE);
-                    peopleCardImageView.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-        makePrivateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    activityMain.setActivityPrivate(isChecked);
-                    makePrivateTextView.setText(R.string.private_text);
-                } else {
-                    activityMain.setActivityPrivate(false);
-                    makePrivateTextView.setText(R.string.make_private_text);
-                }
-            }
-        });
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddPeople = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityPeopleFragment();
+                navController.navigate(actionAddPeople);
 
 
-        //Tag Implemetation
-        activityTag = new Tag();
-        searchTagsEditText.addTextChangedListener(new TextWatcher() {
+//                Navigation.findNavController(requireView()).navigate(addPeopleAction);
+//                addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+        addActivityCostCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddCost = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityCostFragment();
+                navController.navigate(actionAddCost);
+//                addActivityCostRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+        addActivityTagCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddTag = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityTagFragment();
+                navController.navigate(actionAddTag);
+//                loadTagsFromDb();
+//                addActivityTagRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+        addActivityTimeAndDateCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddDateTime = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityDateTimeFragment();
+                navController.navigate(actionAddDateTime);
+//                addActivityDateTimeRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+        addActivityLocationCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                NavDirections actionAddLocation = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityLocationFragment();
+                navController.navigate(actionAddLocation);
+//                addActivityLocationRelativeLayout.setVisibility(View.VISIBLE);
+//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
+            }
+        });
+        activityTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -338,51 +347,8 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String tagName = s.toString();
-                if (tagName.isEmpty()) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection("tags")
-                            .whereEqualTo("tagName", "")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                            Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                            allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
-                                                    documentSnapshot.toObject(Tag.class).getTagShortDescription(),
-                                                    documentSnapshot.toObject(Tag.class).getTagLocation(),
-                                                    documentSnapshot.toObject(Tag.class).getTagCost(),
-                                                    documentSnapshot.toObject(Tag.class).getTagIconUrl(),
-                                                    documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
-                                                    documentSnapshot.toObject(Tag.class).getTagLocationName()));
-                                            for (int i = 0; i < allTags.size(); i++) {
-                                                Log.w(TAG, allTags.get(i).getTagName());
-                                            }
-                                        }
-                                        TagListAdapter mAdapter = new TagListAdapter(getContext(), allTags, listener);
-                                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
-                                        tagsRecyclerView.setLayoutManager(gridLayoutManager);
-                                        tagsRecyclerView.setAdapter(mAdapter);
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
-                } else {
-                    ArrayList<Tag> filteredTags = new ArrayList<Tag>();
-                    for (Tag tag : allTags) {
-                        if (tag.getTagName().toLowerCase(Locale.ROOT).contains(s)) {
-                            filteredTags.add(new Tag(tag.getTagName(), tag.getTagShortDescription(), tag.getTagLocation(), tag.getTagCost(),
-                                    tag.getTagIconUrl(), tag.getTagImageLargeUrl(), tag.getTagLocationName()));
-                        }
-                    }
-                    TagListAdapter mAdapter = new TagListAdapter(getContext(), filteredTags, listener);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
-                    tagsRecyclerView.setLayoutManager(gridLayoutManager);
-                    tagsRecyclerView.setAdapter(mAdapter);
-                }
+                String activityTitle = s.toString();
+                activityMain.setActivityTitle(activityTitle);
             }
 
             @Override
@@ -390,130 +356,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
             }
         });
-        tagSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activityMain.setActivityTag(activityTag);
-                addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityTagRelativeLayout.setVisibility(View.GONE);
-                selectedTagOverlayRelativeLayout.setVisibility(View.GONE);
-                selectedTagCard.setVisibility(View.GONE);
-                tagCardImageView.setVisibility(View.VISIBLE);
-            }
-        });
-        closeTagRelativeLayoutIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityTagRelativeLayout.setVisibility(View.GONE);
-            }
-        });
-        selectedTagOverlayRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedTagOverlayRelativeLayout.setVisibility(View.GONE);
-                selectedTagCard.setVisibility(View.GONE);
-            }
-        });
 
-        //Date Time Implementation
-        final String[] durations = {"<1", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
-
-
-        //Populate NumberPicker values from String array values
-        //Set the minimum value of NumberPicker
-        activityDurationPicker.setMinValue(0); //from array first value
-        //Specify the maximum value/number of NumberPicker
-        activityDurationPicker.setMaxValue(durations.length - 1); //to array last value
-
-        activityDurationPicker.setDisplayedValues(durations);
-
-        //Sets whether the selector wheel wraps when reaching the min/max value.
-        activityDurationPicker.setWrapSelectorWheel(true);
-        final long[] activitySeconds = new long[1];
-
-        activityDurationPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (durations[newVal].equals("<1")) {
-                    activitySeconds[0] = 59 * 60;
-                } else {
-                    long hours = Long.parseLong(durations[newVal]);
-                    activitySeconds[0] = hours * 3600;
-                }
-            }
-        });
-        Calendar calendar = Calendar.getInstance();
-
-        dateTimeSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendarDate = Calendar.getInstance();
-                calendarDate.set(activityDatePicker.getYear(), activityDatePicker.getMonth(), activityDatePicker.getDayOfMonth());
-                com.google.firebase.Timestamp activityDateTimestamp = new com.google.firebase.Timestamp(calendarDate.getTime());
-                long timestampSecondsDate = calendarDate.getTimeInMillis();
-//                Timestamp activityDateTimestamp = new Timestamp(timestampSecondsDate);
-                activityMain.setActivityDate(activityDateTimestamp);
-                Calendar calendarTime = Calendar.getInstance();
-                calendarTime.set(activityDatePicker.getYear(), activityDatePicker.getMonth(),
-                        activityDatePicker.getDayOfMonth(), activityTimePicker.getHour(), activityTimePicker.getMinute());
-                com.google.firebase.Timestamp activityStartTimeTimestamp = new com.google.firebase.Timestamp(calendarTime.getTime());
-                long timestampSecondsTime = calendarTime.getTimeInMillis();
-                Timestamp activityStartTimestamp = new Timestamp(timestampSecondsTime);
-                activityMain.setActivityStartTime(activityStartTimeTimestamp);
-                calendarTime.add(Calendar.SECOND, (int) activitySeconds[0]);
-                Date activityEndTime = calendarTime.getTime();
-                com.google.firebase.Timestamp activityEndTimestamp = new com.google.firebase.Timestamp(activityEndTime);
-//                Timestamp activityEndTimestamp = new Timestamp(calendarTime.getTimeInMillis());
-                activityMain.setActivityEndTime(activityEndTimestamp);
-                addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                addActivityDateTimeRelativeLayout.setVisibility(View.GONE);
-                timeDateCardImage.setVisibility(View.VISIBLE);
-//                Toast.makeText(getContext(),DateTimeFormat.mediumTime().print(activityMain.getActivityStartTime().getTime()),Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //Location Implementation
-        Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), ApiThings.places_api_key);
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-                .findFragmentById(R.id.location_selecting_map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
-        searchLocationEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-                Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.OVERLAY, fields)
-                        .build(Objects.requireNonNull(getContext()));
-                InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(android.app.Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-            }
-        });
-        locationSelectionDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateActivityLocation();
-                locationCardImageView.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //Cost Implementation
-        costInputDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activityCostEditText.getText().toString().isEmpty()) {
-                    activityCostEditText.setError("Enter amount");
-                } else {
-                    updateActivityCost();
-                    addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-                    addActivityCostRelativeLayout.setVisibility(View.GONE);
-                    costCardImageView.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
 
         //Uploading Activity to Db
         createActivityFinishEfab.setOnClickListener(new View.OnClickListener() {
@@ -521,16 +364,13 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
             public void onClick(View v) {
                 if (activityTitleEditText.getText().toString().isEmpty()) {
                     activityTitleEditText.setError("Set a Suitable Title");
-                } else if (activityMinPeopleEditText.getText().toString().isEmpty() ||
-                        selectedTagTextView.getText().toString().isEmpty() ||
-                        activityCostEditText.getText().toString().isEmpty() ||
-                        activityLocationTextView.getText().toString().isEmpty()) {
-
-                    Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_LONG).show();
-
+                } else if (peopleCardImageView.getVisibility() == View.GONE || costCardImageView.getVisibility() == View.GONE ||
+                        tagCardImageView.getVisibility() == View.GONE || timeDateCardImage.getVisibility() == View.GONE ||
+                        locationCardImageView.getVisibility() == View.GONE) {
+                    Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    String activityTitle = activityTitleEditText.getText().toString();
-                    activityMain.setActivityTitle(activityTitle);
+//                    String activityTitle = activityTitleEditText.getText().toString();
+//                    activityMain.setActivityTitle(activityTitle);
                     updateAttendeesAndHostAndTime();
                     showLoadingScreen();
                     FirebaseFirestore.getInstance().collection("activities")
@@ -539,6 +379,8 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                    activityMain = new Activity();
+                                    viewModel.setActivity1(activityMain);
                                     startActivity(new Intent(getContext(), MainActivity.class));
                                     hideLoadingScreen();
                                 }
@@ -578,7 +420,7 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
 
     private void updateAttendeesAndHostAndTime() {
         ArrayList<String> tags = new ArrayList<String>();
-        tags.add(activityTag.getTagName());
+//        tags.add(activityTag.getTagName());
 
         ArrayList<AttendingUser> attendingUsers = new ArrayList<AttendingUser>();
         attendingUsers.add(FirebaseUtil.getAttendingUser());
@@ -594,284 +436,10 @@ public class AddActivityFragment extends Fragment implements OnMapReadyCallback,
     }
 
 
-    private void updateActivityPeople() {
-
-        int activityMinPeople = Integer.parseInt(activityMinPeopleEditText.getText().toString());
-        int activityMaxPeople = Integer.parseInt(activityMaxPeopleEditText.getText().toString());
-        int activityMinAge = Integer.parseInt(activityMinAgeEditText.getText().toString());
-        int activityMaxAge = Integer.parseInt(activityMaxAgeEditText.getText().toString());
-        activityMain.setActivityMinRequiredPeople(activityMinPeople);
-        activityMain.setActivityMaxRequiredPeople(activityMaxPeople);
-        activityMain.setActivityMinAge(activityMinAge);
-        activityMain.setActivityMaxAge(activityMaxAge);
-    }
-
-    private void updateActivityLocation() {
-        if (activityLocation.isEmpty()) {
-            activityMain.setActivityLocationCordinates(new GeoPoint(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude));
-            getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
-            addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-            addActivityLocationRelativeLayout.setVisibility(View.GONE);
-        } else {
-            addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-            addActivityLocationRelativeLayout.setVisibility(View.GONE);
-        }
-//        Toast.makeText(getContext(), String.valueOf(activityMain.getKickLocationCordinates()), Toast.LENGTH_LONG).show();
-
-
-    }
-
-    private void updateActivityCost() {
-        String activityCost = activityCostEditText.getText().toString();
-        activityMain.setActivityCost(activityCost);
-    }
-
-    private void loadTagsFromDb() {
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("tags")
-                .whereGreaterThan("tagName", "")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                Log.e(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
-                                        documentSnapshot.toObject(Tag.class).getTagShortDescription(),
-                                        documentSnapshot.toObject(Tag.class).getTagLocation(),
-                                        documentSnapshot.toObject(Tag.class).getTagCost(),
-                                        documentSnapshot.toObject(Tag.class).getTagIconUrl(),
-                                        documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
-                                        documentSnapshot.toObject(Tag.class).getTagLocationName()));
-                                for (int i = 0; i < allTags.size(); i++) {
-                                    Log.w(TAG, allTags.get(i).getTagName());
-                                }
-                            }
-                            initializeRecyclerViewWithTags();
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    private void initializeRecyclerViewWithTags() {
-        listener = this;
-        TagListAdapter mAdapter = new TagListAdapter(getContext(), allTags, listener);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.HORIZONTAL, false);
-        tagsRecyclerView.setLayoutManager(gridLayoutManager);
-        tagsRecyclerView.setAdapter(mAdapter);
-    }
-
-
-    private void getAddress(double lat, double lng) {
-
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + ApiThings.geocoder_api_key;
-        RequestQueue requestQueue;
-        Cache cache = new DiskBasedCache(Objects.requireNonNull(getContext()).getCacheDir(), 1024 * 1024);
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-        requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.start();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        String addressExample;
-                        try {
-                            String address = response.getString("status");
-                            JSONArray resultsArray = response.getJSONArray("results");
-                            JSONObject addressComponents = resultsArray.getJSONObject(0);
-                            String formatted_address = addressComponents.getString("formatted_address");
-                            Log.e(TAG, formatted_address);
-                            selectedLocation.setText(formatted_address);
-                            activityLocationTextView.setText(formatted_address);
-                            activityMain.setActivityLocationName(formatted_address);
-                            addressExample = address;
-                            Toast.makeText(getContext(), formatted_address, Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-//                        try {
-//                            JSONObject json_results = response.getJSONObject(response.toString());
-//                            JSONObject results_object = json_results.getJSONObject("results");
-//                            String formattedAddress = results_object.getString("formatted_address");
-//                            Log.e(TAG, formattedAddress);
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        Toast.makeText(getContext(),"Hello",Toast.LENGTH_LONG).show();
-
-//                        Log.e(TAG, response.toString());
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-        requestQueue.add(jsonObjectRequest);
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         viewModel = new ViewModelProvider(requireActivity()).get(AddKickViewModel.class);
-
     }
 
-    private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            requestPermissions(
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                assert data != null;
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                activityLocation = place.getName();
-                selectedLocation.setText(place.getName());
-                activityLocationTextView.setText(place.getName());
-                activityMain.setActivityLocationName(place.getName());
-                activityMain.setActivityLocationCordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), ZOOM));
-
-            }
-        }
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        mLocationPermissionGranted = true;
-                        map.setMyLocationEnabled(true);
-                        map.getUiSettings().setMapToolbarEnabled(true);
-//                        setUsersLastLocation();
-                    }
-                }
-            }
-        }
-        updateLocationUI();
-    }
-
-    private void updateLocationUI() {
-        if (map == null) {
-            return;
-        }
-        try {
-            if (mLocationPermissionGranted) {
-                map.setMyLocationEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
-                setUsersLastLocation();
-            } else {
-                map.setMyLocationEnabled(false);
-                map.getUiSettings().setMyLocationButtonEnabled(false);
-                getLocationPermission();
-            }
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
-        }
-    }
-
-    private void setUsersLastLocation() {
-        try {
-            if (mLocationPermissionGranted) {
-                Task locationResult = fusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            lastKnownLocation = (Location) task.getResult();
-                            assert lastKnownLocation != null;
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), ZOOM));
-                        } else {
-                            Log.e(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(CBD, 10f));
-                            map.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
-                    }
-                });
-            } else {
-                map.setMyLocationEnabled(false);
-                map.getUiSettings().setMyLocationButtonEnabled(false);
-            }
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
-        }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.setIndoorEnabled(true);
-        map.setBuildingsEnabled(true);
-
-        updateLocationUI();
-        setUsersLastLocation();
-        map.setOnCameraMoveStartedListener(this::onCameraMoveStarted);
-        map.setOnCameraIdleListener(this::onCameraIdle);
-
-
-    }
-
-    @Override
-    public void onCameraIdle() {
-        if (map != null) {
-//            getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
-//            activityLocation  =  map.getCameraPosition().target;
-//            Toast.makeText(getContext(),String.valueOf(activityLocation.latitude),Toast.LENGTH_LONG).show();
-//            selectedLocation.setText(String.valueOf(activityLocation.latitude));
-        } else {
-
-        }
-    }
-
-    @Override
-    public void onCameraMoveStarted(int i) {
-        if (i == 1) {
-            activityLocation = "";
-            selectedLocation.setText(R.string.set_the_location_text);
-        }
-
-    }
-
-    @Override
-    public void onTagListener(Tag tag) {
-        activityTag = tag;
-        selectedTagOverlayRelativeLayout.setVisibility(View.VISIBLE);
-        selectedTagCard.setVisibility(View.VISIBLE);
-        Glide.with(getContext())
-                .load(tag.getTagImageLargeUrl())
-                .apply(RequestOptions.circleCropTransform())
-                .into(selectedTagImageView);
-        selectedTagDescriptionTextView.setText(tag.getTagName());
-    }
 }
