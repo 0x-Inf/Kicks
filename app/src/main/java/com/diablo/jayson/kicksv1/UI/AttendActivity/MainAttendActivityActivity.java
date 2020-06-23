@@ -62,7 +62,8 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback, ExitActivityDialog.ExitActivityDialogListener {
+public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback,
+        ExitActivityDialog.ExitActivityDialogListener, AttendeesLargeAdapter.OnAttendeeSelectedListener {
 
     private ChatAdapter chatAdapter;
 
@@ -210,9 +211,9 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 AttendeesAdapter attendeesAdapter = new AttendeesAdapter(MainAttendActivityActivity.this, attendingUsersData);
                 attendeesRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.HORIZONTAL, false));
                 attendeesRecycler.setAdapter(attendeesAdapter);
-                AttendeesLargeAdapter attendeesLargeAdapter = new AttendeesLargeAdapter(MainAttendActivityActivity.this, attendingUsersData);
-                attendeesActualRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.VERTICAL, false));
-                attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
+//                AttendeesLargeAdapter attendeesLargeAdapter = new AttendeesLargeAdapter(MainAttendActivityActivity.this, attendingUsersData,listener);
+//                attendeesActualRecycler.setLayoutManager(new GridLayoutManager(MainAttendActivityActivity.this, 2, GridLayoutManager.VERTICAL, false));
+//                attendeesActualRecycler.setAdapter(attendeesLargeAdapter);
             }
         });
 
@@ -452,5 +453,10 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
     @Override
     public void onDialogNeutralClick(DialogFragment dialog) {
         return;
+    }
+
+    @Override
+    public void onAttendeeSelected(AttendingUser attendingUser) {
+
     }
 }

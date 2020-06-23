@@ -22,9 +22,15 @@ public class AttendeesLargeAdapter extends RecyclerView.Adapter<AttendeesLargeAd
     private Context context;
     private ArrayList<AttendingUser> mAttendeesData;
 
-    public AttendeesLargeAdapter(Context context, ArrayList<AttendingUser> mAttendeesData) {
+    public interface OnAttendeeSelectedListener{
+        void onAttendeeSelected(AttendingUser attendingUser);
+    }
+    private OnAttendeeSelectedListener listener;
+
+    public AttendeesLargeAdapter(Context context, ArrayList<AttendingUser> mAttendeesData, OnAttendeeSelectedListener listener) {
         this.context = context;
         this.mAttendeesData = mAttendeesData;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,7 +44,7 @@ public class AttendeesLargeAdapter extends RecyclerView.Adapter<AttendeesLargeAd
     public void onBindViewHolder(@NonNull AttendeeViewHolder holder, int position) {
 
         AttendingUser currentAttendingUser = mAttendeesData.get(position);
-        holder.bindTo(currentAttendingUser);
+        holder.bindTo(currentAttendingUser,listener);
     }
 
 
@@ -60,12 +66,20 @@ public class AttendeesLargeAdapter extends RecyclerView.Adapter<AttendeesLargeAd
 //            attendeename = itemView.findViewById(R.id.textView);
         }
 
-        void bindTo(AttendingUser attendingUser) {
+        void bindTo(AttendingUser attendingUser, OnAttendeeSelectedListener listener) {
             Glide.with(itemView.getContext())
                     .load(attendingUser.getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(attendeePic);
             attendeename.setText(attendingUser.getUserName());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        listener.onAttendeeSelected(attendingUser);
+                    }
+                }
+            });
 
 //            attendeename.setText(attendingUser.getUserName());
         }

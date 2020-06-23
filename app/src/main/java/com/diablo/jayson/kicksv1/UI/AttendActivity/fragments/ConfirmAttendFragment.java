@@ -14,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -22,6 +25,7 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
+import com.diablo.jayson.kicksv1.UI.Home.KickFeedFragmentDirections;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -106,12 +110,15 @@ public class ConfirmAttendFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_confirm_attend, container, false);
         ExtendedFloatingActionButton imIn = root.findViewById(R.id.AttendActivityFab);
         ExtendedFloatingActionButton imOut = root.findViewById(R.id.cancelActivityFab);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
 
         imOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MainActivity.class));
+//                startActivity(new Intent(getActivity(), MainActivity.class));
+                navController.popBackStack();
+                navController.navigateUp();
             }
         });
         imIn.setOnClickListener(new View.OnClickListener() {
@@ -131,9 +138,11 @@ public class ConfirmAttendFragment extends Fragment {
 //                                    getActivity().getSupportFragmentManager().beginTransaction()
 //                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
 //                                            .commit();
+                                    NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
+                                    navController.navigate(actionMainAttend);
                                     Intent attendActivityIntent = new Intent(getContext(), MainAttendActivityActivity.class);
-                                    attendActivityIntent.putExtra("activityId", activityId);
-                                    startActivity(attendActivityIntent);
+//                                    attendActivityIntent.putExtra("activityId", activityId);
+//                                    startActivity(attendActivityIntent);
                                 } else {
                                     Toast.makeText(getContext(), "Problem Adding You", Toast.LENGTH_LONG).show();
                                 }
