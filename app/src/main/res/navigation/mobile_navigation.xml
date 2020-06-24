@@ -258,9 +258,9 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ChatFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.GroupChatFragment"
         android:label="Chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_group_chat" />
     <dialog
         android:id="@+id/availableActivitiesBottomDialogFragment"
         android:name="com.diablo.jayson.kicksv1.UI.MapFeed.AvailableActivitiesBottomDialogFragment"
@@ -281,7 +281,31 @@
             android:name="attendeeId"
             app:argType="string"
             android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_personalChatFragment"
+            app:destination="@id/personalChatFragment" />
+        <action
+            android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_myPeopleFragment"
+            app:destination="@id/myPeopleFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/personalChatFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.PersonalChatFragment"
+        android:label="fragment_personal_chat"
+        tools:layout="@layout/fragment_personal_chat" />
+    <fragment
+        android:id="@+id/myPeopleFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.MyPeopleFragment"
+        android:label="fragment_my_people"
+        tools:layout="@layout/fragment_my_people" />
 
 
 </navigation>

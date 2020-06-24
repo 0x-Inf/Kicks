@@ -36,10 +36,10 @@ import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
+ * Use the {@link GroupChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends Fragment {
+public class GroupChatFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,7 +60,7 @@ public class ChatFragment extends Fragment {
     private EditText messageEditText;
 
 
-    public ChatFragment() {
+    public GroupChatFragment() {
         // Required empty public constructor
     }
 
@@ -73,8 +73,8 @@ public class ChatFragment extends Fragment {
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
+    public static GroupChatFragment newInstance(String param1, String param2) {
+        GroupChatFragment fragment = new GroupChatFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -96,7 +96,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_chat, container, false);
+        View root =  inflater.inflate(R.layout.fragment_group_chat, container, false);
         getActivityIdModel();
         chatRecycler = root.findViewById(R.id.chatRecycler);
         sendMessageButton = root.findViewById(R.id.sendButton);

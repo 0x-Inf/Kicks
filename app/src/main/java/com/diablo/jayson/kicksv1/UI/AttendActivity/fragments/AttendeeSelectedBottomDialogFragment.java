@@ -4,14 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragment {
+
+    private FloatingActionButton chatFab, historyFab, myPeopleFab;
+    private Button followButton;
+    private Button followingButton;
 
     private String attendeeId;
 
@@ -23,7 +30,12 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_attendee_selected_bottom_sheet,container,false);
+        chatFab  = root.findViewById(R.id.chatFAB);
+        historyFab = root.findViewById(R.id.activityFAB);
+        myPeopleFab = root.findViewById(R.id.followingFAB);
+        followButton = root.findViewById(R.id.followButton);
+        return root;
     }
 
     @Override
