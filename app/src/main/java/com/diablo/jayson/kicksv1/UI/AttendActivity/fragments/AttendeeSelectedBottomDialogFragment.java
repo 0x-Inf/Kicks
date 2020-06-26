@@ -8,6 +8,9 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -35,6 +38,30 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         historyFab = root.findViewById(R.id.activityFAB);
         myPeopleFab = root.findViewById(R.id.followingFAB);
         followButton = root.findViewById(R.id.followButton);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+        chatFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionPersonalChatFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToPersonalChatFragment(attendeeId);
+                navController.navigate(actionPersonalChatFragment);
+            }
+        });
+
+        historyFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionHistoryFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToHistoryFragment(attendeeId);
+                navController.navigate(actionHistoryFragment);
+            }
+        });
+        myPeopleFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionMyPeopleFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToMyPeopleFragment(attendeeId);
+                navController.navigate(actionMyPeopleFragment);
+            }
+        });
         return root;
     }
 

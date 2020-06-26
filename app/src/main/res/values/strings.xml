@@ -290,6 +290,17 @@
     <string name="details_text">Details</string>
     <string name="type_something_hint_text">Type Something…</string>
     <string name="image_button_for_send_image_description">image button for send</string>
+    <string name="activiti_title_long_text">We repair broken eggs and torn Chapatis wink wink</string>
+    <string name="activity_description_example_one">We want to engage in what is mentioned above and also some naturally occurring plants might be ingested </string>
+    <string name="date_example_text">24 Oct 2020</string>
+    <string name="duration_example_text">3 Hours</string>
+    <string name="time_example_text">6.00 p.m</string>
+    <string name="time_text">Time</string>
+    <string name="someone_name_text">Someone Name</string>
+    <string name="host_text">Host</string>
+    <string name="attendees_number_example">10/12</string>
+    <string name="shenanigans_text">Shenanigans</string>
+    <string name="kes_10000_text">KES 10000</string>
 
 
 </resources>

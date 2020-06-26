@@ -87,17 +87,17 @@ public class  ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity,
 
         ActivityViewHolder(View itemView) {
             super(itemView);
-            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
-            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
-            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
-            activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
-            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
-            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
-            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
-//            hostTextView = itemView.findViewById(R.id.host_name_text_view);
-            activityImage = itemView.findViewById(R.id.activity_image_view);
-//            uploaderPic = itemView.findViewById(R.id.host_pic_image_view);
-            attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
+//            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
+//            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
+//            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
+//            activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
+//            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
+//            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
+//            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
+////            hostTextView = itemView.findViewById(R.id.host_name_text_view);
+//            activityImage = itemView.findViewById(R.id.activity_image_view);
+////            uploaderPic = itemView.findViewById(R.id.host_pic_image_view);
+//            attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {

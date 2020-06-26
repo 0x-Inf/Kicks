@@ -283,29 +283,56 @@
             android:defaultValue="0"/>
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
+            app:destination="@id/historyFragment">
+            <argument
+                android:name="attendeeId"
+                app:argType="string"/>
+        </action>
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_personalChatFragment"
-            app:destination="@id/personalChatFragment" />
+            app:destination="@id/personalChatFragment">
+            <argument
+                android:name="attendeeId"
+                app:argType="string"/>
+        </action>
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_myPeopleFragment"
-            app:destination="@id/myPeopleFragment" />
+            app:destination="@id/myPeopleFragment" >
+            <argument
+                android:name="attendeeId"
+                app:argType="string"/>
+        </action>
     </dialog>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <argument
+            android:name="attendeeId"
+            app:argType="string"
+            android:defaultValue="0"/>
+    </fragment>
     <fragment
         android:id="@+id/personalChatFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.PersonalChatFragment"
         android:label="fragment_personal_chat"
-        tools:layout="@layout/fragment_personal_chat" />
+        tools:layout="@layout/fragment_personal_chat" >
+        <argument
+            android:name="attendeeId"
+            app:argType="string"
+            android:defaultValue="0"/>
+    </fragment>
     <fragment
         android:id="@+id/myPeopleFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.MyPeopleFragment"
         android:label="fragment_my_people"
-        tools:layout="@layout/fragment_my_people" />
+        tools:layout="@layout/fragment_my_people">
+        <argument
+            android:name="attendeeId"
+            app:argType="string"
+            android:defaultValue="0"/>
+    </fragment>
 
 
 </navigation>

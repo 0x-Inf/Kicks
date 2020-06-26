@@ -53,10 +53,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:text="Chat"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/chatFAB"
         app:layout_constraintStart_toStartOf="@+id/chatFAB"
-        app:layout_constraintTop_toBottomOf="@+id/chatFAB" />
+        app:layout_constraintTop_toBottomOf="@+id/chatFAB"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activityFAB"
@@ -75,10 +78,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:text="History"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/activityFAB"
         app:layout_constraintStart_toStartOf="@+id/activityFAB"
-        app:layout_constraintTop_toBottomOf="@+id/activityFAB" />
+        app:layout_constraintTop_toBottomOf="@+id/activityFAB"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/followingFAB"
@@ -97,10 +103,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:text="My People"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/followingFAB"
         app:layout_constraintStart_toStartOf="@+id/followingFAB"
-        app:layout_constraintTop_toBottomOf="@+id/followingFAB" />
+        app:layout_constraintTop_toBottomOf="@+id/followingFAB"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <Button
