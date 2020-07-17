@@ -65,7 +65,9 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:text="@string/activiti_title_long_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textColor="?android:attr/textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -106,6 +108,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="@string/date_text"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                android:textColor="?android:attr/textColorPrimary"
                                 app:layout_constraintBottom_toTopOf="@+id/activityDateTextView"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -132,6 +135,7 @@
                                 android:layout_marginStart="8dp"
                                 android:text="@string/time_text"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                android:textColor="?android:attr/textColorPrimary"
                                 app:layout_constraintBottom_toTopOf="@+id/activityStartTimeTextView"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -157,6 +161,7 @@
                                 android:layout_marginStart="8dp"
                                 android:text="@string/duration_text"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                android:textColor="?android:attr/textColorPrimary"
                                 app:layout_constraintBottom_toTopOf="@+id/activityDurationTextView"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -246,6 +251,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="@string/cost_text"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                android:textColor="?android:attr/textColorPrimary"
                                 app:layout_constraintBottom_toTopOf="@+id/activityCostTextView"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -334,6 +340,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/someone_name_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="?android:attr/textColorPrimary"
                 app:layout_constraintBottom_toTopOf="@+id/hostTextTextView"
                 app:layout_constraintStart_toEndOf="@+id/hostImageView"
                 app:layout_constraintTop_toTopOf="@+id/hostImageView" />
@@ -353,14 +360,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="@+id/hostImageView"
+                app:layout_constraintBottom_toBottomOf="@+id/attendeesNumberTextView"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/hostNameTextView"
-                app:layout_constraintTop_toTopOf="@+id/hostImageView"
                 app:spanCount="1" />
 
             <TextView
@@ -371,6 +377,19 @@
                 android:text="@string/attendees_number_example"
                 app:layout_constraintBaseline_toBaselineOf="@+id/attendeeTextTextView"
                 app:layout_constraintStart_toEndOf="@+id/attendeeTextTextView" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/attendActivityExtendFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                android:text="Attend"
+                android:textAlignment="center"
+                app:backgroundTint="@color/colorMain"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hostNameTextView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

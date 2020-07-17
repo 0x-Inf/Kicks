@@ -127,7 +127,7 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
                         int spanCount = 2;// 2 columns
                         int spacing = 40; // 40px
                         boolean includeEdge = true;
-                        attendeesRecycler.addItemDecoration(new KicksSeeAllFragment.GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+                        attendeesRecycler.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, true));
 
                     }
                 });

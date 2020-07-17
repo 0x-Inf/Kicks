@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.ChatViewHolder> {
+public class GroupChatAdapter extends FirestoreRecyclerAdapter<ChatItem, GroupChatAdapter.ChatViewHolder> {
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_SELF = 1;
@@ -40,7 +40,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<ChatItem, ChatAdapter.
      *
      * @param options
      */
-    public ChatAdapter(@NonNull FirestoreRecyclerOptions<ChatItem> options, Context context) {
+    public GroupChatAdapter(@NonNull FirestoreRecyclerOptions<ChatItem> options, Context context) {
         super(options);
         this.context = context;
     }

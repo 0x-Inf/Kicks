@@ -292,7 +292,7 @@
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_personalChatFragment"
             app:destination="@id/personalChatFragment">
             <argument
-                android:name="attendeeId"
+                android:name="chatCounterpartId"
                 app:argType="string"/>
         </action>
         <action
@@ -319,7 +319,7 @@
         android:label="fragment_personal_chat"
         tools:layout="@layout/fragment_personal_chat" >
         <argument
-            android:name="attendeeId"
+            android:name="chatCounterpartId"
             app:argType="string"
             android:defaultValue="0"/>
     </fragment>

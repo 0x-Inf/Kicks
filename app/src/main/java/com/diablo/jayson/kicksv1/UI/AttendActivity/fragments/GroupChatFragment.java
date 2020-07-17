@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Models.ChatItem;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.ChatAdapter;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.GroupChatAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +50,7 @@ public class GroupChatFragment extends Fragment {
     private String mParam2;
 
     private AttendActivityViewModel viewModel;
-    private ChatAdapter chatAdapter;
+    private GroupChatAdapter groupChatAdapter;
 
     //views
     private TextView testing;
@@ -111,16 +111,16 @@ public class GroupChatFragment extends Fragment {
         FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
                 .setQuery(query, ChatItem.class)
                 .build();
-        chatAdapter = new ChatAdapter(options, getContext());
+        groupChatAdapter = new GroupChatAdapter(options, getContext());
         int gridColumnCount = 1;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         chatRecycler.setLayoutManager(layoutManager);
-        chatRecycler.setAdapter(chatAdapter);
-        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        chatRecycler.setAdapter(groupChatAdapter);
+        groupChatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                chatRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+                chatRecycler.scrollToPosition(groupChatAdapter.getItemCount() - 1);
             }
         });
 
@@ -138,7 +138,6 @@ public class GroupChatFragment extends Fragment {
                     messageItem.setSenderName(user.getDisplayName());
                     messageItem.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
                     messageItem.setSenderUid(user.getUid());
-                    messageItem.setSender(true);
                     messageItem.setTimestamp(Timestamp.now());
 
                     FirebaseFirestore.getInstance().collection("activities").document(activityId)
@@ -147,7 +146,7 @@ public class GroupChatFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Log.e("Yellow", "Added Mesage");
+                                    Log.e("Yellow", "Added Message")    ;
                                     messageEditText.setText("");
                                 }
                             })
@@ -172,13 +171,13 @@ public class GroupChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        chatAdapter.startListening();
+        groupChatAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        chatAdapter.stopListening();
+        groupChatAdapter.stopListening();
     }
 
     public void getActivityIdModel(){

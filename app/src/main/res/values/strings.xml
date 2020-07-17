@@ -301,6 +301,7 @@
     <string name="attendees_number_example">10/12</string>
     <string name="shenanigans_text">Shenanigans</string>
     <string name="kes_10000_text">KES 10000</string>
+    <string name="type_hint_text">Type...</string>
 
 
 </resources>

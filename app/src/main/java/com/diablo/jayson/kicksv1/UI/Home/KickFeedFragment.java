@@ -68,7 +68,6 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
         feedViewPager2 = root.findViewById(R.id.feedViewPager2);
         loadingScreen = root.findViewById(R.id.loading_screen);
 //        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
-        showLoadingScreen();
 //        loadActivitiesFromFirebase();
         getActivitiesData();
         return root;
@@ -110,6 +109,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
     }
 
     private void getActivitiesData(){
+//        showLoadingScreen();
         listener = this;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         mKicksData = new ArrayList<Activity>();

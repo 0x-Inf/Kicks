@@ -65,7 +65,7 @@ import java.util.Objects;
 public class MainAttendActivityActivity extends AppCompatActivity implements OnMapReadyCallback,
         ExitActivityDialog.ExitActivityDialogListener, AttendeesLargeAdapter.OnAttendeeSelectedListener {
 
-    private ChatAdapter chatAdapter;
+    private GroupChatAdapter groupChatAdapter;
 
     private RelativeLayout dashItemsRelativeLayout;
     private RelativeLayout chatActualRelativeLayout;
@@ -261,7 +261,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
         FirestoreRecyclerOptions<ChatItem> options = new FirestoreRecyclerOptions.Builder<ChatItem>()
                 .setQuery(query, ChatItem.class)
                 .build();
-        chatAdapter = new ChatAdapter(options, getApplicationContext());
+        groupChatAdapter = new GroupChatAdapter(options, getApplicationContext());
         int gridColumnCount = 1;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         chatRecycler.setLayoutManager(layoutManager);
@@ -285,21 +285,21 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                 }.start();
             }
         });
-        chatRecycler.setAdapter(chatAdapter);
+        chatRecycler.setAdapter(groupChatAdapter);
 //                chatAdapter.notifyDataSetChanged();
         LinearLayoutManager chatActuallayoutManager = new LinearLayoutManager(this);
 
         chatActualRecycler.setLayoutManager(chatActuallayoutManager);
-        chatActualRecycler.setAdapter(chatAdapter);
-        chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        chatActualRecycler.setAdapter(groupChatAdapter);
+        groupChatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                chatActualRecycler.scrollToPosition(chatAdapter.getItemCount() - 1);
+                chatActualRecycler.scrollToPosition(groupChatAdapter.getItemCount() - 1);
             }
         });
 
-        chatAdapter.startListening();
+        groupChatAdapter.startListening();
 
         chatCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,7 +344,6 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                     messageItem.setSenderName(user.getDisplayName());
                     messageItem.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
                     messageItem.setSenderUid(user.getUid());
-                    messageItem.setSender(true);
                     messageItem.setTimestamp(Timestamp.now());
 
                     FirebaseFirestore.getInstance().collection("activities").document(activityId)
@@ -353,7 +352,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Log.e("Yellow", "Added Mesage");
+                                    Log.e("Yellow", "Added Message");
                                     messageEdit.setText("");
                                 }
                             })
