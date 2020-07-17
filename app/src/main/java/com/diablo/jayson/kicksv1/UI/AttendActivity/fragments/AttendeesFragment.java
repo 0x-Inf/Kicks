@@ -2,6 +2,9 @@ package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,16 +15,11 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendeesLargeAdapter;
-import com.diablo.jayson.kicksv1.UI.KickSelect.KicksSeeAllFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -103,6 +101,7 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
     private void getActivityIdViewModel() {
         viewModel.getActivityId().observe(requireActivity(), new Observer<String>() {
             @Override
+
             public void onChanged(String s) {
                 activityId = s;
             }
