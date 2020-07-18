@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home;
+package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.FeaturedKicks;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.FeaturedKickListAdapter;
+import com.diablo.jayson.kicksv1.UI.Home.FeaturedViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

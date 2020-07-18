@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,9 +38,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import static android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mProfileImage;
@@ -149,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (destination.getId() == R.id.addActivityLocationFragment) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.attendActivityMainFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.VISIBLE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);

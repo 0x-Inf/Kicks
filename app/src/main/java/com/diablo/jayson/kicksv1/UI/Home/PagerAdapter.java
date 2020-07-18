@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.diablo.jayson.kicksv1.UI.Home.fragments.FeaturedFragment;
+import com.diablo.jayson.kicksv1.UI.Home.fragments.KickFeedFragment;
+
 public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
@@ -14,7 +17,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return new KickFeedFragment();
             case 1:

@@ -60,14 +60,14 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_information_card"
             app:layout_constraintVertical_weight="1">
 
-            <ImageView
-                android:id="@+id/attendees_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_orange"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY" />
+            <!--            <ImageView-->
+            <!--                android:id="@+id/attendees_card_image_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:alpha="0.5"-->
+            <!--                android:background="@drawable/card_bg_color_orange"-->
+            <!--                android:contentDescription="@string/activity_image_image_description"-->
+            <!--                android:scaleType="fitXY" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,20 +76,30 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
-                    android:text="@string/attendees_text"
-                    android:textAlignment="center"
+                    android:text="@string/people_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/peopleIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_the_people_icon_image_description"
+                    android:src="@drawable/ic_action_people"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,14 +120,14 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_attendees_card"
             app:layout_constraintVertical_weight="1">
 
-            <ImageView
-                android:id="@+id/chat_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_main"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY" />
+            <!--            <ImageView-->
+            <!--                android:id="@+id/chat_card_image_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:alpha="0.5"-->
+            <!--                android:background="@drawable/card_bg_color_main"-->
+            <!--                android:contentDescription="@string/activity_image_image_description"-->
+            <!--                android:scaleType="fitXY" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -126,20 +136,32 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
                     android:text="@string/chat_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/chatIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_the_people_icon_image_description"
+                    android:src="@drawable/ic_action_chat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -161,14 +183,14 @@
             app:layout_constraintStart_toEndOf="@+id/activity_attendees_card"
             app:layout_constraintTop_toBottomOf="@+id/activity_information_card">
 
-            <ImageView
-                android:id="@+id/details_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_purple"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY" />
+            <!--            <ImageView-->
+            <!--                android:id="@+id/details_card_image_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:alpha="0.5"-->
+            <!--                android:background="@drawable/card_bg_color_purple"-->
+            <!--                android:contentDescription="@string/activity_image_image_description"-->
+            <!--                android:scaleType="fitXY" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -177,20 +199,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
                     android:text="@string/details_text"
-                    android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/detailsIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_the_people_icon_image_description"
+                    android:src="@drawable/ic_action_details"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -232,18 +265,18 @@
             app:layout_constraintEnd_toStartOf="@+id/shareActivityFab"
             app:layout_constraintStart_toStartOf="@+id/activity_details_card"
             app:layout_constraintTop_toBottomOf="@+id/activity_details_card"
-            app:srcCompat="@drawable/exit_icon_two_24dp" />
+            app:srcCompat="@drawable/ic_action_report" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/activityEmergencyFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/background"
+            android:src="@drawable/ic_action_emergency"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/exitActivityFab"
             app:layout_constraintStart_toStartOf="@+id/activity_details_card"
             app:layout_constraintTop_toBottomOf="@+id/activityOptionsFab"
-            android:src="@drawable/exit_icon_two_24dp" />
+            app:backgroundTint="@color/colorMain" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

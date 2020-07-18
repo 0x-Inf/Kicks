@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home;
+package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.os.Bundle;
 

@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home;
+package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import com.diablo.jayson.kicksv1.Models.ImageAndText;
 import com.diablo.jayson.kicksv1.Models.ImageTextAndList;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.FeaturedViewModel;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;

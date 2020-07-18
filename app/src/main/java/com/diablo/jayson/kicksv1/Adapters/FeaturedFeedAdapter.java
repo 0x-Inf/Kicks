@@ -17,7 +17,7 @@ import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.FeaturedKicks;
 import com.diablo.jayson.kicksv1.Models.KickInFeaturedList;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.Home.FeaturedFragment;
+import com.diablo.jayson.kicksv1.UI.Home.fragments.FeaturedFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
