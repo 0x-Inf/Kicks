@@ -313,6 +313,7 @@
     <string name="browse_text">Browse</string>
     <string name="near_me_text">Near Me</string>
     <string name="happening_soon_text">Happening Soon</string>
+    <string name="_0_text">0</string>
 
 
 </resources>

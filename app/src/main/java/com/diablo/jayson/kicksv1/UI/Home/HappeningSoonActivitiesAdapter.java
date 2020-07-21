@@ -7,11 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.diablo.jayson.kicksv1.Adapters.ActivityAttendeesAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 
 import java.text.DateFormat;
@@ -35,12 +38,19 @@ public class HappeningSoonActivitiesAdapter extends RecyclerView.Adapter<Happeni
 
     @Override
     public void onBindViewHolder(@NonNull SoonActivityItemHolder holder, int position) {
-
+        Activity activity = soonActivitiesData.get(position);
+        ArrayList<AttendingUser> attendeesData;
+        attendeesData = activity.getActivityAttendees();
+        ActivityAttendeesAdapter attendeesAdapter = new ActivityAttendeesAdapter(holder.itemView.getContext(), attendeesData);
+        holder.attendeesRecycler.setAdapter(attendeesAdapter);
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+        holder.attendeesRecycler.setLayoutManager(layoutManager);
+        holder.bindTo(activity, listener);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return soonActivitiesData.size();
     }
 
     public interface OnSoonActivitySelectedListener {
@@ -58,7 +68,6 @@ public class HappeningSoonActivitiesAdapter extends RecyclerView.Adapter<Happeni
             super(itemView);
 
             activityTitleTextView = itemView.findViewById(R.id.activityTitleTextView);
-            activityDescriptionTextView = itemView.findViewById(R.id.activityDescriptionTextView);
             activityTimeTextView = itemView.findViewById(R.id.activityStartTimeTextView);
             activityDateTextView = itemView.findViewById(R.id.activityDateTextView);
             activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);

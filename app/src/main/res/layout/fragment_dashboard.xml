@@ -89,7 +89,7 @@
                         android:id="@+id/activeActivitiesNumberTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/activities_number_example"
+                        android:text="@string/_0_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="40sp"
                         app:layout_constraintBottom_toBottomOf="parent"

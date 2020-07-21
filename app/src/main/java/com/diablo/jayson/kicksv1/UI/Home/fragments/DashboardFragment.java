@@ -6,17 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.HappeningSoonActivitiesAdapter;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentDashboardBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -25,7 +32,7 @@ import java.util.Date;
  * Use the {@link DashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements HappeningSoonActivitiesAdapter.OnSoonActivitySelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +46,10 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
 
     private HappeningSoonActivitiesAdapter soonActivitiesAdapter;
+    private HomeViewModel homeViewModel;
+    private String activeActivitiesNumber;
+    private ArrayList<Activity> happeningSoonActivities;
+    private DashboardFragment listener;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -107,11 +118,38 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+
         DateFormat formatter = new SimpleDateFormat("EEEE  d LLLL");
         Date dateToday = new Date();
         String dateString = formatter.format(dateToday);
         Log.e("The date", dateString);
         binding.dateTextView.setText(dateString);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        happeningSoonActivities = new ArrayList<>();
+        listener = this;
+//        activeActivitiesNumber = String.valueOf(homeViewModel.getActiveActivitiesMutableLiveData().getValue().size());
+//        binding.activeActivitiesNumberTextView.setText(activeActivitiesNumber);
+        homeViewModel.getActiveActivitiesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Activity>>() {
+            @Override
+            public void onChanged(ArrayList<Activity> activities) {
+                activeActivitiesNumber = String.valueOf(activities.size());
+                happeningSoonActivities = activities;
+                binding.activeActivitiesNumberTextView.setText(activeActivitiesNumber);
+                soonActivitiesAdapter = new HappeningSoonActivitiesAdapter(listener, activities);
+                binding.happeningSoonRecyclerView.setAdapter(soonActivitiesAdapter);
+            }
+        });
+
+    }
+
+    @Override
+    public void onSoonActivitySelected(Activity activity) {
+
     }
 }
