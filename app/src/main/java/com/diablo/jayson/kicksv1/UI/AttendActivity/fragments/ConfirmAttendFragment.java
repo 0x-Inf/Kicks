@@ -20,12 +20,10 @@ import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
-import com.diablo.jayson.kicksv1.UI.Home.KickFeedFragmentDirections;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;

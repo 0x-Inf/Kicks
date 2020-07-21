@@ -1,13 +1,23 @@
 package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.HappeningSoonActivitiesAdapter;
+import com.diablo.jayson.kicksv1.databinding.FragmentDashboardBinding;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -25,6 +35,10 @@ public class DashboardFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentDashboardBinding binding;
+
+    private HappeningSoonActivitiesAdapter soonActivitiesAdapter;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -61,6 +75,43 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        binding.activeActivitiesCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionActiveActivities = DashboardFragmentDirections.actionDashboardFragmentToActiveActivitiesFragment();
+                navController.navigate(actionActiveActivities);
+            }
+        });
+        binding.browseCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionBrowse = DashboardFragmentDirections.actionDashboardFragmentToNavigationBrowse();
+                navController.navigate(actionBrowse);
+            }
+        });
+        binding.invitesCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionInvites = DashboardFragmentDirections.actionDashboardFragmentToInvitesFragment();
+                navController.navigate(actionInvites);
+            }
+        });
+        binding.mapCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionMap = DashboardFragmentDirections.actionDashboardFragmentToMapFragment();
+                navController.navigate(actionMap);
+            }
+        });
+
+        DateFormat formatter = new SimpleDateFormat("EEEE  d LLLL");
+        Date dateToday = new Date();
+        String dateString = formatter.format(dateToday);
+        Log.e("The date", dateString);
+        binding.dateTextView.setText(dateString);
+        return root;
     }
 }

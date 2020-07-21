@@ -3,23 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.DashboardFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_navigation_browse"
+            app:destination="@id/navigation_browse" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_activeActivitiesFragment"
+            app:destination="@id/activeActivitiesFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_invitesFragment"
+            app:destination="@id/invitesFragment" />
+    </fragment>
 
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_browse"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.KickFeedFragment"
-        android:label="Home"
+        android:label="Browse"
         tools:layout="@layout/fragment_kick_feed">
         <action
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
         <action
             android:id="@+id/action_navigation_home_to_confirmAttendFragment"
-            app:destination="@id/confirmAttendFragment" >
+            app:destination="@id/confirmAttendFragment">
             <argument
                 android:name="activityId"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_navigation_home_to_attendActivityMainFragment"
@@ -331,8 +350,23 @@
         <argument
             android:name="attendeeId"
             app:argType="string"
-            android:defaultValue="0"/>
+            android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/activeActivitiesFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitiesFragment"
+        android:label="fragment_active_activities2"
+        tools:layout="@layout/fragment_active_activities2" />
+    <fragment
+        android:id="@+id/invitesFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.InvitesFragment"
+        android:label="fragment_invites"
+        tools:layout="@layout/fragment_invites" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 
 
 </navigation>

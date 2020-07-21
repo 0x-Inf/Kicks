@@ -1,6 +1,5 @@
 package com.diablo.jayson.kicksv1.UI.MapFeed;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
-import com.diablo.jayson.kicksv1.UI.Home.KickFeedFragmentDirections;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;

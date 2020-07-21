@@ -309,6 +309,10 @@
     <string name="tuesday_10_april_text">Tuesday 10 April</string>
     <string name="activities_number_example">25</string>
     <string name="active_text">Active</string>
+    <string name="image_view_for_invites_icon_image_description">Image view for invites Icon</string>
+    <string name="browse_text">Browse</string>
+    <string name="near_me_text">Near Me</string>
+    <string name="happening_soon_text">Happening Soon</string>
 
 
 </resources>

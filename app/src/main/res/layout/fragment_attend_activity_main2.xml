@@ -260,7 +260,7 @@
             android:id="@+id/activityOptionsFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="?android:attr/colorBackground"
+            app:backgroundTint="@color/colorGoldish"
             app:layout_constraintBottom_toTopOf="@+id/activityEmergencyFab"
             app:layout_constraintEnd_toStartOf="@+id/shareActivityFab"
             app:layout_constraintStart_toStartOf="@+id/activity_details_card"
