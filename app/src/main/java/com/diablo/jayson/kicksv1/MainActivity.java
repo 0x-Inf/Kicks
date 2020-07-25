@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -29,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.LoginActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
 import com.diablo.jayson.kicksv1.UI.SignUp.SignUpActivity;
@@ -51,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mSearchButton, mSettingButton;
     private ImageView mProfilePicImageView;
     private Toolbar toolbar;
+    AppBarConfiguration appBarConfiguration;
 
     SharedPreferences prefs = null;
 
@@ -111,15 +110,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.dashboardFragment, R.id.navigation_kick_select, R.id.navigation_add_kick,
-                R.id.navigation_profile, R.id.navigation_map_view)
-                .build();
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.dashboardFragment, R.id.navigation_kick_select, R.id.navigation_add_kick,
+//                R.id.navigation_profile, R.id.navigation_map_view)
+//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+
         NavigationUI.setupWithNavController(navigationView, navController);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -166,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setClickListeners();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

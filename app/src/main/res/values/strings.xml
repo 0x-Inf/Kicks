@@ -304,7 +304,7 @@
     <string name="type_hint_text">Type...</string>
     <string name="image_view_for_the_people_icon_image_description">Image View for the people Icon</string>
     <string name="hello_alan_text">Hello, Allan</string>
-    <string name="hello_text">Hello.</string>
+    <string name="hello_text">Hello</string>
     <string name="invites_text">Invites</string>
     <string name="tuesday_10_april_text">Tuesday 10 April</string>
     <string name="activities_number_example">25</string>
@@ -314,6 +314,7 @@
     <string name="near_me_text">Near Me</string>
     <string name="happening_soon_text">Happening Soon</string>
     <string name="_0_text">0</string>
+    <string name="creator_text">Creator</string>
 
 
 </resources>

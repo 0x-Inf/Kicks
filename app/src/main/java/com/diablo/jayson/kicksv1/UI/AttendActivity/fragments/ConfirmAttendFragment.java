@@ -30,12 +30,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +71,7 @@ public class ConfirmAttendFragment extends Fragment {
 
     private String activityId;
     private Activity activity;
+    private String userId;
 
 
     public ConfirmAttendFragment() {
@@ -109,7 +114,7 @@ public class ConfirmAttendFragment extends Fragment {
         ExtendedFloatingActionButton imIn = root.findViewById(R.id.AttendActivityFab);
         ExtendedFloatingActionButton imOut = root.findViewById(R.id.cancelActivityFab);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-
+        userId = "";
 
         imOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +130,10 @@ public class ConfirmAttendFragment extends Fragment {
                 updateViewModel();
                 activity.getActivityAttendees().add(FirebaseUtil.getAttendingUser());
 //                AttendActivityMainFragment attendFragment = new AttendActivityMainFragment();
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    userId = currentUser.getUid();
+                }
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = db.collection("activities").document(activityId);
@@ -136,8 +145,20 @@ public class ConfirmAttendFragment extends Fragment {
 //                                    getActivity().getSupportFragmentManager().beginTransaction()
 //                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
 //                                            .commit();
-                                    NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
-                                    navController.navigate(actionMainAttend);
+                                    Map<String, Object> activity = new HashMap<>();
+                                    activity.put("activityReference", documentReference);
+                                    db.collection("users").document(userId).collection("activeactivities")
+                                            .add(activity)
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
+                                                        navController.navigate(actionMainAttend);
+                                                    }
+                                                }
+                                            });
+
                                     Intent attendActivityIntent = new Intent(getContext(), MainAttendActivityActivity.class);
 //                                    attendActivityIntent.putExtra("activityId", activityId);
 //                                    startActivity(attendActivityIntent);

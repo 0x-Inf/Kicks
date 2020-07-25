@@ -26,7 +26,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:actionMenuTextColor">?android:attr/textColorPrimary</item>
+        <item name="android:actionMenuTextColor">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/systemNavBarColor</item>
     </style>
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">

@@ -35,7 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.OnActivitySelectedListener {
+public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapter.OnActivitySelectedListener {
     private static final String TAG = AddActivityFragment.class.getSimpleName();
 
     private ArrayList<Activity> mKicksData;
@@ -45,7 +45,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
     private ImageView likeButton;
     private RelativeLayout mRelativelayout, loadingScreen;
     private ViewPager2 feedViewPager2;
-    private KickFeedFragment listener;
+    private ActivityFeedFragment listener;
 
 
     @Override
@@ -59,8 +59,23 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
 //        mRelativelayout = root.findViewById(R.id.searchAndProfileRelativeView);
 //        loadActivitiesFromFirebase();
         getActivitiesData();
+
+//        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+//        NavigationUI.setupActionBarWithNavController(this,navController);
         return root;
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                requireActivity().onBackPressed();
+//            }
+//        };
+//        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
     }
 
     private void showLoadingScreen() {
@@ -169,7 +184,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
                 users.add(activity.getActivityAttendees().get(i).getUid());
             }
             if (users.contains(user.getUid())) {
-                NavDirections actionMainAttend = KickFeedFragmentDirections.actionNavigationHomeToAttendActivityMainFragment(activity.getActivityId());
+                NavDirections actionMainAttend = ActivityFeedFragmentDirections.actionNavigationHomeToAttendActivityMainFragment(activity.getActivityId());
                 navController.navigate(actionMainAttend);
 //                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
 //                attendActivity.putExtra("activityId", activity.getActivityId());
@@ -180,7 +195,7 @@ public class KickFeedFragment extends Fragment implements ActivityFeedAdapter.On
 //                startActivity(attendActivity);
             } else {
 //                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
-                NavDirections actionConfirmAttend = KickFeedFragmentDirections.actionNavigationHomeToConfirmAttendFragment(activity.getActivityId());
+                NavDirections actionConfirmAttend = ActivityFeedFragmentDirections.actionNavigationHomeToConfirmAttendFragment(activity.getActivityId());
                 navController.navigate(actionConfirmAttend);
 //                attendActivity.putExtra("activityId", activity.getActivityId());
 //                attendActivity.putExtra("alreadyAttending", false);

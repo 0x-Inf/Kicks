@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Adapters.ActivityAttendeesAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
@@ -67,17 +65,17 @@ public class HappeningSoonActivitiesAdapter extends RecyclerView.Adapter<Happeni
         public SoonActivityItemHolder(@NonNull View itemView) {
             super(itemView);
 
-            activityTitleTextView = itemView.findViewById(R.id.activityTitleTextView);
-            activityTimeTextView = itemView.findViewById(R.id.activityStartTimeTextView);
-            activityDateTextView = itemView.findViewById(R.id.activityDateTextView);
+            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
+            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
+            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
             activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
-            activityCostTextView = itemView.findViewById(R.id.activityCostTextView);
-            activityLocationTextView = itemView.findViewById(R.id.activityLocationTextView);
-            activityTagTextView = itemView.findViewById(R.id.activityTagNameTextView);
-            activityHostNameTextView = itemView.findViewById(R.id.hostNameTextView);
+            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
+            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
+            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
+//            activityHostNameTextView = itemView.findViewById(R.id.hostNameTextView);
 //            hostTextView = itemView.findViewById(R.id.host_name_text_view);
 //            activityImage = itemView.findViewById(R.id.activity_image_view);
-            uploaderPic = itemView.findViewById(R.id.hostImageView);
+//            uploaderPic = itemView.findViewById(R.id.hostImageView);
             attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
         }
 
@@ -100,10 +98,10 @@ public class HappeningSoonActivitiesAdapter extends RecyclerView.Adapter<Happeni
             activityLocationTextView.setText(activityLocation);
 //            hostTextView.setText(hostName);
             activityTagTextView.setText(tagName);
-            Glide.with(itemView.getContext())
-                    .load(activity.getHost().getHostPic())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(uploaderPic);
+//            Glide.with(itemView.getContext())
+//                    .load(activity.getHost().getHostPic())
+//                    .apply(RequestOptions.circleCropTransform())
+//                    .into(uploaderPic);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

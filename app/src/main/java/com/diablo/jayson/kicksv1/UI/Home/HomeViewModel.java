@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,6 +37,11 @@ public class HomeViewModel extends ViewModel {
 
     private void getActiveActivitiesFromDb() {
         activeActivitiesArrayList = new ArrayList<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        if (user != null) {
+            String userId = user.getUid();
+        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("activities")
                 .get()
@@ -49,5 +56,17 @@ public class HomeViewModel extends ViewModel {
                         }
                     }
                 });
+    }
+
+    private void getInvitesFromDb() {
+
+    }
+
+    private void getHappeningSoonFromDb() {
+
+    }
+
+    private void getFeedActivitiesFromDb() {
+
     }
 }

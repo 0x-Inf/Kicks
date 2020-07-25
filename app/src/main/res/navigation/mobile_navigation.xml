@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.DashboardFragment"
-        android:label="Home"
+        android:label="Kicks"
         tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_dashboardFragment_to_navigation_browse"
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_browse"
-        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.KickFeedFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActivityFeedFragment"
         android:label="Browse"
         tools:layout="@layout/fragment_kick_feed">
         <action
