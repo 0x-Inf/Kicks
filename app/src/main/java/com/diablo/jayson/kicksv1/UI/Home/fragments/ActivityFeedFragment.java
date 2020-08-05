@@ -179,7 +179,7 @@ public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapte
         if (user.isAnonymous()) {
             Toast.makeText(getContext(), "Please Sign Up", Toast.LENGTH_SHORT).show();
         } else {
-            ArrayList<String> users = new ArrayList<String>();
+            ArrayList<String> users = new ArrayList<>();
             for (int i = 0; i < activity.getActivityAttendees().size(); i++) {
                 users.add(activity.getActivityAttendees().get(i).getUid());
             }

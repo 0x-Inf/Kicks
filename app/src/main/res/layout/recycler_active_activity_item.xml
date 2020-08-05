@@ -1,35 +1,148 @@
-<?xml version="1.0" encoding="utf-8"?><!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="360dp"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="1dp">-->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="13dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+
 
     <TextView
-        android:id="@+id/activeActivityTitleTextView"
+        android:id="@+id/dayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hiking in Ngong'"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:textSize="25sp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/wed_text"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/dateTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/_12_text"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/monthTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayTextView" />
+
+    <TextView
+        android:id="@+id/monthTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/month_text"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+
+    <TextView
+        android:id="@+id/timeTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/activity_time_placeholder"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/locationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
-        android:id="@+id/activeActivityImage"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="fitXY"
-        android:layout_margin="2dp"
-        android:padding="1dp"
-        android:background="@drawable/kick_item_bg"
-        android:src="@drawable/img_golf" />
+        android:id="@+id/timeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/calender_icon_image_description"
+        android:src="@drawable/ic_action_time"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTextview"
+        app:layout_constraintEnd_toStartOf="@+id/timeTextview"
+        app:layout_constraintTop_toTopOf="@+id/timeTextview" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_light"
+        android:maxWidth="120dp"
+        android:text="@string/activity_location_long_placeholder"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/activity_attendees_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeTextview" />
 
-    <!--</androidx.cardview.widget.CardView>-->
+    <ImageView
+        android:id="@+id/locationIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/calender_icon_image_description"
+        android:src="@drawable/ic_action_location"
+        app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
+        app:layout_constraintEnd_toStartOf="@+id/locationTextView"
+        app:layout_constraintTop_toTopOf="@+id/locationTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_attendees_recycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@+id/monthTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/timeIcon"
+        app:layout_constraintTop_toBottomOf="@+id/locationTextView"
+        app:spanCount="1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/activity_tag_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_attendees_recycler">
+
+        <TextView
+            android:id="@+id/tagTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:layout_margin="4dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/activity_tag_placeholder"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -119,7 +120,7 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
         });
 
 
-        DateFormat formatter = new SimpleDateFormat("EEEE  d LLLL");
+        DateFormat formatter = new SimpleDateFormat("EEEE  d LLLL", Locale.getDefault());
         Date dateToday = new Date();
         String dateString = formatter.format(dateToday);
         Log.e("The date", dateString);

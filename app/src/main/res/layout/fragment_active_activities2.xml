@@ -4,10 +4,8 @@
     android:layout_height="match_parent"
     tools:context="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitiesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/activeActivitiesViewPager2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

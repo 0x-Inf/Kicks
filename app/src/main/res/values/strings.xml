@@ -315,6 +315,9 @@
     <string name="happening_soon_text">Happening Soon</string>
     <string name="_0_text">0</string>
     <string name="creator_text">Creator</string>
+    <string name="wed_text">Wed</string>
+    <string name="_12_text">12</string>
+    <string name="month_text">Jun</string>
 
 
 </resources>

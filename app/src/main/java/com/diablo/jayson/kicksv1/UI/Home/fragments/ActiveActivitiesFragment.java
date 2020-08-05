@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.databinding.FragmentActiveActivities2Binding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +24,8 @@ public class ActiveActivitiesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentActiveActivities2Binding binding;
 
     public ActiveActivitiesFragment() {
         // Required empty public constructor
@@ -60,6 +62,8 @@ public class ActiveActivitiesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_active_activities2, container, false);
+        binding = FragmentActiveActivities2Binding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+        return root;
     }
 }
