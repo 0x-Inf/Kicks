@@ -147,6 +147,7 @@ public class ConfirmAttendFragment extends Fragment {
 //                                            .commit();
                                     Map<String, Object> activity = new HashMap<>();
                                     activity.put("activityReference", documentReference);
+                                    activity.put("activityId", activityId);
                                     db.collection("users").document(userId).collection("activeactivities")
                                             .add(activity)
                                             .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

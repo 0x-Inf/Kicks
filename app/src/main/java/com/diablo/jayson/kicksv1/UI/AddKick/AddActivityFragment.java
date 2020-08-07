@@ -1,10 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,92 +8,44 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.Adapters.TagListAdapter;
-import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
-import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
 
 public class AddActivityFragment extends Fragment {
 
@@ -111,6 +59,8 @@ public class AddActivityFragment extends Fragment {
     private AddActivityDateTimeData activityDateTimeData;
     private AddActivityLocationData activityLocationData;
     private AddActivityTagData activityTagData;
+
+    private String userId;
 
     //Main Dash Stuff
     private RelativeLayout peopleCardOverlay, costCardOverlay, tagCardOverlay,
@@ -260,6 +210,7 @@ public class AddActivityFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_add_activity, container, false);
         activityMain = new Activity();
         activityMain.setActivityPrivate(false);
+        userId = "";
 
         //Main Dash Views
         addActivityMainDashRelativeLayout = root.findViewById(R.id.add_activity_main_dash_relative_layout);
@@ -373,16 +324,34 @@ public class AddActivityFragment extends Fragment {
 //                    activityMain.setActivityTitle(activityTitle);
                     updateAttendeesAndHostAndTime();
                     showLoadingScreen();
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        userId = currentUser.getUid();
+                    }
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     FirebaseFirestore.getInstance().collection("activities")
                             .add(activityMain)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                    activityMain = new Activity();
-                                    viewModel.setActivity1(activityMain);
-                                    startActivity(new Intent(getContext(), MainActivity.class));
-                                    hideLoadingScreen();
+                                    Map<String, Object> activity = new HashMap<>();
+                                    activity.put("activityReference", documentReference);
+                                    activity.put("activityId", documentReference.getId());
+                                    db.collection("users").document(userId).collection("activeactivities")
+                                            .add(activity)
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                                        activityMain = new Activity();
+                                                        viewModel.setActivity1(activityMain);
+                                                        startActivity(new Intent(getContext(), MainActivity.class));
+                                                        hideLoadingScreen();
+                                                    }
+                                                }
+                                            });
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

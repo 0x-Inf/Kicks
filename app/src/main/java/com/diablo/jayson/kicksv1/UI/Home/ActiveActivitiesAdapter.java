@@ -6,9 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.diablo.jayson.kicksv1.Adapters.ActivityAttendeesAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 
 import java.text.DateFormat;
@@ -20,6 +23,10 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
 
     private ArrayList<Activity> activeActivitiesData;
 
+    public ActiveActivitiesAdapter(ArrayList<Activity> activeActivitiesData) {
+        this.activeActivitiesData = activeActivitiesData;
+    }
+
     @NonNull
     @Override
     public ActiveActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,7 +36,14 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
 
     @Override
     public void onBindViewHolder(@NonNull ActiveActivityViewHolder holder, int position) {
-
+        Activity activeActivity = activeActivitiesData.get(position);
+        ArrayList<AttendingUser> attendeesData;
+        attendeesData = activeActivity.getActivityAttendees();
+        ActivityAttendeesAdapter attendeesAdapter = new ActivityAttendeesAdapter(holder.itemView.getContext(), attendeesData);
+        holder.attendeesRecycler.setAdapter(attendeesAdapter);
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+        holder.attendeesRecycler.setLayoutManager(layoutManager);
+        holder.bindTo(activeActivity);
     }
 
     @Override
@@ -40,6 +54,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
     class ActiveActivityViewHolder extends RecyclerView.ViewHolder {
 
         private TextView dayTextView, dateTextView, monthTextView, timeTextView, locationTextView, tagTextView;
+        private RecyclerView attendeesRecycler;
 
         public ActiveActivityViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,6 +65,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             timeTextView = itemView.findViewById(R.id.timeTextview);
             locationTextView = itemView.findViewById(R.id.locationTextView);
             tagTextView = itemView.findViewById(R.id.tagTextView);
+            attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
 
         }
 
@@ -59,7 +75,21 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             DateFormat monthFormatter = new SimpleDateFormat("LLL", Locale.getDefault());
 
             String dayText = dayFormatter.format(activeActivity.getActivityDate().toDate());
+            String dateText = dateFormatter.format(activeActivity.getActivityDate().toDate());
+            String monthText = monthFormatter.format(activeActivity.getActivityDate().toDate());
 
+            String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
+            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
+
+
+            String activityTime = activityStartTime + " - " + activityEndTime;
+
+            dayTextView.setText(dayText);
+            dateTextView.setText(dateText);
+            monthTextView.setText(monthText);
+            timeTextView.setText(activityTime);
+            locationTextView.setText(activeActivity.getActivityLocationName());
+            tagTextView.setText(activeActivity.getActivityTag().getTagName());
 
         }
     }

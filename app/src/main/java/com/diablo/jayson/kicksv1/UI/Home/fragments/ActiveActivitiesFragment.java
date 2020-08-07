@@ -5,9 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.UI.Home.ActiveActivitiesAdapter;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentActiveActivities2Binding;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +35,9 @@ public class ActiveActivitiesFragment extends Fragment {
     private String mParam2;
 
     private FragmentActiveActivities2Binding binding;
+    private ActiveActivitiesAdapter activeActivitiesAdapter;
+    private HomeViewModel homeViewModel;
+    private ArrayList<Activity> activeActivitiesData;
 
     public ActiveActivitiesFragment() {
         // Required empty public constructor
@@ -64,6 +76,22 @@ public class ActiveActivitiesFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentActiveActivities2Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        activeActivitiesData = new ArrayList<>();
+        homeViewModel.getActiveActivitiesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Activity>>() {
+            @Override
+            public void onChanged(ArrayList<Activity> activities) {
+                activeActivitiesData = activities;
+                activeActivitiesAdapter = new ActiveActivitiesAdapter(activeActivitiesData);
+                binding.activeActivitiesRecycler.setAdapter(activeActivitiesAdapter);
+            }
+        });
     }
 }
