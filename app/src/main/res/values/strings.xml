@@ -318,6 +318,9 @@
     <string name="wed_text">Wed</string>
     <string name="_12_text">12</string>
     <string name="month_text">Jun</string>
+    <string name="edit_text">Edit \u2192</string>
+    <string name="description_text">Description</string>
+    <string name="see_on_map_text">See On Map</string>
 
 
 </resources>
