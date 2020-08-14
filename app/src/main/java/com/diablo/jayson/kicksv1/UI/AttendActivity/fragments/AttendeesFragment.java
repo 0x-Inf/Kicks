@@ -20,8 +20,10 @@ import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendeesLargeAdapter;
+import com.diablo.jayson.kicksv1.databinding.FragmentAttendeesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,12 +48,14 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
     private String mParam2;
 
     private RecyclerView attendeesRecycler;
+    private FloatingActionButton invitePeopleFab;
     private AttendeesLargeAdapter attendeesLargeAdapter;
     private AttendActivityViewModel viewModel;
 
     private String activityId;
     private ArrayList<AttendingUser> attendingUsersData;
     private AttendeesFragment listener;
+    private FragmentAttendeesBinding binding;
 
 
     public AttendeesFragment() {
@@ -91,10 +95,22 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_attendees, container, false);
+        binding = FragmentAttendeesBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         attendeesRecycler = root.findViewById(R.id.attendeesRecyclerView);
+        invitePeopleFab = root.findViewById(R.id.invitePeopleFab);
         getActivityIdViewModel();
         getAttendeesData();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+        invitePeopleFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionInvitePeople = AttendeesFragmentDirections.actionAttendeesFragmentToInvitePeopleFragment();
+                navController.navigate(actionInvitePeople);
+            }
+        });
+
         return root;
     }
 

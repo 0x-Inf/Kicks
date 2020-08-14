@@ -266,14 +266,17 @@
         android:id="@+id/attendeesFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.AttendeesFragment"
         android:label="fragment_attendees"
-        tools:layout="@layout/fragment_attendees" >
+        tools:layout="@layout/fragment_attendees">
         <action
             android:id="@+id/action_attendeesFragment_to_attendeeSelectedBottomDialogFragment"
             app:destination="@id/attendeeSelectedBottomDialogFragment">
             <argument
                 android:name="attendeeId"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_attendeesFragment_to_invitePeopleFragment"
+            app:destination="@id/invitePeopleFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -367,6 +370,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/invitePeopleFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.InvitePeopleFragment"
+        android:label="fragment_invite_people"
+        tools:layout="@layout/fragment_invite_people" />
 
 
 </navigation>
