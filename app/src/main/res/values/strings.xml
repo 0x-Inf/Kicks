@@ -321,6 +321,7 @@
     <string name="edit_text">Edit \u2192</string>
     <string name="description_text">Description</string>
     <string name="see_on_map_text">See On Map</string>
+    <string name="peopleimageiconforactiveactivityImageDescription">peopleImageIconForActiveActivity</string>
 
 
 </resources>

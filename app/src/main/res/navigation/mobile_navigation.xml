@@ -366,8 +366,19 @@
     <fragment
         android:id="@+id/activeActivitiesFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitiesFragment"
-        android:label="fragment_active_activities2"
-        tools:layout="@layout/fragment_active_activities2" />
+        android:label="Active"
+        tools:layout="@layout/fragment_active_activities2">
+        <action
+            android:id="@+id/action_activeActivitiesFragment_to_activeActivitySelectedBottomSheet"
+            app:destination="@id/activeActivitySelectedBottomSheet" />
+        <action
+            android:id="@+id/action_activeActivitiesFragment_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/invitesFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.InvitesFragment"
@@ -396,6 +407,10 @@
         android:id="@+id/editLocationBottomSheetFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.EditLocationBottomSheetFragment"
         android:label="EditLocationBottomSheetFragment" />
+    <dialog
+        android:id="@+id/activeActivitySelectedBottomSheet"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitySelectedBottomSheet"
+        android:label="ActiveActivitySelectedBottomSheet" />
 
 
 </navigation>

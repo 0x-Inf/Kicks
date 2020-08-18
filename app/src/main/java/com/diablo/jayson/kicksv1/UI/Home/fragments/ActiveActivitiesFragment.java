@@ -10,20 +10,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.ActiveActivitiesAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentActiveActivities2Binding;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ActiveActivitiesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ActiveActivitiesFragment extends Fragment {
+public class ActiveActivitiesFragment extends Fragment implements ActiveActivitiesAdapter.OnActiveActivitySelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +43,8 @@ public class ActiveActivitiesFragment extends Fragment {
     private ActiveActivitiesAdapter activeActivitiesAdapter;
     private HomeViewModel homeViewModel;
     private ArrayList<Activity> activeActivitiesData;
+
+    private ActiveActivitiesFragment listener;
 
     public ActiveActivitiesFragment() {
         // Required empty public constructor
@@ -85,13 +92,36 @@ public class ActiveActivitiesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         activeActivitiesData = new ArrayList<>();
+        listener = this;
         homeViewModel.getActiveActivitiesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Activity>>() {
             @Override
             public void onChanged(ArrayList<Activity> activities) {
                 activeActivitiesData = activities;
-                activeActivitiesAdapter = new ActiveActivitiesAdapter(activeActivitiesData);
+                activeActivitiesAdapter = new ActiveActivitiesAdapter(activeActivitiesData, listener);
                 binding.activeActivitiesRecycler.setAdapter(activeActivitiesAdapter);
             }
         });
+    }
+
+    @Override
+    public void onActiveActivitySelected(Activity activeActivity) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        long timeNow = System.currentTimeMillis();
+        Date activityStartDate = activeActivity.getActivityStartTime().toDate();
+//        long activityTime = activeActivity.getActivityStartTime().getSeconds();
+        long activityTime = activityStartDate.getTime();
+
+        if (timeNow < activityTime) {
+            NavDirections actionMainAttendFragment = ActiveActivitiesFragmentDirections.actionActiveActivitiesFragmentToAttendActivityMainFragment(activeActivity.getActivityId());
+            navController.navigate(actionMainAttendFragment);
+        } else if (timeNow > activityTime) {
+            NavDirections actionBottomSheetFragment = ActiveActivitiesFragmentDirections.actionActiveActivitiesFragmentToActiveActivitySelectedBottomSheet();
+            navController.navigate(actionBottomSheetFragment);
+        } else {
+            NavDirections actionMainAttendFragment = ActiveActivitiesFragmentDirections.actionActiveActivitiesFragmentToAttendActivityMainFragment(activeActivity.getActivityId());
+            navController.navigate(actionMainAttendFragment);
+        }
+
+
     }
 }

@@ -1,6 +1,10 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,10 +16,6 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
@@ -25,6 +25,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -48,6 +51,8 @@ public class AttendActivityMainFragment extends Fragment {
     private AttendActivityViewModel viewModel;
 
     private FragmentAttendActivityMain2Binding binding;
+    private Handler handler = new Handler();
+    private int currentPage = 0;
 
     private DetailsViewPagerFragmentAdapter detailsViewPagerFragmentAdapter;
 
@@ -150,6 +155,20 @@ public class AttendActivityMainFragment extends Fragment {
         viewModel.setActivityId(activityId);
         getActivityDataFromDb();
 
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.activityDetailsViewPager.setCurrentItem(currentPage % 3, true);
+                        currentPage++;
+                    }
+                });
+            }
+        };
+        Timer time = new Timer();
+        time.schedule(timerTask, 0, 5000);
     }
 
 
@@ -163,12 +182,13 @@ public class AttendActivityMainFragment extends Fragment {
         detailsViewPagerFragmentAdapter.addFragment(new TimeDetailsPreviewFragment());
         binding.activityDetailsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         binding.activityDetailsViewPager.setAdapter(detailsViewPagerFragmentAdapter);
-//        binding.activityDetailsViewPager.setCurrentItem(detailsViewPagerFragmentAdapter.firstElementPosition,false);
+
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+//        binding = null;
     }
 }

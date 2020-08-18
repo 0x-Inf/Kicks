@@ -23,15 +23,11 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
 
     private ArrayList<Activity> activeActivitiesData;
 
-    public ActiveActivitiesAdapter(ArrayList<Activity> activeActivitiesData) {
-        this.activeActivitiesData = activeActivitiesData;
-    }
+    private OnActiveActivitySelectedListener listener;
 
-    @NonNull
-    @Override
-    public ActiveActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ActiveActivityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_active_activity_item, parent, false));
+    public ActiveActivitiesAdapter(ArrayList<Activity> activeActivitiesData, OnActiveActivitySelectedListener listener) {
+        this.activeActivitiesData = activeActivitiesData;
+        this.listener = listener;
     }
 
     @Override
@@ -43,7 +39,18 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
         holder.attendeesRecycler.setAdapter(attendeesAdapter);
         GridLayoutManager layoutManager = new GridLayoutManager(holder.itemView.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
         holder.attendeesRecycler.setLayoutManager(layoutManager);
-        holder.bindTo(activeActivity);
+        holder.bindTo(activeActivity, listener);
+    }
+
+    @NonNull
+    @Override
+    public ActiveActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ActiveActivityViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_active_activity_item, parent, false));
+    }
+
+    public interface OnActiveActivitySelectedListener {
+        void onActiveActivitySelected(Activity activeActivity);
     }
 
     @Override
@@ -69,7 +76,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
 
         }
 
-        void bindTo(Activity activeActivity) {
+        void bindTo(Activity activeActivity, OnActiveActivitySelectedListener listener) {
             DateFormat dayFormatter = new SimpleDateFormat("EEE", Locale.getDefault());
             DateFormat dateFormatter = new SimpleDateFormat("d", Locale.getDefault());
             DateFormat monthFormatter = new SimpleDateFormat("LLL", Locale.getDefault());
@@ -90,6 +97,15 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             timeTextView.setText(activityTime);
             locationTextView.setText(activeActivity.getActivityLocationName());
             tagTextView.setText(activeActivity.getActivityTag().getTagName());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        listener.onActiveActivitySelected(activeActivity);
+                    }
+                }
+            });
 
         }
     }

@@ -10,26 +10,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/wed_text"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toTopOf="@+id/dateTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/timeIcon" />
 
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/_12_text"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toTopOf="@+id/monthTextView"
+        app:layout_constraintEnd_toEndOf="@+id/dayTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayTextView" />
 
@@ -38,12 +35,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/month_text"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/peopleIcon"
+        app:layout_constraintEnd_toEndOf="@+id/dayTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
@@ -59,7 +55,7 @@
         app:layout_constraintBottom_toTopOf="@+id/locationTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dayTextView"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
@@ -86,7 +82,8 @@
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/activity_attendees_recycler"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/timeTextview"
         app:layout_constraintTop_toBottomOf="@+id/timeTextview" />
 
     <ImageView
@@ -98,7 +95,19 @@
         android:src="@drawable/ic_action_location"
         app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
         app:layout_constraintEnd_toStartOf="@+id/locationTextView"
+        app:layout_constraintStart_toStartOf="@+id/timeIcon"
         app:layout_constraintTop_toTopOf="@+id/locationTextView" />
+
+    <ImageView
+        android:id="@+id/peopleIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/peopleimageiconforactiveactivityImageDescription"
+        android:src="@drawable/ic_action_people"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_attendees_recycler"
+        app:layout_constraintEnd_toStartOf="@+id/activity_attendees_recycler"
+        app:layout_constraintTop_toTopOf="@+id/activity_attendees_recycler" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_attendees_recycler"
@@ -109,10 +118,10 @@
         android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@+id/monthTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/timeIcon"
+        app:layout_constraintStart_toStartOf="@+id/locationTextView"
         app:layout_constraintTop_toBottomOf="@+id/locationTextView"
         app:spanCount="1" />
 
@@ -143,6 +152,20 @@
             android:textSize="15sp" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/lineDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/colorTransparentBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

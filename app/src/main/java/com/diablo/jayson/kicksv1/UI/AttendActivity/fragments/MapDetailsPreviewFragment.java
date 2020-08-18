@@ -1,17 +1,18 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
@@ -22,10 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -146,15 +145,53 @@ public class MapDetailsPreviewFragment extends Fragment implements OnMapReadyCal
 //                });
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        int currentNightMode = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                // Night mode is not active, we're using the light theme
+                try {
+                    // Customise the styling of the base map using a JSON object defined
+                    // in a raw resource file.
+                    boolean success = map.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                    requireContext(), R.raw.map_style));
+
+                    if (!success) {
+                        Log.e("map", "Style parsing failed.");
+                    }
+                } catch (Resources.NotFoundException e) {
+                    Log.e("map", "Can't find style. Error: ", e);
+                }
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                // Night mode is active, we're using dark theme
+                try {
+                    // Customise the styling of the base map using a JSON object defined
+                    // in a raw resource file.
+                    boolean success = map.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                    requireContext(), R.raw.map_style_dark));
+
+                    if (!success) {
+                        Log.e("map", "Style parsing failed.");
+                    }
+                } catch (Resources.NotFoundException e) {
+                    Log.e("map", "Can't find style. Error: ", e);
+                }
+                break;
+        }
+
+
         attendActivityViewModel.getActivityData().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                LatLng activityLocation  = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
+                LatLng activityLocation = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
                 map.addMarker(new MarkerOptions().position(activityLocation));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 10));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 15));
             }
         });
     }

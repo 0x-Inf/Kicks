@@ -28,12 +28,22 @@
         <item name="windowActionBar">false</item>
         <item name="android:actionMenuTextColor">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/systemNavBarColor</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
         <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/colorTransparentWhite</item>
         <item name="android:windowNoTitle">true</item>
