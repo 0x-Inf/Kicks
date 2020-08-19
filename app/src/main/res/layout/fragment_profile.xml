@@ -3,24 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ProfileFragment">
 
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/profile_picture_image_view"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/circleback"
             android:contentDescription="@string/content_description_profile_pic"
-            android:src="@drawable/ic_profile_icon_24dp" />
+            android:src="@drawable/ic_profile_icon_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/full_name_text_view"
@@ -28,436 +28,641 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_picture_image_view"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/source_sans_pro_regular"
             android:text="@string/full_name_placeholder"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_picture_image_view" />
 
         <TextView
             android:id="@+id/user_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/full_name_text_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/source_sans_pro_regular"
             android:text="@string/username_placeholder"
-            android:textColor="@color/colorMain"
-            android:textSize="20sp" />
-
-        <View
-            android:id="@+id/dividerLine"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/user_name_text_view"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/colorTransparentBlack" />
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/full_name_text_view" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/activitiesCard"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/dividerLine"
+            android:id="@+id/activityCard"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="12dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/requestsCard"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_text_view">
 
-            <ImageView
-                android:id="@+id/activitiesCardImageView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:contentDescription="@string/activities_card_bg_image_description"
-                android:scaleType="fitXY"
-                android:src="@drawable/card_bg_color_orange" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="@string/activities_text"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/activity_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="20sp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:id="@+id/activityIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_invites_icon_image_description"
+                    android:src="@drawable/ic_action_activity"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/activitiesCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/messagesCard"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/dividerLine"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
-
-            <ImageView
-                android:id="@+id/messagesCardImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:contentDescription="@string/activities_card_bg_image_description"
-                android:scaleType="fitXY"
-                android:src="@drawable/card_bg_color_purple" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="@string/messages_text"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/messagesCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/attributesCard"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/activitiesCard"
+            android:id="@+id/requestsCard"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/activityCard"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_text_view">
 
-            <ImageView
-                android:id="@+id/attributesCardImageView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:contentDescription="@string/activities_card_bg_image_description"
-                android:scaleType="fitXY"
-                android:src="@drawable/card_bg_color_goldish" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/source_sans_pro_semibold"
-                    android:text="@string/attributes_text"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/requests_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="20sp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:id="@+id/requestsIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_invites_icon_image_description"
+                    android:src="@drawable/ic_action_requests"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/attributesCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/goToSettingsFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/attributesCard"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="35dp"
-            app:backgroundTint="@color/colorMain"
-            app:srcCompat="@drawable/account_settings_icon_24dp" />
-
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_alignBottom="@id/attributesCard"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginEnd="55dp"-->
-        <!--            android:layout_marginBottom="35dp"-->
-        <!--            android:padding="5dp"-->
-        <!--            app:cardCornerRadius="35dp"-->
-        <!--            app:cardElevation="5dp">-->
-
-        <!--            <ImageView-->
-        <!--                android:layout_width="70dp"-->
-        <!--                android:layout_height="70dp"-->
-        <!--                android:contentDescription="@string/exit_icon_image_description"-->
-        <!--                android:padding="15dp"-->
-        <!--                android:src="@drawable/account_settings_icon_24dp" />-->
-
-
-        <!--        </androidx.cardview.widget.CardView>-->
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/active_activities_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/colorTransparentBlack"
-            android:elevation="3dp" />
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/closeActivitiesRelativelayoutButton"-->
-        <!--            android:layout_width="30dp"-->
-        <!--            android:layout_height="30dp"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_alignParentTop="true"-->
-        <!--            android:layout_marginEnd="10dp"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:layout_marginBottom="5dp"-->
-        <!--            android:src="@drawable/close_icon_24dp"-->
-        <!--            android:contentDescription="@string/close_icon_image_description" />-->
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/activeActivitiesActualCard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp">
+            android:id="@+id/infoCard"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="@+id/activityCard"
+            app:layout_constraintStart_toStartOf="@+id/activityCard"
+            app:layout_constraintTop_toBottomOf="@+id/activityCard">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/activeActivitiesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/active_activities_text"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="30sp" />
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/info_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activeActivitiesRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/activeActivitiesTextView"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="20dp" />
-
-                <!--                <androidx.viewpager.widget.ViewPager-->
-                <!--                    android:id="@+id/profileViewPager"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent">-->
-
-                <!--                    <com.google.android.material.tabs.TabLayout-->
-                <!--                        android:id="@+id/profile_tab_layout"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content" />-->
-
-                <!--                </androidx.viewpager.widget.ViewPager>-->
+                <ImageView
+                    android:id="@+id/infoIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/image_view_for_invites_icon_image_description"
+                    android:src="@drawable/ic_action_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/attributes_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/colorTransparentBlack"
-            android:elevation="3dp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/attributesActualCard"
-            android:layout_width="match_parent"
-            android:layout_height="650dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/participatedNumberTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/participated_number_placeholder"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="50sp" />
-
-                <TextView
-                    android:id="@+id/participatedTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/participatedNumberTextView"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/participated_text"
-                    android:textColor="@color/colorMain"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/hostedNumberTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/participatedTextView"
-                    android:layout_marginTop="30dp"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/hosted_number_placeholder"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="50sp" />
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:visibility="visible">-->
 
 
-                <TextView
-                    android:id="@+id/hostedTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/hostedNumberTextView"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/hosted_text"
-                    android:textColor="@color/colorMain"
-                    android:textSize="25sp" />
+    <!--        <ImageView-->
+    <!--            android:id="@+id/profile_picture_image_view"-->
+    <!--            android:layout_width="140dp"-->
+    <!--            android:layout_height="140dp"-->
+    <!--            android:layout_alignParentTop="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:background="@drawable/circleback"-->
+    <!--            android:contentDescription="@string/content_description_profile_pic"-->
+    <!--            android:src="@drawable/ic_profile_icon_24dp" />-->
 
-                <TextView
-                    android:id="@+id/solosNumberTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/hostedTextView"
-                    android:layout_marginTop="30dp"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/solos_number_placeholder"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="50sp" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/full_name_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/profile_picture_image_view"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/full_name_placeholder"-->
+    <!--            android:textColor="?android:attr/textColorPrimary"-->
+    <!--            android:textSize="20sp" />-->
 
+    <!--        <TextView-->
+    <!--            android:id="@+id/user_name_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/full_name_text_view"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="2dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/username_placeholder"-->
+    <!--            android:textColor="@color/colorMain"-->
+    <!--            android:textSize="20sp" />-->
 
-                <TextView
-                    android:id="@+id/solosTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/solosNumberTextView"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/solos_text"
-                    android:textColor="@color/colorMain"
-                    android:textSize="25sp" />
+    <!--        <View-->
+    <!--            android:id="@+id/dividerLine"-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/user_name_text_view"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
 
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/activitiesCard"-->
+    <!--            android:layout_width="150dp"-->
+    <!--            android:layout_height="150dp"-->
+    <!--            android:layout_below="@id/dividerLine"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp">-->
 
-            </RelativeLayout>
+    <!--            <ImageView-->
+    <!--                android:id="@+id/activitiesCardImageView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:contentDescription="@string/activities_card_bg_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:src="@drawable/card_bg_color_orange" />-->
 
-        </androidx.cardview.widget.CardView>
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:padding="10dp">-->
 
-    </RelativeLayout>
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_semibold"-->
+    <!--                    android:text="@string/activities_text"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    android:textSize="20sp" />-->
 
-    <RelativeLayout
-        android:id="@+id/messages_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+    <!--            </RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/colorTransparentBlack"
-            android:elevation="3dp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/messagesActualCard"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="50dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/messagesTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/messages_text"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="30sp" />
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/messagesViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/messagesTextView"
-                    android:layout_marginTop="10dp">
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/messages_tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </androidx.viewpager.widget.ViewPager>
-            </RelativeLayout>
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/activitiesCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
 
 
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/messagesCard"-->
+    <!--            android:layout_width="150dp"-->
+    <!--            android:layout_height="150dp"-->
+    <!--            android:layout_below="@id/dividerLine"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:layout_marginEnd="20dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/messagesCardImageView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:contentDescription="@string/activities_card_bg_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:src="@drawable/card_bg_color_purple" />-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:padding="10dp">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_semibold"-->
+    <!--                    android:text="@string/messages_text"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    android:textSize="20sp" />-->
+
+    <!--            </RelativeLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/messagesCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/attributesCard"-->
+    <!--            android:layout_width="150dp"-->
+    <!--            android:layout_height="150dp"-->
+    <!--            android:layout_below="@id/activitiesCard"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="20dp"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/attributesCardImageView"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:contentDescription="@string/activities_card_bg_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:src="@drawable/card_bg_color_goldish" />-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:padding="10dp">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_semibold"-->
+    <!--                    android:text="@string/attributes_text"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    android:textSize="20sp" />-->
+
+    <!--            </RelativeLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/attributesCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/goToSettingsFab"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignBottom="@id/attributesCard"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_marginEnd="55dp"-->
+    <!--            android:layout_marginBottom="35dp"-->
+    <!--            app:backgroundTint="@color/colorMain"-->
+    <!--            app:srcCompat="@drawable/account_settings_icon_24dp" />-->
+
+    <!--        &lt;!&ndash;        <androidx.cardview.widget.CardView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_alignBottom="@id/attributesCard"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_alignParentEnd="true"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginEnd="55dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginBottom="35dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:padding="5dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:cardCornerRadius="35dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:cardElevation="5dp">&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;            <ImageView&ndash;&gt;-->
+    <!--        &lt;!&ndash;                android:layout_width="70dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                android:layout_height="70dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                android:contentDescription="@string/exit_icon_image_description"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                android:padding="15dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                android:src="@drawable/account_settings_icon_24dp" />&ndash;&gt;-->
+
+
+    <!--        &lt;!&ndash;        </androidx.cardview.widget.CardView>&ndash;&gt;-->
+
+
+    <!--    </RelativeLayout>-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/active_activities_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:alpha="0.8"-->
+    <!--            android:background="@color/colorTransparentBlack"-->
+    <!--            android:elevation="3dp" />-->
+
+    <!--        &lt;!&ndash;        <ImageView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/closeActivitiesRelativelayoutButton"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="30dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="30dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_alignParentEnd="true"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_alignParentTop="true"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginEnd="10dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginTop="10dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginBottom="5dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:src="@drawable/close_icon_24dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:contentDescription="@string/close_icon_image_description" />&ndash;&gt;-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/activeActivitiesActualCard"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_marginHorizontal="20dp"-->
+    <!--            android:layout_marginTop="50dp"-->
+    <!--            app:cardCornerRadius="10dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/activeActivitiesTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_alignParentTop="true"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:text="@string/active_activities_text"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="30sp" />-->
+
+    <!--                <androidx.recyclerview.widget.RecyclerView-->
+    <!--                    android:id="@+id/activeActivitiesRecycler"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:layout_below="@id/activeActivitiesTextView"-->
+    <!--                    android:layout_marginHorizontal="10dp"-->
+    <!--                    android:layout_marginTop="20dp" />-->
+
+    <!--                &lt;!&ndash;                <androidx.viewpager.widget.ViewPager&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    android:id="@+id/profileViewPager"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    android:layout_height="match_parent">&ndash;&gt;-->
+
+    <!--                &lt;!&ndash;                    <com.google.android.material.tabs.TabLayout&ndash;&gt;-->
+    <!--                &lt;!&ndash;                        android:id="@+id/profile_tab_layout"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                        android:layout_height="wrap_content" />&ndash;&gt;-->
+
+    <!--                &lt;!&ndash;                </androidx.viewpager.widget.ViewPager>&ndash;&gt;-->
+
+
+    <!--            </RelativeLayout>-->
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--    </RelativeLayout>-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/attributes_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:alpha="0.8"-->
+    <!--            android:background="@color/colorTransparentBlack"-->
+    <!--            android:elevation="3dp" />-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/attributesActualCard"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="650dp"-->
+    <!--            android:layout_marginHorizontal="20dp"-->
+    <!--            android:layout_marginTop="50dp"-->
+    <!--            app:cardCornerRadius="10dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/participatedNumberTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_alignParentTop="true"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:layout_marginTop="30dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/participated_number_placeholder"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="50sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/participatedTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/participatedNumberTextView"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/participated_text"-->
+    <!--                    android:textColor="@color/colorMain"-->
+    <!--                    android:textSize="25sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/hostedNumberTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/participatedTextView"-->
+    <!--                    android:layout_marginTop="30dp"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/hosted_number_placeholder"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="50sp" />-->
+
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/hostedTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/hostedNumberTextView"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/hosted_text"-->
+    <!--                    android:textColor="@color/colorMain"-->
+    <!--                    android:textSize="25sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/solosNumberTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/hostedTextView"-->
+    <!--                    android:layout_marginTop="30dp"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/solos_number_placeholder"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="50sp" />-->
+
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/solosTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/solosNumberTextView"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/solos_text"-->
+    <!--                    android:textColor="@color/colorMain"-->
+    <!--                    android:textSize="25sp" />-->
+
+
+    <!--            </RelativeLayout>-->
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--    </RelativeLayout>-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/messages_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:alpha="0.8"-->
+    <!--            android:background="@color/colorTransparentBlack"-->
+    <!--            android:elevation="3dp" />-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/messagesActualCard"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="600dp"-->
+    <!--            android:layout_marginHorizontal="20dp"-->
+    <!--            android:layout_marginTop="50dp"-->
+    <!--            app:cardCornerRadius="10dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/messagesTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:layout_marginTop="10dp"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--                    android:text="@string/messages_text"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="30sp" />-->
+
+    <!--                <androidx.viewpager.widget.ViewPager-->
+    <!--                    android:id="@+id/messagesViewPager"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:layout_below="@id/messagesTextView"-->
+    <!--                    android:layout_marginTop="10dp">-->
+
+    <!--                    <com.google.android.material.tabs.TabLayout-->
+    <!--                        android:id="@+id/messages_tab_layout"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content" />-->
+
+    <!--                </androidx.viewpager.widget.ViewPager>-->
+    <!--            </RelativeLayout>-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+    <!--    </RelativeLayout>-->
 
 </FrameLayout>

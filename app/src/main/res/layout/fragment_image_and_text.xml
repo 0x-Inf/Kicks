@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.diablo.jayson.kicksv1.UI.Home.ImageAndTextFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.Home.fragments.ImageAndTextFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,9 +39,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.io.File;
 import java.util.ArrayList;
 
-import static android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView mProfileImage;
     private RecyclerView mRecyclerView;
@@ -53,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mSearchButton, mSettingButton;
     private ImageView mProfilePicImageView;
     private Toolbar toolbar;
+    AppBarConfiguration appBarConfiguration;
 
     SharedPreferences prefs = null;
 
@@ -114,12 +111,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_kick_select, R.id.navigation_add_kick,
-                R.id.navigation_profile, R.id.navigation_map_view)
-                .build();
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.dashboardFragment, R.id.navigation_kick_select, R.id.navigation_add_kick,
+//                R.id.navigation_profile, R.id.navigation_map_view)
+//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+
         NavigationUI.setupWithNavController(navigationView, navController);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (destination.getId() == R.id.addActivityLocationFragment) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.attendActivityMainFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.VISIBLE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);
@@ -163,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setClickListeners();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

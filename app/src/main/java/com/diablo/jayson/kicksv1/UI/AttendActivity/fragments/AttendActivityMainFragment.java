@@ -1,6 +1,10 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,13 +14,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.DetailsViewPagerFragmentAdapter;
+import com.diablo.jayson.kicksv1.databinding.FragmentAttendActivityMain2Binding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -36,10 +47,17 @@ public class AttendActivityMainFragment extends Fragment {
     private String mParam2;
 
     private String activityId;
+    private Activity attendedActivity;
     private AttendActivityViewModel viewModel;
 
+    private FragmentAttendActivityMain2Binding binding;
+    private Handler handler = new Handler();
+    private int currentPage = 0;
+
+    private DetailsViewPagerFragmentAdapter detailsViewPagerFragmentAdapter;
+
     //views
-    private CardView chatCard,attendeesCard,detailsCard;
+    private CardView chatCard, attendeesCard, detailsCard;
 
     public AttendActivityMainFragment() {
         // Required empty public constructor
@@ -70,17 +88,21 @@ public class AttendActivityMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        viewModel = new ViewModelProvider(requireActivity()).get(AttendActivityViewModel.class);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_attend_activity_main2, container, false);
+        binding = FragmentAttendActivityMain2Binding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(AttendActivityViewModel.class);
+        View root = binding.getRoot();
+        attendedActivity = new Activity();
+//        View root = inflater.inflate(R.layout.fragment_attend_activity_main2, container, false);
         chatCard = root.findViewById(R.id.activity_chat_card);
         attendeesCard = root.findViewById(R.id.activity_attendees_card);
-        detailsCard  = root.findViewById(R.id.activity_details_card);
+        detailsCard = root.findViewById(R.id.activity_details_card);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
 
@@ -109,11 +131,64 @@ public class AttendActivityMainFragment extends Fragment {
         return root;
     }
 
+    private void getActivityDataFromDb() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("activities").document(activityId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            assert documentSnapshot != null;
+                            attendedActivity = documentSnapshot.toObject(Activity.class);
+                            viewModel.setActivityData(attendedActivity);
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         assert getArguments() != null;
         activityId = AttendActivityMainFragmentArgs.fromBundle(getArguments()).getActivityId();
         viewModel.setActivityId(activityId);
+        getActivityDataFromDb();
+
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.activityDetailsViewPager.setCurrentItem(currentPage % 3, true);
+                        currentPage++;
+                    }
+                });
+            }
+        };
+        Timer time = new Timer();
+        time.schedule(timerTask, 0, 5000);
+    }
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        detailsViewPagerFragmentAdapter = new DetailsViewPagerFragmentAdapter(getChildFragmentManager(), getLifecycle());
+        detailsViewPagerFragmentAdapter.addFragment(new MapDetailsPreviewFragment());
+        detailsViewPagerFragmentAdapter.addFragment(new PeopleDetailsPreviewFragment());
+        detailsViewPagerFragmentAdapter.addFragment(new TimeDetailsPreviewFragment());
+        binding.activityDetailsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        binding.activityDetailsViewPager.setAdapter(detailsViewPagerFragmentAdapter);
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        binding = null;
     }
 }

@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -239,8 +242,11 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
         String tagName = Objects.requireNonNull(marker.getTag()).toString();
         viewModel.setTagName(tagName);
-        AvailableActivitiesBottomDialogFragment availableActivitiesBottomDialogFragment = AvailableActivitiesBottomDialogFragment.newInstance();
-        availableActivitiesBottomDialogFragment.show(getParentFragmentManager(), "available_activities");
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        NavDirections actionBottomDialogFragment = KickMapFragmentDirections.actionNavigationMapViewToAvailableActivitiesBottomDialogFragment();
+        navController.navigate(actionBottomDialogFragment);
+//        AvailableActivitiesBottomDialogFragment availableActivitiesBottomDialogFragment = AvailableActivitiesBottomDialogFragment.newInstance();
+//        availableActivitiesBottomDialogFragment.show(getParentFragmentManager(), "available_activities");
 
 
 //

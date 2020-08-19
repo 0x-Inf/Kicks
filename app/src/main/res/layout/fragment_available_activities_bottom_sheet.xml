@@ -9,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/available_activities_text"
-        android:textColor="@color/colorPurple"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:textSize="25sp"
-        android:fontFamily="@font/source_sans_pro_regular" />
+        android:fontFamily="@font/roboto_medium" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/matchingActivitiesRecycler"

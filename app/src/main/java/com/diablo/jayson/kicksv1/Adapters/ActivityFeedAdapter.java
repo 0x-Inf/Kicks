@@ -71,23 +71,25 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
 
         private TextView activityTitleTextView, activityTimeTextView,
                 activityDateTextView, activityCurrencyTextView, activityCostTextView, activityLocationTextView,
-                activityTagTextView, hostTextView;
+                activityTagTextView, hostTextView, activityHostNameTextView,activityDescriptionTextView;
         private ImageView activityImage, uploaderPic;
         private RecyclerView attendeesRecycler;
 
         public ActivityItemHolder(@NonNull View itemView) {
             super(itemView);
 
-            activityTitleTextView = itemView.findViewById(R.id.activity_title_text_view);
-            activityTimeTextView = itemView.findViewById(R.id.activity_time_text_view);
-            activityDateTextView = itemView.findViewById(R.id.activity_date_text_view);
+            activityTitleTextView = itemView.findViewById(R.id.activityTitleTextView);
+            activityDescriptionTextView = itemView.findViewById(R.id.activityDescriptionTextView);
+            activityTimeTextView = itemView.findViewById(R.id.activityStartTimeTextView);
+            activityDateTextView = itemView.findViewById(R.id.activityDateTextView);
             activityCurrencyTextView = itemView.findViewById(R.id.currency_text_view);
-            activityCostTextView = itemView.findViewById(R.id.activity_cost_text_view);
-            activityLocationTextView = itemView.findViewById(R.id.activity_location_text_view);
-            activityTagTextView = itemView.findViewById(R.id.activity_tag_text_view);
+            activityCostTextView = itemView.findViewById(R.id.activityCostTextView);
+            activityLocationTextView = itemView.findViewById(R.id.activityLocationTextView);
+            activityTagTextView = itemView.findViewById(R.id.activityTagNameTextView);
+            activityHostNameTextView = itemView.findViewById(R.id.hostNameTextView);
 //            hostTextView = itemView.findViewById(R.id.host_name_text_view);
-            activityImage = itemView.findViewById(R.id.activity_image_view);
-//            uploaderPic = itemView.findViewById(R.id.host_pic_image_view);
+//            activityImage = itemView.findViewById(R.id.activity_image_view);
+            uploaderPic = itemView.findViewById(R.id.hostImageView);
             attendeesRecycler = itemView.findViewById(R.id.activity_attendees_recycler);
         }
 
@@ -110,14 +112,14 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             activityLocationTextView.setText(activityLocation);
 //            hostTextView.setText(hostName);
             activityTagTextView.setText(tagName);
-//            Glide.with(itemView.getContext())
-//                    .load(currentActivity.getHost().getHostPic())
-//                    .apply(RequestOptions.circleCropTransform())
-//                    .into(uploaderPic);
+            Glide.with(itemView.getContext())
+                    .load(activity.getHost().getHostPic())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(uploaderPic);
 
-            Glide.with(itemView.getContext()).load(activity.getImageUrl())
-//                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
-                    .into(activityImage);
+//            Glide.with(itemView.getContext()).load(activity.getImageUrl())
+////                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
+//                    .into(activityImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -12,15 +12,13 @@ public class ChatItem extends Observable implements Serializable {
     private String senderUid;
     private String message;
     private Timestamp timestamp;
-    private boolean isSender;
 
-    public ChatItem(String senderName, String senderPicUrl, String senderUid, String message, Timestamp timestamp, boolean isSender) {
+    public ChatItem(String senderName, String senderPicUrl, String senderUid, String message, Timestamp timestamp) {
         this.senderName = senderName;
         this.senderPicUrl = senderPicUrl;
         this.senderUid = senderUid;
         this.message = message;
         this.timestamp = timestamp;
-        this.isSender = isSender;
     }
 
     public ChatItem() {
@@ -66,11 +64,4 @@ public class ChatItem extends Observable implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public boolean isSender() {
-        return isSender;
-    }
-
-    public void setSender(boolean sender) {
-        isSender = sender;
-    }
 }

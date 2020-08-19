@@ -1,6 +1,5 @@
 package com.diablo.jayson.kicksv1.UI.MapFeed;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,6 +78,7 @@ public class AvailableActivitiesBottomDialogFragment extends BottomSheetDialogFr
 
     @Override
     public void onActivitySelected(Activity activity) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         if (Objects.requireNonNull(user.getDisplayName()).isEmpty()) {
@@ -88,19 +89,24 @@ public class AvailableActivitiesBottomDialogFragment extends BottomSheetDialogFr
                 users.add(activity.getActivityAttendees().get(i).getUid());
             }
             if (users.contains(user.getUid())) {
-                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
-                attendActivity.putExtra("activityId", activity.getActivityId());
-                attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
-                attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
-                attendActivity.putExtra("alreadyAttending", true);
-                attendActivity.putExtra("fromGroupMessages", false);
-                startActivity(attendActivity);
+//                Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
+//                attendActivity.putExtra("activityId", activity.getActivityId());
+//                attendActivity.putExtra("activityLatitude", activity.getActivityLocationCoordinates().getLatitude());
+//                attendActivity.putExtra("activityLongitude", activity.getActivityLocationCoordinates().getLongitude());
+//                attendActivity.putExtra("alreadyAttending", true);
+//                attendActivity.putExtra("fromGroupMessages", false);
+//                startActivity(attendActivity);
+                NavDirections actionMainAttend = AvailableActivitiesBottomDialogFragmentDirections.actionAvailableActivitiesBottomDialogFragmentToAttendActivityMainFragment();
+                navController.navigate(actionMainAttend);
             } else {
-                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
-                attendActivity.putExtra("activityId", activity.getActivityId());
-                attendActivity.putExtra("alreadyAttending", false);
-                attendActivity.putExtra("fromGroupMessages", false);
-                startActivity(attendActivity);
+                NavDirections actionConfirmAttend = AvailableActivitiesBottomDialogFragmentDirections.actionAvailableActivitiesBottomDialogFragmentToConfirmAttendFragment();
+                navController.navigate(actionConfirmAttend);
+//                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
+//                attendActivity.putExtra("activityId", activity.getActivityId());
+//                attendActivity.putExtra("alreadyAttending", false);
+//                attendActivity.putExtra("fromGroupMessages", false);
+//                startActivity(attendActivity);
+
             }
         }
     }

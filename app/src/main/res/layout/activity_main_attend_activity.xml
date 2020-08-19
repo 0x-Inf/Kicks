@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chatActualRecycler"
@@ -99,7 +99,7 @@
             android:id="@+id/attendeesActualRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
             <!--                android:id="@+id/addPeopleFab"-->

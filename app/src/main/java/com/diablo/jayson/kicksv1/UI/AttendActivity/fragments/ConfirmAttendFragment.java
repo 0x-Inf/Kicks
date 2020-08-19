@@ -14,10 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityViewModel;
@@ -28,12 +30,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +71,7 @@ public class ConfirmAttendFragment extends Fragment {
 
     private String activityId;
     private Activity activity;
+    private String userId;
 
 
     public ConfirmAttendFragment() {
@@ -106,12 +113,15 @@ public class ConfirmAttendFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_confirm_attend, container, false);
         ExtendedFloatingActionButton imIn = root.findViewById(R.id.AttendActivityFab);
         ExtendedFloatingActionButton imOut = root.findViewById(R.id.cancelActivityFab);
-
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        userId = "";
 
         imOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MainActivity.class));
+//                startActivity(new Intent(getActivity(), MainActivity.class));
+                navController.popBackStack();
+                navController.navigateUp();
             }
         });
         imIn.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +130,10 @@ public class ConfirmAttendFragment extends Fragment {
                 updateViewModel();
                 activity.getActivityAttendees().add(FirebaseUtil.getAttendingUser());
 //                AttendActivityMainFragment attendFragment = new AttendActivityMainFragment();
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    userId = currentUser.getUid();
+                }
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = db.collection("activities").document(activityId);
@@ -131,9 +145,24 @@ public class ConfirmAttendFragment extends Fragment {
 //                                    getActivity().getSupportFragmentManager().beginTransaction()
 //                                            .replace(R.id.attend_activity_fragment_container, attendFragment)
 //                                            .commit();
+                                    Map<String, Object> activity = new HashMap<>();
+                                    activity.put("activityReference", documentReference);
+                                    activity.put("activityId", activityId);
+                                    db.collection("users").document(userId).collection("activeactivities")
+                                            .add(activity)
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
+                                                        navController.navigate(actionMainAttend);
+                                                    }
+                                                }
+                                            });
+
                                     Intent attendActivityIntent = new Intent(getContext(), MainAttendActivityActivity.class);
-                                    attendActivityIntent.putExtra("activityId", activityId);
-                                    startActivity(attendActivityIntent);
+//                                    attendActivityIntent.putExtra("activityId", activityId);
+//                                    startActivity(attendActivityIntent);
                                 } else {
                                     Toast.makeText(getContext(), "Problem Adding You", Toast.LENGTH_LONG).show();
                                 }
