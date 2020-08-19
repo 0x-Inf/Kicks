@@ -1,20 +1,25 @@
 package com.diablo.jayson.kicksv1.UI.UserProfile.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.ContactRequest;
 import com.diablo.jayson.kicksv1.UI.UserProfile.RequestsListAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentRequestsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,6 +49,10 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
 
     private RequestsListAdapter requestsListAdapter;
     private ArrayList<ContactRequest> requestData;
+
+    private RequestsFragment onAddSelected;
+    private RequestsFragment onRejectSelected;
+    private RequestsFragment onRequestSelected;
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -82,7 +91,6 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
         // Inflate the layout for this fragment
         binding = FragmentRequestsBinding.inflate(inflater, container, false);
         getRequestsFromDb();
-        binding.requestsRecycler.setAdapter(requestsListAdapter);
         return binding.getRoot();
     }
 
@@ -90,10 +98,14 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         requestData = new ArrayList<>();
-
+        onAddSelected = this;
+        onRejectSelected = this;
+        onRequestSelected = this;
+        assert user != null;
+        Log.e("YEAH", user.getUid());
         db.collection("users")
                 .document(user.getUid())
-                .collection("contactRequest")
+                .collection("contactRequests")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -101,25 +113,65 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 requestData.add(documentSnapshot.toObject(ContactRequest.class));
+                                Log.e("requests", documentSnapshot.getId());
                             }
-                            setUpAdapterWithData();
+                            requestsListAdapter = new RequestsListAdapter(requestData, onAddSelected, onRejectSelected, onRequestSelected);
+                            binding.requestsRecycler.setAdapter(requestsListAdapter);
                         }
                     }
                 });
     }
 
     private void setUpAdapterWithData() {
-        requestsListAdapter = new RequestsListAdapter(requestData, this::onAddSelected, this::onRejectSelected, this::onRequestSelected);
+
     }
 
     @Override
     public void onAddSelected(ContactRequest contactRequest) {
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Contact newContact = new Contact();
+        newContact.setContactId(contactRequest.getSenderId());
+        newContact.setContactName(contactRequest.getSenderName());
+        newContact.setContactPicUrl(contactRequest.getSenderPicUrl());
+        Contact newCounterpartContact = new Contact();
+        newCounterpartContact.setContactId(contactRequest.getTargetId());
+        newCounterpartContact.setContactName(contactRequest.getTargetName());
+        newCounterpartContact.setContactPicUrl(contactRequest.getTargetPicUrl());
+        db.collection("users")
+                .document(contactRequest.getTargetId())
+                .collection("contacts")
+                .add(newContact)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            db.collection("users").document(contactRequest.getSenderId())
+                                    .collection("contacts")
+                                    .add(newCounterpartContact)
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            if (task.isSuccessful()) {
+                                                requestData.remove(contactRequest);
+                                                requestsListAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     public void onRejectSelected(ContactRequest contactRequest) {
-
+        requestData.remove(contactRequest);
+        requestsListAdapter.notifyDataSetChanged();
     }
 
     @Override

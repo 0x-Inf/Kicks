@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.databinding.FragmentInvitePeopleBinding;
 
 
 /**
@@ -25,6 +25,8 @@ public class InvitePeopleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentInvitePeopleBinding binding;
 
     public InvitePeopleFragment() {
         // Required empty public constructor
@@ -61,6 +63,8 @@ public class InvitePeopleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_invite_people, container, false);
+        binding = FragmentInvitePeopleBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
     }
 }

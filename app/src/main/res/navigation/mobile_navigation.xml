@@ -108,14 +108,20 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_navigation_profile_to_mainAttendActivityActivity"
-            app:destination="@id/mainAttendActivityActivity" />
-        <action
             android:id="@+id/action_navigation_profile_to_requestsFragment"
             app:destination="@id/requestsFragment" />
         <action
             android:id="@+id/action_navigation_profile_to_activityFragment"
             app:destination="@id/activityFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_editEmergencyContactsBottomSheetFragment"
+            app:destination="@id/editEmergencyContactsBottomSheetFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_editPhoneBottomSheetFragment"
+            app:destination="@id/editPhoneBottomSheetFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_editEmailBottomSheetFragment"
+            app:destination="@id/editEmailBottomSheetFragment" />
     </fragment>
 
 
@@ -139,11 +145,6 @@
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.AttendActivityActivity"
         android:label="activity_attend_activity"
         tools:layout="@layout/activity_attend_activity" />
-    <activity
-        android:id="@+id/mainAttendActivityActivity"
-        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity"
-        android:label="activity_main_attend_activity"
-        tools:layout="@layout/activity_main_attend_activity" />
     <fragment
         android:id="@+id/addActivityPeopleFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleFragment"
@@ -432,13 +433,25 @@
     <fragment
         android:id="@+id/requestsFragment"
         android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.RequestsFragment"
-        android:label="fragment_requests"
+        android:label="Requests"
         tools:layout="@layout/fragment_requests" />
     <fragment
         android:id="@+id/activityFragment"
         android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ActivityFragment"
         android:label="fragment_activity"
         tools:layout="@layout/fragment_activity" />
+    <fragment
+        android:id="@+id/editEmailBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditEmailBottomSheetFragment"
+        android:label="EditEmailBottomSheetFragment" />
+    <fragment
+        android:id="@+id/editPhoneBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditPhoneBottomSheetFragment"
+        android:label="EditPhoneBottomSheetFragment" />
+    <fragment
+        android:id="@+id/editEmergencyContactsBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditEmergencyContactsBottomSheetFragment"
+        android:label="EditEmergencyContactsBottomSheetFragment" />
 
 
 </navigation>

@@ -333,6 +333,13 @@
     <string name="image_view_for_request_sender_pic_image_description">Image View For request sender Pic</string>
     <string name="reject_text">Reject</string>
     <string name="add_text">Add</string>
+    <string name="example_email">johnathandoe@email.com</string>
+    <string name="example_phone_number">+255712345678</string>
+    <string name="emergency_contacts_text">Emergency Contacts</string>
+    <string name="email_address_text">Email Address</string>
+    <string name="phone_number_text">Phone Number</string>
+    <string name="contacts_text">Contacts:</string>
+    <string name="search_contacts_hint_text">Search Contacts</string>
 
 
 </resources>

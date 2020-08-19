@@ -130,6 +130,8 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         contactRequest.setSenderName(user.getDisplayName());
         contactRequest.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
         contactRequest.setTargetId(attendeeId);
+        contactRequest.setTargetName("test");
+        contactRequest.setTargetPicUrl(user.getPhotoUrl().toString());
     }
 
     @Override
