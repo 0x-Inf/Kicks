@@ -104,12 +104,18 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ProfileFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_navigation_profile_to_mainAttendActivityActivity"
             app:destination="@id/mainAttendActivityActivity" />
+        <action
+            android:id="@+id/action_navigation_profile_to_requestsFragment"
+            app:destination="@id/requestsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_activityFragment"
+            app:destination="@id/activityFragment" />
     </fragment>
 
 
@@ -323,14 +329,21 @@
             app:destination="@id/personalChatFragment">
             <argument
                 android:name="chatCounterpartId"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_myPeopleFragment"
-            app:destination="@id/myPeopleFragment" >
+            app:destination="@id/myPeopleFragment">
             <argument
                 android:name="attendeeId"
-                app:argType="string"/>
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_reportUserFragment"
+            app:destination="@id/reportUserFragment">
+            <argument
+                android:name="attendeeId"
+                app:argType="string" />
         </action>
     </dialog>
     <fragment
@@ -411,6 +424,21 @@
         android:id="@+id/activeActivitySelectedBottomSheet"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitySelectedBottomSheet"
         android:label="ActiveActivitySelectedBottomSheet" />
+    <fragment
+        android:id="@+id/reportUserFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ReportUserFragment"
+        android:label="fragment_report_user"
+        tools:layout="@layout/fragment_report_user" />
+    <fragment
+        android:id="@+id/requestsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.RequestsFragment"
+        android:label="fragment_requests"
+        tools:layout="@layout/fragment_requests" />
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ActivityFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_activity" />
 
 
 </navigation>

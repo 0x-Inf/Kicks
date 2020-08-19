@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragment {
 
-    private FloatingActionButton chatFab, historyFab, myPeopleFab;
+    private FloatingActionButton reportFab, historyFab, myPeopleFab;
     private Button followButton;
     private Button followingButton;
 
@@ -34,17 +34,17 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_attendee_selected_bottom_sheet,container,false);
-        chatFab  = root.findViewById(R.id.chatFAB);
+        reportFab = root.findViewById(R.id.reportFAB);
         historyFab = root.findViewById(R.id.activityFAB);
         myPeopleFab = root.findViewById(R.id.followingFAB);
         followButton = root.findViewById(R.id.followButton);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
-        chatFab.setOnClickListener(new View.OnClickListener() {
+        reportFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavDirections actionPersonalChatFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToPersonalChatFragment(attendeeId);
-                navController.navigate(actionPersonalChatFragment);
+                NavDirections actionReportUserFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToReportUserFragment(attendeeId);
+                navController.navigate(actionReportUserFragment);
             }
         });
 
@@ -60,6 +60,13 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
             public void onClick(View view) {
                 NavDirections actionMyPeopleFragment = AttendeeSelectedBottomDialogFragmentDirections.actionAttendeeSelectedBottomDialogFragmentToMyPeopleFragment(attendeeId);
                 navController.navigate(actionMyPeopleFragment);
+            }
+        });
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         return root;

@@ -322,6 +322,17 @@
     <string name="description_text">Description</string>
     <string name="see_on_map_text">See On Map</string>
     <string name="peopleimageiconforactiveactivityImageDescription">peopleImageIconForActiveActivity</string>
+    <string name="search_friends_hint_text">Search Friends</string>
+    <string name="invite_text">Invite:</string>
+    <string name="from_last_activity_text">From Last Activity:</string>
+    <string name="friends_text">Friends:</string>
+    <string name="report_text">Report</string>
+    <string name="activity_text">Activity</string>
+    <string name="requests_text">Requests</string>
+    <string name="info_text">Info</string>
+    <string name="image_view_for_request_sender_pic_image_description">Image View For request sender Pic</string>
+    <string name="reject_text">Reject</string>
+    <string name="add_text">Add</string>
 
 
 </resources>

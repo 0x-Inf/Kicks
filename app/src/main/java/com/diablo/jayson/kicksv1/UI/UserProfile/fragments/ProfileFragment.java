@@ -1,7 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.UserProfile;
+package com.diablo.jayson.kicksv1.UI.UserProfile.fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,23 +14,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.diablo.jayson.kicksv1.UI.Settings.SettingsActivity;
+import com.diablo.jayson.kicksv1.UI.UserProfile.ActiveActivitiesAdapter;
+import com.diablo.jayson.kicksv1.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -52,6 +48,8 @@ public class ProfileFragment extends Fragment implements ActiveActivitiesAdapter
     private static final String ARG_PARAM2 = "param2";
 
     private static final String TAG = ProfileFragment.class.getSimpleName();
+
+    private FragmentProfileBinding binding;
 
     //Main Dash stuff
     private RelativeLayout activitiesCardOverlay, attributesCardOverlay, messagesCardOverlay;
@@ -120,33 +118,33 @@ public class ProfileFragment extends Fragment implements ActiveActivitiesAdapter
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        activitiesCardOverlay = root.findViewById(R.id.activitiesCardOverlay);
-        attributesCardOverlay = root.findViewById(R.id.attributesCardOverlay);
-        messagesCardOverlay = root.findViewById(R.id.messagesCardOverlay);
-        activitiesCardImageView = root.findViewById(R.id.activitiesCardImageView);
-        profilePictureImageView = root.findViewById(R.id.profile_picture_image_view);
-        fullNameTextView = root.findViewById(R.id.full_name_text_view);
-        usernameTextView = root.findViewById(R.id.user_name_text_view);
-        goToSettingsFab = root.findViewById(R.id.goToSettingsFab);
+//        activitiesCardOverlay = root.findViewById(R.id.activitiesCardOverlay);
+//        attributesCardOverlay = root.findViewById(R.id.attributesCardOverlay);
+//        messagesCardOverlay = root.findViewById(R.id.messagesCardOverlay);
+//        activitiesCardImageView = root.findViewById(R.id.activitiesCardImageView);
+//        profilePictureImageView = root.findViewById(R.id.profile_picture_image_view);
+//        fullNameTextView = root.findViewById(R.id.full_name_text_view);
+//        usernameTextView = root.findViewById(R.id.user_name_text_view);
+//        goToSettingsFab = root.findViewById(R.id.goToSettingsFab);
 //        emailActualTextView = root.findViewById(R.id.emailActualTextView);
 //        phoneActualTextView = root.findViewById(R.id.phoneActualTextView);
 
 
         //Active activities views
-        activiteActivitiesRelativeLayout = root.findViewById(R.id.active_activities_relative_layout);
-        activeActivitiesActualCard = root.findViewById(R.id.activeActivitiesActualCard);
-        activeActivitiesRecycler = root.findViewById(R.id.activeActivitiesRecycler);
-
-        //Attributes views
-        attributesRelativeLayout = root.findViewById(R.id.attributes_relative_layout);
-        attributesActualCard = root.findViewById(R.id.attributesActualCard);
-
-
-        //Messages views
-        messagesRelativeLayout = root.findViewById(R.id.messages_relative_layout);
-        messagesActualCard = root.findViewById(R.id.messagesActualCard);
-        TabLayout profileTabLayout = root.findViewById(R.id.messages_tab_layout);
-        ViewPager profileViewPager = root.findViewById(R.id.messagesViewPager);
+//        activiteActivitiesRelativeLayout = root.findViewById(R.id.active_activities_relative_layout);
+//        activeActivitiesActualCard = root.findViewById(R.id.activeActivitiesActualCard);
+//        activeActivitiesRecycler = root.findViewById(R.id.activeActivitiesRecycler);
+//
+//        //Attributes views
+//        attributesRelativeLayout = root.findViewById(R.id.attributes_relative_layout);
+//        attributesActualCard = root.findViewById(R.id.attributesActualCard);
+//
+//
+//        //Messages views
+//        messagesRelativeLayout = root.findViewById(R.id.messages_relative_layout);
+//        messagesActualCard = root.findViewById(R.id.messagesActualCard);
+//        TabLayout profileTabLayout = root.findViewById(R.id.messages_tab_layout);
+//        ViewPager profileViewPager = root.findViewById(R.id.messagesViewPager);
 
 
         //Dash Implementation
@@ -240,12 +238,12 @@ public class ProfileFragment extends Fragment implements ActiveActivitiesAdapter
         messagesCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messagesRelativeLayout.setVisibility(View.VISIBLE);
-                MessagesPagerAdapter messagesPagerAdapter = new MessagesPagerAdapter(getParentFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-                profileViewPager.setAdapter(messagesPagerAdapter);
-                profileTabLayout.setupWithViewPager(profileViewPager);
-                profileTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
-                profileTabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
+//                messagesRelativeLayout.setVisibility(View.VISIBLE);
+//                MessagesPagerAdapter messagesPagerAdapter = new MessagesPagerAdapter(getParentFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//                profileViewPager.setAdapter(messagesPagerAdapter);
+//                profileTabLayout.setupWithViewPager(profileViewPager);
+//                profileTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ef5350"));
+//                profileTabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ef5350"));
             }
         });
 
