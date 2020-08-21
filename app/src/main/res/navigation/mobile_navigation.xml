@@ -104,8 +104,8 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ProfileFragment"
-        android:label="fragment_profile"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.ProfileFragment"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_navigation_profile_to_requestsFragment"
@@ -114,14 +114,14 @@
             android:id="@+id/action_navigation_profile_to_activityFragment"
             app:destination="@id/activityFragment" />
         <action
-            android:id="@+id/action_navigation_profile_to_editEmergencyContactsBottomSheetFragment"
-            app:destination="@id/editEmergencyContactsBottomSheetFragment" />
-        <action
             android:id="@+id/action_navigation_profile_to_editPhoneBottomSheetFragment"
             app:destination="@id/editPhoneBottomSheetFragment" />
         <action
             android:id="@+id/action_navigation_profile_to_editEmailBottomSheetFragment"
             app:destination="@id/editEmailBottomSheetFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_editEmergencyContactsFragment"
+            app:destination="@id/editEmergencyContactsFragment" />
     </fragment>
 
 
@@ -137,7 +137,7 @@
 
     <fragment
         android:id="@+id/navigation_active_kicks"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.ActiveActivitiesFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.ActiveActivitiesFragment"
         android:label="Active"
         tools:layout="@layout/fragment_active_activities" />
     <activity
@@ -432,26 +432,35 @@
         tools:layout="@layout/fragment_report_user" />
     <fragment
         android:id="@+id/requestsFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.RequestsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.RequestsFragment"
         android:label="Requests"
-        tools:layout="@layout/fragment_requests" />
+        tools:layout="@layout/fragment_requests">
+        <action
+            android:id="@+id/action_requestsFragment_to_viewRequestBottomSheetFragment"
+            app:destination="@id/viewRequestBottomSheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/activityFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.ActivityFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.ActivityFragment"
         android:label="fragment_activity"
         tools:layout="@layout/fragment_activity" />
-    <fragment
+    <dialog
         android:id="@+id/editEmailBottomSheetFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditEmailBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditUserNameBottomSheetFragment"
         android:label="EditEmailBottomSheetFragment" />
-    <fragment
+    <dialog
         android:id="@+id/editPhoneBottomSheetFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditPhoneBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditPhoneBottomSheetFragment"
         android:label="EditPhoneBottomSheetFragment" />
     <fragment
-        android:id="@+id/editEmergencyContactsBottomSheetFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.UserProfile.fragments.EditEmergencyContactsBottomSheetFragment"
-        android:label="EditEmergencyContactsBottomSheetFragment" />
+        android:id="@+id/editEmergencyContactsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditEmergencyContactsFragment"
+        android:label="fragment_edit_emergency_contacts"
+        tools:layout="@layout/fragment_edit_emergency_contacts" />
+    <fragment
+        android:id="@+id/viewRequestBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.ViewRequestBottomSheetFragment"
+        android:label="ViewRequestBottomSheetFragment" />
 
 
 </navigation>

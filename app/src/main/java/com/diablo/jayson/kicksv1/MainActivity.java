@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (destination.getId() == R.id.attendActivityMainFragment) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.VISIBLE);
+                } else if (destination.getId() == R.id.editPhoneBottomSheetFragment) {
+                    toolbar.setVisibility(View.GONE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);

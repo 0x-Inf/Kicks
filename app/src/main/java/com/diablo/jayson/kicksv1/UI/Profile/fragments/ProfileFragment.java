@@ -1,38 +1,34 @@
-package com.diablo.jayson.kicksv1.UI.UserProfile.fragments;
+package com.diablo.jayson.kicksv1.UI.Profile.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.Models.AttendingUser;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.UserProfile.ActiveActivitiesAdapter;
+import com.diablo.jayson.kicksv1.UI.Profile.ProfileViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,29 +45,9 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
 
-    //Main Dash stuff
-    private RelativeLayout activitiesCardOverlay, attributesCardOverlay, messagesCardOverlay;
-    private ImageView activitiesCardImageView, profilePictureImageView;
-    private TextView fullNameTextView, usernameTextView, emailActualTextView, phoneActualTextView;
-    private ArrayList<User> allUsers;
-    private FloatingActionButton goToSettingsFab;
+    private User currentUser;
+    private ProfileViewModel profileViewModel;
 
-    //Active Activities Stuff
-    private RelativeLayout activiteActivitiesRelativeLayout;
-    private CardView activeActivitiesActualCard;
-    private RecyclerView activeActivitiesRecycler;
-    private ArrayList<Activity> activeActivities;
-    private ArrayList<Activity> allActivities;
-    private ArrayList<AttendingUser> attendingUsers;
-    private ActiveActivitiesAdapter.OnActiveActivitySelectedListener listener;
-
-    //Attributes Stuff
-    private RelativeLayout attributesRelativeLayout;
-    private CardView attributesActualCard;
-
-    //Messages Stuff
-    private RelativeLayout messagesRelativeLayout;
-    private CardView messagesActualCard;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -118,6 +94,17 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+//
+
+//        loadCurrentUserFromDb();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        assert user != null;
+//        String userName = "@" + user.getDisplayName();
+//
+//        binding.userNameTextView.setText(userName);
+
+
         binding.requestsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,48 +113,82 @@ public class ProfileFragment extends Fragment {
                 navController.navigate(actionRequestsFragment);
             }
         });
-//
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        String userName = "@" + user.getDisplayName();
-//        Glide.with(getContext())
-//                .load(picUrl)
-//                .apply(RequestOptions.circleCropTransform())
-//                .into(profilePictureImageView);
-        binding.userNameTextView.setText(userName);
-//        loadCurrentUserFromDb();
+
+        binding.activityCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionActivityFragment = ProfileFragmentDirections.actionNavigationProfileToActivityFragment();
+                navController.navigate(actionActivityFragment);
+            }
+        });
+
+        binding.editEmailTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionEditEmail = ProfileFragmentDirections.actionNavigationProfileToEditEmailBottomSheetFragment();
+                navController.navigate(actionEditEmail);
+            }
+        });
+
+        binding.editPhoneTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionEditPhone = ProfileFragmentDirections.actionNavigationProfileToEditPhoneBottomSheetFragment();
+                navController.navigate(actionEditPhone);
+            }
+        });
+
+        binding.editEmergencyContactsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections actionEditEmergency = ProfileFragmentDirections.actionNavigationProfileToEditEmergencyContactsFragment();
+                navController.navigate(actionEditEmergency);
+            }
+        });
+
         return root;
     }
 
-    private void loadCurrentUserFromDb() {
-        allUsers = new ArrayList<User>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").whereEqualTo("uid", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        currentUser = new User();
+        profileViewModel.getCurrentUserLiveData().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                        allUsers.add(new User(snapshot.toObject(User.class).getUid(),
-                                snapshot.toObject(User.class).getUserName(),
-                                snapshot.toObject(User.class).getFirstName(),
-                                snapshot.toObject(User.class).getSecondName(),
-                                snapshot.toObject(User.class).getUserEmail(),
-                                snapshot.toObject(User.class).getPassWord(),
-                                snapshot.toObject(User.class).getPhotoUrl(),
-                                snapshot.toObject(User.class).getPhoneNumber(),
-                                snapshot.toObject(User.class).getSignedUpTime()));
-                        String fullName = allUsers.get(0).getFirstName() + " " + allUsers.get(0).getSecondName();
-                        String phoneNumber = allUsers.get(0).getPhoneNumber();
-                        String emailAddress = allUsers.get(0).getUserEmail();
-                        fullNameTextView.setText(fullName);
-//                        emailActualTextView.setText(emailAddress);
-//                        phoneActualTextView.setText(phoneNumber);
-                    }
-
-                }
+            public void onChanged(User user) {
+                currentUser = user;
+                binding.emailActualTextView.setText(currentUser.getUserEmail());
+                String fullName = currentUser.getFirstName() + " " + currentUser.getSecondName();
+                binding.fullNameTextView.setText(fullName);
+                binding.userNameTextView.setText(currentUser.getUserName());
+                binding.phoneActualTextView.setText(currentUser.getPhoneNumber());
+                Glide.with(requireContext())
+                        .load(currentUser.getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(binding.profilePictureImageView);
             }
         });
+    }
+
+    private void loadCurrentUserFromDb() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        assert user != null;
+        db.collection("users")
+                .document(user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            currentUser = Objects.requireNonNull(task.getResult()).toObject(User.class);
+                        }
+                        assert currentUser != null;
+
+                    }
+                });
     }
 
 //    private void loadActiveActivitiesFromDb() {

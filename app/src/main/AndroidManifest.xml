@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.UserProfile.ProfileActivity" />
+        <activity android:name=".UI.Profile.ProfileActivity" />
         <activity android:name=".UI.Search.SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

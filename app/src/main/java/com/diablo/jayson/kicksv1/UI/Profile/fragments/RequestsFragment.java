@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.UserProfile.fragments;
+package com.diablo.jayson.kicksv1.UI.Profile.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +12,11 @@ import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.ContactRequest;
-import com.diablo.jayson.kicksv1.UI.UserProfile.RequestsListAdapter;
+import com.diablo.jayson.kicksv1.UI.Profile.RequestsListAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentRequestsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -86,7 +89,7 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRequestsBinding.inflate(inflater, container, false);
@@ -152,8 +155,25 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
                                             if (task.isSuccessful()) {
-                                                requestData.remove(contactRequest);
-                                                requestsListAdapter.notifyDataSetChanged();
+                                                db.collection("users")
+                                                        .document(contactRequest.getTargetId())
+                                                        .collection("contactRequests")
+                                                        .document(contactRequest.getRequestId())
+                                                        .delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                requestData.remove(contactRequest);
+                                                                requestsListAdapter.notifyDataSetChanged();
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+
+                                                            }
+                                                        });
+
                                             }
                                         }
                                     });
@@ -170,8 +190,26 @@ public class RequestsFragment extends Fragment implements RequestsListAdapter.On
 
     @Override
     public void onRejectSelected(ContactRequest contactRequest) {
-        requestData.remove(contactRequest);
-        requestsListAdapter.notifyDataSetChanged();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(contactRequest.getTargetId())
+                .collection("contactRequests")
+                .document(contactRequest.getRequestId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        requestData.remove(contactRequest);
+                        requestsListAdapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 
     @Override

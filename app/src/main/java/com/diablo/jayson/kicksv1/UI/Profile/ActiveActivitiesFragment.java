@@ -1,6 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.UserProfile;
+package com.diablo.jayson.kicksv1.UI.Profile;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,13 +9,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AttendActivity.MainAttendActivityActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,71 +26,36 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GroupMessagesFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class GroupMessagesFragment extends Fragment implements GroupMessagesAdapter.OnGroupSelectedListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class ActiveActivitiesFragment extends Fragment {
+
     private static final String TAG = ActiveActivitiesFragment.class.getSimpleName();
 
-    private RecyclerView groupMessagesRecycler;
+    private RecyclerView activeRecycler;
+    private RecyclerView hostingRecycler;
+
     private ArrayList<Activity> activeActivities;
     private ArrayList<Activity> allActivities;
     private ArrayList<AttendingUser> attendingUsers;
-    private GroupMessagesFragment listener;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public GroupMessagesFragment() {
+    public ActiveActivitiesFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GroupMessagesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GroupMessagesFragment newInstance(String param1, String param2) {
-        GroupMessagesFragment fragment = new GroupMessagesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_group_messages, container, false);
-        groupMessagesRecycler = root.findViewById(R.id.groupMessagesRecycler);
+        View root = inflater.inflate(R.layout.fragment_active_activities, container, false);
+        activeRecycler = root.findViewById(R.id.activeRecyclerView);
         loadActiveActivitiesFromDb();
 
         return root;
     }
 
     private void loadActiveActivitiesFromDb() {
-        listener = this;
-
         allActivities = new ArrayList<Activity>();
         activeActivities = new ArrayList<Activity>();
 
@@ -159,25 +122,44 @@ public class GroupMessagesFragment extends Fragment implements GroupMessagesAdap
                                     }
 
                                 }
+//                                if (allActivities.get(i).getMattendees().contains(FirebaseUtil.getAttendingUser())){
+//                                    activeActivities.add(new Activity(allActivities.get(i).getHost(),
+//                                            allActivities.get(i).getkickTitle(),allActivities.get(i).getkickTime(),
+//                                            allActivities.get(i).getKickEndTime(),allActivities.get(i).getkickDate(),
+//                                            allActivities.get(i).getkickLocation(),allActivities.get(i).getMinRequiredPeople(),
+//                                            allActivities.get(i).getMaxRequiredPeeps(),allActivities.get(i).getimageUrl(),
+//                                            allActivities.get(i).getTags(),allActivities.get(i).getUploadedTime(),
+//                                            allActivities.get(i).getUploaderId(),allActivities.get(i).getActivityId(),
+//                                            allActivities.get(i).getTag(),allActivities.get(i).getMattendees(),
+//                                            allActivities.get(i).getActivityCost()));
+//                                }
                             }
 
-                            Log.e(TAG, String.valueOf(activeActivities.size()));
-                            GroupMessagesAdapter groupMessagesAdapter = new GroupMessagesAdapter(getContext(), activeActivities, listener);
-                            groupMessagesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
-                            groupMessagesRecycler.setAdapter(groupMessagesAdapter);
+//                            for (Activity activity : allActivities) {
+//                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                                assert user != null;
+//                                if (activity.getMattendees().contains(FirebaseUtil.getAttendingUser())) {
+//                                    activeActivities.add(new Activity(activity.getHost(), activity.getkickTitle(),
+//                                            activity.getkickTime(), activity.getKickEndTime(), activity.getkickDate(),
+//                                            activity.getkickLocation(), activity.getMinRequiredPeople(),
+//                                            activity.getMaxRequiredPeeps(), activity.getimageUrl(), activity.getTags(),
+//                                            activity.getUploadedTime(), activity.getUploaderId(), activity.getActivityId(),
+//                                            activity.getTag(), activity.getMattendees(), activity.getActivityCost()));
+//
+//                                    for (int i = 0; i < activeActivities.size(); i++) {
+//                                        Log.w("Active", activeActivities.get(i).getkickTitle());
+//                                    }
+//                                }
+//
+//                            }
+//                            Log.e(TAG, String.valueOf(activeActivities.size()));
+//                            ActiveActivitiesAdapter activeActivitiesAdapter = new ActiveActivitiesAdapter(getContext(), activeActivities);
+//                            activeRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
+//                            activeRecycler.setAdapter(activeActivitiesAdapter);
                         }
 
                     }
                 });
     }
 
-    @Override
-    public void onGroupSelected(Activity group) {
-        Intent attendActivity = new Intent(getContext(), MainAttendActivityActivity.class);
-        attendActivity.putExtra("activityId", group.getActivityId());
-        attendActivity.putExtra("alreadyAttending", true);
-        attendActivity.putExtra("fromGroupMessages", true);
-        startActivity(attendActivity);
-//        Toast.makeText(getContext(), group.getActivityId(), Toast.LENGTH_LONG).show();
-    }
 }

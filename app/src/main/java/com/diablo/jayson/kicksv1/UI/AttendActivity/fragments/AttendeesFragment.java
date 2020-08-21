@@ -24,6 +24,8 @@ import com.diablo.jayson.kicksv1.databinding.FragmentAttendeesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -151,8 +153,14 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
     @Override
     public void onAttendeeSelected(AttendingUser attendingUser) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        NavDirections actionAttendeesBottomDialog = AttendeesFragmentDirections.actionAttendeesFragmentToAttendeeSelectedBottomDialogFragment(attendingUser.getUid());
-        navController.navigate(actionAttendeesBottomDialog);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        if (attendingUser.getUid().equals(user.getUid())) {
+        } else {
+            NavDirections actionAttendeesBottomDialog = AttendeesFragmentDirections.actionAttendeesFragmentToAttendeeSelectedBottomDialogFragment(attendingUser.getUid());
+            navController.navigate(actionAttendeesBottomDialog);
+        }
+
     }
 
 

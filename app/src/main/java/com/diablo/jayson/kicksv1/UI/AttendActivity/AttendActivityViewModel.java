@@ -8,8 +8,8 @@ import com.diablo.jayson.kicksv1.Models.Activity;
 
 public class AttendActivityViewModel extends ViewModel {
 
-    private final MutableLiveData<String> activityIdData = new MutableLiveData<String>();
-    private final MutableLiveData<Activity> activityMutableLiveData = new MutableLiveData<Activity>();
+    private MutableLiveData<String> activityIdData = new MutableLiveData<String>();
+    private MutableLiveData<Activity> activityMutableLiveData = new MutableLiveData<Activity>();
 
     public void setActivityData(Activity activityData) {
         activityMutableLiveData.setValue(activityData);
@@ -26,4 +26,6 @@ public class AttendActivityViewModel extends ViewModel {
     public LiveData<String> getActivityId() {
         return activityIdData;
     }
+
+
 }
