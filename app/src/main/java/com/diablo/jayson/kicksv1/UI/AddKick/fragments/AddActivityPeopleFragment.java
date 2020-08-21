@@ -1,12 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +11,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.diablo.jayson.kicksv1.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
-import java.util.Objects;
+import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.

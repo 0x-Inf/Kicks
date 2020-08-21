@@ -5,9 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.diablo.jayson.kicksv1.Models.Contact;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.ContactListAdapter;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentInvitePeopleBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -15,7 +29,7 @@ import com.diablo.jayson.kicksv1.databinding.FragmentInvitePeopleBinding;
  * Use the {@link InvitePeopleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvitePeopleFragment extends Fragment {
+public class InvitePeopleFragment extends Fragment implements ContactListAdapter.OnContactSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +41,14 @@ public class InvitePeopleFragment extends Fragment {
     private String mParam2;
 
     private FragmentInvitePeopleBinding binding;
+    private HomeViewModel homeViewModel;
+
+    private ContactListAdapter contactListAdapter;
+    private ArrayList<Contact> contactsData;
+    private InvitePeopleFragment contactSelectedListener;
+
+    private ArrayList<String> pickedContactsData;
+
 
     public InvitePeopleFragment() {
         // Required empty public constructor
@@ -64,7 +86,49 @@ public class InvitePeopleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentInvitePeopleBinding.inflate(inflater, container, false);
+        getContactsDataFromDb();
+        pickedContactsData = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        binding.invitesDoneFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (String pickedContact : pickedContactsData) {
+                    db.collection("users")
+                            .document(pickedContact)
+                            .collection("invites");
+                }
+            }
+        });
         return binding.getRoot();
+    }
+
+    private void getContactsDataFromDb() {
+        contactsData = new ArrayList<>();
+        contactSelectedListener = this;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        db.collection("users")
+                .document(firebaseUser.getUid())
+                .collection("contacts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                contactsData.add(documentSnapshot.toObject(Contact.class));
+                            }
+                            contactListAdapter = new ContactListAdapter(contactsData, contactSelectedListener);
+                            binding.contactsRecycler.setAdapter(contactListAdapter);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onContactSelected(Contact contact) {
+        pickedContactsData.add(contact.getContactId());
     }
 }

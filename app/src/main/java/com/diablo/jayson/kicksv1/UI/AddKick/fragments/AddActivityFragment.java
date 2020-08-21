@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +29,12 @@ import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddKickViewModel;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

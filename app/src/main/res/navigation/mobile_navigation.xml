@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_kick_select" />
     <fragment
         android:id="@+id/navigation_add_kick"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityFragment"
         android:label="AddKick"
         tools:layout="@layout/fragment_add_activity">
         <argument
@@ -147,7 +147,7 @@
         tools:layout="@layout/activity_attend_activity" />
     <fragment
         android:id="@+id/addActivityPeopleFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityPeopleFragment"
         android:label="fragment_add_activity_people"
         tools:layout="@layout/fragment_add_activity_people">
         <action
@@ -163,7 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/addActivityTagFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityTagFragment"
         android:label="fragment_add_activity_tag"
         tools:layout="@layout/fragment_add_activity_tag">
         <action
@@ -179,7 +179,7 @@
     </fragment>
     <fragment
         android:id="@+id/addActivityCostFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityCostFragment"
         android:label="fragment_add_activity_cost"
         tools:layout="@layout/fragment_add_activity_cost">
         <action
@@ -195,7 +195,7 @@
     </fragment>
     <fragment
         android:id="@+id/addActivityDateTimeFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDateTimeFragment"
         android:label="fragment_add_activity_date_time"
         tools:layout="@layout/fragment_add_activity_date_time">
         <action
@@ -210,7 +210,7 @@
     </fragment>
     <fragment
         android:id="@+id/addActivityLocationFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityLocationFragment"
         android:label="fragment_add_activity_location"
         tools:layout="@layout/fragment_add_activity_location">
         <action

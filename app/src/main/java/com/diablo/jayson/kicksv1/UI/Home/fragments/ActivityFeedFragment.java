@@ -21,7 +21,7 @@ import com.diablo.jayson.kicksv1.Adapters.ActivityFeedAdapter;
 import com.diablo.jayson.kicksv1.Adapters.ActivityFeedListAdapter;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityFragment;
+import com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

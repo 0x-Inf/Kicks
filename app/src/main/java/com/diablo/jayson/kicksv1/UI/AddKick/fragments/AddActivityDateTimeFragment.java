@@ -1,12 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +9,13 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 

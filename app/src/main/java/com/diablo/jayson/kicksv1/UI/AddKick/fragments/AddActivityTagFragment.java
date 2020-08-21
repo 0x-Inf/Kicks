@@ -1,16 +1,6 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,11 +12,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Adapters.TagListAdapter;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

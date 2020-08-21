@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityPeopleFragment">
 
     <RelativeLayout
         android:id="@+id/add_activity_people_relative_layout"

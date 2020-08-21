@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,15 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +15,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -38,6 +37,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;

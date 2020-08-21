@@ -340,6 +340,11 @@
     <string name="phone_number_text">Phone Number</string>
     <string name="contacts_text">Contacts:</string>
     <string name="search_contacts_hint_text">Search Contacts</string>
+    <string name="image_for_contact_in_list_image_description">Image For Contact in lIst</string>
+    <string name="done_text">Done</string>
+    <string name="change_phone_number_text">Change Phone Number</string>
+    <string name="just_type_your_new_phone_number_text">Just type your new phone number</string>
+    <string name="example_phone">0712345678</string>
 
 
 </resources>

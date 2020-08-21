@@ -101,4 +101,8 @@ public class HomeViewModel extends ViewModel {
     private void getFeedActivitiesFromDb() {
 
     }
+
+    private void getContactsDataFromDb() {
+
+    }
 }
