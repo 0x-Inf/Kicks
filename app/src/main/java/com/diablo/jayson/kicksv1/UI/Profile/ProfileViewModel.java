@@ -1,13 +1,17 @@
 package com.diablo.jayson.kicksv1.UI.Profile;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -99,5 +103,48 @@ public class ProfileViewModel extends ViewModel {
                         }
                     }
                 });
+    }
+
+    public void updateEmail(String newEmail) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        assert user != null;
+        user.updateEmail(newEmail)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            try {
+                                Log.d("Email boi", "User email address updated.");
+                                db.collection("users")
+                                        .document(user.getUid())
+                                        .update("userEmail", newEmail)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    getCurrentUserDataFromDb();
+                                                }
+                                            }
+                                        });
+                                throw task.getException();
+                            } catch (FirebaseAuthRecentLoginRequiredException e) {
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Email boi failed", Objects.requireNonNull(e.getMessage()));
+
+                    }
+                });
+
     }
 }

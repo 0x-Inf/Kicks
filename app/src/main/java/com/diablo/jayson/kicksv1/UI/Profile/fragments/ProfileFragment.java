@@ -130,7 +130,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.editPhoneTextView.setOnClickListener(new View.OnClickListener() {
+        binding.editUserNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavDirections actionEditPhone = ProfileFragmentDirections.actionNavigationProfileToEditPhoneBottomSheetFragment();
@@ -162,7 +162,7 @@ public class ProfileFragment extends Fragment {
                 String fullName = currentUser.getFirstName() + " " + currentUser.getSecondName();
                 binding.fullNameTextView.setText(fullName);
                 binding.userNameTextView.setText(currentUser.getUserName());
-                binding.phoneActualTextView.setText(currentUser.getPhoneNumber());
+                binding.displayNameActualTextView.setText(currentUser.getUserName());
                 Glide.with(requireContext())
                         .load(currentUser.getPhotoUrl())
                         .apply(RequestOptions.circleCropTransform())

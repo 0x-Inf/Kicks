@@ -15,13 +15,11 @@ import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Profile.ProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-
-public class EditPhoneBottomSheetFragment extends BottomSheetDialogFragment {
+public class EditEmailBottomSheetFragment extends BottomSheetDialogFragment {
 
     private ProfileViewModel profileViewModel;
-    private Button donePhoneEditButton;
-    private EditText editPhoneEditText;
-
+    private Button emailEditDoneButton;
+    private EditText newEmailEditText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,9 +29,9 @@ public class EditPhoneBottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_edit_phone_bottom_sheet, container, false);
-        donePhoneEditButton = root.findViewById(R.id.doneEditPhoneButton);
-        editPhoneEditText = root.findViewById(R.id.newPhoneEditText);
+        View root = inflater.inflate(R.layout.fragment_edit_email_bottom_sheet, container, false);
+        emailEditDoneButton = root.findViewById(R.id.doneEditEmailButton);
+        newEmailEditText = root.findViewById(R.id.newEmailEditText);
         return root;
     }
 
@@ -41,10 +39,10 @@ public class EditPhoneBottomSheetFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-        donePhoneEditButton.setOnClickListener(new View.OnClickListener() {
+        emailEditDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                profileViewModel.updateUserPhone(editPhoneEditText.getText().toString());
+                profileViewModel.updateEmail(newEmailEditText.getText().toString());
             }
         });
     }

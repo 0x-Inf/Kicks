@@ -345,6 +345,15 @@
     <string name="change_phone_number_text">Change Phone Number</string>
     <string name="just_type_your_new_phone_number_text">Just type your new phone number</string>
     <string name="example_phone">0712345678</string>
+    <string name="change_email_address_text">Change Email Address</string>
+    <string name="just_type_your_new_email_address_it_might_require_a_re_authentication_tex">Just type your new email address,it might require a re-authentication</string>
+    <string name="johnathandoe_email_com_text">johnathandoe@email.com</string>
+    <string name="change_user_name_text">Change User Name</string>
+    <string name="just_type_your_new_username_text">Just type your new username</string>
+    <string name="username_example_text">Username</string>
+    <string name="display_name_text">Display Name</string>
+    <string name="rate_and_finish_text">Rate And Finish</string>
+    <string name="view_text">View</string>
 
 
 </resources>

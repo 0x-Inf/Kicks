@@ -260,12 +260,12 @@
                         app:layout_constraintTop_toBottomOf="@+id/emailActualTextView" />
 
                     <TextView
-                        android:id="@+id/phoneNumberTextTextView"
+                        android:id="@+id/displayNameTextTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="@string/phone_number_text"
+                        android:text="@string/display_name_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -273,27 +273,27 @@
                         app:layout_constraintTop_toBottomOf="@+id/lineDividerOne" />
 
                     <TextView
-                        android:id="@+id/phoneActualTextView"
+                        android:id="@+id/displayNameActualTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/example_phone_number"
+                        android:text="@string/username_example_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="?android:attr/textColorSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayNameTextTextView" />
 
                     <TextView
-                        android:id="@+id/editPhoneTextView"
+                        android:id="@+id/editUserNameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:text="@string/edit_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/phoneActualTextView"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/displayNameActualTextView"
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <View
@@ -306,7 +306,7 @@
                         android:background="@color/colorTransparentBlack"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneActualTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayNameActualTextView" />
 
                     <TextView
                         android:id="@+id/emergencyContactsTextTextView"

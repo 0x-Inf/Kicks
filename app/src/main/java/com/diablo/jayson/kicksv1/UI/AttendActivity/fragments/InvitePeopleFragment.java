@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.ContactListAdapter;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.PickedContactsAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentInvitePeopleBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +30,7 @@ import java.util.Objects;
  * Use the {@link InvitePeopleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvitePeopleFragment extends Fragment implements ContactListAdapter.OnContactSelectedListener {
+public class InvitePeopleFragment extends Fragment implements ContactListAdapter.OnContactSelectedListener, PickedContactsAdapter.OnPickedContactSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,10 +45,12 @@ public class InvitePeopleFragment extends Fragment implements ContactListAdapter
     private HomeViewModel homeViewModel;
 
     private ContactListAdapter contactListAdapter;
+    private PickedContactsAdapter pickedContactsAdapter;
     private ArrayList<Contact> contactsData;
     private InvitePeopleFragment contactSelectedListener;
 
-    private ArrayList<String> pickedContactsData;
+    private ArrayList<String> pickedContactIdsData;
+    private ArrayList<Contact> pickedContactsData;
 
 
     public InvitePeopleFragment() {
@@ -87,19 +90,21 @@ public class InvitePeopleFragment extends Fragment implements ContactListAdapter
         // Inflate the layout for this fragment
         binding = FragmentInvitePeopleBinding.inflate(inflater, container, false);
         getContactsDataFromDb();
+        pickedContactIdsData = new ArrayList<>();
         pickedContactsData = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+        pickedContactsAdapter = new PickedContactsAdapter(pickedContactsData, this);
         binding.invitesDoneFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (String pickedContact : pickedContactsData) {
+                for (String pickedContact : pickedContactIdsData) {
                     db.collection("users")
                             .document(pickedContact)
                             .collection("invites");
                 }
             }
         });
+        binding.selectedPeopleRecycler.setAdapter(pickedContactsAdapter);
         return binding.getRoot();
     }
 
@@ -129,6 +134,18 @@ public class InvitePeopleFragment extends Fragment implements ContactListAdapter
 
     @Override
     public void onContactSelected(Contact contact) {
-        pickedContactsData.add(contact.getContactId());
+        pickedContactIdsData.add(contact.getContactId());
+        pickedContactsData.add(contact);
+        contactsData.remove(contact);
+        contactListAdapter.notifyDataSetChanged();
+        pickedContactsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPickedContactSelected(Contact contact) {
+        pickedContactsData.remove(contact);
+        contactsData.add(contact);
+        pickedContactsAdapter.notifyDataSetChanged();
+        contactListAdapter.notifyDataSetChanged();
     }
 }

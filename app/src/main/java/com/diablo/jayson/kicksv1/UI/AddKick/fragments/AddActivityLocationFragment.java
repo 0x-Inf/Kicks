@@ -261,7 +261,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         mLocationPermissionGranted = true;
-                        map.setMyLocationEnabled(true);
+//                        map.setMyLocationEnabled(true);
                         map.getUiSettings().setMapToolbarEnabled(true);
 //                        setUsersLastLocation();
                     }

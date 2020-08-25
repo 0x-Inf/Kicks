@@ -38,8 +38,6 @@ public class Activity extends BaseObservable implements Serializable {
     }
 
     //Constructor for Activity data model
-
-
     public Activity(Host host, String activityTitle, com.google.firebase.Timestamp activityStartTime, com.google.firebase.Timestamp activityEndTime,
                     com.google.firebase.Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates,
                     int activityMinRequiredPeople, int activityMaxRequiredPeople, int activityMinAge,

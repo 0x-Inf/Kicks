@@ -384,7 +384,11 @@
         tools:layout="@layout/fragment_active_activities2">
         <action
             android:id="@+id/action_activeActivitiesFragment_to_activeActivitySelectedBottomSheet"
-            app:destination="@id/activeActivitySelectedBottomSheet" />
+            app:destination="@id/activeActivitySelectedBottomSheet">
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_activeActivitiesFragment_to_attendActivityMainFragment"
             app:destination="@id/attendActivityMainFragment">
@@ -424,7 +428,19 @@
     <dialog
         android:id="@+id/activeActivitySelectedBottomSheet"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActiveActivitySelectedBottomSheet"
-        android:label="ActiveActivitySelectedBottomSheet" />
+        android:label="ActiveActivitySelectedBottomSheet">
+        <argument
+            android:name="activityId"
+            android:defaultValue="0"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_activeActivitySelectedBottomSheet_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
+    </dialog>
     <fragment
         android:id="@+id/reportUserFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ReportUserFragment"
@@ -446,11 +462,11 @@
         tools:layout="@layout/fragment_activity" />
     <dialog
         android:id="@+id/editEmailBottomSheetFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditUserNameBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditEmailBottomSheetFragment"
         android:label="EditEmailBottomSheetFragment" />
     <dialog
         android:id="@+id/editPhoneBottomSheetFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditPhoneBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Profile.fragments.EditUserNameBottomSheetFragment"
         android:label="EditPhoneBottomSheetFragment" />
     <fragment
         android:id="@+id/editEmergencyContactsFragment"
