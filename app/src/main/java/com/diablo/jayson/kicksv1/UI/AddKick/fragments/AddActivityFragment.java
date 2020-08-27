@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +35,8 @@ import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddKickViewModel;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +49,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import timber.log.Timber;
 
 public class AddActivityFragment extends Fragment {
 
@@ -206,7 +205,7 @@ public class AddActivityFragment extends Fragment {
         activityMain.setActivityMaxAge(activityPeopleData.getActivityMaxAge());
         activityMain.setActivityPrivate(activityPeopleData.isActivityPrivate());
         peopleCardImageView.setVisibility(View.VISIBLE);
-        Log.e(TAG, String.valueOf(activityMain.getActivityMaxRequiredPeople()));
+        Timber.e(String.valueOf(activityMain.getActivityMaxRequiredPeople()));
         viewModel.setActivity1(activityMain);
     }
 
@@ -344,17 +343,22 @@ public class AddActivityFragment extends Fragment {
                                     activity.put("activityReference", documentReference);
                                     activity.put("activityId", documentReference.getId());
                                     db.collection("users").document(userId).collection("activeactivities")
-                                            .add(activity)
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            .document(documentReference.getId())
+                                            .set(activity)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                                        activityMain = new Activity();
-                                                        viewModel.setActivity1(activityMain);
-                                                        startActivity(new Intent(getContext(), MainActivity.class));
-                                                        hideLoadingScreen();
-                                                    }
+                                                public void onSuccess(Void aVoid) {
+                                                    Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
+                                                    activityMain = new Activity();
+                                                    viewModel.setActivity1(activityMain);
+                                                    startActivity(new Intent(getContext(), MainActivity.class));
+                                                    hideLoadingScreen();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
                                                 }
                                             });
 
@@ -363,7 +367,7 @@ public class AddActivityFragment extends Fragment {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-
+                                    Timber.e(e);
                                 }
                             });
                 }

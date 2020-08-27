@@ -354,6 +354,8 @@
     <string name="display_name_text">Display Name</string>
     <string name="rate_and_finish_text">Rate And Finish</string>
     <string name="view_text">View</string>
+    <string name="someones_name_text">Someones Name</string>
+    <string name="image_for_attendee_pic_image_description">Image for attendee Pic</string>
 
 
 </resources>

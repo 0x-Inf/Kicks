@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,8 +15,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.ContactRequest;
+import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,18 +32,29 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Objects;
+
+import timber.log.Timber;
 
 public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragment {
 
     private FloatingActionButton reportFab, historyFab, myPeopleFab;
     private Button addButton;
     private Button followingButton;
+    private ImageView attendeePicImageView;
+    private TextView attendeeNameTextView;
 
     private String attendeeId;
+    private User attendingUser;
     private ContactRequest contactRequest;
+    private HomeViewModel homeViewModel;
+    private ArrayList<Contact> myContactsList;
+    private ArrayList<String> contactsIds;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +69,11 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         historyFab = root.findViewById(R.id.activityFAB);
         myPeopleFab = root.findViewById(R.id.followingFAB);
         addButton = root.findViewById(R.id.addContactButton);
+        attendeePicImageView = root.findViewById(R.id.attendeePicImageView);
+        attendeeNameTextView = root.findViewById(R.id.attendeeNameTextView);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         contactRequest = new ContactRequest();
+        getMyContactList();
 
         reportFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +110,33 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
             }
         });
         return root;
+    }
+
+    private void getMyContactList() {
+        myContactsList = new ArrayList<>();
+        contactsIds = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("users")
+                .document(firebaseUser.getUid())
+                .collection("contacts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                myContactsList.add(documentSnapshot.toObject(Contact.class));
+                                contactsIds.add(Objects.requireNonNull(documentSnapshot.toObject(Contact.class)).getContactId());
+                            }
+                            if (contactsIds.contains(attendeeId)) {
+                                addButton.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+
+
     }
 
     private void sendContactRequest() {
@@ -130,8 +178,8 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         contactRequest.setSenderName(user.getDisplayName());
         contactRequest.setSenderPicUrl(Objects.requireNonNull(user.getPhotoUrl()).toString());
         contactRequest.setTargetId(attendeeId);
-        contactRequest.setTargetName("test");
-        contactRequest.setTargetPicUrl(user.getPhotoUrl().toString());
+        contactRequest.setTargetName(attendingUser.getUserName());
+        contactRequest.setTargetPicUrl(attendingUser.getPhotoUrl());
     }
 
     @Override
@@ -140,10 +188,30 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         assert getArguments() != null;
         attendeeId = AttendeeSelectedBottomDialogFragmentArgs.fromBundle(getArguments()).getAttendeeId();
         getAttendeeData();
+
     }
 
     private void getAttendeeData() {
+        attendingUser = new User();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(attendeeId);
+        db.collection("users").document(attendeeId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            assert document != null;
+                            attendingUser = document.toObject(User.class);
+                        }
+                        assert attendingUser != null;
+                        Timber.e(attendingUser.getUid());
+                        attendeeNameTextView.setText(attendingUser.getUserName());
+                        Glide.with(requireContext())
+                                .load(attendingUser.getPhotoUrl())
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(attendeePicImageView);
+                    }
+                });
     }
 }

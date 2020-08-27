@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/attendeePicImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
@@ -13,17 +13,18 @@
         android:src="@drawable/ic_profile_icon_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/image_for_attendee_pic_image_description"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/attendeeNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Someones Name"
+        android:text="@string/someones_name_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/attendeePicImageView" />
 
     <View
         android:id="@+id/view"
@@ -126,7 +127,7 @@
         app:cornerRadius="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/attendeeNameTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

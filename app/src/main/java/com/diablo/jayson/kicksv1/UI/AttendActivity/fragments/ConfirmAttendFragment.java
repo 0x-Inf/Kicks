@@ -28,6 +28,8 @@ import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -149,14 +151,19 @@ public class ConfirmAttendFragment extends Fragment {
                                     activity.put("activityReference", documentReference);
                                     activity.put("activityId", activityId);
                                     db.collection("users").document(userId).collection("activeactivities")
-                                            .add(activity)
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            .document(activityId)
+                                            .set(activity)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                    if (task.isSuccessful()) {
-                                                        NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
-                                                        navController.navigate(actionMainAttend);
-                                                    }
+                                                public void onSuccess(Void aVoid) {
+                                                    NavDirections actionMainAttend = ConfirmAttendFragmentDirections.actionConfirmAttendFragmentToAttendActivityMainFragment(activityId);
+                                                    navController.navigate(actionMainAttend);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
                                                 }
                                             });
 

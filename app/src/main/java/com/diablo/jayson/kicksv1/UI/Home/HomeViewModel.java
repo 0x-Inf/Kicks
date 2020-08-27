@@ -105,4 +105,9 @@ public class HomeViewModel extends ViewModel {
     private void getContactsDataFromDb() {
 
     }
+
+    public void removeActivityFromActive(Activity activity) {
+        activeActivitiesArrayList.remove(activity);
+        activeActivitiesMutableLiveData.postValue(activeActivitiesArrayList);
+    }
 }

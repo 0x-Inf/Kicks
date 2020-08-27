@@ -9,13 +9,28 @@ import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.FinishedActivity;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import timber.log.Timber;
 
 public class ActiveActivitySelectedBottomSheet extends BottomSheetDialogFragment {
 
@@ -24,6 +39,11 @@ public class ActiveActivitySelectedBottomSheet extends BottomSheetDialogFragment
     private Button viewActivityButton;
 
     private String activityId;
+    private FinishedActivity finishedActivity;
+    private Activity selectedActivity;
+    private HomeViewModel homeViewModel;
+
+    private NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +57,8 @@ public class ActiveActivitySelectedBottomSheet extends BottomSheetDialogFragment
         ratingBar = root.findViewById(R.id.rateActivityRatingBar);
         rateAndFinishButton = root.findViewById(R.id.rateAndFinishButton);
         viewActivityButton = root.findViewById(R.id.viewActivityButton);
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        finishedActivity = new FinishedActivity();
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -60,7 +81,70 @@ public class ActiveActivitySelectedBottomSheet extends BottomSheetDialogFragment
                 navController.navigate(actionActivityAttendFragment);
             }
         });
+
+        rateAndFinishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ratingBar.getRating() != 0) {
+                    finishedActivity.setRated(true);
+                    finishedActivity.setRating(ratingBar.getRating());
+                } else {
+                    finishedActivity.setRated(false);
+                    finishedActivity.setRating(0);
+                }
+                setUpFinishedActivity();
+                uploadFinishedActivity();
+            }
+        });
+
         return root;
+    }
+
+    private void uploadFinishedActivity() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("finishedActivities")
+                .add(finishedActivity)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            removeActivityFromActive();
+                        }
+                    }
+                });
+    }
+
+    private void removeActivityFromActive() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("activeactivities")
+                .document(selectedActivity.getActivityId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        homeViewModel.removeActivityFromActive(selectedActivity);
+                        navController.popBackStack();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Timber.e(e);
+                    }
+                });
+    }
+
+    private void setUpFinishedActivity() {
+        finishedActivity.setActivity(selectedActivity);
+        finishedActivity.setFinishedTime(Timestamp.now());
+    }
+
+    private void saveLatestFinishedActivity() {
+
     }
 
     @Override
@@ -69,10 +153,29 @@ public class ActiveActivitySelectedBottomSheet extends BottomSheetDialogFragment
         assert getArguments() != null;
         activityId = ActiveActivitySelectedBottomSheetArgs.fromBundle(getArguments()).getActivityId();
         getActivityFromDb();
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
     }
 
     private void getActivityFromDb() {
+        selectedActivity = new Activity();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("activities").document(activityId).get();
+        db.collection("activities")
+                .document(activityId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            assert documentSnapshot != null;
+                            if (documentSnapshot.exists()) {
+                                selectedActivity = documentSnapshot.toObject(Activity.class);
+//                                Timber.e();
+                            }
+                        }
+                        assert selectedActivity != null;
+                        Timber.e(selectedActivity.getActivityId());
+                    }
+                });
     }
 }
