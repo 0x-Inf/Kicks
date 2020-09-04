@@ -14,20 +14,27 @@ import androidx.fragment.app.FragmentManager;
 
 import com.diablo.jayson.kicksv1.R;
 
-public class ImageTextAndListDialogFragment extends DialogFragment {
+public class HappeningSoonSelectedDialogFragment extends DialogFragment {
 
+    private String activityId;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        assert getArguments() != null;
+        activityId = HappeningSoonSelectedDialogFragmentArgs.fromBundle(getArguments()).getActivityId();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.image_and_text_dialog_fragment, container, false);
+        View root = inflater.inflate(R.layout.dialog_happening_soon, container, false);
 
-        ImageTextAndListFragment imageTextAndListFragment = new ImageTextAndListFragment();
-
+        HappeningSoonSelectedFragment happeningSoonSelectedFragment = HappeningSoonSelectedFragment.newInstance(activityId);
         FragmentManager manager = getChildFragmentManager();
 
         manager.beginTransaction()
-                .replace(R.id.imageAndTextFragmentcontainer, imageTextAndListFragment)
+                .replace(R.id.happeningSoonFragmentContainer, happeningSoonSelectedFragment)
                 .commit();
         return root;
     }
@@ -35,11 +42,17 @@ public class ImageTextAndListDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog customDialog = new Dialog(requireContext(), R.style.DialogTheme);
+        Dialog customDialog = new Dialog(getContext(), R.style.DialogTheme);
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        customDialog.requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return customDialog;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 }

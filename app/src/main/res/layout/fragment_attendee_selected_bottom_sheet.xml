@@ -70,7 +70,7 @@
         android:layout_marginTop="24dp"
         android:src="@drawable/ic_action_history"
         app:backgroundTint="@color/colorMain"
-        app:layout_constraintEnd_toStartOf="@+id/followingFAB"
+        app:layout_constraintEnd_toStartOf="@+id/removeUserFAB"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/reportFAB"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -89,7 +89,8 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/followingFAB"
+        android:id="@+id/removeUserFAB"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -101,16 +102,17 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
-        android:id="@+id/myPeopleTextTextView"
+        android:id="@+id/removeTextTextView"
+        android:text="Remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="32dp"
-        android:text="My People"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/followingFAB"
-        app:layout_constraintStart_toStartOf="@+id/followingFAB"
-        app:layout_constraintTop_toBottomOf="@+id/followingFAB"
+        app:layout_constraintEnd_toEndOf="@+id/removeUserFAB"
+        app:layout_constraintStart_toStartOf="@+id/removeUserFAB"
+        app:layout_constraintTop_toBottomOf="@+id/removeUserFAB"
         app:layout_constraintVertical_bias="0.0" />
 
 

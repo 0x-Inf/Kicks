@@ -52,6 +52,8 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
     private ArrayList<Activity> happeningSoonActivities;
     private DashboardFragment listener;
 
+    private NavController navController;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -89,7 +91,7 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
         // Inflate the layout for this fragment
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         binding.activeActivitiesCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +153,8 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
 
     @Override
     public void onSoonActivitySelected(Activity activity) {
-
+        NavDirections actionHappeningSoonDialog = DashboardFragmentDirections
+                .actionDashboardFragmentToHappeningSoonSelectedDialogFragment(activity.getActivityId());
+        navController.navigate(actionHappeningSoonDialog);
     }
 }

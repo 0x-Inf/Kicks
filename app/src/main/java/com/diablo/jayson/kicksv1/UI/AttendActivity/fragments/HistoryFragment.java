@@ -1,14 +1,25 @@
 package com.diablo.jayson.kicksv1.UI.AttendActivity.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.diablo.jayson.kicksv1.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.diablo.jayson.kicksv1.Models.FinishedActivity;
+import com.diablo.jayson.kicksv1.UI.AttendActivity.HistoryItemsAdapter;
+import com.diablo.jayson.kicksv1.databinding.FragmentHistoryBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -26,6 +37,11 @@ public class HistoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentHistoryBinding binding;
+    private String attendeeId;
+    private ArrayList<FinishedActivity> historyData;
+    private HistoryItemsAdapter historyItemsAdapter;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -62,6 +78,33 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        binding = FragmentHistoryBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    private void getHistoryItemsFromDb() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        historyData = new ArrayList<>();
+        db.collection("users").document(attendeeId).collection("finishedActivities")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
+                                historyData.add(snapshot.toObject(FinishedActivity.class));
+                            }
+                            historyItemsAdapter = new HistoryItemsAdapter(historyData);
+                            binding.historyRecycler.setAdapter(historyItemsAdapter);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        attendeeId = HistoryFragmentArgs.fromBundle(getArguments()).getAttendeeId();
+        getHistoryItemsFromDb();
     }
 }

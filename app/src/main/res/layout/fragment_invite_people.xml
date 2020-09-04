@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="@string/invite_text"
+            android:text="@string/invitations_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -37,6 +37,7 @@
             app:spanCount="3" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/fromLastActivityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/fromLastActivityRecycler"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
