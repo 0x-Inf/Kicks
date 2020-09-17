@@ -63,7 +63,7 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
         availableActivitiesRecyclerView = findViewById(R.id.availableActivitiesRecycler);
         createActivityButton = findViewById(R.id.createActivityButton);
         kickShortDescription = findViewById(R.id.kickShortDescriptionTextView);
-        kickShortDescription.setText(kick.getKickShortDescription());
+//        kickShortDescription.setText(kick.getKickShortDescription());
         createActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,7 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
 
 
         Glide.with(this)
-                .load(kick.getKickCardImageUrl())
+                .load(kick.getKickMainImageUrl())
                 .into(kickCardImageView);
     }
 
@@ -85,7 +85,7 @@ public class KickSelectedActivity extends AppCompatActivity implements Available
         assert bundle != null;
         Kick kick = (Kick) bundle.get("kick");
         assert kick != null;
-        ArrayList<String> tags = kick.getTags();
+        ArrayList<String> tags = kick.getKickTags();
         FirebaseFirestore.getInstance().collection("activities")
                 .whereArrayContainsAny("tags", tags)
                 .get()

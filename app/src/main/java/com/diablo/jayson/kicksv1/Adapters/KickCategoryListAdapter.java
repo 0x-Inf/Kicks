@@ -60,7 +60,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
     @Override
     public KickCategoryListAdapter.KickCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KickCategoryViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.recycler_kick_category_list_item, parent, false));
+                inflate(R.layout.recycler_explore_category_list_item, parent, false));
     }
 
 
@@ -112,11 +112,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.e("kicks", documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                                kicksData.add(new Kick(documentSnapshot.toObject(Kick.class).getKickName(),
-                                        documentSnapshot.toObject(Kick.class).getKickShortDescription(),
-                                        documentSnapshot.toObject(Kick.class).getKickCardImageUrl(),
-                                        documentSnapshot.toObject(Kick.class).getKickLargeImageUrl(),
-                                        documentSnapshot.toObject(Kick.class).getTags()));
+                                kicksData.add(documentSnapshot.toObject(Kick.class));
                             }
 
                             KicksAdapter adapter = new KicksAdapter(holder.itemView.getContext(), kicksData, listener1);
@@ -143,8 +139,8 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
         public KickCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mCategoryTextView = itemView.findViewById(R.id.CategoryTextview);
-            seeAllText = itemView.findViewById(R.id.seeAllTextView);
+//            mCategoryTextView = itemView.findViewById(R.id.CategoryTextview);
+//            seeAllText = itemView.findViewById(R.id.seeAllTextView);
             mkickRecyclerView = itemView.findViewById(R.id.kicksRecyclerView);
 
         }
@@ -163,6 +159,7 @@ public class KickCategoryListAdapter extends FirestoreRecyclerAdapter<KickCatego
 
         }
     }
+
 
     private void initializeKickData() {
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();

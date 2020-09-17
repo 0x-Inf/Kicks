@@ -358,6 +358,8 @@
     <string name="image_for_attendee_pic_image_description">Image for attendee Pic</string>
     <string name="invitations_text">Invitations</string>
     <string name="_12_people_text">12 People</string>
+    <string name="indoor_activities_text">Indoor Activities</string>
+    <string name="see_all_text">See All</string>
 
 
 </resources>

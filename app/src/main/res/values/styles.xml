@@ -48,10 +48,10 @@
         <item name="android:windowBackground">@color/colorTransparentWhite</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginEnd">10dp</item>
-        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
     </style>
 
     <!--To fix rendering in preview -->

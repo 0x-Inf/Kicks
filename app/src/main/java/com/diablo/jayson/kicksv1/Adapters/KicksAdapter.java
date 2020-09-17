@@ -22,7 +22,7 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
     private ArrayList<Kick> kicksData;
 
     public interface OnKickSelectedListener {
-        void onkickSelected(Kick kick);
+        void onKickSelected(Kick kick);
     }
 
     private OnKickSelectedListener listener;
@@ -66,12 +66,12 @@ public class KicksAdapter extends RecyclerView.Adapter<KicksAdapter.KickViewHold
 
         void bindTo(Kick currentKick, OnKickSelectedListener listener) {
             mKickName.setText(currentKick.getKickName());
-            Glide.with(itemView.getContext()).load(currentKick.getKickCardImageUrl()).into(mKickImage);
+            Glide.with(itemView.getContext()).load(currentKick.getKickMainImageUrl()).into(mKickImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onkickSelected(currentKick);
+                        listener.onKickSelected(currentKick);
                     }
                 }
             });

@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.ContactRequest;
 import com.diablo.jayson.kicksv1.Models.User;
@@ -37,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -61,6 +63,9 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
     private ArrayList<Contact> myContactsList;
     private ArrayList<String> contactsIds;
     private Activity activityMain;
+    private AttendingUser attendingUserMain;
+
+    private NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +83,7 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         removeTextTextView = root.findViewById(R.id.removeTextTextView);
         attendeePicImageView = root.findViewById(R.id.attendeePicImageView);
         attendeeNameTextView = root.findViewById(R.id.attendeeNameTextView);
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         contactRequest = new ContactRequest();
         getMyContactList();
 
@@ -128,12 +133,25 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Toast.makeText(requireContext(), "Removed", Toast.LENGTH_SHORT).show();
+                        db.collection("activities")
+                                .document(activityMain.getActivityId())
+                                .update("activityAttendees", FieldValue.arrayRemove(attendingUserMain))
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            navController.popBackStack();
+                                        }
+                                    }
+                                });
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -216,6 +234,7 @@ public class AttendeeSelectedBottomDialogFragment extends BottomSheetDialogFragm
         super.onViewCreated(view, savedInstanceState);
         assert getArguments() != null;
         attendeeId = AttendeeSelectedBottomDialogFragmentArgs.fromBundle(getArguments()).getAttendeeId();
+        attendingUserMain = AttendeeSelectedBottomDialogFragmentArgs.fromBundle(getArguments()).getAttendingUser();
         getAttendeeData();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         attendActivityViewModel = new ViewModelProvider(requireActivity()).get(AttendActivityViewModel.class);

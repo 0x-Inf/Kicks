@@ -3,6 +3,7 @@ package com.diablo.jayson.kicksv1.UI.AttendActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,17 +42,20 @@ public class HistoryItemsAdapter extends RecyclerView.Adapter<HistoryItemsAdapte
     class HistoryItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView noOfPeopleTextView, tagNameTextView;
+        private RatingBar ratingBar;
 
         public HistoryItemViewHolder(@NonNull View itemView) {
             super(itemView);
             noOfPeopleTextView = itemView.findViewById(R.id.noOfPeopleTextView);
             tagNameTextView = itemView.findViewById(R.id.tagNameTextView);
+            ratingBar = itemView.findViewById(R.id.activityRatingRatingBar);
         }
 
         void bindTo(FinishedActivity historyItem) {
             String noOFPeopleText = historyItem.getActivity().getActivityMaxRequiredPeople() + " People";
             noOfPeopleTextView.setText(noOFPeopleText);
             tagNameTextView.setText(historyItem.getActivity().getActivityTag().getTagName());
+            ratingBar.setRating(historyItem.getRating());
         }
     }
 }

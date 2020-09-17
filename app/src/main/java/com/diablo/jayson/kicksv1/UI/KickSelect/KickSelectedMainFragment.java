@@ -7,9 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.databinding.FragmentKickSelectedMainBinding;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,6 +34,9 @@ public class KickSelectedMainFragment extends Fragment {
     private String mParam2;
 
     private FragmentKickSelectedMainBinding binding;
+
+    private Kick kickSelectedMain;
+    private ArrayList<Activity> availableActivitiesData;
 
     public KickSelectedMainFragment() {
         // Required empty public constructor
@@ -66,6 +74,26 @@ public class KickSelectedMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentKickSelectedMainBinding.inflate(inflater, container, false);
+        assert getArguments() != null;
+        kickSelectedMain = KickSelectedMainFragmentArgs.fromBundle(getArguments()).getKick();
+        Glide.with(requireContext())
+                .load(kickSelectedMain.getKickMainImageUrl())
+                .into(binding.kickImageImageView);
+        binding.kickNameTextView.setText(kickSelectedMain.getKickName());
+
+        binding.startActivityCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        binding.facilitiesCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return binding.getRoot();
     }
 }

@@ -157,7 +157,8 @@ public class AttendeesFragment extends Fragment implements AttendeesLargeAdapter
         assert user != null;
         if (attendingUser.getUid().equals(user.getUid())) {
         } else {
-            NavDirections actionAttendeesBottomDialog = AttendeesFragmentDirections.actionAttendeesFragmentToAttendeeSelectedBottomDialogFragment(attendingUser.getUid());
+            NavDirections actionAttendeesBottomDialog = AttendeesFragmentDirections
+                    .actionAttendeesFragmentToAttendeeSelectedBottomDialogFragment(attendingUser.getUid(), attendingUser);
             navController.navigate(actionAttendeesBottomDialog);
         }
 

@@ -36,7 +36,7 @@
         android:id="@+id/navigation_browse"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActivityFeedFragment"
         android:label="Browse"
-        tools:layout="@layout/fragment_kick_feed">
+        tools:layout="@layout/fragment_activity_feed">
         <action
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
@@ -57,9 +57,20 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.ExploreFragment"
         android:label="Explore"
-        tools:layout="@layout/fragment_kick_select" />
+        tools:layout="@layout/fragment_explore">
+        <action
+            android:id="@+id/action_navigation_kick_select_to_kickSelectedMainFragment"
+            app:destination="@id/kickSelectedMainFragment">
+            <argument
+                android:name="kick"
+                app:argType="com.diablo.jayson.kicksv1.Models.Kick" />
+        </action>
+        <action
+            android:id="@+id/action_navigation_kick_select_to_kicksSeeAllFragment"
+            app:destination="@id/kicksSeeAllFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_add_kick"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityFragment"
@@ -295,6 +306,10 @@
             <argument
                 android:name="attendeeId"
                 app:argType="string" />
+            <argument
+                android:name="AttendingUSer"
+                app:argType="com.diablo.jayson.kicksv1.Models.AttendingUser" />
+
         </action>
         <action
             android:id="@+id/action_attendeesFragment_to_invitePeopleFragment"
@@ -324,13 +339,19 @@
         <argument
             android:name="attendeeId"
             app:argType="string"
-            android:defaultValue="0"/>
+            android:defaultValue="0" />
+        <argument
+            android:name="attendingUser"
+            android:defaultValue="@null"
+            app:argType="com.diablo.jayson.kicksv1.Models.AttendingUser"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_historyFragment"
             app:destination="@id/historyFragment">
             <argument
                 android:name="attendeeId"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_attendeeSelectedBottomDialogFragment_to_personalChatFragment"
@@ -492,7 +513,51 @@
             android:name="activityId"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            android:id="@+id/action_happeningSoonSelectedDialogFragment_to_happeningSoonSelectedFragment"
+            app:destination="@id/happeningSoonSelectedFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/happeningSoonSelectedFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.HappeningSoonSelectedFragment"
+        android:label="fragment_happening_soon_selected"
+        tools:layout="@layout/fragment_happening_soon_selected">
+        <action
+            android:id="@+id/action_happeningSoonSelectedFragment_to_confirmAttendFragment"
+            app:destination="@id/confirmAttendFragment">
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_happeningSoonSelectedFragment_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/kickSelectedMainFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedMainFragment"
+        android:label="fragment_kick_selected_main"
+        tools:layout="@layout/fragment_kick_selected_main">
+        <argument
+            android:name="kick"
+            android:defaultValue="@null"
+            app:argType="com.diablo.jayson.kicksv1.Models.Kick"
+            app:nullable="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/kicksSeeAllFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KicksSeeAllFragment"
+        android:label="fragment_kicks_see_all"
+        tools:layout="@layout/fragment_kicks_see_all">
+        <action
+            android:id="@+id/action_kicksSeeAllFragment_to_kickSelectedMainFragment"
+            app:destination="@id/kickSelectedMainFragment" />
+    </fragment>
 
 
 </navigation>

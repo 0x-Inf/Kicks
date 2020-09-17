@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home.fragments;
+package com.diablo.jayson.kicksv1.UI.KickSelect;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,16 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.diablo.jayson.kicksv1.databinding.FragmentInvitesBinding;
-
-import org.jetbrains.annotations.NotNull;
+import com.diablo.jayson.kicksv1.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link InvitesFragment#newInstance} factory method to
+ * Use the {@link FacilitiesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvitesFragment extends Fragment {
+public class FacilitiesFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,9 +25,7 @@ public class InvitesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FragmentInvitesBinding binding;
-
-    public InvitesFragment() {
+    public FacilitiesFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +35,11 @@ public class InvitesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment InvitesFragment.
+     * @return A new instance of fragment FacilitiesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static InvitesFragment newInstance(String param1, String param2) {
-        InvitesFragment fragment = new InvitesFragment();
+    public static FacilitiesFragment newInstance(String param1, String param2) {
+        FacilitiesFragment fragment = new FacilitiesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,11 +57,9 @@ public class InvitesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentInvitesBinding.inflate(inflater, container, false);
-
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_facilities, container, false);
     }
 }

@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapter.OnActivitySelectedListener {
     private static final String TAG = AddActivityFragment.class.getSimpleName();
@@ -52,7 +53,7 @@ public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_kick_feed, container, false);
+        View root = inflater.inflate(R.layout.fragment_activity_feed, container, false);
 //        mRecyclerView = root.findViewById(R.id.recyclerview);
         feedViewPager2 = root.findViewById(R.id.feedViewPager2);
         loadingScreen = root.findViewById(R.id.loading_screen);
@@ -124,30 +125,11 @@ public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapte
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                mKicksData.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getActivityTitle(),
-                                        snapshot.toObject(Activity.class).getActivityStartTime(),
-                                        snapshot.toObject(Activity.class).getActivityEndTime(),
-                                        snapshot.toObject(Activity.class).getActivityDate(),
-                                        snapshot.toObject(Activity.class).getActivityLocationName(),
-                                        snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
-                                        snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMinAge(),
-                                        snapshot.toObject(Activity.class).getActivityMaxAge(),
-                                        snapshot.toObject(Activity.class).getImageUrl(),
-                                        snapshot.toObject(Activity.class).getActivityUploaderId(),
-                                        snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getActivityCost(),
-                                        snapshot.toObject(Activity.class).getActivityUploadedTime(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getActivityTag(),
-                                        snapshot.toObject(Activity.class).getActivityAttendees(),
-                                        snapshot.toObject(Activity.class).isActivityPrivate()));
+                            for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
+                                mKicksData.add(snapshot.toObject(Activity.class));
                             }
 
-                            feedViewPager2.setAdapter(new ActivityFeedAdapter(mKicksData,feedViewPager2,getContext(),listener));
+                            feedViewPager2.setAdapter(new ActivityFeedAdapter(mKicksData, feedViewPager2, getContext(), listener));
                             feedViewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
                             hideLoadingScreen();
                         }

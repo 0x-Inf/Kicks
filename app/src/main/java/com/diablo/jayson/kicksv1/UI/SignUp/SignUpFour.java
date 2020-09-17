@@ -121,7 +121,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
+                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
                     startActivityForResult(intent, REQUEST_IMAGE_GET);
                 }
             }
@@ -144,7 +144,7 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                 mainUser.setPassWord(encryptedString);
                 showLoadingScreen();
                 Objects.requireNonNull(mAuth.getCurrentUser()).linkWithCredential(credential)
-                        .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {

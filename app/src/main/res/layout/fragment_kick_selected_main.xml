@@ -9,19 +9,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/kickImageImageView"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/activityImageCardView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="Image for Kick Selected Main Page"
-            android:scaleType="fitXY"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/menuScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="1.0"
-            app:srcCompat="@drawable/img_swimming" />
+            app:layout_constraintVertical_weight="1.0">
+
+
+            <ImageView
+                android:id="@+id/kickImageImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Image for Kick Selected Main Page"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/img_swimming" />
+
+
+        </androidx.cardview.widget.CardView>
+
 
         <ScrollView
             android:id="@+id/menuScrollView"
@@ -31,7 +46,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kickImageImageView"
+            app:layout_constraintTop_toBottomOf="@+id/activityImageCardView"
             app:layout_constraintVertical_weight="2.0">
 
 
@@ -39,8 +54,7 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:elevation="5dp"
-                android:translationY="-32dp">
+                android:elevation="5dp">
 
 
                 <TextView
@@ -48,16 +62,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:text="Bowling"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="30sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/activityCard"
+                    android:id="@+id/startActivityCard"
                     android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_alignParentStart="true"
@@ -66,7 +79,7 @@
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/requestsCard"
+                    app:layout_constraintEnd_toStartOf="@+id/facilitiesCard"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/kickNameTextView">
@@ -111,7 +124,7 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/requestsCard"
+                    android:id="@+id/facilitiesCard"
                     android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_marginStart="8dp"
@@ -121,7 +134,7 @@
                     app:cardElevation="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/activityCard"
+                    app:layout_constraintStart_toEndOf="@+id/startActivityCard"
                     app:layout_constraintTop_toBottomOf="@+id/kickNameTextView">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -169,10 +182,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Ongoing Activities"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="30sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activityCard" />
+                    app:layout_constraintTop_toBottomOf="@+id/startActivityCard" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ongoingActivitiesRecycler"

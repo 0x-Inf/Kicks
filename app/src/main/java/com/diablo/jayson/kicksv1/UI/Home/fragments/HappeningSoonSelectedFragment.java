@@ -4,20 +4,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.databinding.FragmentHappeningSoonSelectedBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -74,29 +82,32 @@ public class HappeningSoonSelectedFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentHappeningSoonSelectedBinding.inflate(inflater, container, false);
         getActivityData();
-        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(happeningSoonActivity.getActivityDate().toDate());
-//            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
-        String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(happeningSoonActivity.getActivityStartTime().toDate());
-        binding.activityTitleTextView.setText(happeningSoonActivity.getActivityTitle());
-        binding.activityDateTextView.setText(activityDate);
-        binding.activityStartTimeTextView.setText(activityStartTime);
-//        binding.activityDurationTextView.setText(String.valueOf(happeningSoonActivity.));
-        binding.activityCostTextView.setText(happeningSoonActivity.getActivityCost());
-        binding.activityLocationTextView.setText(happeningSoonActivity.getActivityLocationName());
-        binding.hostNameTextView.setText(happeningSoonActivity.getHost().getUserName());
-        binding.attendeesNumberTextView.setText(String.valueOf(happeningSoonActivity.getActivityAttendees().size()));
-        binding.activityTagNameTextView.setText(happeningSoonActivity.getActivityTag().getTagName());
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
         binding.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                ArrayList<String> users = new ArrayList<>();
+                for (int i = 0; i < happeningSoonActivity.getActivityAttendees().size(); i++) {
+                    users.add(happeningSoonActivity.getActivityAttendees().get(i).getUid());
+                }
+                if (users.contains(user.getUid())) {
+                    NavDirections actionMainAttend = HappeningSoonSelectedFragmentDirections
+                            .actionHappeningSoonSelectedFragmentToAttendActivityMainFragment(happeningSoonActivity.getActivityId());
+                    navController.navigate(actionMainAttend);
+                } else {
+                    NavDirections actionConfirmAttend = HappeningSoonSelectedFragmentDirections
+                            .actionHappeningSoonSelectedFragmentToConfirmAttendFragment(happeningSoonActivity.getActivityId());
+                    navController.navigate(actionConfirmAttend);
+                }
             }
         });
         return binding.getRoot();
     }
 
     private void getActivityData() {
-        happeningSoonActivity = new Activity();
+//        happeningSoonActivity = new Activity();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("activities").document(activityId)
                 .get()
@@ -104,12 +115,27 @@ public class HappeningSoonSelectedFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
+                            happeningSoonActivity = new Activity();
                             happeningSoonActivity = Objects.requireNonNull(task.getResult()).toObject(Activity.class);
                         }
+                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(happeningSoonActivity.getActivityDate().toDate());
+//            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
+                        String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(happeningSoonActivity.getActivityStartTime().toDate());
+                        binding.activityTitleTextView.setText(happeningSoonActivity.getActivityTitle());
+                        binding.activityDateTextView.setText(activityDate);
+                        binding.activityStartTimeTextView.setText(activityStartTime);
+//        binding.activityDurationTextView.setText(String.valueOf(happeningSoonActivity.));
+                        binding.activityCostTextView.setText(happeningSoonActivity.getActivityCost());
+                        binding.activityLocationTextView.setText(happeningSoonActivity.getActivityLocationName());
+                        binding.hostNameTextView.setText(happeningSoonActivity.getHost().getUserName());
+                        binding.attendeesNumberTextView.setText(String.valueOf(happeningSoonActivity.getActivityAttendees().size()));
+                        binding.activityTagNameTextView.setText(happeningSoonActivity.getActivityTag().getTagName());
+                        Glide.with(requireContext())
+                                .load(happeningSoonActivity.getHost().getHostPic())
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(binding.hostImageView);
                     }
                 });
-
-        Toast.makeText(requireContext(), happeningSoonActivity.getActivityId(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

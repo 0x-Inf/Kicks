@@ -134,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toolbar.setVisibility(View.GONE);
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+                } else if (destination.getId() == R.id.mapFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.addActivityPeopleFragment) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
@@ -155,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (destination.getId() == R.id.editPhoneBottomSheetFragment) {
                     toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.editEmailBottomSheetFragment) {
+                    toolbar.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.kickSelectedMainFragment) {
                     toolbar.setVisibility(View.GONE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);

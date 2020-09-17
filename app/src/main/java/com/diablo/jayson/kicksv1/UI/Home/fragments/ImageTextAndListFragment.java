@@ -133,11 +133,7 @@ public class ImageTextAndListFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                kicksData.add(new Kick(documentSnapshot.toObject(Kick.class).getKickName(),
-                                        documentSnapshot.toObject(Kick.class).getKickShortDescription(),
-                                        documentSnapshot.toObject(Kick.class).getKickCardImageUrl(),
-                                        documentSnapshot.toObject(Kick.class).getKickLargeImageUrl(),
-                                        documentSnapshot.toObject(Kick.class).getTags()));
+                                kicksData.add(documentSnapshot.toObject(Kick.class));
                             }
                             FeaturedKickListAdapter kickListAdapter = new FeaturedKickListAdapter(getContext(), kicksData);
                             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

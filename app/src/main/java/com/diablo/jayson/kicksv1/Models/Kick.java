@@ -6,22 +6,22 @@ import java.util.ArrayList;
 public class Kick implements Serializable {
 
     private String kickName;
-    private String kickShortDescription;
-    private String kickCardImageUrl;
-    private String kickLargeImageUrl;
-    private ArrayList<String> tags;
+    private String kickId;
+    private String kickMainImageUrl;
+    private ArrayList<String> kickImageUrls;
+    private ArrayList<String> kickTags;
 
 
     public Kick() {
 
     }
 
-    public Kick(String kickName, String kickShortDescription, String kickCardImageUrl, String kickLargeImageUrl, ArrayList<String> tags) {
+    public Kick(String kickName, String kickId, String kickMainImageUrl, ArrayList<String> kickImageUrls, ArrayList<String> kickTags) {
         this.kickName = kickName;
-        this.kickShortDescription = kickShortDescription;
-        this.kickCardImageUrl = kickCardImageUrl;
-        this.kickLargeImageUrl = kickLargeImageUrl;
-        this.tags = tags;
+        this.kickId = kickId;
+        this.kickMainImageUrl = kickMainImageUrl;
+        this.kickImageUrls = kickImageUrls;
+        this.kickTags = kickTags;
     }
 
     public String getKickName() {
@@ -32,35 +32,35 @@ public class Kick implements Serializable {
         this.kickName = kickName;
     }
 
-    public String getKickShortDescription() {
-        return kickShortDescription;
+    public String getKickId() {
+        return kickId;
     }
 
-    public void setKickShortDescription(String kickShortDescription) {
-        this.kickShortDescription = kickShortDescription;
+    public void setKickId(String kickId) {
+        this.kickId = kickId;
     }
 
-    public String getKickCardImageUrl() {
-        return kickCardImageUrl;
+    public String getKickMainImageUrl() {
+        return kickMainImageUrl;
     }
 
-    public void setKickCardImageUrl(String kickCardImageUrl) {
-        this.kickCardImageUrl = kickCardImageUrl;
+    public void setKickMainImageUrl(String kickMainImageUrl) {
+        this.kickMainImageUrl = kickMainImageUrl;
     }
 
-    public String getKickLargeImageUrl() {
-        return kickLargeImageUrl;
+    public ArrayList<String> getKickImageUrls() {
+        return kickImageUrls;
     }
 
-    public void setKickLargeImageUrl(String kickLargeImageUrl) {
-        this.kickLargeImageUrl = kickLargeImageUrl;
+    public void setKickImageUrls(ArrayList<String> kickImageUrls) {
+        this.kickImageUrls = kickImageUrls;
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
+    public ArrayList<String> getKickTags() {
+        return kickTags;
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
+    public void setKickTags(ArrayList<String> kickTags) {
+        this.kickTags = kickTags;
     }
 }
