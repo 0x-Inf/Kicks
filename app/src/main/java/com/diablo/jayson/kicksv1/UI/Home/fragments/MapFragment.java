@@ -7,11 +7,14 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +22,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
+import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
 import com.diablo.jayson.kicksv1.databinding.FragmentMapBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -36,6 +43,10 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -44,13 +55,17 @@ import timber.log.Timber;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final int REQUEST_CHECK_SETTINGS = 100;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    private boolean permissionDenied = false;
+    private boolean requestingLocationUpdates = false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,9 +73,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentMapBinding binding;
 
+    private FirebaseUser firebaseUser;
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentLocation;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private LocationBroadcast locationBroadcast;
+
+    private ArrayList<String> broadcastIntendedUsersIds;
 
     public MapFragment() {
         // Required empty public constructor
@@ -92,6 +113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
+
     }
 
     @Override
@@ -102,7 +124,77 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView);
         assert mapFragment != null;
         mapFragment.getMapAsync(this::onMapReady);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        broadcastIntendedUsersIds = new ArrayList<>();
+        binding.openMapSettingsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.mapSettingsCardView.setVisibility(View.VISIBLE);
+                binding.openMapSettingsFab.setVisibility(View.GONE);
+            }
+        });
+        binding.closeMapSettingsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.mapSettingsCardView.setVisibility(View.GONE);
+                binding.openMapSettingsFab.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.broadcastLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    startBroadcastingLocation();
+                } else {
+                    stopBroadcastingLocation();
+                }
+            }
+        });
         return binding.getRoot();
+    }
+
+
+    private void startBroadcastingLocation() {
+        startLocationUpdates();
+        locationBroadcast = new LocationBroadcast();
+        locationBroadcast.setBroadcastingUserId(firebaseUser.getUid());
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+
+                }
+            }
+        };
+    }
+
+    private void stopBroadcastingLocation() {
+
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, false);
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback, Looper.getMainLooper());
+        requestingLocationUpdates = true;
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
     @Override
@@ -118,7 +210,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
+            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
         fusedLocationProviderClient.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -138,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void createLocationRequest() {
-        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
@@ -181,6 +274,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            enableMyLocation();
+        } else {
+            permissionDenied = true;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (permissionDenied) {
+            showMissingPermissionError();
+        }
+        if (requestingLocationUpdates) {
+            startLocationUpdates();
+        }
+    }
+
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getChildFragmentManager(), "Dialog");
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         int currentNightMode = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -218,5 +340,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
                 break;
         }
+
+        enableMyLocation();
+    }
+
+    private void enableMyLocation() {
+
+        if (requireContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+            }
+        } else {
+            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 }

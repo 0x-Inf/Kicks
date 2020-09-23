@@ -213,6 +213,7 @@
                                 android:layout_marginTop="16dp"
                                 android:layout_marginBottom="16dp"
                                 android:text="@string/activity_location_long_placeholder"
+                                android:textAlignment="center"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -246,14 +247,13 @@
                                 android:id="@+id/costTextTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
                                 android:layout_marginTop="8dp"
                                 android:text="@string/cost_text"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 android:textColor="?android:attr/textColorPrimary"
                                 app:layout_constraintBottom_toTopOf="@+id/activityCostTextView"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -261,40 +261,37 @@
                                 android:id="@+id/activityCostTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
                                 android:text="@string/kes_10000_text"
-                                app:layout_constraintBottom_toTopOf="@+id/activityTagImageView"
+                                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/costTextTextView" />
 
-                            <ImageView
-                                android:id="@+id/activityTagImageView"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="8dp"
-                                android:scaleType="fitXY"
-                                app:layout_constraintBottom_toTopOf="@+id/activityTagNameTextView"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/activityCostTextView"
-                                app:srcCompat="@drawable/img_golf" />
-
-                            <TextView
-                                android:id="@+id/activityTagNameTextView"
+                            <LinearLayout
+                                android:id="@+id/linearLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginBottom="8dp"
-                                android:text="@string/shenanigans_text"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/activity_tag_back"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/activityTagImageView" />
+                                app:layout_constraintTop_toBottomOf="@+id/activityCostTextView">
+
+                                <TextView
+                                    android:id="@+id/activityTagNameTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center|center_vertical"
+                                    android:layout_margin="4dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="@string/activity_tag_placeholder"
+                                    android:textColor="?android:attr/textColorPrimary"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

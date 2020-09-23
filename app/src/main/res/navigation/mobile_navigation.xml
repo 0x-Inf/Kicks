@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.ExploreFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.fragments.ExploreFragment"
         android:label="Explore"
         tools:layout="@layout/fragment_explore">
         <action

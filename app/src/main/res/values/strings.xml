@@ -360,6 +360,11 @@
     <string name="_12_people_text">12 People</string>
     <string name="indoor_activities_text">Indoor Activities</string>
     <string name="see_all_text">See All</string>
+    <string name="broadcast_location_text">Broadcast Location:</string>
+    <string name="broadcast_options_text">Broadcast Options</string>
+    <string name="contacts_colon_text">All Contacts:</string>
+    <string name="public_colon_text">Public:</string>
+    <string name="only_to_colon_text">Only To:</string>
 
 
 </resources>
