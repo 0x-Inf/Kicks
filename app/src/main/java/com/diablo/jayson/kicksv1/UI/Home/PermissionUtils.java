@@ -9,9 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,7 @@ public abstract class PermissionUtils {
      * be shown to the user, displays a dialog that triggers the request.
      */
 
-    public static void requestPermission(FragmentActivity activity, int requestId, String permission,
+    public static void requestPermission(AppCompatActivity activity, int requestId, String permission,
                                          boolean finishActivity) {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {

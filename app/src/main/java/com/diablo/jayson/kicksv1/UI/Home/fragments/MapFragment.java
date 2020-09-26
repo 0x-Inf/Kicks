@@ -1,8 +1,10 @@
 package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -18,12 +20,15 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
+import com.diablo.jayson.kicksv1.UI.Home.PublicLocationBroadcast;
 import com.diablo.jayson.kicksv1.databinding.FragmentMapBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,13 +45,19 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import timber.log.Timber;
 
@@ -72,16 +83,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private String mParam2;
 
     private FragmentMapBinding binding;
+    private SharedPreferences sharedPreferences;
 
     private FirebaseUser firebaseUser;
+    private FirebaseFirestore db;
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentLocation;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private LocationBroadcast locationBroadcast;
+    private LocationBroadcast locationBroadcast = new LocationBroadcast();
+    private PublicLocationBroadcast publicLocationBroadcast = new PublicLocationBroadcast();
+    private boolean isBroadcastingPublicly;
+    private boolean isBroadcastingPrivately;
+    private boolean isBroadcastingToContacts;
+    private String locationBroadcastId;
+    private String publicLocationBroadcastId;
+    private GeoPoint locationBroadcastGeoPoint;
+    private ArrayList<LatLng> lastKnownLocations = new ArrayList<>();
 
-    private ArrayList<String> broadcastIntendedUsersIds;
+
+    private ArrayList<String> broadcastIntendedUsersIds = new ArrayList<>();
+    private ArrayList<String> allContactsIds = new ArrayList<>();
+    private HashMap<String, Marker> broadcastLocationsMarkers = new HashMap<>();
+    private HashMap<String, Marker> publicBroadcastLocationsMarkers = new HashMap<>();
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -112,8 +138,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
+        sharedPreferences = requireActivity().getSharedPreferences("", Context.MODE_PRIVATE);
 
+    }
+
+    private void createLocationBroadcastDocumentInDb() {
+        db.collection(Constants.location_broadcast_collection)
+                .add(locationBroadcast)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
+                        editor.apply();
+                    }
+                });
     }
 
     @Override
@@ -126,6 +167,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         mapFragment.getMapAsync(this::onMapReady);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         broadcastIntendedUsersIds = new ArrayList<>();
+        isBroadcastingPrivately = false;
+        isBroadcastingPublicly = false;
         binding.openMapSettingsFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +186,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         binding.broadcastLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                isBroadcastingPrivately = isChecked;
                 if (isChecked) {
                     startBroadcastingLocation();
                 } else {
@@ -150,29 +194,113 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 }
             }
         });
+        binding.publicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                isBroadcastingPublicly = isChecked;
+            }
+        });
+        binding.contactsOnlySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                isBroadcastingToContacts = isChecked;
+            }
+        });
         return binding.getRoot();
     }
 
 
     private void startBroadcastingLocation() {
+        checkIfBroadcastIdsAreInPreferences();
         startLocationUpdates();
         locationBroadcast = new LocationBroadcast();
-        locationBroadcast.setBroadcastingUserId(firebaseUser.getUid());
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult != null) {
-                    return;
+                    for (Location location : locationResult.getLocations()) {
+                        currentLocation = location;
+                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                        currentLocationUpdated();
+                    }
+//                    return;
                 }
-                for (Location location : locationResult.getLocations()) {
 
-                }
             }
         };
     }
 
-    private void stopBroadcastingLocation() {
+    private void checkIfBroadcastIdsAreInPreferences() {
+        locationBroadcastId = sharedPreferences.getString(Constants.location_broadcast_id, "");
+        assert locationBroadcastId != null;
+        if (locationBroadcastId.equals("")) {
+            createLocationBroadcastDocumentInDb();
+        }
+    }
 
+    private void currentLocationUpdated() {
+        LatLng lastLocation = lastKnownLocations.get(lastKnownLocations.size() - 1);
+        GeoPoint lastLocationGeoPoint = new GeoPoint(lastLocation.latitude, lastLocation.longitude);
+        if (isBroadcastingPublicly) {
+            updatePublicLocationBroadcastInDb(lastLocationGeoPoint);
+        } else {
+            updateLocationBroadcastInDb(lastLocationGeoPoint);
+        }
+    }
+
+    private void updatePublicLocationBroadcastInDb(GeoPoint lastLocationGeoPoint) {
+        publicLocationBroadcast.setBroadcastingUserId(firebaseUser.getUid());
+        publicLocationBroadcast.setBroadcastLocation(lastLocationGeoPoint);
+        publicLocationBroadcast.setBroadcastId(publicLocationBroadcastId);
+        publicLocationBroadcast.setBroadcastTime(Timestamp.now());
+        db.collection(Constants.public_location_broadcast_collection)
+                .document(publicLocationBroadcastId)
+                .set(publicLocationBroadcast)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Timber.e("public location Uploaded");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Timber.e("public location NOT Uploaded!!");
+                    }
+                });
+
+    }
+
+    private void updateLocationBroadcastInDb(GeoPoint lastLocationGeoPoint) {
+        if (isBroadcastingToContacts) {
+            locationBroadcast.setBroadcastIntendedUserIds(allContactsIds);
+        } else {
+            locationBroadcast.setBroadcastIntendedUserIds(broadcastIntendedUsersIds);
+        }
+        locationBroadcast.setBroadcastingUserId(firebaseUser.getUid());
+        locationBroadcast.setBroadcastLocation(lastLocationGeoPoint);
+        locationBroadcast.setBroadcastId(locationBroadcastId);
+        locationBroadcast.setBroadcastTime(Timestamp.now());
+        db.collection(Constants.location_broadcast_collection)
+                .document(locationBroadcastId)
+                .set(locationBroadcast)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    private void stopBroadcastingLocation() {
+        stopLocationUpdates();
     }
 
     private void startLocationUpdates() {
@@ -185,7 +313,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, false);
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, false);
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest,
@@ -210,7 +338,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
         fusedLocationProviderClient.getLastLocation()
@@ -352,7 +480,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 map.setMyLocationEnabled(true);
             }
         } else {
-            PermissionUtils.requestPermission(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
     }
