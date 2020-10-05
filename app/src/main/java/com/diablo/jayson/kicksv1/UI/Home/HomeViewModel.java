@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Contact;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,11 +23,14 @@ import java.util.Objects;
 public class HomeViewModel extends ViewModel {
 
     MutableLiveData<ArrayList<Activity>> activeActivitiesMutableLiveData;
+    MutableLiveData<ArrayList<Contact>> userContactsMutableLiveData;
     ArrayList<Activity> activeActivitiesArrayList;
+    ArrayList<Contact> userContacts;
 
 
     public HomeViewModel() {
         activeActivitiesMutableLiveData = new MutableLiveData<>();
+        userContactsMutableLiveData = new MutableLiveData<>();
         init();
     }
 
@@ -34,8 +38,13 @@ public class HomeViewModel extends ViewModel {
         return activeActivitiesMutableLiveData;
     }
 
+    public MutableLiveData<ArrayList<Contact>> getUserContactsMutableLiveData() {
+        return userContactsMutableLiveData;
+    }
+
     public void init() {
         getActiveActivitiesFromDb();
+        getContactsDataFromDb();
     }
 
     private void getActiveActivitiesFromDb() {
@@ -103,7 +112,26 @@ public class HomeViewModel extends ViewModel {
     }
 
     private void getContactsDataFromDb() {
-
+        userContacts = new ArrayList<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        String userId = user.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(userId)
+                .collection("contacts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                userContacts.add(documentSnapshot.toObject(Contact.class));
+                            }
+                            userContactsMutableLiveData.postValue(userContacts);
+                        }
+                    }
+                });
     }
 
     public void removeActivityFromActive(Activity activity) {

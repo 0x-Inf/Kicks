@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -23,9 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Constants;
+import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.UI.Home.AllMapContactsAdapter;
+import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
 import com.diablo.jayson.kicksv1.UI.Home.PublicLocationBroadcast;
@@ -46,15 +50,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +75,7 @@ import timber.log.Timber;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapContactsAdapter.OnContactSelected {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,6 +93,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private FragmentMapBinding binding;
     private SharedPreferences sharedPreferences;
+    private HomeViewModel homeViewModel;
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
@@ -166,6 +176,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         assert mapFragment != null;
         mapFragment.getMapAsync(this::onMapReady);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        createLocationRequest();
+        setPublicLocationBroadcastListener();
+        setPrivateLocationBroadcastListener();
         broadcastIntendedUsersIds = new ArrayList<>();
         isBroadcastingPrivately = false;
         isBroadcastingPublicly = false;
@@ -181,6 +194,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             public void onClick(View view) {
                 binding.mapSettingsCardView.setVisibility(View.GONE);
                 binding.openMapSettingsFab.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.addContactsToSelectedFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.selectSharingContactsCard.setVisibility(View.VISIBLE);
+                binding.selectContactsOverlay.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.removeContactSelectionCardFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.selectSharingContactsCard.setVisibility(View.GONE);
+                binding.selectContactsOverlay.setVisibility(View.GONE);
+            }
+        });
+        binding.selectContactsOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.selectSharingContactsCard.setVisibility(View.GONE);
+                binding.selectContactsOverlay.setVisibility(View.GONE);
             }
         });
         binding.broadcastLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -207,6 +241,138 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             }
         });
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+        }
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            currentLocation = location;
+                            Timber.e(String.valueOf(currentLocation.getLongitude()));
+                            if (map != null) {
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f));
+                            }
+                        }
+                    }
+                });
+
+        homeViewModel.getUserContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
+            @Override
+            public void onChanged(ArrayList<Contact> contacts) {
+                for (Contact contact : contacts) {
+                    allContactsIds.add(contact.getContactId());
+                }
+            }
+        });
+    }
+
+    private void setPublicLocationBroadcastListener() {
+        db.collection(Constants.public_location_broadcast_collection)
+                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Timber.e(e);
+                            return;
+                        }
+
+                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (documentChange.getType()) {
+                                case ADDED:
+                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case MODIFIED:
+                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case REMOVED:
+                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
+
+                            }
+
+                            PublicLocationBroadcast publicLocationBroadcastUpdate = documentChange
+                                    .getDocument().toObject(PublicLocationBroadcast.class);
+
+                            setPublicLocationBroadcastOnMap(publicLocationBroadcastUpdate);
+                        }
+                    }
+                });
+    }
+
+    private void setPublicLocationBroadcastOnMap(PublicLocationBroadcast publicLocationBroadcastUpdate) {
+        LatLng publicLocationUpdateLatLng = new LatLng(publicLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
+                publicLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
+        if (publicBroadcastLocationsMarkers.containsKey(publicLocationBroadcastUpdate.getBroadcastId())) {
+            publicBroadcastLocationsMarkers.get(publicLocationBroadcastUpdate.getBroadcastId())
+                    .setPosition(publicLocationUpdateLatLng);
+        } else {
+            publicBroadcastLocationsMarkers.put(publicLocationBroadcastUpdate.getBroadcastId(),
+                    map.addMarker(new MarkerOptions().position(publicLocationUpdateLatLng)));
+        }
+    }
+
+    private void setPrivateLocationBroadcastListener() {
+        db.collection(Constants.location_broadcast_collection)
+                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
+                .whereArrayContains("broadcastIntendedUserIds", firebaseUser.getUid())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Timber.e(e);
+                            return;
+                        }
+
+                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (documentChange.getType()) {
+                                case ADDED:
+                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case MODIFIED:
+                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case REMOVED:
+                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
+
+                            }
+
+                            LocationBroadcast privateLocationBroadcastUpdate = documentChange
+                                    .getDocument().toObject(LocationBroadcast.class);
+
+                            setPrivateLocationBroadcastOnMap(privateLocationBroadcastUpdate);
+                        }
+                    }
+                });
+    }
+
+    private void setPrivateLocationBroadcastOnMap(LocationBroadcast privateLocationBroadcastUpdate) {
+        LatLng privateLocationUpdateLatLng = new LatLng(privateLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
+                privateLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
+        if (publicBroadcastLocationsMarkers.containsKey(privateLocationBroadcastUpdate.getBroadcastId())) {
+            publicBroadcastLocationsMarkers.get(privateLocationBroadcastUpdate.getBroadcastId())
+                    .setPosition(privateLocationUpdateLatLng);
+        } else {
+            publicBroadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
+                    map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)));
+        }
     }
 
 
@@ -325,38 +491,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, false);
-        }
-        fusedLocationProviderClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            currentLocation = location;
-                            Timber.e(String.valueOf(currentLocation.getLongitude()));
-                            if (map != null) {
-                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f));
-                            }
-                        }
-                    }
-                });
 
-
-    }
 
     private void createLocationRequest() {
         locationRequest = LocationRequest.create();
@@ -486,7 +621,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
-
+    public void onContactSelected(Contact contact) {
+        if (!broadcastIntendedUsersIds.contains(contact.getContactId())) {
+            broadcastIntendedUsersIds.add(contact.getContactId());
+        }
     }
 }

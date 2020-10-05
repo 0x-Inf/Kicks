@@ -288,6 +288,7 @@
                                     android:layout_margin="4dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="@string/activity_tag_placeholder"
+                                    android:padding="2dp"
                                     android:textColor="?android:attr/textColorPrimary"
                                     android:textSize="15sp" />
 
