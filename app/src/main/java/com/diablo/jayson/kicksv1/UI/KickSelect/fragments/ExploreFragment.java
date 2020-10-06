@@ -23,7 +23,6 @@ import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.Models.KickCategory;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreCategoryListAdapter;
-import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreFragmentDirections;
 import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentExploreBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

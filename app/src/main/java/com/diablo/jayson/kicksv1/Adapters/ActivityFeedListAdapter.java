@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class  ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
+public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
 
     public interface OnActivitySelectedListener {

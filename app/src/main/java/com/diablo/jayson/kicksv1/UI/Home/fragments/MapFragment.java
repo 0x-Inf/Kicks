@@ -75,7 +75,7 @@ import timber.log.Timber;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapContactsAdapter.OnContactSelected {
+public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapContactsAdapter.OnMapContactSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,6 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private FragmentMapBinding binding;
     private SharedPreferences sharedPreferences;
     private HomeViewModel homeViewModel;
+    private MapFragment listener;
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
@@ -115,6 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
 
     private ArrayList<String> broadcastIntendedUsersIds = new ArrayList<>();
     private ArrayList<String> allContactsIds = new ArrayList<>();
+    private ArrayList<Contact> selectedContacts = new ArrayList<>();
     private HashMap<String, Marker> broadcastLocationsMarkers = new HashMap<>();
     private HashMap<String, Marker> publicBroadcastLocationsMarkers = new HashMap<>();
 
@@ -150,7 +152,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         }
         db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
-        sharedPreferences = requireActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences("com.color.kicks", Context.MODE_PRIVATE);
 
     }
 
@@ -182,6 +184,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         broadcastIntendedUsersIds = new ArrayList<>();
         isBroadcastingPrivately = false;
         isBroadcastingPublicly = false;
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null) {
+                    for (Location location : locationResult.getLocations()) {
+                        currentLocation = location;
+                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                        currentLocationUpdated();
+                    }
+//                    return;
+                }
+
+            }
+        };
         binding.openMapSettingsFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,13 +290,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                         }
                     }
                 });
-
+        listener = this;
         homeViewModel.getUserContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
             @Override
             public void onChanged(ArrayList<Contact> contacts) {
                 for (Contact contact : contacts) {
                     allContactsIds.add(contact.getContactId());
                 }
+                AllMapContactsAdapter allMapContactsAdapter = new AllMapContactsAdapter(contacts, listener);
+                binding.myContactsRecycler.setAdapter(allMapContactsAdapter);
             }
         });
     }
@@ -380,21 +399,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         checkIfBroadcastIdsAreInPreferences();
         startLocationUpdates();
         locationBroadcast = new LocationBroadcast();
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult != null) {
-                    for (Location location : locationResult.getLocations()) {
-                        currentLocation = location;
-                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
-                        currentLocationUpdated();
-                    }
-//                    return;
-                }
-
-            }
-        };
     }
 
     private void checkIfBroadcastIdsAreInPreferences() {
@@ -624,6 +628,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     public void onContactSelected(Contact contact) {
         if (!broadcastIntendedUsersIds.contains(contact.getContactId())) {
             broadcastIntendedUsersIds.add(contact.getContactId());
+            selectedContacts.add(contact);
+        } else {
+            selectedContacts.remove(contact);
+            broadcastIntendedUsersIds.remove(contact.getContactId());
         }
     }
 }
