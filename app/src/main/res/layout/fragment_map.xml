@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/openMapSettingsFab"
             android:layout_width="wrap_content"
@@ -22,8 +23,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_action_settings"
+            app:backgroundTint="@color/fabBackground"
             android:visibility="visible"
             app:fabSize="mini"
+            app:tint="@null"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,12 +50,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <RelativeLayout
+                    android:id="@+id/loadingScreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.8"
+                    android:background="@color/loadingBackground"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        android:id="@+id/home_progressBarSignUp"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/closeMapSettingsFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_close"
                     app:fabCustomSize="30dp"
+                    app:backgroundTint="@color/colorMain"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,13 +110,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/broadcast_options_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/broadcastLocationTextTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/onlyToTextTextView" />
 
                 <TextView
                     android:id="@+id/contactsOnlyTextTextView"
@@ -140,11 +161,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/only_to_colon_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/contactsOnlyTextTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/broadcastLocationTextTextView" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/selectedContactsRecycler"
@@ -165,6 +186,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_icon"
                     app:fabCustomSize="25dp"
+                    app:backgroundTint="@color/fabBackground"
+                    app:tint="@null"
                     app:layout_constraintBottom_toBottomOf="@+id/onlyToTextTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/onlyToTextTextView" />
@@ -246,7 +269,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -7,7 +7,7 @@
     <color name="messageInputBg">#727373</color>
     <color name="messageItemBg">#727373</color>
     <color name="bottomSheetBackground">#121212</color>
-
+    <color name="fabBackground">#121212</color>
 
 
 </resources>

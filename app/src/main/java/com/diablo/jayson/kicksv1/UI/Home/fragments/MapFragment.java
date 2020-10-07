@@ -33,6 +33,7 @@ import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
 import com.diablo.jayson.kicksv1.UI.Home.PublicLocationBroadcast;
+import com.diablo.jayson.kicksv1.UI.Home.SelectedMapContactsAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentMapBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -113,12 +114,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private GeoPoint locationBroadcastGeoPoint;
     private ArrayList<LatLng> lastKnownLocations = new ArrayList<>();
 
-
     private ArrayList<String> broadcastIntendedUsersIds = new ArrayList<>();
     private ArrayList<String> allContactsIds = new ArrayList<>();
     private ArrayList<Contact> selectedContacts = new ArrayList<>();
     private HashMap<String, Marker> broadcastLocationsMarkers = new HashMap<>();
     private HashMap<String, Marker> publicBroadcastLocationsMarkers = new HashMap<>();
+
+    private SelectedMapContactsAdapter selectedMapContactsAdapter;
 
 
     public MapFragment() {
@@ -156,19 +158,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
 
     }
 
-    private void createLocationBroadcastDocumentInDb() {
-        db.collection(Constants.location_broadcast_collection)
-                .add(locationBroadcast)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
-                        editor.apply();
-                    }
-                });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -184,21 +173,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         broadcastIntendedUsersIds = new ArrayList<>();
         isBroadcastingPrivately = false;
         isBroadcastingPublicly = false;
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult != null) {
-                    for (Location location : locationResult.getLocations()) {
-                        currentLocation = location;
-                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
-                        currentLocationUpdated();
-                    }
-//                    return;
-                }
+        isBroadcastingToContacts = false;
 
-            }
-        };
+        selectedMapContactsAdapter = new SelectedMapContactsAdapter(selectedContacts);
+        binding.selectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
+        binding.alreadySelectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
+
         binding.openMapSettingsFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,12 +229,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 isBroadcastingPublicly = isChecked;
+                isBroadcastingPrivately = false;
+                if (isChecked) {
+                    startBroadcastingLocationPublicly();
+                } else {
+                    isBroadcastingPrivately = true;
+                    startBroadcastingLocation();
+                }
+                if (isBroadcastingToContacts) {
+                    isBroadcastingToContacts = false;
+                    binding.contactsOnlySwitch.setChecked(false);
+                }
             }
         });
         binding.contactsOnlySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 isBroadcastingToContacts = isChecked;
+                if (isBroadcastingPublicly) {
+                    isBroadcastingPublicly = false;
+                    binding.publicSwitch.setChecked(false);
+                }
             }
         });
         return binding.getRoot();
@@ -303,110 +298,96 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         });
     }
 
-    private void setPublicLocationBroadcastListener() {
-        db.collection(Constants.public_location_broadcast_collection)
-                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Timber.e(e);
-                            return;
-                        }
-
-                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                            switch (documentChange.getType()) {
-                                case ADDED:
-                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
-                                    break;
-                                case MODIFIED:
-                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
-                                    break;
-                                case REMOVED:
-                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
-
-                            }
-
-                            PublicLocationBroadcast publicLocationBroadcastUpdate = documentChange
-                                    .getDocument().toObject(PublicLocationBroadcast.class);
-
-                            setPublicLocationBroadcastOnMap(publicLocationBroadcastUpdate);
-                        }
-                    }
-                });
-    }
-
-    private void setPublicLocationBroadcastOnMap(PublicLocationBroadcast publicLocationBroadcastUpdate) {
-        LatLng publicLocationUpdateLatLng = new LatLng(publicLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
-                publicLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
-        if (publicBroadcastLocationsMarkers.containsKey(publicLocationBroadcastUpdate.getBroadcastId())) {
-            publicBroadcastLocationsMarkers.get(publicLocationBroadcastUpdate.getBroadcastId())
-                    .setPosition(publicLocationUpdateLatLng);
-        } else {
-            publicBroadcastLocationsMarkers.put(publicLocationBroadcastUpdate.getBroadcastId(),
-                    map.addMarker(new MarkerOptions().position(publicLocationUpdateLatLng)));
-        }
-    }
-
-    private void setPrivateLocationBroadcastListener() {
-        db.collection(Constants.location_broadcast_collection)
-                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
-                .whereArrayContains("broadcastIntendedUserIds", firebaseUser.getUid())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Timber.e(e);
-                            return;
-                        }
-
-                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                            switch (documentChange.getType()) {
-                                case ADDED:
-                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
-                                    break;
-                                case MODIFIED:
-                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
-                                    break;
-                                case REMOVED:
-                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
-
-                            }
-
-                            LocationBroadcast privateLocationBroadcastUpdate = documentChange
-                                    .getDocument().toObject(LocationBroadcast.class);
-
-                            setPrivateLocationBroadcastOnMap(privateLocationBroadcastUpdate);
-                        }
-                    }
-                });
-    }
-
-    private void setPrivateLocationBroadcastOnMap(LocationBroadcast privateLocationBroadcastUpdate) {
-        LatLng privateLocationUpdateLatLng = new LatLng(privateLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
-                privateLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
-        if (publicBroadcastLocationsMarkers.containsKey(privateLocationBroadcastUpdate.getBroadcastId())) {
-            publicBroadcastLocationsMarkers.get(privateLocationBroadcastUpdate.getBroadcastId())
-                    .setPosition(privateLocationUpdateLatLng);
-        } else {
-            publicBroadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
-                    map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)));
-        }
-    }
-
-
     private void startBroadcastingLocation() {
-        checkIfBroadcastIdsAreInPreferences();
-        startLocationUpdates();
-        locationBroadcast = new LocationBroadcast();
+        if (checkIfBroadcastIdsAreInPreferences()) {
+            startLocationUpdates();
+        } else {
+            createLocationBroadcastDocumentInDb();
+        }
     }
 
-    private void checkIfBroadcastIdsAreInPreferences() {
+    private void startBroadcastingLocationPublicly() {
+        if (checkIfPublicBroadcastIdIsInPreferences()) {
+            startLocationUpdates();
+        } else {
+            createPublicLocationBroadcastDocumentInDb();
+        }
+    }
+
+    private boolean checkIfBroadcastIdsAreInPreferences() {
+        boolean isBroadcastIdPresent;
         locationBroadcastId = sharedPreferences.getString(Constants.location_broadcast_id, "");
         assert locationBroadcastId != null;
         if (locationBroadcastId.equals("")) {
-            createLocationBroadcastDocumentInDb();
+            isBroadcastIdPresent = false;
+        } else {
+            isBroadcastIdPresent = true;
         }
+        return isBroadcastIdPresent;
+    }
+
+    private boolean checkIfPublicBroadcastIdIsInPreferences() {
+        boolean isPublicBroadcastIdPresent;
+        publicLocationBroadcastId = sharedPreferences.getString(Constants.public_location_broadcast_id, "");
+        assert publicLocationBroadcastId != null;
+        if (publicLocationBroadcastId.equals("")) {
+            isPublicBroadcastIdPresent = false;
+        } else {
+            isPublicBroadcastIdPresent = true;
+        }
+        return isPublicBroadcastIdPresent;
+    }
+
+    private void createLocationBroadcastDocumentInDb() {
+        locationBroadcast = new LocationBroadcast();
+        showLoadingScreen();
+        db.collection(Constants.location_broadcast_collection)
+                .add(locationBroadcast)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
+                        editor.apply();
+                        startLocationUpdates();
+                        hideLoadingScreen();
+                    }
+                });
+    }
+
+    private void createPublicLocationBroadcastDocumentInDb() {
+        publicLocationBroadcast = new PublicLocationBroadcast();
+        showLoadingScreen();
+        db.collection(Constants.public_location_broadcast_collection)
+                .add(publicLocationBroadcast)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
+                        editor.apply();
+                        hideLoadingScreen();
+                        startLocationUpdates();
+                    }
+                });
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, false);
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback, Looper.getMainLooper());
+        requestingLocationUpdates = true;
     }
 
     private void currentLocationUpdated() {
@@ -469,35 +450,107 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 });
     }
 
-    private void stopBroadcastingLocation() {
-        stopLocationUpdates();
+    private void setPublicLocationBroadcastListener() {
+        db.collection(Constants.public_location_broadcast_collection)
+                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Timber.e(e);
+                            return;
+                        }
+
+                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (documentChange.getType()) {
+                                case ADDED:
+                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case MODIFIED:
+                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case REMOVED:
+                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
+
+                            }
+
+                            PublicLocationBroadcast publicLocationBroadcastUpdate = documentChange
+                                    .getDocument().toObject(PublicLocationBroadcast.class);
+
+                            setPublicLocationBroadcastOnMap(publicLocationBroadcastUpdate);
+                        }
+                    }
+                });
     }
 
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, false);
-            return;
+    private void setPrivateLocationBroadcastListener() {
+        db.collection(Constants.location_broadcast_collection)
+                .whereGreaterThanOrEqualTo("broadcastTime", Timestamp.now())
+                .whereArrayContains("broadcastIntendedUserIds", firebaseUser.getUid())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Timber.e(e);
+                            return;
+                        }
+
+                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (documentChange.getType()) {
+                                case ADDED:
+                                    Timber.e("Added Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case MODIFIED:
+                                    Timber.e("Modified Location Update%s", documentChange.getDocument().getId());
+                                    break;
+                                case REMOVED:
+                                    Timber.e("Removed Location Update%s", documentChange.getDocument().getId());
+
+                            }
+
+                            LocationBroadcast privateLocationBroadcastUpdate = documentChange
+                                    .getDocument().toObject(LocationBroadcast.class);
+
+                            setPrivateLocationBroadcastOnMap(privateLocationBroadcastUpdate);
+                        }
+                    }
+                });
+    }
+
+    private void setPrivateLocationBroadcastOnMap(LocationBroadcast privateLocationBroadcastUpdate) {
+        LatLng privateLocationUpdateLatLng = new LatLng(privateLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
+                privateLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
+        if (publicBroadcastLocationsMarkers.containsKey(privateLocationBroadcastUpdate.getBroadcastId())) {
+            publicBroadcastLocationsMarkers.get(privateLocationBroadcastUpdate.getBroadcastId())
+                    .setPosition(privateLocationUpdateLatLng);
+        } else {
+            publicBroadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
+                    map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)));
         }
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-                locationCallback, Looper.getMainLooper());
-        requestingLocationUpdates = true;
+    }
+
+    private void setPublicLocationBroadcastOnMap(PublicLocationBroadcast publicLocationBroadcastUpdate) {
+        LatLng publicLocationUpdateLatLng = new LatLng(publicLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
+                publicLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
+        if (publicBroadcastLocationsMarkers.containsKey(publicLocationBroadcastUpdate.getBroadcastId())) {
+            publicBroadcastLocationsMarkers.get(publicLocationBroadcastUpdate.getBroadcastId())
+                    .setPosition(publicLocationUpdateLatLng);
+        } else {
+            publicBroadcastLocationsMarkers.put(publicLocationBroadcastUpdate.getBroadcastId(),
+                    map.addMarker(new MarkerOptions().position(publicLocationUpdateLatLng)));
+        }
+    }
+
+    private void stopBroadcastingLocation() {
+        stopLocationUpdates();
     }
 
     private void stopLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
-
-
     private void createLocationRequest() {
+
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -532,6 +585,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 }
             }
         });
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null) {
+                    for (Location location : locationResult.getLocations()) {
+                        currentLocation = location;
+                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                        currentLocationUpdated();
+                    }
+//                    return;
+                }
+
+            }
+        };
+    }
+
+    private void showLoadingScreen() {
+        binding.loadingScreen.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingScreen() {
+        binding.loadingScreen.setVisibility(View.GONE);
     }
 
     @Override
@@ -633,5 +710,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             selectedContacts.remove(contact);
             broadcastIntendedUsersIds.remove(contact.getContactId());
         }
+        selectedMapContactsAdapter.notifyDataSetChanged();
     }
 }
