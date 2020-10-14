@@ -41,19 +41,15 @@
             android:id="@+id/action_navigation_home_to_attendActivityActivity"
             app:destination="@id/attendActivityActivity" />
         <action
-            android:id="@+id/action_navigation_home_to_confirmAttendFragment"
-            app:destination="@id/confirmAttendFragment">
+            android:id="@+id/action_navigation_home_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
             <argument
                 android:name="activityId"
                 app:argType="string" />
         </action>
         <action
-            android:id="@+id/action_navigation_home_to_attendActivityMainFragment"
-            app:destination="@id/attendActivityMainFragment">
-            <argument
-                android:name="activityId"
-                app:argType="string"/>
-        </action>
+            android:id="@+id/action_navigation_browse_to_confirmAttendBottomSheetFragment"
+            app:destination="@id/confirmAttendBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_kick_select"
@@ -260,11 +256,41 @@
                 app:argType="string" />
         </action>
     </fragment>
+    <dialog
+        android:id="@+id/confirmAttendBottomSheetFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ConfirmAttendBottomSheetFragment"
+        android:label="ConfirmAttendBottomSheetFragment"
+        tools:layout="@layout/fragment_confirm_attend_bottom_sheet">
+
+        <argument
+            android:name="activityId"
+            android:defaultValue="0"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_confirmAttendBottomSheetFragment_to_attendActivityMainFragment"
+            app:destination="@id/attendActivityMainFragment">
+
+            <argument
+                android:name="activityId"
+                app:argType="string" />
+        </action>
+
+    </dialog>
+
+    <action
+        android:id="@+id/action_global_confirmAttendBottomSheetFragment"
+        app:destination="@id/confirmAttendBottomSheetFragment">
+
+        <argument
+            android:name="activityId"
+            app:argType="string" />
+    </action>
+
     <fragment
         android:id="@+id/attendActivityMainFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.AttendActivityMainFragment"
         android:label="fragment_attend_activity_main2"
-        tools:layout="@layout/fragment_attend_activity_main2" >
+        tools:layout="@layout/fragment_attend_activity_main2">
 
         <argument
             android:name="activityId"
@@ -280,6 +306,14 @@
             android:id="@+id/action_attendActivityMainFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_global_attendActivityMainFragment"
+        app:destination="@id/attendActivityMainFragment">
+        <argument
+            android:name="activityId"
+            app:argType="string" />
+    </action>
+
     <fragment
         android:id="@+id/activityDetailsFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ActivityDetailsFragment"
@@ -324,9 +358,6 @@
         android:id="@+id/availableActivitiesBottomDialogFragment"
         android:name="com.diablo.jayson.kicksv1.UI.MapFeed.AvailableActivitiesBottomDialogFragment"
         android:label="AvailableActivitiesBottomDialogFragment" >
-        <action
-            android:id="@+id/action_availableActivitiesBottomDialogFragment_to_confirmAttendFragment"
-            app:destination="@id/confirmAttendFragment" />
         <action
             android:id="@+id/action_availableActivitiesBottomDialogFragment_to_attendActivityMainFragment"
             app:destination="@id/attendActivityMainFragment" />
@@ -428,7 +459,7 @@
     <fragment
         android:id="@+id/invitesFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.InvitesFragment"
-        android:label="fragment_invites"
+        android:label="Invites"
         tools:layout="@layout/fragment_invites" />
     <fragment
         android:id="@+id/mapFragment"
@@ -521,22 +552,7 @@
         android:id="@+id/happeningSoonSelectedFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.HappeningSoonSelectedFragment"
         android:label="fragment_happening_soon_selected"
-        tools:layout="@layout/fragment_happening_soon_selected">
-        <action
-            android:id="@+id/action_happeningSoonSelectedFragment_to_confirmAttendFragment"
-            app:destination="@id/confirmAttendFragment">
-            <argument
-                android:name="activityId"
-                app:argType="string" />
-        </action>
-        <action
-            android:id="@+id/action_happeningSoonSelectedFragment_to_attendActivityMainFragment"
-            app:destination="@id/attendActivityMainFragment">
-            <argument
-                android:name="activityId"
-                app:argType="string" />
-        </action>
-    </fragment>
+        tools:layout="@layout/fragment_happening_soon_selected" />
     <fragment
         android:id="@+id/kickSelectedMainFragment"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedMainFragment"

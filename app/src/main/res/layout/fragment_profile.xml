@@ -278,9 +278,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="@string/username_example_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -296,54 +298,54 @@
                         app:layout_constraintBaseline_toBaselineOf="@+id/displayNameActualTextView"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <View
-                        android:id="@+id/lineDividerTwo"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/colorTransparentBlack"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/displayNameActualTextView" />
+                    <!--                    <View-->
+                    <!--                        android:id="@+id/lineDividerTwo"-->
+                    <!--                        android:layout_width="fill_parent"-->
+                    <!--                        android:layout_height="1dp"-->
+                    <!--                        android:layout_marginStart="8dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="8dp"-->
+                    <!--                        android:background="@color/colorTransparentBlack"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/displayNameActualTextView" />-->
 
-                    <TextView
-                        android:id="@+id/emergencyContactsTextTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/emergency_contacts_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lineDividerTwo" />
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/emergencyContactsTextTextView"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:text="@string/emergency_contacts_text"-->
+                    <!--                        android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintHorizontal_bias="0.0"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/lineDividerTwo" />-->
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/emergencyContactsRecycler"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/emergencyContactsTextTextView" />
+                    <!--                    <androidx.recyclerview.widget.RecyclerView-->
+                    <!--                        android:id="@+id/emergencyContactsRecycler"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="8dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/emergencyContactsTextTextView" />-->
 
-                    <TextView
-                        android:id="@+id/editEmergencyContactsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/edit_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/emergencyContactsRecycler" />
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/editEmergencyContactsTextView"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="8dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:layout_marginBottom="16dp"-->
+                    <!--                        android:text="@string/edit_text"-->
+                    <!--                        android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/emergencyContactsRecycler" />-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

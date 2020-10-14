@@ -47,7 +47,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
     @Override
     public ActivityFeedListAdapter.ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ActivityViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.activity_list_item, parent, false));
+                inflate(R.layout.recycler_activity_list_item, parent, false));
     }
 
 //    @Override

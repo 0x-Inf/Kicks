@@ -16,6 +16,40 @@
             android:layout_height="match_parent" />
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/find_me_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="110dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/card_back"
+            app:cardCornerRadius="23dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp">
+
+                <ImageView
+                    android:id="@+id/locate_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:src="@drawable/ic_action_locate" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/openMapSettingsFab"
             android:layout_width="wrap_content"
@@ -67,16 +101,18 @@
 
                 </RelativeLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/closeMapSettingsFab"
+                <ImageButton
+                    android:id="@+id/closeMapSettingsImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@null"
                     android:src="@drawable/ic_action_close"
-                    app:fabCustomSize="30dp"
-                    app:backgroundTint="@color/colorMain"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/image_button_to_close_the_map_settings_description"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -215,13 +251,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/removeContactSelectionCardFab"
+                <ImageButton
+                    android:id="@+id/removeContactSelectionCardButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
+                    android:background="@null"
+                    android:contentDescription="@string/image_button_for_removing_contact_selection_description"
                     android:src="@drawable/ic_action_close"
-                    app:fabCustomSize="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -269,9 +307,14 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:orientation="vertical"
+                    android:maxHeight="100dp"
+                    android:minHeight="70dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/myContactsTextTextView"
                     app:spanCount="3" />
@@ -282,6 +325,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:visibility="gone"
                     android:src="@drawable/ic_add_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

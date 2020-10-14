@@ -11,7 +11,6 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
     private GoogleMap map;
+    private boolean isShowingCurrentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentLocation;
     private LocationRequest locationRequest;
@@ -179,40 +179,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         binding.selectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
         binding.alreadySelectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
 
-        binding.openMapSettingsFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.mapSettingsCardView.setVisibility(View.VISIBLE);
-                binding.openMapSettingsFab.setVisibility(View.GONE);
-            }
+        binding.openMapSettingsFab.setOnClickListener(view -> {
+            binding.mapSettingsCardView.setVisibility(View.VISIBLE);
+            binding.openMapSettingsFab.setVisibility(View.GONE);
         });
-        binding.closeMapSettingsFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.mapSettingsCardView.setVisibility(View.GONE);
-                binding.openMapSettingsFab.setVisibility(View.VISIBLE);
-            }
+        binding.closeMapSettingsImageButton.setOnClickListener(view -> {
+            binding.mapSettingsCardView.setVisibility(View.GONE);
+            binding.openMapSettingsFab.setVisibility(View.VISIBLE);
         });
-        binding.addContactsToSelectedFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.selectSharingContactsCard.setVisibility(View.VISIBLE);
-                binding.selectContactsOverlay.setVisibility(View.VISIBLE);
-            }
+        binding.addContactsToSelectedFab.setOnClickListener(view -> {
+            binding.selectSharingContactsCard.setVisibility(View.VISIBLE);
+            binding.selectContactsOverlay.setVisibility(View.VISIBLE);
         });
-        binding.removeContactSelectionCardFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.selectSharingContactsCard.setVisibility(View.GONE);
-                binding.selectContactsOverlay.setVisibility(View.GONE);
-            }
+        binding.removeContactSelectionCardButton.setOnClickListener(view -> {
+            binding.selectSharingContactsCard.setVisibility(View.GONE);
+            binding.selectContactsOverlay.setVisibility(View.GONE);
         });
-        binding.selectContactsOverlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.selectSharingContactsCard.setVisibility(View.GONE);
-                binding.selectContactsOverlay.setVisibility(View.GONE);
-            }
+        binding.selectContactsOverlay.setOnClickListener(view -> {
+            binding.selectSharingContactsCard.setVisibility(View.GONE);
+            binding.selectContactsOverlay.setVisibility(View.GONE);
         });
         binding.broadcastLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -228,6 +213,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         binding.publicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isBroadcastingToContacts) {
+                    isBroadcastingToContacts = false;
+                    binding.contactsOnlySwitch.setChecked(false);
+                }
                 isBroadcastingPublicly = isChecked;
                 isBroadcastingPrivately = false;
                 if (isChecked) {
@@ -236,20 +225,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     isBroadcastingPrivately = true;
                     startBroadcastingLocation();
                 }
-                if (isBroadcastingToContacts) {
-                    isBroadcastingToContacts = false;
-                    binding.contactsOnlySwitch.setChecked(false);
-                }
+
             }
         });
         binding.contactsOnlySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                isBroadcastingToContacts = isChecked;
                 if (isBroadcastingPublicly) {
                     isBroadcastingPublicly = false;
                     binding.publicSwitch.setChecked(false);
                 }
+                isBroadcastingToContacts = isChecked;
             }
         });
         return binding.getRoot();
@@ -364,7 +350,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
+                        editor.putString(Constants.public_location_broadcast_id, documentReference.getId());
                         editor.apply();
                         hideLoadingScreen();
                         startLocationUpdates();
@@ -520,11 +506,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private void setPrivateLocationBroadcastOnMap(LocationBroadcast privateLocationBroadcastUpdate) {
         LatLng privateLocationUpdateLatLng = new LatLng(privateLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
                 privateLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
-        if (publicBroadcastLocationsMarkers.containsKey(privateLocationBroadcastUpdate.getBroadcastId())) {
-            publicBroadcastLocationsMarkers.get(privateLocationBroadcastUpdate.getBroadcastId())
+        if (broadcastLocationsMarkers.containsKey(privateLocationBroadcastUpdate.getBroadcastId())) {
+            broadcastLocationsMarkers.get(privateLocationBroadcastUpdate.getBroadcastId())
                     .setPosition(privateLocationUpdateLatLng);
         } else {
-            publicBroadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
+            broadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
                     map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)));
         }
     }
@@ -532,13 +518,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private void setPublicLocationBroadcastOnMap(PublicLocationBroadcast publicLocationBroadcastUpdate) {
         LatLng publicLocationUpdateLatLng = new LatLng(publicLocationBroadcastUpdate.getBroadcastLocation().getLatitude(),
                 publicLocationBroadcastUpdate.getBroadcastLocation().getLongitude());
-        if (publicBroadcastLocationsMarkers.containsKey(publicLocationBroadcastUpdate.getBroadcastId())) {
-            publicBroadcastLocationsMarkers.get(publicLocationBroadcastUpdate.getBroadcastId())
-                    .setPosition(publicLocationUpdateLatLng);
-        } else {
-            publicBroadcastLocationsMarkers.put(publicLocationBroadcastUpdate.getBroadcastId(),
-                    map.addMarker(new MarkerOptions().position(publicLocationUpdateLatLng)));
+        if (!publicLocationBroadcastUpdate.getBroadcastId().equals(publicLocationBroadcastId)) {
+            if (publicBroadcastLocationsMarkers.containsKey(publicLocationBroadcastUpdate.getBroadcastId())) {
+                publicBroadcastLocationsMarkers.get(publicLocationBroadcastUpdate.getBroadcastId())
+                        .setPosition(publicLocationUpdateLatLng);
+            } else {
+                publicBroadcastLocationsMarkers.put(publicLocationBroadcastUpdate.getBroadcastId(),
+                        map.addMarker(new MarkerOptions().position(publicLocationUpdateLatLng)));
+            }
         }
+
     }
 
     private void stopBroadcastingLocation() {
@@ -661,10 +650,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                                     requireContext(), R.raw.map_style));
 
                     if (!success) {
-                        Log.e("map", "Style parsing failed.");
+                        Timber.e("Style parsing failed.");
                     }
                 } catch (Resources.NotFoundException e) {
-                    Log.e("map", "Can't find style. Error: ", e);
+                    Timber.e(e, "Can't find style. Error: ");
                 }
                 break;
             case Configuration.UI_MODE_NIGHT_YES:
@@ -677,15 +666,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                                     requireContext(), R.raw.map_style_dark));
 
                     if (!success) {
-                        Log.e("map", "Style parsing failed.");
+                        Timber.e("Style parsing failed.");
                     }
                 } catch (Resources.NotFoundException e) {
-                    Log.e("map", "Can't find style. Error: ", e);
+                    Timber.e(e, "Can't find style. Error: ");
                 }
                 break;
         }
-
-        enableMyLocation();
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.getUiSettings().setZoomControlsEnabled(true);
+        binding.findMeCardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isShowingCurrentLocation) {
+                    binding.locateIcon.setImageResource(R.drawable.ic_action_locate_active);
+                    isShowingCurrentLocation = true;
+                    enableMyLocation();
+                } else {
+                    binding.locateIcon.setImageResource(R.drawable.ic_action_locate);
+                    disableMyLocation();
+                }
+            }
+        });
     }
 
     private void enableMyLocation() {
@@ -693,12 +695,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         if (requireContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             if (map != null) {
+                isShowingCurrentLocation = true;
                 map.setMyLocationEnabled(true);
+            }
+        } else {
+            isShowingCurrentLocation = false;
+            PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+        }
+    }
+
+    private void disableMyLocation() {
+        if (requireContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                isShowingCurrentLocation = false;
+                map.setMyLocationEnabled(false);
             }
         } else {
             PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
+
     }
 
     @Override

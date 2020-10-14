@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/framelayoutbase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -25,319 +24,323 @@
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_activity_main_dash_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/activity_title_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="10dp"
-            android:autofillHints="@string/activity_title_edit_text_hint"
-            android:background="@android:color/transparent"
-            android:hint="@string/activity_title_edit_text_hint"
-            android:inputType="text"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/activity_title_edit_text"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@color/colorTransparentBlack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_title_edit_text" />
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_people_card"
+            android:id="@+id/people_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp"
-            app:contentPadding="-8dp"
-            app:layout_constraintBottom_toTopOf="@+id/add_activity_tag_card"
-            app:layout_constraintEnd_toStartOf="@+id/add_activity_cost_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:layout_constraintVertical_weight="2">
+            app:layout_constraintBottom_toTopOf="@+id/tag_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/description_card"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/people_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_purple"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="26dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_medium"
+                    android:maxLines="1"
                     android:text="@string/people_text"
                     android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_tag_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/add_activity_location_card"
-            app:layout_constraintEnd_toStartOf="@+id/add_activity_time_date_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_activity_people_card"
-            app:layout_constraintVertical_weight="1">
-
-            <ImageView
-                android:id="@+id/tag_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_goldish"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                <ImageView
+                    android:id="@+id/peopleIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/tag_text"
-                    android:textAlignment="center"
-                    android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
+                    android:contentDescription="@string/people_icon_image_view_description"
+                    android:src="@drawable/ic_action_people"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <RelativeLayout
-                android:id="@+id/tagCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_cost_card"
+            android:id="@+id/time_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/add_activity_time_date_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/add_activity_people_card"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:layout_constraintVertical_weight="1">
+            app:layout_constraintBottom_toTopOf="@+id/location_card"
+            app:layout_constraintEnd_toEndOf="@+id/description_card"
+            app:layout_constraintStart_toStartOf="@+id/description_card"
+            app:layout_constraintTop_toBottomOf="@+id/description_card">
 
-            <ImageView
-                android:id="@+id/cost_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_goldish"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/cost_text"
+                    android:maxLines="1"
+                    android:text="@string/time_text"
                     android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/timeIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/time_icon_image_view_description"
+                    android:src="@drawable/ic_action_time"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <RelativeLayout
-                android:id="@+id/costCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_time_date_card"
+            android:id="@+id/description_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/add_activity_tag_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/add_activity_tag_card"
-            app:layout_constraintTop_toBottomOf="@+id/add_activity_cost_card"
-            app:layout_constraintVertical_weight="2">
+            app:layout_constraintBottom_toTopOf="@+id/time_card"
+            app:layout_constraintEnd_toStartOf="@+id/people_card"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/time_date_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_main"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/date_and_time_text"
+                    android:maxLines="1"
+                    android:text="@string/description_text"
                     android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/descriptionIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/details_icon_image_view_description"
+                    android:src="@drawable/ic_action_details"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/dateTimeCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_activity_location_card"
-            android:layout_width="match_parent"
+            android:id="@+id/tag_card"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/cost_card"
+            app:layout_constraintEnd_toEndOf="@+id/people_card"
+            app:layout_constraintStart_toStartOf="@+id/people_card"
+            app:layout_constraintTop_toBottomOf="@+id/people_card">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:maxLines="1"
+                    android:text="@string/tag_s_text"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/tagIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/people_icon_image_view_description"
+                    android:src="@drawable/ic_action_tag"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cost_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toTopOf="@+id/create_activity_finish_efab"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_activity_tag_card"
-            app:layout_constraintVertical_weight="2">
+            app:layout_constraintEnd_toEndOf="@+id/people_card"
+            app:layout_constraintStart_toStartOf="@+id/people_card"
+            app:layout_constraintTop_toBottomOf="@+id/tag_card">
 
-            <ImageView
-                android:id="@+id/location_card_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.5"
-                android:background="@drawable/card_bg_color_orange"
-                android:contentDescription="@string/activity_image_image_description"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/activity_location_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/location_text"
+                    android:maxLines="1"
+                    android:text="@string/cost_text"
                     android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/costIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/cost_icon_image_view_description"
+                    android:src="@drawable/ic_action_cost"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RelativeLayout
-                android:id="@+id/locationCardOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/location_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/create_activity_finish_efab"
+            app:layout_constraintEnd_toEndOf="@+id/description_card"
+            app:layout_constraintStart_toStartOf="@+id/description_card"
+            app:layout_constraintTop_toBottomOf="@+id/time_card">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:maxLines="1"
+                    android:text="@string/location_text"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/locationIconImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="@string/location_icon_image_view_description"
+                    android:src="@drawable/ic_action_location"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -353,18 +356,359 @@
             android:text="@string/create_activity_button_text"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorMain"
             android:textSize="25sp"
-            app:backgroundTint="@color/colorMain"
+            app:backgroundTint="@color/fabBackground"
             app:cornerRadius="2dp"
             app:elevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_activity_location_card"
             app:rippleColor="@color/colorGoldish" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/add_activity_main_dash_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_title_edit_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginHorizontal="10dp"-->
+    <!--            android:autofillHints="@string/activity_title_edit_text_hint"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/activity_title_edit_text_hint"-->
+    <!--            android:inputType="text"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="35sp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <View-->
+    <!--            android:id="@+id/view"-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/activity_title_edit_text"-->
+    <!--            android:layout_marginStart="32dp"-->
+    <!--            android:layout_marginEnd="32dp"-->
+    <!--            android:background="@color/colorTransparentBlack"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/activity_title_edit_text" />-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/add_activity_people_card"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginStart="16dp"-->
+    <!--            android:layout_marginTop="16dp"-->
+    <!--            android:layout_marginEnd="8dp"-->
+    <!--            android:layout_marginBottom="8dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp"-->
+    <!--            app:contentPadding="-8dp"-->
+    <!--            app:layout_constraintBottom_toTopOf="@+id/add_activity_tag_card"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/add_activity_cost_card"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/view"-->
+    <!--            app:layout_constraintVertical_weight="2">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/people_card_image_view"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:background="@drawable/card_bg_color_purple"-->
+    <!--                android:contentDescription="@string/activity_image_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_marginStart="16dp"-->
+    <!--                    android:layout_marginTop="50dp"-->
+    <!--                    android:layout_marginEnd="26dp"-->
+    <!--                    android:layout_marginBottom="50dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/people_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    app:autoSizeTextType="uniform"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/add_activity_tag_card"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginStart="16dp"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:layout_marginEnd="8dp"-->
+    <!--            android:layout_marginBottom="8dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp"-->
+    <!--            app:layout_constraintBottom_toTopOf="@+id/add_activity_location_card"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/add_activity_time_date_card"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/add_activity_people_card"-->
+    <!--            app:layout_constraintVertical_weight="1">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/tag_card_image_view"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:background="@drawable/card_bg_color_goldish"-->
+    <!--                android:contentDescription="@string/activity_image_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:layout_marginStart="16dp"-->
+    <!--                    android:layout_marginTop="16dp"-->
+    <!--                    android:layout_marginEnd="16dp"-->
+    <!--                    android:layout_marginBottom="16dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/tag_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    app:autoSizeTextType="uniform"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/tagCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/add_activity_cost_card"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginStart="8dp"-->
+    <!--            android:layout_marginTop="16dp"-->
+    <!--            android:layout_marginEnd="16dp"-->
+    <!--            android:layout_marginBottom="8dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp"-->
+    <!--            app:layout_constraintBottom_toTopOf="@+id/add_activity_time_date_card"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toEndOf="@+id/add_activity_people_card"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/view"-->
+    <!--            app:layout_constraintVertical_weight="1">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/cost_card_image_view"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:background="@drawable/card_bg_color_goldish"-->
+    <!--                android:contentDescription="@string/activity_image_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_marginStart="16dp"-->
+    <!--                    android:layout_marginTop="16dp"-->
+    <!--                    android:layout_marginEnd="16dp"-->
+    <!--                    android:layout_marginBottom="16dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/cost_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    app:autoSizeTextType="uniform"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/costCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/add_activity_time_date_card"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginStart="8dp"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:layout_marginEnd="16dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/add_activity_tag_card"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toEndOf="@+id/add_activity_tag_card"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/add_activity_cost_card"-->
+    <!--            app:layout_constraintVertical_weight="2">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/time_date_card_image_view"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:background="@drawable/card_bg_color_main"-->
+    <!--                android:contentDescription="@string/activity_image_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_marginStart="16dp"-->
+    <!--                    android:layout_marginTop="16dp"-->
+    <!--                    android:layout_marginEnd="16dp"-->
+    <!--                    android:layout_marginBottom="16dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/date_and_time_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    app:autoSizeTextType="uniform"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/dateTimeCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/add_activity_location_card"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginStart="16dp"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:layout_marginEnd="16dp"-->
+    <!--            android:layout_marginBottom="8dp"-->
+    <!--            app:cardCornerRadius="30dp"-->
+    <!--            app:cardElevation="5dp"-->
+    <!--            app:layout_constraintBottom_toTopOf="@+id/create_activity_finish_efab"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/add_activity_tag_card"-->
+    <!--            app:layout_constraintVertical_weight="2">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/location_card_image_view"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:alpha="0.5"-->
+    <!--                android:background="@drawable/card_bg_color_orange"-->
+    <!--                android:contentDescription="@string/activity_image_image_description"-->
+    <!--                android:scaleType="fitXY"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/activity_location_text_view"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_centerInParent="true"-->
+    <!--                    android:layout_marginStart="32dp"-->
+    <!--                    android:layout_marginTop="50dp"-->
+    <!--                    android:layout_marginEnd="32dp"-->
+    <!--                    android:layout_marginBottom="50dp"-->
+    <!--                    android:fontFamily="@font/roboto_medium"-->
+    <!--                    android:text="@string/location_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="?android:attr/textColorPrimary"-->
+    <!--                    app:autoSizeTextType="uniform"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/locationCardOverlay"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+
+
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+    <!--            android:id="@+id/create_activity_finish_efab"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="64dp"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:layout_marginEnd="64dp"-->
+    <!--            android:layout_marginBottom="16dp"-->
+    <!--            android:fontFamily="@font/roboto_medium"-->
+    <!--            android:text="@string/create_activity_button_text"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textAllCaps="false"-->
+    <!--            android:textColor="@color/colorWhite"-->
+    <!--            android:textSize="25sp"-->
+    <!--            app:backgroundTint="@color/colorMain"-->
+    <!--            app:cornerRadius="2dp"-->
+    <!--            app:elevation="5dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/add_activity_location_card"-->
+    <!--            app:rippleColor="@color/colorGoldish" />-->
+
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </FrameLayout>

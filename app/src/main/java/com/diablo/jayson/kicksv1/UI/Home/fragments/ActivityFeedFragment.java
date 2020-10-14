@@ -177,7 +177,7 @@ public class ActivityFeedFragment extends Fragment implements ActivityFeedAdapte
 //                startActivity(attendActivity);
             } else {
 //                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
-                NavDirections actionConfirmAttend = ActivityFeedFragmentDirections.actionNavigationHomeToConfirmAttendFragment(activity.getActivityId());
+                NavDirections actionConfirmAttend = ActivityFeedFragmentDirections.actionGlobalConfirmAttendBottomSheetFragment(activity.getActivityId());
                 navController.navigate(actionConfirmAttend);
 //                attendActivity.putExtra("activityId", activity.getActivityId());
 //                attendActivity.putExtra("alreadyAttending", false);

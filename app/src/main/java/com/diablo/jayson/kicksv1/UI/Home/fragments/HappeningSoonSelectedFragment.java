@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.diablo.jayson.kicksv1.MobileNavigationDirections;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.databinding.FragmentHappeningSoonSelectedBinding;
@@ -93,13 +94,11 @@ public class HappeningSoonSelectedFragment extends Fragment {
                     users.add(happeningSoonActivity.getActivityAttendees().get(i).getUid());
                 }
                 if (users.contains(user.getUid())) {
-                    NavDirections actionMainAttend = HappeningSoonSelectedFragmentDirections
-                            .actionHappeningSoonSelectedFragmentToAttendActivityMainFragment(happeningSoonActivity.getActivityId());
-                    navController.navigate(actionMainAttend);
+                    NavDirections actionMainAttendGlobal = MobileNavigationDirections.actionGlobalAttendActivityMainFragment(happeningSoonActivity.getActivityId());
+                    navController.navigate(actionMainAttendGlobal);
                 } else {
-                    NavDirections actionConfirmAttend = HappeningSoonSelectedFragmentDirections
-                            .actionHappeningSoonSelectedFragmentToConfirmAttendFragment(happeningSoonActivity.getActivityId());
-                    navController.navigate(actionConfirmAttend);
+                    NavDirections actionConfirmAttendGlobal = MobileNavigationDirections.actionGlobalConfirmAttendBottomSheetFragment(happeningSoonActivity.getActivityId());
+                    navController.navigate(actionConfirmAttendGlobal);
                 }
             }
         });

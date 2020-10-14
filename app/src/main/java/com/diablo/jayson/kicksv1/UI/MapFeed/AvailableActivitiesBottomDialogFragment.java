@@ -99,8 +99,8 @@ public class AvailableActivitiesBottomDialogFragment extends BottomSheetDialogFr
                 NavDirections actionMainAttend = AvailableActivitiesBottomDialogFragmentDirections.actionAvailableActivitiesBottomDialogFragmentToAttendActivityMainFragment();
                 navController.navigate(actionMainAttend);
             } else {
-                NavDirections actionConfirmAttend = AvailableActivitiesBottomDialogFragmentDirections.actionAvailableActivitiesBottomDialogFragmentToConfirmAttendFragment();
-                navController.navigate(actionConfirmAttend);
+//                NavDirections actionConfirmAttend = AvailableActivitiesBottomDialogFragmentDirections.actionAvailableActivitiesBottomDialogFragmentToConfirmAttendFragment();
+//                navController.navigate(actionConfirmAttend);
 //                Intent attendActivity = new Intent(getContext(), AttendActivityActivity.class);
 //                attendActivity.putExtra("activityId", activity.getActivityId());
 //                attendActivity.putExtra("alreadyAttending", false);
