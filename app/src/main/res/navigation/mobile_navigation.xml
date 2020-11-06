@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_navigation_add_kick_to_addActivityTagFragment"
             app:destination="@id/addActivityTagFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_addActivityDescriptionFragment"
+            app:destination="@id/addActivityDescriptionFragment" />
     </fragment>
 
 
@@ -573,6 +576,17 @@
         <action
             android:id="@+id/action_kicksSeeAllFragment_to_kickSelectedMainFragment"
             app:destination="@id/kickSelectedMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityDescriptionFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDescriptionFragment"
+        android:label="fragment_add_activity_description"
+        tools:layout="@layout/fragment_add_activity_description">
+        <action
+            android:id="@+id/action_addActivityDescriptionFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true" />
     </fragment>
 
 

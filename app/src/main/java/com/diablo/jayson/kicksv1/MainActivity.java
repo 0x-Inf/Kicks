@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean darkMode = sharedPreferences.getBoolean("darkmode", false);
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
@@ -135,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                 } else if (destination.getId() == R.id.mapFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.addActivityDescriptionFragment) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.addActivityPeopleFragment) {

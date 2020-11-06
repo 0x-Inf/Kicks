@@ -138,13 +138,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.editEmergencyContactsTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections actionEditEmergency = ProfileFragmentDirections.actionNavigationProfileToEditEmergencyContactsFragment();
-                navController.navigate(actionEditEmergency);
-            }
-        });
+//        binding.editEmergencyContactsTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavDirections actionEditEmergency = ProfileFragmentDirections.actionNavigationProfileToEditEmergencyContactsFragment();
+//                navController.navigate(actionEditEmergency);
+//            }
+//        });
 
         return root;
     }

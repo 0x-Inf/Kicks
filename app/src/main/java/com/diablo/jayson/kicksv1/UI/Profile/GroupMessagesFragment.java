@@ -105,26 +105,7 @@ public class GroupMessagesFragment extends Fragment implements GroupMessagesAdap
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
 //                                Log.e(TAG, snapshot.getId() + " => " + snapshot.getData());
-                                allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getActivityTitle(),
-                                        snapshot.toObject(Activity.class).getActivityStartTime(),
-                                        snapshot.toObject(Activity.class).getActivityEndTime(),
-                                        snapshot.toObject(Activity.class).getActivityDate(),
-                                        snapshot.toObject(Activity.class).getActivityLocationName(),
-                                        snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
-                                        snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMinAge(),
-                                        snapshot.toObject(Activity.class).getActivityMaxAge(),
-                                        snapshot.toObject(Activity.class).getImageUrl(),
-                                        snapshot.toObject(Activity.class).getActivityUploaderId(),
-                                        snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getActivityCost(),
-                                        snapshot.toObject(Activity.class).getActivityUploadedTime(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getActivityTag(),
-                                        snapshot.toObject(Activity.class).getActivityAttendees(),
-                                        snapshot.toObject(Activity.class).isActivityPrivate()));
+                                allActivities.add(snapshot.toObject(Activity.class));
 //                                for (int i = 0; i < allActivities.size(); i++) {
 //                                    Log.w(TAG, allActivities.get(i).getkickTitle());
 //                                }
@@ -141,21 +122,7 @@ public class GroupMessagesFragment extends Fragment implements GroupMessagesAdap
                                 attendingUsers = allActivities.get(i).getActivityAttendees();
                                 for (int j = 0; j < attendingUsers.size(); j++) {
                                     if (attendingUsers.get(j).getUid().equals(user1.getUid())) {
-                                        activeActivities.add(new Activity(allActivities.get(i).getHost(),
-                                                allActivities.get(i).getActivityTitle(), allActivities.get(i).getActivityStartTime(),
-                                                allActivities.get(i).getActivityEndTime(), allActivities.get(i).getActivityDate(),
-                                                allActivities.get(i).getActivityLocationName(), allActivities.get(i).getActivityLocationCoordinates(),
-                                                allActivities.get(i).getActivityMinRequiredPeople(),
-                                                allActivities.get(i).getActivityMaxRequiredPeople(),
-                                                allActivities.get(i).getActivityMinAge(), allActivities.get(i).getActivityMaxAge(),
-                                                allActivities.get(i).getImageUrl(),
-                                                allActivities.get(i).getActivityUploaderId(),
-                                                allActivities.get(i).getActivityId(),
-                                                allActivities.get(i).getActivityCost(),
-                                                allActivities.get(i).getActivityUploadedTime(),
-                                                allActivities.get(i).getTags(),
-                                                allActivities.get(i).getActivityTag(), allActivities.get(i).getActivityAttendees(),
-                                                allActivities.get(i).isActivityPrivate()));
+                                        activeActivities.add(allActivities.get(i));
                                     }
 
                                 }

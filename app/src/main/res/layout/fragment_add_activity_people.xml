@@ -5,154 +5,404 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityPeopleFragment">
 
-    <RelativeLayout
-        android:id="@+id/add_activity_people_relative_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/soloTextView"
+            android:id="@+id/doneTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/solo_text"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="40sp" />
+            android:layout_marginEnd="16dp"
+            android:text="@string/done_text"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorMain"
+            app:layout_constraintBaseline_toBaselineOf="@+id/activityPeopleTextTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <Switch
-            android:id="@+id/makeSoloSwitch"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_toEndOf="@id/soloTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp" />
 
         <TextView
-            android:id="@+id/noOfPeopleTextView"
+            android:id="@+id/activityPeopleTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/soloTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/no_of_people_text"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="40sp" />
-
-        <EditText
-            android:id="@+id/activity_min_people_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/noOfPeopleTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="@string/min_text"
-            android:hint="@string/min_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="50sp" />
-
-        <EditText
-            android:id="@+id/activity_max_people_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/noOfPeopleTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:autofillHints="@string/max_text"
-            android:hint="@string/max_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="52sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="People."
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/ageGroupTextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/addDescriptionTutorialTextTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_min_people_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/age_group_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Add the number of people that would be suitable for the activity."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="40sp" />
-
-        <EditText
-            android:id="@+id/activity_min_age_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageGroupTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="@string/min_text"
-            android:hint="@string/min_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="50sp" />
-
-        <EditText
-            android:id="@+id/activity_max_age_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ageGroupTextView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:autofillHints="@string/max_text"
-            android:hint="@string/max_text"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="52sp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activityPeopleTextTextView" />
 
         <TextView
-            android:id="@+id/makePrivateTextView"
+            android:id="@+id/undefinedTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_min_age_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/make_private_text"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="40sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Undefined Number Of People"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addDescriptionTutorialTextTextView" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/undefinedPeopleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/undefinedTextTextView"
+            app:layout_constraintStart_toEndOf="@+id/undefinedTextTextView"
+            app:layout_constraintTop_toTopOf="@+id/undefinedTextTextView" />
+
+        <EditText
+            android:id="@+id/noOfPeopleEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/no_of_people_hint_text"
+            android:inputType="number"
+            android:hint="@string/no_of_people_hint_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/undefinedTextTextView" />
+
+        <TextView
+            android:id="@+id/makeActivityPrivateTextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Make Activity Private"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noOfPeopleEditText" />
+
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/makePrivateSwitch"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/makePrivateTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/peopleSelectionDoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/makeActivityPrivateTextTextView"
+            app:layout_constraintStart_toEndOf="@+id/makeActivityPrivateTextTextView"
+            app:layout_constraintTop_toTopOf="@+id/makeActivityPrivateTextTextView" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/invitePeopleTextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Invite People"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeActivityPrivateTextTextView" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/invitedPeopleRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:minHeight="100dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invitePeopleTextTextView" />
 
+        <Button
+            android:id="@+id/editInvitesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/background"
+            android:text="Edit"
+            android:textColor="?android:attr/textColorPrimary"
+            app:cornerRadius="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invitedPeopleRecycler" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/selectInvitingContactsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/removeContactSelectionCardButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@null"
+                    android:contentDescription="@string/image_button_for_removing_contact_selection_description"
+                    android:src="@drawable/ic_action_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/SelectedContactsTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Invite:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/alreadySelectedContactsRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/SelectedContactsTextTextView" />
+
+                <TextView
+                    android:id="@+id/myContactsTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="My Contacts:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alreadySelectedContactsRecycler" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myContactsRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:maxHeight="100dp"
+                    android:minHeight="70dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myContactsTextTextView"
+                    app:spanCount="3" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/finishContactSelectionFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_add_icon"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myContactsRecycler" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/selectContactsOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="5dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/add_activity_people_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/soloTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/solo_text"-->
+    <!--            android:textColor="?android:attr/textColorPrimary"-->
+    <!--            android:textSize="40sp" />-->
+
+    <!--        <androidx.appcompat.widget.SwitchCompat-->
+    <!--            android:id="@+id/makeSoloSwitch"-->
+    <!--            android:layout_width="100dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:layout_toEndOf="@id/soloTextView"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginStart="10dp" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/noOfPeopleTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/soloTextView"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/no_of_people_text"-->
+    <!--            android:textColor="?android:attr/textColorPrimary"-->
+    <!--            android:textSize="40sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_min_people_edit_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/noOfPeopleTextView"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginHorizontal="10dp"-->
+    <!--            android:layout_marginStart="50dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:autofillHints="@string/min_text"-->
+    <!--            android:hint="@string/min_text"-->
+    <!--            android:inputType="number"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="50sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_max_people_edit_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/noOfPeopleTextView"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_marginHorizontal="10dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:layout_marginEnd="50dp"-->
+    <!--            android:autofillHints="@string/max_text"-->
+    <!--            android:hint="@string/max_text"-->
+    <!--            android:inputType="number"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="52sp" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/ageGroupTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/activity_min_people_edit_text"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/age_group_text"-->
+    <!--            android:textColor="?android:attr/textColorPrimary"-->
+    <!--            android:textSize="40sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_min_age_edit_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/ageGroupTextView"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginHorizontal="10dp"-->
+    <!--            android:layout_marginStart="50dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:autofillHints="@string/min_text"-->
+    <!--            android:hint="@string/min_text"-->
+    <!--            android:inputType="number"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="50sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_max_age_edit_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/ageGroupTextView"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_marginHorizontal="10dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:layout_marginEnd="50dp"-->
+    <!--            android:autofillHints="@string/max_text"-->
+    <!--            android:hint="@string/max_text"-->
+    <!--            android:inputType="number"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="52sp" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/makePrivateTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/activity_min_age_edit_text"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/make_private_text"-->
+    <!--            android:textColor="?android:attr/textColorPrimary"-->
+    <!--            android:textSize="40sp" />-->
+
+    <!--        <androidx.appcompat.widget.SwitchCompat-->
+    <!--            android:id="@+id/makePrivateSwitch"-->
+    <!--            android:layout_width="100dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:layout_below="@id/makePrivateTextView"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="10dp" />-->
+
+    <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/peopleSelectionDoneButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginBottom="55dp"-->
+    <!--            android:contentDescription="@string/location_selection_done_button_description"-->
+    <!--            android:src="@drawable/done_icon_two_24dp"-->
+    <!--            app:backgroundTint="@color/colorMain" />-->
+
+    <!--    </RelativeLayout>-->
 </FrameLayout>

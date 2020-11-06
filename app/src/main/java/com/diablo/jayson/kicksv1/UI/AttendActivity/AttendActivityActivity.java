@@ -9,25 +9,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.Models.AttendingUser;
-import com.diablo.jayson.kicksv1.Models.Host;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ConfirmAttendFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class AttendActivityActivity extends AppCompatActivity {
 
     private AttendActivityViewModel viewModel;
     private static final String TAG = AttendActivityActivity.class.getSimpleName();
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +53,7 @@ public class AttendActivityActivity extends AppCompatActivity {
             viewModel = new ViewModelProvider(this).get(AttendActivityViewModel.class);
 
             viewModel.setActivityId(activityId);
-            Activity activity = new Activity();
+            activity = new Activity();
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference documentReference = db.collection("activities").document(activityId);
@@ -70,28 +64,7 @@ public class AttendActivityActivity extends AppCompatActivity {
                         DocumentSnapshot documentSnapshot = task.getResult();
                         assert documentSnapshot != null;
                         if (documentSnapshot.exists()) {
-                            Host host = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getHost();
-                            com.google.firebase.Timestamp kickStartTime = documentSnapshot.toObject(Activity.class).getActivityStartTime();
-                            com.google.firebase.Timestamp kickEndTime = documentSnapshot.toObject(Activity.class).getActivityStartTime();
-                            Timestamp kickDate = documentSnapshot.toObject(Activity.class).getActivityDate();
-                            String kickTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
-                            String kickLocation = documentSnapshot.toObject(Activity.class).getActivityLocationName();
-                            GeoPoint kickLocationCordinates = documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates();
-                            int minRequiredPeople = documentSnapshot.toObject(Activity.class).getActivityMinRequiredPeople();
-                            int maxRequiredPeeps = documentSnapshot.toObject(Activity.class).getActivityMaxRequiredPeople();
-                            String imageUrl = Objects.requireNonNull(documentSnapshot.toObject(Activity.class)).getImageUrl();
-                            ArrayList<AttendingUser> mattendees = documentSnapshot.toObject(Activity.class).getActivityAttendees();
-                            activity.setHost(host);
-                            activity.setActivityStartTime(kickStartTime);
-                            activity.setActivityEndTime(kickEndTime);
-                            activity.setActivityDate(kickDate);
-                            activity.setActivityTitle(kickTitle);
-                            activity.setActivityLocationName(kickLocation);
-                            activity.setActivityLocationCordinates(kickLocationCordinates);
-                            activity.setActivityMinRequiredPeople(minRequiredPeople);
-                            activity.setActivityMaxRequiredPeople(maxRequiredPeeps);
-                            activity.setImageUrl(imageUrl);
-                            activity.setActivityAttendees(mattendees);
+                            activity = documentSnapshot.toObject(Activity.class);
                             viewModel.setActivityData(activity);
                         }
                     }

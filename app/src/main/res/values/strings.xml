@@ -371,11 +371,14 @@
     <string name="confirm_text">Confirm</string>
     <string name="people_icon_image_view_description">People Icon Image View</string>
     <string name="time_icon_image_view_description">Time icon Image View</string>
-    <string name="description_text">Description</string>
     <string name="details_icon_image_view_description">Details Icon Image View</string>
     <string name="tag_s_text">Tag(s)</string>
     <string name="cost_icon_image_view_description">Cost icon Image View</string>
     <string name="location_icon_image_view_description">Location Icon Image View</string>
+    <string name="people_input_done_image_view_description">People Input Done Image View</string>
+    <string name="casual_basketball_tournament_hint_text">Casual Basketball Tournament</string>
+    <string name="activity_description_hint_text">A short Basketball tournament for casual players. Teams will be selected on arrival but you can enter with a ready team</string>
+    <string name="no_of_people_hint_text">No Of People</string>
 
 
 </resources>
