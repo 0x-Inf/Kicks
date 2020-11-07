@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityLocationFragment">
 
     <RelativeLayout
         android:id="@+id/add_activity_location_relative_layout"

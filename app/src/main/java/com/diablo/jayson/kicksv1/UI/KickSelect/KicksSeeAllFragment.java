@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -24,8 +23,6 @@ import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,13 +90,13 @@ public class KicksSeeAllFragment extends Fragment implements KickListAdapter.OnK
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_kicks_see_all, container, false);
         kickRecyclerView = root.findViewById(R.id.kicksRecyclerView);
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
-        viewModel.getCategoryName().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-            }
-        });
-        loadKicksFromDb();
+//        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(myToolbar);
+//        viewModel.getCategoryName().observe(requireActivity(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//            }
+//        });
+//        loadKicksFromDb();
         return root;
     }
 

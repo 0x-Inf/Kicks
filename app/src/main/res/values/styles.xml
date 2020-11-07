@@ -35,7 +35,7 @@
         <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
@@ -48,10 +48,10 @@
         <item name="android:windowBackground">@color/colorTransparentWhite</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginEnd">10dp</item>
-        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
     </style>
 
     <!--To fix rendering in preview -->
@@ -67,5 +67,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorGoldish</item>
+        <item name="colorControlActivated">@color/colorMain</item>
+    </style>
 
 </resources>

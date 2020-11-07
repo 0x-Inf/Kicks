@@ -13,6 +13,7 @@ public class Activity extends BaseObservable implements Serializable {
 
     private Host host;
     private String activityTitle;
+    private String activityDescription;
     private Timestamp activityStartTime;
     private Timestamp activityEndTime;
     private Timestamp activityDate;
@@ -22,6 +23,7 @@ public class Activity extends BaseObservable implements Serializable {
     private int activityMaxRequiredPeople;
     private int activityMinAge;
     private int activityMaxAge;
+    private ArrayList<String> invitedPeopleUserIds;
     private String imageUrl;
     private String activityUploaderId;
     private String activityId;
@@ -39,15 +41,15 @@ public class Activity extends BaseObservable implements Serializable {
 
     //Constructor for Activity data model
 
-
-    public Activity(Host host, String activityTitle, com.google.firebase.Timestamp activityStartTime, com.google.firebase.Timestamp activityEndTime,
-                    com.google.firebase.Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates,
-                    int activityMinRequiredPeople, int activityMaxRequiredPeople, int activityMinAge,
-                    int activityMaxAge, String imageUrl, String activityUploaderId, String activityId,
-                    String activityCost, com.google.firebase.Timestamp activityUploadedTime, List<String> tags, Tag activityTag,
-                    ArrayList<AttendingUser> activityAttendees, boolean isActivityPrivate) {
+    public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityEndTime,
+                    Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates, int activityMinRequiredPeople,
+                    int activityMaxRequiredPeople, int activityMinAge, int activityMaxAge, ArrayList<String> invitedPeopleUserIds,
+                    String imageUrl, String activityUploaderId, String activityId, String activityCost,
+                    Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
+                    boolean isActivityPrivate) {
         this.host = host;
         this.activityTitle = activityTitle;
+        this.activityDescription = activityDescription;
         this.activityStartTime = activityStartTime;
         this.activityEndTime = activityEndTime;
         this.activityDate = activityDate;
@@ -57,6 +59,7 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityMaxRequiredPeople = activityMaxRequiredPeople;
         this.activityMinAge = activityMinAge;
         this.activityMaxAge = activityMaxAge;
+        this.invitedPeopleUserIds = invitedPeopleUserIds;
         this.imageUrl = imageUrl;
         this.activityUploaderId = activityUploaderId;
         this.activityId = activityId;
@@ -82,6 +85,14 @@ public class Activity extends BaseObservable implements Serializable {
 
     public void setActivityTitle(String activityTitle) {
         this.activityTitle = activityTitle;
+    }
+
+    public String getActivityDescription() {
+        return activityDescription;
+    }
+
+    public void setActivityDescription(String activityDescription) {
+        this.activityDescription = activityDescription;
     }
 
     public Timestamp getActivityStartTime() {
@@ -120,7 +131,7 @@ public class Activity extends BaseObservable implements Serializable {
         return activityLocationCoordinates;
     }
 
-    public void setActivityLocationCordinates(GeoPoint activityLocationCoordinates) {
+    public void setActivityLocationCoordinates(GeoPoint activityLocationCoordinates) {
         this.activityLocationCoordinates = activityLocationCoordinates;
     }
 
@@ -156,6 +167,14 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityMaxAge = activityMaxAge;
     }
 
+    public ArrayList<String> getInvitedPeopleUserIds() {
+        return invitedPeopleUserIds;
+    }
+
+    public void setInvitedPeopleUserIds(ArrayList<String> invitedPeopleUserIds) {
+        this.invitedPeopleUserIds = invitedPeopleUserIds;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -188,11 +207,11 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityCost = activityCost;
     }
 
-    public com.google.firebase.Timestamp getActivityUploadedTime() {
+    public Timestamp getActivityUploadedTime() {
         return activityUploadedTime;
     }
 
-    public void setActivityUploadedTime(com.google.firebase.Timestamp activityUploadedTime) {
+    public void setActivityUploadedTime(Timestamp activityUploadedTime) {
         this.activityUploadedTime = activityUploadedTime;
     }
 

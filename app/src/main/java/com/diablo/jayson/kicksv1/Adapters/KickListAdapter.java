@@ -102,7 +102,7 @@ public class KickListAdapter extends FirestoreRecyclerAdapter<Kick, KickListAdap
 
         void bindTo(Kick currentKick, OnKickSubSelectedListener listener) {
             mKickName.setText(currentKick.getKickName());
-            Glide.with(itemView.getContext()).load(currentKick.getKickCardImageUrl()).into(mKickImage);
+            Glide.with(itemView.getContext()).load(currentKick.getKickMainImageUrl()).into(mKickImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

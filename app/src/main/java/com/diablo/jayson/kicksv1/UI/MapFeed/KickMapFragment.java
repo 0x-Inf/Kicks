@@ -1,7 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.MapFeed;
 
 import android.Manifest;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -13,14 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -116,26 +113,7 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                allActivities.add(new Activity(snapshot.toObject(Activity.class).getHost(),
-                                        snapshot.toObject(Activity.class).getActivityTitle(),
-                                        snapshot.toObject(Activity.class).getActivityStartTime(),
-                                        snapshot.toObject(Activity.class).getActivityEndTime(),
-                                        snapshot.toObject(Activity.class).getActivityDate(),
-                                        snapshot.toObject(Activity.class).getActivityLocationName(),
-                                        snapshot.toObject(Activity.class).getActivityLocationCoordinates(),
-                                        snapshot.toObject(Activity.class).getActivityMinRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMaxRequiredPeople(),
-                                        snapshot.toObject(Activity.class).getActivityMinAge(),
-                                        snapshot.toObject(Activity.class).getActivityMaxAge(),
-                                        snapshot.toObject(Activity.class).getImageUrl(),
-                                        snapshot.toObject(Activity.class).getActivityUploaderId(),
-                                        snapshot.toObject(Activity.class).getActivityId(),
-                                        snapshot.toObject(Activity.class).getActivityCost(),
-                                        snapshot.toObject(Activity.class).getActivityUploadedTime(),
-                                        snapshot.toObject(Activity.class).getTags(),
-                                        snapshot.toObject(Activity.class).getActivityTag(),
-                                        snapshot.toObject(Activity.class).getActivityAttendees(),
-                                        snapshot.toObject(Activity.class).isActivityPrivate()));
+                                allActivities.add(snapshot.toObject(Activity.class));
                             }
                         }
                     }

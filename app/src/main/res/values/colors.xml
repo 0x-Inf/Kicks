@@ -8,6 +8,10 @@
     <color name="iconColor">#000000</color>
     <color name="messageInputBg">#E0E0E0</color>
     <color name="messageItemBg">#E0E0E0</color>
+    <color name="bottomSheetBackground">#ffffff</color>
+    <color name="fabBackground">#ffffff</color>
+    <color name="loadingBackground">#DCDCDC</color>
+    <color name="card_back">#ffffff</color>
 
     <!--    colors with xd -->
     <color name="colorMain">#D7385E</color>

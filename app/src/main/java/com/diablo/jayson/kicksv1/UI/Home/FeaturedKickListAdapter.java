@@ -58,11 +58,11 @@ public class FeaturedKickListAdapter extends RecyclerView.Adapter<FeaturedKickLi
 
         void bindTo(Kick featuredKick) {
             String kickName = featuredKick.getKickName();
-            String kickShortDescription = featuredKick.getKickShortDescription();
+//            String kickShortDescription = featuredKick.getKickShortDescription();
             featuredKickName.setText(kickName);
-            featuredKickShortDescriptionTextView.setText(kickShortDescription);
+//            featuredKickShortDescriptionTextView.setText(kickShortDescription);
             Glide.with(itemView.getContext())
-                    .load(featuredKick.getKickCardImageUrl())
+                    .load(featuredKick.getKickMainImageUrl())
                     .into(featuredKickImage);
         }
     }

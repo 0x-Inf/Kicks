@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.diablo.jayson.kicksv1.UI.UserProfile.GroupMessagesFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.Profile.GroupMessagesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupMessagesRecycler"

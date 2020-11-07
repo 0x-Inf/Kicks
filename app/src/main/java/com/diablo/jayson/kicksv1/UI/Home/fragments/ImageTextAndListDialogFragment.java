@@ -35,7 +35,7 @@ public class ImageTextAndListDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog customDialog = new Dialog(getContext(), R.style.DialogTheme);
+        Dialog customDialog = new Dialog(requireContext(), R.style.DialogTheme);
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        customDialog.requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);

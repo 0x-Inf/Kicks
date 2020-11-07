@@ -21,8 +21,6 @@ import com.diablo.jayson.kicksv1.R;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapter.ActivityItemHolder> {
 
     public interface OnActivitySelectedListener{
@@ -47,7 +45,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
     @Override
     public ActivityItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ActivityItemHolder(LayoutInflater.from(context).
-                inflate(R.layout.activity_list_item, parent, false));
+                inflate(R.layout.recycler_activity_list_item, parent, false));
     }
 
     @Override
