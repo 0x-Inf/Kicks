@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -71,11 +70,11 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
             String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(availableActivity.getActivityStartTime().toDate());
             String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(availableActivity.getActivityEndTime().toDate());
 
-            String noOfPeople = availableActivity.getActivityMinRequiredPeople() + "-" + availableActivity.getActivityMaxRequiredPeople() + " People";
+//            String noOfPeople = availableActivity.getActivityMinRequiredPeople() + "-" + availableActivity.getActivityMaxRequiredPeople() + " People";
             String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
-            Glide.with(itemView.getContext())
-                    .load(availableActivity.getImageUrl())
-                    .into(availableActivityImage);
+//            Glide.with(itemView.getContext())
+//                    .load(availableActivity.getImageUrl())
+//                    .into(availableActivityImage);
 
             availableActivityTitle.setText(availableActivity.getActivityTitle());
             availableActivityCost.setText(availableActivity.getActivityCost());

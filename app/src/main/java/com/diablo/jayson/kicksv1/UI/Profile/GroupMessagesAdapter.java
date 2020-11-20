@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 
@@ -68,10 +66,10 @@ public class GroupMessagesAdapter extends RecyclerView.Adapter<GroupMessagesAdap
         void bindTo(Activity groupMessage, OnGroupSelectedListener listener) {
             String groupMessageTitle = groupMessage.getActivityTitle();
             activityTitle.setText(groupMessageTitle);
-            Glide.with(itemView.getContext())
-                    .load(groupMessage.getImageUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(activityImageView);
+//            Glide.with(itemView.getContext())
+//                    .load(groupMessage.getImageUrl())
+//                    .apply(RequestOptions.circleCropTransform())
+//                    .into(activityImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

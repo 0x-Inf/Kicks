@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -55,9 +54,9 @@ public class ActivitiesMatchingAdapter extends FirestoreRecyclerAdapter<Activity
 
         void bindTo(Activity matchedActivity, OnActivitySelectedListener listener) {
             searchedTagName.setText(matchedActivity.getActivityTitle());
-            Glide.with(itemView.getContext())
-                    .load(matchedActivity.getImageUrl())
-                    .into(activityImage);
+//            Glide.with(itemView.getContext())
+//                    .load(matchedActivity.getImageUrl())
+//                    .into(activityImage);
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onActivitySelected(matchedActivity);

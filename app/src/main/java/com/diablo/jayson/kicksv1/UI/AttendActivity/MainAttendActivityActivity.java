@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
@@ -171,7 +170,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 
 
                     String activityTime = activityStartTime + " - " + activityEndTime;
-                    String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
+//                    String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
                     String activityTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
                     String activityLocationName = documentSnapshot.toObject(Activity.class).getActivityLocationName();
                     String activityTag = documentSnapshot.toObject(Activity.class).getActivityTag().getTagName();
@@ -187,9 +186,9 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                     activityLocationActualTextView.setText(activityLocationName);
                     activityTimeActualTextView.setText(activityTime);
                     activityDateActualTextView.setText(activityDate);
-                    Glide.with(getApplicationContext())
-                            .load(activityImageUrl)
-                            .into(activityImageView);
+//                    Glide.with(getApplicationContext())
+//                            .load(activityImageUrl)
+//                            .into(activityImageView);
                     Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitle);
 //                    googleMap.clear();
 //                    googleMap.addMarker(new MarkerOptions().position(activityLocation)

@@ -19,12 +19,8 @@ public class Activity extends BaseObservable implements Serializable {
     private Timestamp activityDate;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
-    private int activityMinRequiredPeople;
-    private int activityMaxRequiredPeople;
-    private int activityMinAge;
-    private int activityMaxAge;
+    private String activityNoOfPeople;
     private ArrayList<String> invitedPeopleUserIds;
-    private String imageUrl;
     private String activityUploaderId;
     private String activityId;
     private String activityCost;
@@ -42,9 +38,8 @@ public class Activity extends BaseObservable implements Serializable {
     //Constructor for Activity data model
 
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityEndTime,
-                    Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates, int activityMinRequiredPeople,
-                    int activityMaxRequiredPeople, int activityMinAge, int activityMaxAge, ArrayList<String> invitedPeopleUserIds,
-                    String imageUrl, String activityUploaderId, String activityId, String activityCost,
+                    Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
+                    ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
                     Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
                     boolean isActivityPrivate) {
         this.host = host;
@@ -55,12 +50,8 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityDate = activityDate;
         this.activityLocationName = activityLocationName;
         this.activityLocationCoordinates = activityLocationCoordinates;
-        this.activityMinRequiredPeople = activityMinRequiredPeople;
-        this.activityMaxRequiredPeople = activityMaxRequiredPeople;
-        this.activityMinAge = activityMinAge;
-        this.activityMaxAge = activityMaxAge;
+        this.activityNoOfPeople = activityNoOfPeople;
         this.invitedPeopleUserIds = invitedPeopleUserIds;
-        this.imageUrl = imageUrl;
         this.activityUploaderId = activityUploaderId;
         this.activityId = activityId;
         this.activityCost = activityCost;
@@ -135,36 +126,12 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityLocationCoordinates = activityLocationCoordinates;
     }
 
-    public int getActivityMinRequiredPeople() {
-        return activityMinRequiredPeople;
+    public String getActivityNoOfPeople() {
+        return activityNoOfPeople;
     }
 
-    public void setActivityMinRequiredPeople(int activityMinRequiredPeople) {
-        this.activityMinRequiredPeople = activityMinRequiredPeople;
-    }
-
-    public int getActivityMaxRequiredPeople() {
-        return activityMaxRequiredPeople;
-    }
-
-    public void setActivityMaxRequiredPeople(int activityMaxRequiredPeople) {
-        this.activityMaxRequiredPeople = activityMaxRequiredPeople;
-    }
-
-    public int getActivityMinAge() {
-        return activityMinAge;
-    }
-
-    public void setActivityMinAge(int activityMinAge) {
-        this.activityMinAge = activityMinAge;
-    }
-
-    public int getActivityMaxAge() {
-        return activityMaxAge;
-    }
-
-    public void setActivityMaxAge(int activityMaxAge) {
-        this.activityMaxAge = activityMaxAge;
+    public void setActivityNoOfPeople(String activityNoOfPeople) {
+        this.activityNoOfPeople = activityNoOfPeople;
     }
 
     public ArrayList<String> getInvitedPeopleUserIds() {
@@ -173,14 +140,6 @@ public class Activity extends BaseObservable implements Serializable {
 
     public void setInvitedPeopleUserIds(ArrayList<String> invitedPeopleUserIds) {
         this.invitedPeopleUserIds = invitedPeopleUserIds;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getActivityUploaderId() {
