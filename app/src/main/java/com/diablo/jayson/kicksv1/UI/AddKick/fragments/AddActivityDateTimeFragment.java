@@ -47,14 +47,6 @@ public class AddActivityDateTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_add_activity_date_time, container, false);
-
-        //Date Time Views
-        addActivityDateTimeRelativeLayout = root.findViewById(R.id.add_activity_time_date_relative_layout);
-        activityDatePicker = root.findViewById(R.id.activity_date_picker);
-        activityTimePicker = root.findViewById(R.id.activity_time_picker);
-        activityDurationPicker = root.findViewById(R.id.durationPicker);
-        dateTimeSelectionDoneButton = root.findViewById(R.id.dateTimeSelectionDoneButton);
-
         activityDateTimeData = new AddActivityDateTimeData();
 
 

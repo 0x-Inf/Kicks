@@ -151,10 +151,6 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
         });
     }
 
-    private void updateActivityPeople(boolean isActivityPrivate, String noOfPeople) {
-
-    }
-
     @Override
     public void onContactSelected(Contact selectedContact) {
         if (!invitedContacts.contains(selectedContact)) {
