@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/addDescriptionTutorialTextTextView"
+            android:id="@+id/addPeopleTutorialTextTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -59,7 +59,7 @@
             android:layout_marginTop="32dp"
             android:text="Undefined Number Of People"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addDescriptionTutorialTextTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/addPeopleTutorialTextTextView" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/undefinedPeopleSwitch"
@@ -83,6 +83,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/undefinedTextTextView" />
+
+        <View
+            android:id="@+id/editNoOfPeopleOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.3"
+            android:background="@color/colorBlack"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/noOfPeopleEditText"
+            app:layout_constraintEnd_toEndOf="@+id/noOfPeopleEditText"
+            app:layout_constraintStart_toStartOf="@+id/noOfPeopleEditText"
+            app:layout_constraintTop_toTopOf="@+id/noOfPeopleEditText" />
 
         <TextView
             android:id="@+id/makeActivityPrivateTextTextView"
@@ -109,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:text="Invite People"
+            android:text="Invite :"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/makeActivityPrivateTextTextView" />

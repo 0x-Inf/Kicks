@@ -246,15 +246,15 @@ public class ConfirmAttendFragment extends Fragment {
                         String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
                         String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
                         String activityCost = activity.getActivityCost();
-                        String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";
-                        String activityPeopleAge = activity.getActivityMinAge() + " - " + activity.getActivityMaxAge();
+//                        String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";
+//                        String activityPeopleAge = activity.getActivityMinAge() + " - " + activity.getActivityMaxAge();
                         String activityLocationName = activity.getActivityLocationName();
                         usernameTextView.setText(hostName);
                         activityDateTextView.setText(activityDate);
                         activityCostTextView.setText(activityCost);
                         activityStartTimeTextView.setText(activityStartTime);
-                        activityPeopleNumberTextView.setText(activityPeopleNumber);
-                        activityPeopleAgeTextView.setText(activityPeopleAge);
+//                        activityPeopleNumberTextView.setText(activityPeopleNumber);
+//                        activityPeopleAgeTextView.setText(activityPeopleAge);
                         activityLocationTextView.setText(activityLocationName);
 
 //                                Glide.with(Objects.requireNonNull(getContext())).load(activity.getImageUrl())

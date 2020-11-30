@@ -5,109 +5,418 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDateTimeFragment">
 
-    <RelativeLayout
-        android:id="@+id/add_activity_time_date_relative_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/dateTextView"
+            android:id="@+id/dateAndTimeTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/date_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
-
-        <DatePicker
-            android:id="@+id/activity_date_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_below="@id/dateTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="2dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/date_and_time_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/startTimeTextView"
+            android:id="@+id/doneTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_date_picker"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/start_time_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
-
-
-        <TimePicker
-            android:id="@+id/activity_time_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_below="@id/startTimeTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp"
-            android:timePickerMode="spinner" />
+            android:layout_marginEnd="16dp"
+            android:text="@string/done_text"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorMain"
+            app:layout_constraintBaseline_toBaselineOf="@+id/dateAndTimeTextTextView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/durationTextView"
+            android:id="@+id/shortTutorialTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Add the date and time the activity will start and optionally the duration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeTextTextView" />
+
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_time_picker"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/duration_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="35sp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shortTutorialTextView">
 
-        <RelativeLayout
-            android:id="@+id/duration_relative_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/durationTextView"
-            android:layout_centerHorizontal="true">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <NumberPicker
-                android:id="@+id/durationPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="110dp"
-                android:layout_centerHorizontal="true" />
+                <ImageView
+                    android:id="@+id/calendarIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_action_calendar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/durationPicker"
-                android:text="@string/hrs_text"
-                android:textColor="@color/colorOrange"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/addDatePromptTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Pick the activity Start Date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    app:layout_constraintBottom_toBottomOf="@+id/calendarIconImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/calendarIconImageView"
+                    app:layout_constraintTop_toTopOf="@+id/calendarIconImageView" />
 
-        </RelativeLayout>
+                <DatePicker
+                    android:id="@+id/activityDatePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/calendarIconImageView" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/dateTimeSelectionDoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
+                <ImageView
+                    android:id="@+id/timeIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_action_time"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityDatePicker" />
+
+                <TextView
+                    android:id="@+id/addTimePromptTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Select a start time for the activity"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    app:layout_constraintBottom_toBottomOf="@+id/timeIconImageView"
+                    app:layout_constraintStart_toEndOf="@+id/timeIconImageView"
+                    app:layout_constraintTop_toTopOf="@+id/timeIconImageView" />
+
+                <TimePicker
+                    android:id="@+id/activityTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:timePickerMode="spinner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/timeIconImageView" />
+
+                <ImageView
+                    android:id="@+id/durationIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_action_duration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activityTimePicker" />
+
+                <TextView
+                    android:id="@+id/durationPromptTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Set the duration of the activity"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationIconImageView"
+                    app:layout_constraintStart_toEndOf="@+id/durationIconImageView"
+                    app:layout_constraintTop_toTopOf="@+id/durationIconImageView"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="400dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/durationIconImageView">
+
+                    <TextView
+                        android:id="@+id/durationNotSpecifiedTextTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Duration not specified"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/durationUnspecifiedSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/durationNotSpecifiedTextTextView"
+                        app:layout_constraintStart_toEndOf="@+id/durationNotSpecifiedTextTextView"
+                        app:layout_constraintTop_toTopOf="@+id/durationNotSpecifiedTextTextView" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/durationOptionsRecyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/durationNotSpecifiedTextTextView"
+                        app:spanCount="1" />
+
+                    <TextView
+                        android:id="@+id/customDurationPromptTextTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Put a custom duration"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/durationOptionsRecyclerView" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/setCustomDurationSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/customDurationPromptTextTextView"
+                        app:layout_constraintStart_toEndOf="@+id/customDurationPromptTextTextView"
+                        app:layout_constraintTop_toTopOf="@+id/customDurationPromptTextTextView" />
+
+                    <TextView
+                        android:id="@+id/pickHourTextTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Hours:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/customDurationPromptTextTextView" />
+
+                    <TextView
+                        android:id="@+id/pickedHoursTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="3"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/pickHourTextTextView"
+                        app:layout_constraintStart_toEndOf="@+id/pickHourTextTextView" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/hoursDurationSlider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:valueFrom="1"
+                        android:valueTo="23"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pickHourTextTextView" />
+
+                    <TextView
+                        android:id="@+id/pickDaysTextTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Days:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hoursDurationSlider" />
+
+                    <TextView
+                        android:id="@+id/pickedDaysTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="5"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/pickDaysTextTextView"
+                        app:layout_constraintStart_toEndOf="@+id/pickDaysTextTextView" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/daysDurationSlider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:valueFrom="1"
+                        android:valueTo="30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pickDaysTextTextView" />
+
+                    <TextView
+                        android:id="@+id/pickMonthsTextTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Months:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/daysDurationSlider" />
+
+                    <TextView
+                        android:id="@+id/pickedMonthsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="2"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/pickMonthsTextTextView"
+                        app:layout_constraintStart_toEndOf="@+id/pickMonthsTextTextView" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/monthsDurationSlider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:valueFrom="1"
+                        android:valueTo="12"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pickMonthsTextTextView" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/add_activity_time_date_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/dateTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/date_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="35sp" />-->
+
+    <!--        <DatePicker-->
+    <!--            android:id="@+id/activity_date_picker"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="150dp"-->
+    <!--            android:layout_below="@id/dateTextView"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginHorizontal="20dp"-->
+    <!--            android:layout_marginTop="2dp"-->
+    <!--            android:calendarViewShown="false"-->
+    <!--            android:datePickerMode="spinner" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/startTimeTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/activity_date_picker"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/start_time_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="35sp" />-->
 
 
-    </RelativeLayout>
+    <!--        <TimePicker-->
+    <!--            android:id="@+id/activity_time_picker"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="150dp"-->
+    <!--            android:layout_below="@id/startTimeTextView"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="2dp"-->
+    <!--            android:layout_marginBottom="10dp"-->
+    <!--            android:timePickerMode="spinner" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/durationTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/activity_time_picker"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/duration_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="35sp" />-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/duration_relative_layout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/durationTextView"-->
+    <!--            android:layout_centerHorizontal="true">-->
+
+    <!--            <NumberPicker-->
+    <!--                android:id="@+id/durationPicker"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="110dp"-->
+    <!--                android:layout_centerHorizontal="true" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_toEndOf="@id/durationPicker"-->
+    <!--                android:text="@string/hrs_text"-->
+    <!--                android:textColor="@color/colorOrange"-->
+    <!--                android:textSize="20sp" />-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/dateTimeSelectionDoneButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginBottom="55dp"-->
+    <!--            android:contentDescription="@string/location_selection_done_button_description"-->
+    <!--            android:src="@drawable/done_icon_two_24dp"-->
+    <!--            app:backgroundTint="@color/colorMain" />-->
+
+
+    <!--    </RelativeLayout>-->
 
 
 </FrameLayout>

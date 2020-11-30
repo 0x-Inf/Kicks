@@ -4,23 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
-import android.widget.TimePicker;
+import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityDateTimeBinding;
+import com.google.android.material.slider.Slider;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -28,14 +26,11 @@ import java.util.Date;
  */
 public class AddActivityDateTimeFragment extends Fragment {
 
-    private AddActivityDateTimeData activityDateTimeData;
+    private FragmentAddActivityDateTimeBinding binding;
+    private AddActivityViewModel addActivityViewModel;
 
-    //Date Time Stuff
-    private RelativeLayout addActivityDateTimeRelativeLayout;
-    private DatePicker activityDatePicker;
-    private TimePicker activityTimePicker;
-    private NumberPicker activityDurationPicker;
-    private FloatingActionButton dateTimeSelectionDoneButton;
+    private String activityDuration;
+
 
     public AddActivityDateTimeFragment() {
         // Required empty public constructor
@@ -43,79 +38,96 @@ public class AddActivityDateTimeFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_add_activity_date_time, container, false);
+        binding = FragmentAddActivityDateTimeBinding.inflate(inflater, container, false);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
-        //Date Time Views
-        addActivityDateTimeRelativeLayout = root.findViewById(R.id.add_activity_time_date_relative_layout);
-        activityDatePicker = root.findViewById(R.id.activity_date_picker);
-        activityTimePicker = root.findViewById(R.id.activity_time_picker);
-        activityDurationPicker = root.findViewById(R.id.durationPicker);
-        dateTimeSelectionDoneButton = root.findViewById(R.id.dateTimeSelectionDoneButton);
-
-        activityDateTimeData = new AddActivityDateTimeData();
-
-
-        //Date Time Implementation
-        final String[] durations = {"<1", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
-
-
-        //Populate NumberPicker values from String array values
-        //Set the minimum value of NumberPicker
-        activityDurationPicker.setMinValue(0); //from array first value
-        //Specify the maximum value/number of NumberPicker
-        activityDurationPicker.setMaxValue(durations.length - 1); //to array last value
-
-        activityDurationPicker.setDisplayedValues(durations);
-
-        //Sets whether the selector wheel wraps when reaching the min/max value.
-        activityDurationPicker.setWrapSelectorWheel(true);
-        final long[] activitySeconds = new long[1];
-
-        activityDurationPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        binding.durationUnspecifiedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if (durations[newVal].equals("<1")) {
-                    activitySeconds[0] = 59 * 60;
-                } else {
-                    long hours = Long.parseLong(durations[newVal]);
-                    activitySeconds[0] = hours * 3600;
-                }
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
             }
         });
-        Calendar calendar = Calendar.getInstance();
 
-        dateTimeSelectionDoneButton.setOnClickListener(new View.OnClickListener() {
+        binding.setCustomDurationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Calendar calendarDate = Calendar.getInstance();
-                calendarDate.set(activityDatePicker.getYear(), activityDatePicker.getMonth(), activityDatePicker.getDayOfMonth());
-                Timestamp activityDateTimestamp = new Timestamp(calendarDate.getTime());
-                long timestampSecondsDate = calendarDate.getTimeInMillis();
-//                Timestamp activityDateTimestamp = new Timestamp(timestampSecondsDate);
-                activityDateTimeData.setActivityDate(activityDateTimestamp);
-                Calendar calendarTime = Calendar.getInstance();
-                calendarTime.set(activityDatePicker.getYear(), activityDatePicker.getMonth(),
-                        activityDatePicker.getDayOfMonth(), activityTimePicker.getHour(), activityTimePicker.getMinute());
-                Timestamp activityStartTimeTimestamp = new Timestamp(calendarTime.getTime());
-                long timestampSecondsTime = calendarTime.getTimeInMillis();
-//                Timestamp activityStartTimestamp = new Timestamp(timestampSecondsTime);
-                activityDateTimeData.setActivityStartTime(activityStartTimeTimestamp);
-                calendarTime.add(Calendar.SECOND, (int) activitySeconds[0]);
-                Date activityEndTime = calendarTime.getTime();
-                com.google.firebase.Timestamp activityEndTimestamp = new com.google.firebase.Timestamp(activityEndTime);
-//                Timestamp activityEndTimestamp = new Timestamp(calendarTime.getTimeInMillis());
-                activityDateTimeData.setActivityEndTime(activityEndTimestamp);
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                NavDirections actionAddActivityMain = AddActivityDateTimeFragmentDirections.actionAddActivityDateTimeFragmentToNavigationAddKick(activityDateTimeData);
-                navController.navigate(actionAddActivityMain);
-//                addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityDateTimeRelativeLayout.setVisibility(View.GONE);
-//                Toast.makeText(getContext(),DateTimeFormat.mediumTime().print(activityMain.getActivityStartTime().getTime()),Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
             }
         });
-        return root;
+
+        binding.hoursDurationSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+
+            }
+        });
+        binding.hoursDurationSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+
+            }
+        });
+
+        binding.daysDurationSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+
+            }
+        });
+        binding.daysDurationSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+
+            }
+        });
+
+        binding.monthsDurationSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+
+            }
+        });
+        binding.monthsDurationSlider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+
+            }
+        });
+
+        binding.doneTextTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateAddActivityViewModel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private void updateAddActivityViewModel() {
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
     }
 }

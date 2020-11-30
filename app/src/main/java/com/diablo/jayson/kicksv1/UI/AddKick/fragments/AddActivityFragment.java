@@ -77,7 +77,7 @@ public class AddActivityFragment extends Fragment {
                 for (int i = 0; i < 6; i++) {
                     switch (i) {
                         case 0:
-                            if (activity.getActivityMinRequiredPeople() != 0) {
+                            if (activity.getActivityNoOfPeople() != null) {
                                 binding.addPeopleDoneImageView.setVisibility(View.VISIBLE);
                             }
                         case 1:
@@ -179,13 +179,13 @@ public class AddActivityFragment extends Fragment {
     }
 
     private void updateActivityPeopleModel() {
-        activityMain.setActivityMinRequiredPeople(activityPeopleData.getActivityMinRequiredPeople());
-        activityMain.setActivityMaxRequiredPeople(activityPeopleData.getActivityMaxRequiredPeople());
-        activityMain.setActivityMinAge(activityPeopleData.getActivityMinAge());
-        activityMain.setActivityMaxAge(activityPeopleData.getActivityMaxAge());
+//        activityMain.setActivityMinRequiredPeople(activityPeopleData.getActivityMinRequiredPeople());
+//        activityMain.setActivityMaxRequiredPeople(activityPeopleData.getActivityMaxRequiredPeople());
+//        activityMain.setActivityMinAge(activityPeopleData.getActivityMinAge());
+//        activityMain.setActivityMaxAge(activityPeopleData.getActivityMaxAge());
         activityMain.setActivityPrivate(activityPeopleData.isActivityPrivate());
         binding.peopleCardImageView.setVisibility(View.VISIBLE);
-        Timber.e(String.valueOf(activityMain.getActivityMaxRequiredPeople()));
+//        Timber.e(String.valueOf(activityMain.getActivityMaxRequiredPeople()));
         viewModel.setActivity1(activityMain);
     }
 

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 
@@ -78,11 +77,11 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
             String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
 
-            String noOfPeople = activeActivity.getActivityMinRequiredPeople() + "-" + activeActivity.getActivityMaxRequiredPeople() + " People";
+//            String noOfPeople = activeActivity.getActivityMinRequiredPeople() + "-" + activeActivity.getActivityMaxRequiredPeople() + " People";
             String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
-            Glide.with(itemView.getContext())
-                    .load(activeActivity.getImageUrl())
-                    .into(availableActivityImage);
+//            Glide.with(itemView.getContext())
+//                    .load(activeActivity.getImageUrl())
+//                    .into(availableActivityImage);
 
             availableActivityTitle.setText(activeActivity.getActivityTitle());
             availableActivityCost.setText(activeActivity.getActivityCost());

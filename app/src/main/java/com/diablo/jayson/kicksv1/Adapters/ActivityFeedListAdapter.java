@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Host;
@@ -22,8 +20,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, ActivityFeedListAdapter.ActivityViewHolder> {
 
@@ -124,9 +120,9 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
 //                    .apply(RequestOptions.circleCropTransform())
 //                    .into(uploaderPic);
 
-            Glide.with(itemView.getContext()).load(currentActivity.getImageUrl())
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
-                    .into(activityImage);
+//            Glide.with(itemView.getContext()).load(currentActivity.getImageUrl())
+//                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5, 5)))
+//                    .into(activityImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
