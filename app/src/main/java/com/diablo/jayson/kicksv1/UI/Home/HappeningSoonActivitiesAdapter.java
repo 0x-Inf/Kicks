@@ -80,13 +80,13 @@ public class HappeningSoonActivitiesAdapter extends RecyclerView.Adapter<Happeni
         }
 
         void bindTo(Activity activity, OnSoonActivitySelectedListener listener) {
-            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
+            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityStartDate().toDate());
 //            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
             String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
-            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityEndTime().toDate());
+//            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityEndTime().toDate());
 
 
-            String activityTime = activityStartTime + " - " + activityEndTime;
+            String activityTime = activityStartTime;
             String activityCost = activity.getActivityCost();
             String activityLocation = activity.getActivityLocationName();
             String hostName = activity.getHost().getUserName();

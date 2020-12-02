@@ -12,6 +12,7 @@
     <color name="fabBackground">#ffffff</color>
     <color name="loadingBackground">#DCDCDC</color>
     <color name="card_back">#ffffff</color>
+    <color name="overlayBack">#f1f1f1</color>
 
     <!--    colors with xd -->
     <color name="colorMain">#D7385E</color>

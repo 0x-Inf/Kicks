@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,15 @@ public class AddActivityViewModel extends ViewModel {
         mainActivity.setActivityNoOfPeople(activityNoOfPeople);
         mainActivity.setInvitedPeopleUserIds(invitedPeopleUserIds);
         mainActivity.setActivityPrivate(isActivityPrivate);
+        activityMutableLiveData.postValue(mainActivity);
+    }
+
+    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration){
+        Activity mainActivity = getActivity1().getValue();
+        assert mainActivity != null;
+        mainActivity.setActivityStartDate(activityStartDate);
+        mainActivity.setActivityStartTime(activityStartTime);
+        mainActivity.setActivityDuration(activityDuration);
         activityMutableLiveData.postValue(mainActivity);
     }
 }

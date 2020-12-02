@@ -74,7 +74,7 @@ public class InvitesListAdapter extends RecyclerView.Adapter<InvitesListAdapter.
 
         void bindTo(Invite invite, OnAcceptSelectedListener onAcceptSelectedListener) {
             String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(invite.getInviteActivity().getActivityStartTime().toDate());
-            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(invite.getInviteActivity().getActivityDate().toDate());
+            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(invite.getInviteActivity().getActivityStartDate().toDate());
             inviterNameTextView.setText(invite.getInviterName());
             activityTitleTextView.setText(invite.getInviteActivity().getActivityTitle());
             activityDateTextView.setText(activityDate);

@@ -72,13 +72,13 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
 
         void bindTo(Activity activeActivity, OnActiveActivitySelectedListener listener) {
             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-            calendar.setTimeInMillis(activeActivity.getActivityDate().getSeconds());
-            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(activeActivity.getActivityDate().toDate());
+            calendar.setTimeInMillis(activeActivity.getActivityStartDate().getSeconds());
+            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(activeActivity.getActivityStartDate().toDate());
             String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
-            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
+//            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
 
 //            String noOfPeople = activeActivity.getActivityMinRequiredPeople() + "-" + activeActivity.getActivityMaxRequiredPeople() + " People";
-            String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
+            String dateTimeText = activityStartTime + "  " + date;
 //            Glide.with(itemView.getContext())
 //                    .load(activeActivity.getImageUrl())
 //                    .into(availableActivityImage);

@@ -65,13 +65,13 @@ public class AvailableActivitiesAdapter extends FirestoreRecyclerAdapter<Activit
 
         void bindTo(Activity availableActivity, OnAvailableActivitySelected listener) {
             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-            calendar.setTimeInMillis(availableActivity.getActivityDate().getSeconds());
-            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(availableActivity.getActivityDate().toDate());
+            calendar.setTimeInMillis(availableActivity.getActivityStartDate().getSeconds());
+            String date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(availableActivity.getActivityStartDate().toDate());
             String activityStartTime = java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(availableActivity.getActivityStartTime().toDate());
-            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(availableActivity.getActivityEndTime().toDate());
+//            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(availableActivity.getActivityEndTime().toDate());
 
 //            String noOfPeople = availableActivity.getActivityMinRequiredPeople() + "-" + availableActivity.getActivityMaxRequiredPeople() + " People";
-            String dateTimeText = activityStartTime + " - " + activityEndTime + "  " + date;
+            String dateTimeText = activityStartTime + "  " + date;
 //            Glide.with(itemView.getContext())
 //                    .load(availableActivity.getImageUrl())
 //                    .into(availableActivityImage);

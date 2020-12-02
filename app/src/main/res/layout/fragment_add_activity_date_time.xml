@@ -89,7 +89,9 @@
                     android:id="@+id/activityDatePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.50"
                     app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +161,7 @@
                         android:id="@+id/durationNotSpecifiedTextTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:text="Duration not specified"
                         app:layout_constraintStart_toStartOf="parent"
@@ -178,9 +180,9 @@
                         android:id="@+id/durationOptionsRecyclerView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="24dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -192,7 +194,7 @@
                         android:id="@+id/customDurationPromptTextTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:text="Put a custom duration"
                         app:layout_constraintStart_toStartOf="parent"
@@ -206,6 +208,21 @@
                         app:layout_constraintBottom_toBottomOf="@+id/customDurationPromptTextTextView"
                         app:layout_constraintStart_toEndOf="@+id/customDurationPromptTextTextView"
                         app:layout_constraintTop_toTopOf="@+id/customDurationPromptTextTextView" />
+
+                    <View
+                        android:id="@+id/customDurationOverlay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:alpha="0.7"
+                        android:background="@color/overlayBack"
+                        android:elevation="5dp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/monthsDurationSlider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/pickHourTextTextView" />
 
                     <TextView
                         android:id="@+id/pickHourTextTextView"
@@ -223,19 +240,34 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="3"
+                        android:text="@string/_0_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         app:layout_constraintBaseline_toBaselineOf="@+id/pickHourTextTextView"
                         app:layout_constraintStart_toEndOf="@+id/pickHourTextTextView" />
 
-                    <com.google.android.material.slider.Slider
+                    <View
+                        android:id="@+id/pickedHoursOverLay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/overlayBack"
+                        android:alpha="0.7"
+                        android:visibility="gone"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/pickedHoursTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/pickedHoursTextView"
+                        app:layout_constraintStart_toStartOf="@+id/pickHourTextTextView"
+                        app:layout_constraintTop_toTopOf="@+id/pickedHoursTextView" />
+
+                    <SeekBar
                         android:id="@+id/hoursDurationSlider"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:valueFrom="1"
-                        android:valueTo="23"
+                        android:min="1"
+                        android:max="23"
+                        android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/pickHourTextTextView" />
@@ -251,24 +283,39 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/hoursDurationSlider" />
 
+                    <View
+                        android:id="@+id/pickedDaysOverLay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/overlayBack"
+                        android:alpha="0.7"
+                        android:visibility="gone"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/pickedDaysTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/pickedDaysTextView"
+                        app:layout_constraintStart_toStartOf="@+id/pickDaysTextTextView"
+                        app:layout_constraintTop_toTopOf="@+id/pickedDaysTextView" />
+
                     <TextView
                         android:id="@+id/pickedDaysTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="5"
+                        android:text="@string/_0_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         app:layout_constraintBaseline_toBaselineOf="@+id/pickDaysTextTextView"
                         app:layout_constraintStart_toEndOf="@+id/pickDaysTextTextView" />
 
-                    <com.google.android.material.slider.Slider
+                    <SeekBar
                         android:id="@+id/daysDurationSlider"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:valueFrom="1"
-                        android:valueTo="30"
+                        android:min="1"
+                        android:max="30"
+                        android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/pickDaysTextTextView" />
@@ -289,19 +336,34 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="2"
+                        android:text="@string/_0_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         app:layout_constraintBaseline_toBaselineOf="@+id/pickMonthsTextTextView"
                         app:layout_constraintStart_toEndOf="@+id/pickMonthsTextTextView" />
 
-                    <com.google.android.material.slider.Slider
+                    <View
+                        android:id="@+id/pickedMonthsOverLay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/overlayBack"
+                        android:alpha="0.7"
+                        android:visibility="gone"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/pickedMonthsTextView"
+                        app:layout_constraintEnd_toEndOf="@+id/pickedMonthsTextView"
+                        app:layout_constraintStart_toStartOf="@+id/pickMonthsTextTextView"
+                        app:layout_constraintTop_toTopOf="@+id/pickedMonthsTextView" />
+
+                    <SeekBar
                         android:id="@+id/monthsDurationSlider"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:valueFrom="1"
-                        android:valueTo="12"
+                        android:min="1"
+                        android:max="12"
+                        android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/pickMonthsTextTextView" />
