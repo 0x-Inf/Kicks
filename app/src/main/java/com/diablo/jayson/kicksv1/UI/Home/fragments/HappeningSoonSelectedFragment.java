@@ -117,7 +117,7 @@ public class HappeningSoonSelectedFragment extends Fragment {
                             happeningSoonActivity = new Activity();
                             happeningSoonActivity = Objects.requireNonNull(task.getResult()).toObject(Activity.class);
                         }
-                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(happeningSoonActivity.getActivityDate().toDate());
+                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(happeningSoonActivity.getActivityStartDate().toDate());
 //            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
                         String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(happeningSoonActivity.getActivityStartTime().toDate());
                         binding.activityTitleTextView.setText(happeningSoonActivity.getActivityTitle());

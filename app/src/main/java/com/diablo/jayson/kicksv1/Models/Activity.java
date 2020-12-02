@@ -15,8 +15,8 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityTitle;
     private String activityDescription;
     private Timestamp activityStartTime;
-    private Timestamp activityEndTime;
-    private Timestamp activityDate;
+    private Timestamp activityStartDate;
+    private String activityDuration;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
     private String activityNoOfPeople;
@@ -37,8 +37,8 @@ public class Activity extends BaseObservable implements Serializable {
 
     //Constructor for Activity data model
 
-    public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityEndTime,
-                    Timestamp activityDate, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
+    public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
+                    String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
                     ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
                     Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
                     boolean isActivityPrivate) {
@@ -46,8 +46,8 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityTitle = activityTitle;
         this.activityDescription = activityDescription;
         this.activityStartTime = activityStartTime;
-        this.activityEndTime = activityEndTime;
-        this.activityDate = activityDate;
+        this.activityStartDate = activityStartDate;
+        this.activityDuration = activityDuration;
         this.activityLocationName = activityLocationName;
         this.activityLocationCoordinates = activityLocationCoordinates;
         this.activityNoOfPeople = activityNoOfPeople;
@@ -94,20 +94,20 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityStartTime = activityStartTime;
     }
 
-    public Timestamp getActivityEndTime() {
-        return activityEndTime;
+    public Timestamp getActivityStartDate() {
+        return activityStartDate;
     }
 
-    public void setActivityEndTime(Timestamp activityEndTime) {
-        this.activityEndTime = activityEndTime;
+    public void setActivityStartDate(Timestamp activityStartDate) {
+        this.activityStartDate = activityStartDate;
     }
 
-    public Timestamp getActivityDate() {
-        return activityDate;
+    public String getActivityDuration() {
+        return activityDuration;
     }
 
-    public void setActivityDate(Timestamp activityDate) {
-        this.activityDate = activityDate;
+    public void setActivityDuration(String activityDuration) {
+        this.activityDuration = activityDuration;
     }
 
     public String getActivityLocationName() {

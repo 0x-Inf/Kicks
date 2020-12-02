@@ -97,13 +97,13 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
         }
 
         void bindTo(Activity currentActivity, OnActivitySelectedListener listener) {
-            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(currentActivity.getActivityDate().toDate());
+            String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(currentActivity.getActivityStartDate().toDate());
 //            String   = DateFormat.getMediumDateFormat(itemView.getContext()).format(currentActivity.getActivityDate());
             String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(currentActivity.getActivityStartTime().toDate());
-            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(currentActivity.getActivityEndTime().toDate());
+//            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(currentActivity.getActivityEndTime().toDate());
 
 
-            String activityTime = activityStartTime + " - " + activityEndTime;
+            String activityTime = activityStartTime;
             String activityCost = currentActivity.getActivityCost();
             String activityLocation = currentActivity.getActivityLocationName();
             String hostName = currentActivity.getHost().getUserName();

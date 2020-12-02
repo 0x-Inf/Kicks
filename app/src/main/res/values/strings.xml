@@ -379,6 +379,7 @@
     <string name="casual_basketball_tournament_hint_text">Casual Basketball Tournament</string>
     <string name="activity_description_hint_text">A short Basketball tournament for casual players. Teams will be selected on arrival but you can enter with a ready team</string>
     <string name="no_of_people_hint_text">No Of People</string>
+    <string name="duration_example"><![CDATA[< 1 Hour]]></string>
 
 
 </resources>

@@ -81,15 +81,15 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             DateFormat dateFormatter = new SimpleDateFormat("d", Locale.getDefault());
             DateFormat monthFormatter = new SimpleDateFormat("LLL", Locale.getDefault());
 
-            String dayText = dayFormatter.format(activeActivity.getActivityDate().toDate());
-            String dateText = dateFormatter.format(activeActivity.getActivityDate().toDate());
-            String monthText = monthFormatter.format(activeActivity.getActivityDate().toDate());
+            String dayText = dayFormatter.format(activeActivity.getActivityStartDate().toDate());
+            String dateText = dateFormatter.format(activeActivity.getActivityStartDate().toDate());
+            String monthText = monthFormatter.format(activeActivity.getActivityStartDate().toDate());
 
             String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityStartTime().toDate());
-            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
+//            String activityEndTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activeActivity.getActivityEndTime().toDate());
 
 
-            String activityTime = activityStartTime + " - " + activityEndTime;
+            String activityTime = activityStartTime;
 
             dayTextView.setText(dayText);
             dateTextView.setText(dateText);

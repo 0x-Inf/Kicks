@@ -164,27 +164,26 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
                     DocumentSnapshot documentSnapshot = task.getResult();
                     assert documentSnapshot != null;
                     Log.e("date boi", documentSnapshot.toObject(Activity.class).getActivityTitle());
-                    String activityDate = DateFormat.getMediumDateFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityDate().toDate());
+                    String activityDate = DateFormat.getMediumDateFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityStartDate().toDate());
                     String activityStartTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityStartTime().toDate());
-                    String activityEndTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityEndTime().toDate());
+//                    String activityEndTime = DateFormat.getTimeFormat(getApplicationContext()).format(documentSnapshot.toObject(Activity.class).getActivityEndTime().toDate());
 
 
-                    String activityTime = activityStartTime + " - " + activityEndTime;
+//                    String activityTime = activityStartTime + " - " + activityEndTime;
 //                    String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
                     String activityTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
                     String activityLocationName = documentSnapshot.toObject(Activity.class).getActivityLocationName();
                     String activityTag = documentSnapshot.toObject(Activity.class).getActivityTag().getTagName();
                     startTime = documentSnapshot.toObject(Activity.class).getActivityStartTime();
-                    endTime = documentSnapshot.toObject(Activity.class).getActivityEndTime();
                     title = activityTitle;
                     activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLatitude(),
                             documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLongitude());
-                    activityDashTimeText.setText(activityTime);
+//                    activityDashTimeText.setText(activityTime);
                     activityDashLocationText.setText(activityLocationName);
                     activityDashTagText.setText(activityTag);
                     activityDashDateText.setText(activityDate);
                     activityLocationActualTextView.setText(activityLocationName);
-                    activityTimeActualTextView.setText(activityTime);
+//                    activityTimeActualTextView.setText(activityTime);
                     activityDateActualTextView.setText(activityDate);
 //                    Glide.with(getApplicationContext())
 //                            .load(activityImageUrl)
