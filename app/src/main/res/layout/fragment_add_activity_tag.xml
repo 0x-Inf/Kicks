@@ -50,7 +50,119 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activityTagTextTextView" />
 
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shortTutorialTextView">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="1000dp">
+
+                <ImageView
+                    android:id="@+id/mainTagIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_action_tag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/pickMainTagPromptTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Pick the Main Tag describing the activity"
+                    app:layout_constraintBottom_toBottomOf="@+id/mainTagIconImageView"
+                    app:layout_constraintStart_toEndOf="@+id/mainTagIconImageView"
+                    app:layout_constraintTop_toTopOf="@+id/mainTagIconImageView" />
+
+                <LinearLayout
+                    android:id="@+id/tagLinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    android:background="@drawable/activity_tag_back"
+                    app:layout_constraintStart_toEndOf="@+id/mainTagIconImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/mainTagIconImageView">
+
+                    <TextView
+                        android:id="@+id/activityTagNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_margin="4dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="2dp"
+                        android:text="@string/activity_tag_placeholder"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mainTagsRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/mainTagIconImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/additionalTagsRecycler"
+                    app:spanCount="3" />
+
+                <ImageView
+                    android:id="@+id/additionalTagsIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_action_tag_outline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tagLinearLayout" />
+
+                <TextView
+                    android:id="@+id/additionalTagPromptTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Your Additional tags"
+                    app:layout_constraintBottom_toBottomOf="@+id/additionalTagsIconImageView"
+                    app:layout_constraintStart_toEndOf="@+id/additionalTagsIconImageView"
+                    app:layout_constraintTop_toTopOf="@+id/additionalTagsIconImageView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/additionalTagsRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/additionalTagsIconImageView"
+                    app:spanCount="1" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
