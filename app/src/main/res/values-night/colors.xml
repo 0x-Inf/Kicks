@@ -9,6 +9,7 @@
     <color name="bottomSheetBackground">#121212</color>
     <color name="fabBackground">#121212</color>
     <color name="card_back">#3C3C3C</color>
+    <color name="overlayBack">#292929</color>
 
 
 </resources>

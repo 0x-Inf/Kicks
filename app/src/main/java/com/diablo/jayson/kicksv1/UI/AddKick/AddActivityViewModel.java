@@ -64,12 +64,12 @@ public class AddActivityViewModel extends ViewModel {
         mainActivity.setActivityPrivate(isActivityPrivate);
         activityMutableLiveData.postValue(mainActivity);
     }
-
-    public void updateActivityTime(Timestamp activityStartTime, Timestamp activityStartDate, String activityDuration) {
-        Activity mainActivity = getActivity().getValue();
+    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration){
+        Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
+        mainActivity.setActivityStartDate(activityStartDate);
         mainActivity.setActivityStartTime(activityStartTime);
-        mainActivity.setActivityDate(activityStartDate);
         mainActivity.setActivityDuration(activityDuration);
+        activityMutableLiveData.postValue(mainActivity);
     }
 }

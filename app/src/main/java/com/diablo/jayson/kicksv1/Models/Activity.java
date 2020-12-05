@@ -15,7 +15,7 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityTitle;
     private String activityDescription;
     private Timestamp activityStartTime;
-    private Timestamp activityDate;
+    private Timestamp activityStartDate;
     private String activityDuration;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
@@ -37,7 +37,8 @@ public class Activity extends BaseObservable implements Serializable {
 
     //Constructor for Activity data model
 
-    public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityDate,
+
+    public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
                     String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
                     ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
                     Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
@@ -46,7 +47,7 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityTitle = activityTitle;
         this.activityDescription = activityDescription;
         this.activityStartTime = activityStartTime;
-        this.activityDate = activityDate;
+        this.activityStartDate = activityStartDate;
         this.activityDuration = activityDuration;
         this.activityLocationName = activityLocationName;
         this.activityLocationCoordinates = activityLocationCoordinates;
@@ -94,12 +95,20 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityStartTime = activityStartTime;
     }
 
-    public Timestamp getActivityDate() {
-        return activityDate;
+    public Timestamp getActivityStartDate() {
+        return activityStartDate;
     }
 
-    public void setActivityDate(Timestamp activityDate) {
-        this.activityDate = activityDate;
+    public void setActivityStartDate(Timestamp activityStartDate) {
+        this.activityStartDate = activityStartDate;
+    }
+
+    public String getActivityDuration() {
+        return activityDuration;
+    }
+
+    public void setActivityDuration(String activityDuration) {
+        this.activityDuration = activityDuration;
     }
 
     public String getActivityDuration() {

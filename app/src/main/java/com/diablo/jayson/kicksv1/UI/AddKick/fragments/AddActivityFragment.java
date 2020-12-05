@@ -89,7 +89,7 @@ public class AddActivityFragment extends Fragment {
                                 binding.addTagDoneImageView.setVisibility(View.VISIBLE);
                             }
                         case 3:
-                            if (activity.getActivityDate() != null) {
+                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().isEmpty()) {
                                 binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
                             }
                         case 4:
@@ -158,9 +158,6 @@ public class AddActivityFragment extends Fragment {
     }
 
     private void updateActivityDateTimeModel() {
-        activityMain.setActivityDate(activityDateTimeData.getActivityDate());
-        activityMain.setActivityStartTime(activityDateTimeData.getActivityStartTime());
-        activityMain.setActivityEndTime(activityDateTimeData.getActivityEndTime());
         binding.timeDateCardImageView.setVisibility(View.VISIBLE);
         viewModel.setActivity1(activityMain);
     }
