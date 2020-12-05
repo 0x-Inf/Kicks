@@ -17,8 +17,11 @@ import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityDateTimeBinding;
 import com.google.android.material.slider.Slider;
+import com.google.firebase.Timestamp;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
 
 
 /**
@@ -30,6 +33,8 @@ public class AddActivityDateTimeFragment extends Fragment {
     private AddActivityViewModel addActivityViewModel;
 
     private String activityDuration;
+    private Timestamp activityStartTime;
+    private Timestamp activityStartDate;
 
 
     public AddActivityDateTimeFragment() {
@@ -46,8 +51,10 @@ public class AddActivityDateTimeFragment extends Fragment {
 
         binding.durationUnspecifiedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+            public void onCheckedChanged(CompoundButton compoundButton, boolean unspecified) {
+                if (unspecified) {
+                    activityDuration = "Unspecified";
+                }
             }
         });
 
@@ -122,6 +129,7 @@ public class AddActivityDateTimeFragment extends Fragment {
     }
 
     private void updateAddActivityViewModel() {
+        Calendar calendar = Calendar.getInstance();
 
     }
 

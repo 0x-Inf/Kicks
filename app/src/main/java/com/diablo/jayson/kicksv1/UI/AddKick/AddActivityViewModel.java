@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class AddActivityViewModel extends ViewModel {
     //    public LiveData<Activity> getActivity() {
 //        return activityMutableLiveData;
 //    }
-    public LiveData<Activity> getActivity1() {
+    public LiveData<Activity> getActivity() {
         return activityMutableLiveData;
     }
 
@@ -48,7 +49,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityDescription(String activityTitle, String activityDescription) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityTitle(activityTitle);
         mainActivity.setActivityDescription(activityDescription);
@@ -56,11 +57,19 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityPeople(String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, boolean isActivityPrivate) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityNoOfPeople(activityNoOfPeople);
         mainActivity.setInvitedPeopleUserIds(invitedPeopleUserIds);
         mainActivity.setActivityPrivate(isActivityPrivate);
         activityMutableLiveData.postValue(mainActivity);
+    }
+
+    public void updateActivityTime(Timestamp activityStartTime, Timestamp activityStartDate, String activityDuration) {
+        Activity mainActivity = getActivity().getValue();
+        assert mainActivity != null;
+        mainActivity.setActivityStartTime(activityStartTime);
+        mainActivity.setActivityDate(activityStartDate);
+        mainActivity.setActivityDuration(activityDuration);
     }
 }
