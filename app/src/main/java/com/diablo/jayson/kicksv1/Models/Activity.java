@@ -37,6 +37,7 @@ public class Activity extends BaseObservable implements Serializable {
 
     //Constructor for Activity data model
 
+
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
                     String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
                     ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
@@ -100,6 +101,14 @@ public class Activity extends BaseObservable implements Serializable {
 
     public void setActivityStartDate(Timestamp activityStartDate) {
         this.activityStartDate = activityStartDate;
+    }
+
+    public String getActivityDuration() {
+        return activityDuration;
+    }
+
+    public void setActivityDuration(String activityDuration) {
+        this.activityDuration = activityDuration;
     }
 
     public String getActivityDuration() {
