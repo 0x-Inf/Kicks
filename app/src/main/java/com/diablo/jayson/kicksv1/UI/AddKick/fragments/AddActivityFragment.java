@@ -70,7 +70,7 @@ public class AddActivityFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getActivity().observe(requireActivity(), new Observer<Activity>() {
+        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 activityMain = activity;

@@ -103,13 +103,6 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityStartDate = activityStartDate;
     }
 
-    public String getActivityDuration() {
-        return activityDuration;
-    }
-
-    public void setActivityDuration(String activityDuration) {
-        this.activityDuration = activityDuration;
-    }
 
     public String getActivityDuration() {
         return activityDuration;
