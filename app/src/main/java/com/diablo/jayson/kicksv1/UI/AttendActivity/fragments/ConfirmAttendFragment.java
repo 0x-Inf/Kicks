@@ -243,7 +243,7 @@ public class ConfirmAttendFragment extends Fragment {
 //                                activity.setImageUrl(imageUrl);
 //                                activity.setMattendees(mattendees);
                         String hostName = activity.getHost().getUserName();
-                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityDate().toDate());
+                        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activity.getActivityStartDate().toDate());
                         String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activity.getActivityStartTime().toDate());
                         String activityCost = activity.getActivityCost();
 //                        String activityPeopleNumber = activity.getActivityMinRequiredPeople() + " - " + activity.getActivityMaxRequiredPeople() + " People";

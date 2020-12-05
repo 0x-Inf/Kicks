@@ -32,7 +32,7 @@ public class AddActivityViewModel extends ViewModel {
     //    public LiveData<Activity> getActivity() {
 //        return activityMutableLiveData;
 //    }
-    public LiveData<Activity> getActivity() {
+    public LiveData<Activity> getActivity1() {
         return activityMutableLiveData;
     }
 
@@ -49,7 +49,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityDescription(String activityTitle, String activityDescription) {
-        Activity mainActivity = getActivity().getValue();
+        Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityTitle(activityTitle);
         mainActivity.setActivityDescription(activityDescription);
@@ -57,7 +57,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityPeople(String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, boolean isActivityPrivate) {
-        Activity mainActivity = getActivity().getValue();
+        Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityNoOfPeople(activityNoOfPeople);
         mainActivity.setInvitedPeopleUserIds(invitedPeopleUserIds);
@@ -65,11 +65,12 @@ public class AddActivityViewModel extends ViewModel {
         activityMutableLiveData.postValue(mainActivity);
     }
 
-    public void updateActivityTime(Timestamp activityStartTime, Timestamp activityStartDate, String activityDuration) {
-        Activity mainActivity = getActivity().getValue();
+    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration){
+        Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
+        mainActivity.setActivityStartDate(activityStartDate);
         mainActivity.setActivityStartTime(activityStartTime);
-        mainActivity.setActivityDate(activityStartDate);
         mainActivity.setActivityDuration(activityDuration);
+        activityMutableLiveData.postValue(mainActivity);
     }
 }

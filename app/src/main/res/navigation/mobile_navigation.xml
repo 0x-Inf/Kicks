@@ -229,9 +229,6 @@
             app:destination="@id/navigation_add_kick"
             app:popUpTo="@id/navigation_add_kick"
             app:popUpToInclusive="true">
-            <argument
-                android:name="activityDateTimeData"
-                app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData" />
         </action>
     </fragment>
     <fragment
