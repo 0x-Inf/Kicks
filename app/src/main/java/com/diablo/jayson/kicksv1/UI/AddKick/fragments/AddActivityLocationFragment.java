@@ -3,6 +3,8 @@ package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,9 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -38,6 +37,7 @@ import com.android.volley.toolbox.Volley;
 import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
+import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityLocationBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,6 +45,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -63,6 +64,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import timber.log.Timber;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -89,10 +92,11 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     private double CBD_LONG = 36.81667;
     private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
 
+    private FragmentAddActivityLocationBinding binding;
+
     private String activityLocation = "";
     private AddActivityLocationData activityLocationData;
 
-    //Location Stuff
     private RelativeLayout addActivityLocationRelativeLayout;
     private TextView selectedLocation;
     private EditText searchLocationEditText;
@@ -113,13 +117,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_add_activity_location, container, false);
-
-        //Location Views
-        selectedLocation = root.findViewById(R.id.setTheLocationTextView);
-        searchLocationEditText = root.findViewById(R.id.searchLocationEditText);
-        locationSelectionDone = root.findViewById(R.id.locationSelectionDoneButton);
-        addActivityLocationRelativeLayout = root.findViewById(R.id.add_activity_location_relative_layout);
+        binding = FragmentAddActivityLocationBinding.inflate(inflater, container, false);
 
         activityLocationData = new AddActivityLocationData();
 
@@ -129,7 +127,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                 .findFragmentById(R.id.location_selecting_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        searchLocationEditText.setOnClickListener(new View.OnClickListener() {
+        binding.searchCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
@@ -141,17 +139,17 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
-        locationSelectionDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateActivityLocation();
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                NavDirections actionAddActivityMain = AddActivityLocationFragmentDirections.actionAddActivityLocationFragmentToNavigationAddKick(activityLocationData);
-                navController.navigate(actionAddActivityMain);
-//                locationCardImageView.setVisibility(View.VISIBLE);
-            }
-        });
-        return root;
+//        locationSelectionDone.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateActivityLocation();
+//                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+//                NavDirections actionAddActivityMain = AddActivityLocationFragmentDirections.actionAddActivityLocationFragmentToNavigationAddKick(activityLocationData);
+//                navController.navigate(actionAddActivityMain);
+////                locationCardImageView.setVisibility(View.VISIBLE);
+//            }
+//        });
+        return binding.getRoot();
     }
 
     private void updateActivityLocation() {
@@ -244,7 +242,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                 assert data != null;
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 activityLocation = place.getName();
-                selectedLocation.setText(place.getName());
+                binding.activityLocationTextView.setText(place.getName());
 //                activityLocationTextView.setText(place.getName());
                 activityLocationData.setActivityLocationName(place.getName());
                 activityLocationData.setActivityLocationCoordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
@@ -320,6 +318,41 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        int currentNightMode = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                // Night mode is not active, we're using the light theme
+                try {
+                    // Customise the styling of the base map using a JSON object defined
+                    // in a raw resource file.
+                    boolean success = map.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                    requireContext(), R.raw.map_style));
+
+                    if (!success) {
+                        Timber.e("Style parsing failed.");
+                    }
+                } catch (Resources.NotFoundException e) {
+                    Timber.e(e, "Can't find style. Error: ");
+                }
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                // Night mode is active, we're using dark theme
+                try {
+                    // Customise the styling of the base map using a JSON object defined
+                    // in a raw resource file.
+                    boolean success = map.setMapStyle(
+                            MapStyleOptions.loadRawResourceStyle(
+                                    requireContext(), R.raw.map_style_dark));
+
+                    if (!success) {
+                        Timber.e("Style parsing failed.");
+                    }
+                } catch (Resources.NotFoundException e) {
+                    Timber.e(e, "Can't find style. Error: ");
+                }
+                break;
+        }
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.setIndoorEnabled(true);
         map.setBuildingsEnabled(true);
@@ -328,7 +361,6 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
         setUsersLastLocation();
         map.setOnCameraMoveStartedListener(this::onCameraMoveStarted);
         map.setOnCameraIdleListener(this::onCameraIdle);
-
 
     }
 
@@ -348,7 +380,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     public void onCameraMoveStarted(int i) {
         if (i == 1) {
             activityLocation = "";
-            selectedLocation.setText(R.string.set_the_location_text);
+            binding.activityLocationTextView.setText(R.string.set_the_location_text);
         }
 
     }

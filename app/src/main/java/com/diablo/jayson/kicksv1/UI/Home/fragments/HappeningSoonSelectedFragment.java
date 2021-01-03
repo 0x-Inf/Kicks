@@ -128,7 +128,7 @@ public class HappeningSoonSelectedFragment extends Fragment {
                         binding.activityLocationTextView.setText(happeningSoonActivity.getActivityLocationName());
                         binding.hostNameTextView.setText(happeningSoonActivity.getHost().getUserName());
                         binding.attendeesNumberTextView.setText(String.valueOf(happeningSoonActivity.getActivityAttendees().size()));
-                        binding.activityTagNameTextView.setText(happeningSoonActivity.getActivityTag().getTagName());
+                        binding.activityTagNameTextView.setText(happeningSoonActivity.getActivityTags().get(0).getTagName());
                         Glide.with(requireContext())
                                 .load(happeningSoonActivity.getHost().getHostPic())
                                 .apply(RequestOptions.circleCropTransform())

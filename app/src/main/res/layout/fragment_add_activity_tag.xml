@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <TextView
             android:id="@+id/activityTagTextTextView"
             android:layout_width="wrap_content"
@@ -43,286 +42,267 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Add the activity Main Tag and any other additional descriptive tags"
+            android:text="Add the activity Tag or tags that describe the activity"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activityTagTextTextView" />
 
-        <ScrollView
+
+        <ImageView
+            android:id="@+id/additionalTagsIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_action_tag_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shortTutorialTextView" />
+
+        <TextView
+            android:id="@+id/activityTagsPromptTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Your Activity tags"
+            app:layout_constraintBottom_toBottomOf="@+id/additionalTagsIconImageView"
+            app:layout_constraintStart_toEndOf="@+id/additionalTagsIconImageView"
+            app:layout_constraintTop_toTopOf="@+id/additionalTagsIconImageView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activityTagsRecycler"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:scrollbarStyle="outsideOverlay"
+            android:layout_marginEnd="24dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/additionalTagsIconImageView"
+            app:spanCount="1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/allTagsConstraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/constraint_layout_rounded_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shortTutorialTextView">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="1000dp">
-
-                <ImageView
-                    android:id="@+id/mainTagIconImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/ic_action_tag"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/pickMainTagPromptTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Pick the Main Tag describing the activity"
-                    app:layout_constraintBottom_toBottomOf="@+id/mainTagIconImageView"
-                    app:layout_constraintStart_toEndOf="@+id/mainTagIconImageView"
-                    app:layout_constraintTop_toTopOf="@+id/mainTagIconImageView" />
-
-                <LinearLayout
-                    android:id="@+id/tagLinearLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="33dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="8dp"
-                    android:visibility="visible"
-                    android:background="@drawable/activity_tag_back"
-                    app:layout_constraintStart_toEndOf="@+id/mainTagIconImageView"
-                    app:layout_constraintTop_toBottomOf="@+id/mainTagIconImageView">
-
-                    <TextView
-                        android:id="@+id/activityTagNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|center_vertical"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:padding="2dp"
-                        android:text="@string/activity_tag_placeholder"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mainTagsRecycler"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/mainTagIconImageView"
-                    app:layout_constraintTop_toBottomOf="@+id/additionalTagsRecycler"
-                    app:spanCount="3" />
-
-                <ImageView
-                    android:id="@+id/additionalTagsIconImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_action_tag_outline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tagLinearLayout" />
-
-                <TextView
-                    android:id="@+id/additionalTagPromptTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Your Additional tags"
-                    app:layout_constraintBottom_toBottomOf="@+id/additionalTagsIconImageView"
-                    app:layout_constraintStart_toEndOf="@+id/additionalTagsIconImageView"
-                    app:layout_constraintTop_toTopOf="@+id/additionalTagsIconImageView" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/additionalTagsRecycler"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/additionalTagsIconImageView"
-                    app:spanCount="1" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RelativeLayout
-        android:id="@+id/add_activity_tag_relative_layout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/closeTagRelativelayoutButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/close_icon_24dp"
-            android:contentDescription="@string/close_icon_image_description" />
-
-        <TextView
-            android:id="@+id/tagTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/tag_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="50sp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/tag_search_input_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tagTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:visibility="visible"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="5dp">
+            app:layout_constraintTop_toBottomOf="@+id/activityTagsRecycler"
+            app:layout_constraintVertical_bias="0.0">
 
             <EditText
                 android:id="@+id/searchTagsEditText"
-                android:layout_width="260dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:autofillHints="@string/search_available_tags_hint_text"
-                android:background="@android:color/transparent"
                 android:hint="@string/search_available_tags_hint_text"
                 android:inputType="text"
-                android:padding="5dp"
-                android:textSize="20sp" />
+                app:layout_constraintEnd_toStartOf="@+id/createTextTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/createTextTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Create"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@+id/searchTagsEditText"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/allTagsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchTagsEditText"
+                app:spanCount="3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/add_activity_tag_relative_layout"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/closeTagRelativelayoutButton"-->
+    <!--            android:layout_width="40dp"-->
+    <!--            android:layout_height="40dp"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:layout_alignParentTop="true"-->
+    <!--            android:layout_marginEnd="10dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:src="@drawable/close_icon_24dp"-->
+    <!--            android:contentDescription="@string/close_icon_image_description" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tagTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/tag_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="50sp" />-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/tag_search_input_card"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/tagTextView"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:visibility="visible"-->
+    <!--            app:cardCornerRadius="20dp"-->
+    <!--            app:cardElevation="5dp">-->
+
+    <!--&lt;!&ndash;            <EditText&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:id="@+id/searchTagsEditText"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:layout_width="260dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:layout_gravity="center_vertical"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:layout_marginStart="10dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:autofillHints="@string/search_available_tags_hint_text"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:background="@android:color/transparent"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:hint="@string/search_available_tags_hint_text"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:inputType="text"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:padding="5dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;                android:textSize="20sp" />&ndash;&gt;-->
 
 
-        </androidx.cardview.widget.CardView>
+    <!--        </androidx.cardview.widget.CardView>-->
 
-        <TextView
-            android:id="@+id/pickOneTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tag_search_input_card"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/pick_one_tag_from_below_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="27sp" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/pickOneTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/tag_search_input_card"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/pick_one_tag_from_below_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="27sp" />-->
 
-        <View
-            android:id="@+id/separator_line_view"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/pickOneTextView"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/colorTransparentBlack" />
+    <!--        <View-->
+    <!--            android:id="@+id/separator_line_view"-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/pickOneTextView"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tags_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_below="@id/separator_line_view" />
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/tags_recycler_view"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginHorizontal="20dp"-->
+    <!--            android:layout_below="@id/separator_line_view" />-->
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/selectedTagCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginHorizontal="30dp"
-            android:visibility="gone"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="6dp">
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/selectedTagCard"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:layout_marginHorizontal="30dp"-->
+    <!--            android:visibility="gone"-->
+    <!--            app:cardCornerRadius="20dp"-->
+    <!--            app:cardElevation="6dp">-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
 
-                <TextView
-                    android:id="@+id/selectedTagTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/selected_tag_text"
-                    android:textColor="@color/colorMain"
-                    android:textSize="30sp" />
+    <!--                <TextView-->
+    <!--                    android:id="@+id/selectedTagTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_alignParentTop="true"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--                    android:text="@string/selected_tag_text"-->
+    <!--                    android:textColor="@color/colorMain"-->
+    <!--                    android:textSize="30sp" />-->
 
-                <ImageView
-                    android:id="@+id/selected_tag_image_view"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_below="@id/selectedTagTextView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/circleback"
-                    android:contentDescription="@string/selected_tag_image_description" />
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/selected_tag_image_view"-->
+    <!--                    android:layout_width="120dp"-->
+    <!--                    android:layout_height="120dp"-->
+    <!--                    android:layout_below="@id/selectedTagTextView"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:layout_marginTop="10dp"-->
+    <!--                    android:background="@drawable/circleback"-->
+    <!--                    android:contentDescription="@string/selected_tag_image_description" />-->
 
-                <TextView
-                    android:id="@+id/selectedTagDescriptionTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/selected_tag_image_view"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/source_sans_pro_regular"
-                    android:text="@string/kick_selected_description_text"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPurple"
-                    android:textSize="27sp" />
+    <!--                <TextView-->
+    <!--                    android:id="@+id/selectedTagDescriptionTextView"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_below="@id/selected_tag_image_view"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--                    android:text="@string/kick_selected_description_text"-->
+    <!--                    android:textAlignment="center"-->
+    <!--                    android:textColor="@color/colorPurple"-->
+    <!--                    android:textSize="27sp" />-->
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/tagSelectionDoneButton"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_below="@id/selectedTagDescriptionTextView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="@string/tag_selection_done_button_description"
-                    android:src="@drawable/done_icon_two_24dp"
-                    android:theme="@style/MaterialTheme"
-                    app:backgroundTint="@color/colorMain" />
+    <!--                <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--                    android:id="@+id/tagSelectionDoneButton"-->
+    <!--                    android:layout_width="80dp"-->
+    <!--                    android:layout_height="80dp"-->
+    <!--                    android:layout_below="@id/selectedTagDescriptionTextView"-->
+    <!--                    android:layout_centerHorizontal="true"-->
+    <!--                    android:layout_marginTop="15dp"-->
+    <!--                    android:layout_marginBottom="20dp"-->
+    <!--                    android:contentDescription="@string/tag_selection_done_button_description"-->
+    <!--                    android:src="@drawable/done_icon_two_24dp"-->
+    <!--                    android:theme="@style/MaterialTheme"-->
+    <!--                    app:backgroundTint="@color/colorMain" />-->
 
-            </RelativeLayout>
+    <!--            </RelativeLayout>-->
 
-        </androidx.cardview.widget.CardView>
+    <!--        </androidx.cardview.widget.CardView>-->
 
-        <RelativeLayout
-            android:id="@+id/selectedTagOverlayRelativelayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="5dp"
-            android:visibility="gone"
-            android:background="@color/colorTransparentBlack" />
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/selectedTagOverlayRelativelayout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:elevation="5dp"-->
+    <!--            android:visibility="gone"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
 
-    </RelativeLayout>
+    <!--    </RelativeLayout>-->
 
 
 </FrameLayout>

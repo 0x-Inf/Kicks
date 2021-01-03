@@ -2,7 +2,6 @@ package com.diablo.jayson.kicksv1.UI.MapFeed;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,9 +18,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
@@ -31,10 +27,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -180,33 +174,27 @@ public class KickMapFragment extends Fragment implements OnMapReadyCallback, Goo
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                allTags.add(new Tag(documentSnapshot.toObject(Tag.class).getTagName(),
-                                        documentSnapshot.toObject(Tag.class).getTagShortDescription(),
-                                        documentSnapshot.toObject(Tag.class).getTagLocation(),
-                                        documentSnapshot.toObject(Tag.class).getTagCost(),
-                                        documentSnapshot.toObject(Tag.class).getTagIconUrl(),
-                                        documentSnapshot.toObject(Tag.class).getTagImageLargeUrl(),
-                                        documentSnapshot.toObject(Tag.class).getTagLocationName()));
+                                allTags.add(documentSnapshot.toObject(Tag.class));
                             }
 
-                            for (int i = 0; i < allTags.size(); i++) {
-
-
-                                Marker marker = mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(allTags.get(i).getTagLocation().getLatitude(), allTags.get(i).getTagLocation().getLongitude()))
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                        .title(allTags.get(i).getTagName()));
-                                marker.setTag(allTags.get(i).getTagName());
-                                Glide.with(getContext())
-                                        .asBitmap()
-                                        .load(allTags.get(i).getTagIconUrl())
-                                        .into(new SimpleTarget<Bitmap>(30, 30) {
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                marker.setIcon(BitmapDescriptorFactory.fromBitmap(resource));
-                                            }
-                                        });
-                            }
+//                            for (int i = 0; i < allTags.size(); i++) {
+//
+//
+//                                Marker marker = mMap.addMarker(new MarkerOptions()
+//                                        .position(new LatLng(allTags.get(i).getTagLocation().getLatitude(), allTags.get(i).getTagLocation().getLongitude()))
+//                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+//                                        .title(allTags.get(i).getTagName()));
+//                                marker.setTag(allTags.get(i).getTagName());
+//                                Glide.with(getContext())
+//                                        .asBitmap()
+//                                        .load(allTags.get(i).getTagIconUrl())
+//                                        .into(new SimpleTarget<Bitmap>(30, 30) {
+//                                            @Override
+//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                                marker.setIcon(BitmapDescriptorFactory.fromBitmap(resource));
+//                                            }
+//                                        });
+//                            }
 
                         }
                     }

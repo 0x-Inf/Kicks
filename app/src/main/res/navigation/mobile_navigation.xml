@@ -142,6 +142,18 @@
             app:popUpToInclusive="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/addActivityTagFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityTagFragment"
+        android:label="fragment_add_activity_tag"
+        tools:layout="@layout/fragment_add_activity_tag">
+        <action
+            android:id="@+id/action_addActivityTagFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -187,22 +199,7 @@
         android:label="activity_attend_activity"
         tools:layout="@layout/activity_attend_activity" />
 
-    <fragment
-        android:id="@+id/addActivityTagFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityTagFragment"
-        android:label="fragment_add_activity_tag"
-        tools:layout="@layout/fragment_add_activity_tag">
-        <action
-            android:id="@+id/action_addActivityTagFragment_to_navigation_add_kick"
-            app:destination="@id/navigation_add_kick"
-            app:popUpTo="@id/navigation_add_kick"
-            app:popUpToInclusive="true">
-            <argument
-                android:name="activityTagData"
-                app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData" />
 
-        </action>
-    </fragment>
     <fragment
         android:id="@+id/addActivityCostFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityCostFragment"

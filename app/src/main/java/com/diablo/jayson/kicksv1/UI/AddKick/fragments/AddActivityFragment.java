@@ -85,8 +85,10 @@ public class AddActivityFragment extends Fragment {
                                 binding.addCostDoneImageView.setVisibility(View.VISIBLE);
                             }
                         case 2:
-                            if (activity.getActivityTag() != null) {
-                                binding.addTagDoneImageView.setVisibility(View.VISIBLE);
+                            if (activity.getActivityTags() != null) {
+                                if (!activity.getActivityTags().isEmpty()) {
+                                    binding.addTagDoneImageView.setVisibility(View.VISIBLE);
+                                }
                             }
                         case 3:
                             if (activity.getActivityStartDate() != null && !activity.getActivityDuration().isEmpty()) {
@@ -163,10 +165,10 @@ public class AddActivityFragment extends Fragment {
     }
 
     private void updateActivityTagModel() {
-        activityMain.setActivityTag(activityTagData.getActivityTag());
-        activityMain.setTags(activityTagData.getTags());
-        binding.tagCardImageView.setVisibility(View.VISIBLE);
-        viewModel.setActivity1(activityMain);
+//        activityMain.setActivityTags(activityTagData.getActivityTag());
+////        activityMain.setTags(activityTagData.getTags());
+//        binding.tagCardImageView.setVisibility(View.VISIBLE);
+//        viewModel.setActivity1(activityMain);
     }
 
     private void updateActivityCostModel() {
@@ -340,7 +342,7 @@ public class AddActivityFragment extends Fragment {
         ArrayList<AttendingUser> attendingUsers = new ArrayList<AttendingUser>();
         attendingUsers.add(FirebaseUtil.getAttendingUser());
 
-        activityMain.setTags(tags);
+//        activityMain.setTags(tags);
         activityMain.setActivityAttendees(attendingUsers);
         activityMain.setHost(FirebaseUtil.getHost());
         activityMain.setActivityUploaderId(Objects.requireNonNull(FirebaseUtil.getHost()).getUid());

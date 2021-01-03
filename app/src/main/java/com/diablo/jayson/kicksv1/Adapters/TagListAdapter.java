@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 import com.google.firebase.firestore.core.QueryListener;
@@ -71,9 +70,9 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.TagViewH
 
         void bindTo(Tag currentTag, OnTagSelectedListener listener) {
             tagNameTextView.setText(currentTag.getTagName());
-            Glide.with(itemView.getContext())
-                    .load(currentTag.getTagImageLargeUrl())
-                    .into(tagImageView);
+//            Glide.with(itemView.getContext())
+//                    .load(currentTag.getTagImageLargeUrl())
+//                    .into(tagImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

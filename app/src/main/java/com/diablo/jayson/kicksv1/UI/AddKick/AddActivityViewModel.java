@@ -1,12 +1,19 @@
 package com.diablo.jayson.kicksv1.UI.AddKick;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
+import com.diablo.jayson.kicksv1.Models.Tag;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +25,12 @@ public class AddActivityViewModel extends ViewModel {
     private final MutableLiveData<Activity> activityMutableLiveData = new MutableLiveData<Activity>();
     private MutableLiveData<List<Activity>> activity;
     private MutableLiveData<ArrayList<Contact>> invitedContactsMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<ArrayList<Tag>> allTagsMutableLiveData;
+    ArrayList<Tag> allTagsArrayList;
+    ArrayList<Tag> newTagsArrayList;
+    private MutableLiveData<Boolean> createNewTag = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Tag>> newTagsToCreate = new MutableLiveData<>();
+    private FirebaseFirestore db;
 
 //    public void setActivity(Activity activity) {
 //        this.activityMutableLiveData.setValue(activity);
@@ -25,8 +38,16 @@ public class AddActivityViewModel extends ViewModel {
 
 
     public AddActivityViewModel() {
+        allTagsMutableLiveData = new MutableLiveData<>();
         setActivity1(new Activity());
         Timber.e("Activity View Model Created");
+        db = FirebaseFirestore.getInstance();
+        init();
+    }
+
+    private void init() {
+        getTagsFromDb();
+        newTagsArrayList = new ArrayList<>();
     }
 
     //    public LiveData<Activity> getActivity() {
@@ -40,6 +61,10 @@ public class AddActivityViewModel extends ViewModel {
         return invitedContactsMutableLiveData;
     }
 
+    public MutableLiveData<ArrayList<Tag>> getAllTagsMutableLiveData() {
+        return allTagsMutableLiveData;
+    }
+
     public void setInvitedContactsMutableLiveData(ArrayList<Contact> invitedContacts) {
         invitedContactsMutableLiveData.postValue(invitedContacts);
     }
@@ -47,6 +72,23 @@ public class AddActivityViewModel extends ViewModel {
     public void setActivity1(Activity activity1) {
         activityMutableLiveData.setValue(activity1);
     }
+
+    //Add new Tags logic
+    public void updateNewTagsMutableLiveData(Tag newTag) {
+        newTagsArrayList.add(newTag);
+        newTagsToCreate.postValue(newTagsArrayList);
+    }
+
+    public MutableLiveData<ArrayList<Tag>> getNewTagsToCreate() {
+        return newTagsToCreate;
+    }
+
+    public void removeNewTagFromMutableLiveData(Tag removedTag) {
+        newTagsArrayList.remove(removedTag);
+        newTagsToCreate.postValue(newTagsArrayList);
+    }
+
+    // Methods for updating new Activity
 
     public void updateActivityDescription(String activityTitle, String activityDescription) {
         Activity mainActivity = getActivity1().getValue();
@@ -64,12 +106,38 @@ public class AddActivityViewModel extends ViewModel {
         mainActivity.setActivityPrivate(isActivityPrivate);
         activityMutableLiveData.postValue(mainActivity);
     }
-    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration){
+
+    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration) {
         Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityStartDate(activityStartDate);
         mainActivity.setActivityStartTime(activityStartTime);
         mainActivity.setActivityDuration(activityDuration);
         activityMutableLiveData.postValue(mainActivity);
+    }
+
+    public void updateActivityTags(ArrayList<Tag> activityTags) {
+        Activity mainActivity = getActivity1().getValue();
+        assert mainActivity != null;
+        mainActivity.setActivityTags(activityTags);
+    }
+
+
+    // Functions for database calls
+    private void getTagsFromDb() {
+        allTagsArrayList = new ArrayList<>();
+        db.collection("tags")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                allTagsArrayList.add(documentSnapshot.toObject(Tag.class));
+                            }
+                            allTagsMutableLiveData.postValue(allTagsArrayList);
+                        }
+                    }
+                });
     }
 }

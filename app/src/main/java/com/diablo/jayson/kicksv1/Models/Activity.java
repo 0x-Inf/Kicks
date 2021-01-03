@@ -7,7 +7,6 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Activity extends BaseObservable implements Serializable {
 
@@ -22,11 +21,10 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityNoOfPeople;
     private ArrayList<String> invitedPeopleUserIds;
     private String activityUploaderId;
+    private ArrayList<Tag> activityTags;
     private String activityId;
     private String activityCost;
     private Timestamp activityUploadedTime;
-    private List<String> tags;
-    private Tag activityTag;
     private ArrayList<AttendingUser> activityAttendees;
     private boolean isActivityPrivate;
 
@@ -34,14 +32,12 @@ public class Activity extends BaseObservable implements Serializable {
     public Activity() {
 
     }
-
     //Constructor for Activity data model
-
 
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
                     String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
-                    ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
-                    Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
+                    ArrayList<String> invitedPeopleUserIds, String activityUploaderId, ArrayList<Tag> activityTags,
+                    String activityId, String activityCost, Timestamp activityUploadedTime, ArrayList<AttendingUser> activityAttendees,
                     boolean isActivityPrivate) {
         this.host = host;
         this.activityTitle = activityTitle;
@@ -54,11 +50,10 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityNoOfPeople = activityNoOfPeople;
         this.invitedPeopleUserIds = invitedPeopleUserIds;
         this.activityUploaderId = activityUploaderId;
+        this.activityTags = activityTags;
         this.activityId = activityId;
         this.activityCost = activityCost;
         this.activityUploadedTime = activityUploadedTime;
-        this.tags = tags;
-        this.activityTag = activityTag;
         this.activityAttendees = activityAttendees;
         this.isActivityPrivate = isActivityPrivate;
     }
@@ -102,7 +97,6 @@ public class Activity extends BaseObservable implements Serializable {
     public void setActivityStartDate(Timestamp activityStartDate) {
         this.activityStartDate = activityStartDate;
     }
-
 
     public String getActivityDuration() {
         return activityDuration;
@@ -152,6 +146,14 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityUploaderId = activityUploaderId;
     }
 
+    public ArrayList<Tag> getActivityTags() {
+        return activityTags;
+    }
+
+    public void setActivityTags(ArrayList<Tag> activityTags) {
+        this.activityTags = activityTags;
+    }
+
     public String getActivityId() {
         return activityId;
     }
@@ -174,22 +176,6 @@ public class Activity extends BaseObservable implements Serializable {
 
     public void setActivityUploadedTime(Timestamp activityUploadedTime) {
         this.activityUploadedTime = activityUploadedTime;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public Tag getActivityTag() {
-        return activityTag;
-    }
-
-    public void setActivityTag(Tag activityTag) {
-        this.activityTag = activityTag;
     }
 
     public ArrayList<AttendingUser> getActivityAttendees() {

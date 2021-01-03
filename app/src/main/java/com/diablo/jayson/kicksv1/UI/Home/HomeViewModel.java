@@ -44,6 +44,12 @@ public class HomeViewModel extends ViewModel {
         init();
     }
 
+    public void init() {
+        getActiveActivitiesFromDb();
+        getContactsDataFromDb();
+        getInvitesFromDb();
+    }
+
     public MutableLiveData<ArrayList<Activity>> getActiveActivitiesMutableLiveData() {
         return activeActivitiesMutableLiveData;
     }
@@ -56,11 +62,6 @@ public class HomeViewModel extends ViewModel {
         return invitesMutableLiveData;
     }
 
-    public void init() {
-        getActiveActivitiesFromDb();
-        getContactsDataFromDb();
-        getInvitesFromDb();
-    }
 
     private void getActiveActivitiesFromDb() {
         activeActivitiesArrayList = new ArrayList<>();

@@ -173,7 +173,7 @@ public class MainAttendActivityActivity extends AppCompatActivity implements OnM
 //                    String activityImageUrl = documentSnapshot.toObject(Activity.class).getImageUrl();
                     String activityTitle = documentSnapshot.toObject(Activity.class).getActivityTitle();
                     String activityLocationName = documentSnapshot.toObject(Activity.class).getActivityLocationName();
-                    String activityTag = documentSnapshot.toObject(Activity.class).getActivityTag().getTagName();
+                    String activityTag = documentSnapshot.toObject(Activity.class).getActivityTags().get(0).getTagName();
                     startTime = documentSnapshot.toObject(Activity.class).getActivityStartTime();
                     title = activityTitle;
                     activityLocation = new LatLng(documentSnapshot.toObject(Activity.class).getActivityLocationCoordinates().getLatitude(),

@@ -96,7 +96,7 @@ public class ActiveActivitiesAdapter extends RecyclerView.Adapter<ActiveActiviti
             monthTextView.setText(monthText);
             timeTextView.setText(activityTime);
             locationTextView.setText(activeActivity.getActivityLocationName());
-            tagTextView.setText(activeActivity.getActivityTag().getTagName());
+            tagTextView.setText(activeActivity.getActivityTags().get(0).getTagName());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
