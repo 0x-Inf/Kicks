@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -120,8 +121,16 @@ public class AddActivityViewModel extends ViewModel {
         Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityTags(activityTags);
+        activityMutableLiveData.postValue(mainActivity);
     }
 
+    public void updateActivityLocation(String activityLocationName, GeoPoint activityLocationCoordinates) {
+        Activity mainActivity = getActivity1().getValue();
+        assert mainActivity != null;
+        mainActivity.setActivityLocationName(activityLocationName);
+        mainActivity.setActivityLocationCoordinates(activityLocationCoordinates);
+        activityMutableLiveData.postValue(mainActivity);
+    }
 
     // Functions for database calls
     private void getTagsFromDb() {

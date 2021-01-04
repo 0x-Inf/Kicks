@@ -1,5 +1,8 @@
 package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -37,6 +45,7 @@ import com.android.volley.toolbox.Volley;
 import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
+import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityLocationBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -93,8 +102,12 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     private LatLng CBD = new LatLng(CBD_LAT, CBD_LONG);
 
     private FragmentAddActivityLocationBinding binding;
+    private AddActivityViewModel addActivityViewModel;
 
-    private String activityLocation = "";
+    private NavController navController;
+
+    private String activityLocationName = "";
+    private GeoPoint activityLocationGeoPoint;
     private AddActivityLocationData activityLocationData;
 
     private RelativeLayout addActivityLocationRelativeLayout;
@@ -113,12 +126,17 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
 
     }
 
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddActivityLocationBinding.inflate(inflater, container, false);
-
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         activityLocationData = new AddActivityLocationData();
 
         //Location Implementation
@@ -130,30 +148,77 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
         binding.searchCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-                Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.OVERLAY, fields)
-                        .build(requireContext());
-                InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(android.app.Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+                openLocationSearchOverlay();
             }
         });
-//        locationSelectionDone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updateActivityLocation();
-//                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-//                NavDirections actionAddActivityMain = AddActivityLocationFragmentDirections.actionAddActivityLocationFragmentToNavigationAddKick(activityLocationData);
-//                navController.navigate(actionAddActivityMain);
-////                locationCardImageView.setVisibility(View.VISIBLE);
-//            }
-//        });
+        binding.undisclosedLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean undisclosedLocation) {
+                if (undisclosedLocation) {
+                    activityLocationName = "Undisclosed";
+                    binding.mapCardViewContainer.setAlpha(0f);
+                    binding.mapCardViewContainer.setVisibility(View.GONE);
+
+                    binding.mapCardViewContainer.animate()
+                            .alpha(0.7f)
+                            .setDuration(400)
+                            .setListener(null);
+                    binding.activityLocationTextView.setText(R.string.undisclosed_location_text);
+                } else {
+                    activityLocationName = "";
+                    binding.mapCardViewContainer.animate()
+                            .alpha(0.9f)
+                            .setDuration(200)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    binding.mapCardViewContainer.setVisibility(View.VISIBLE);
+                                }
+                            });
+                    binding.activityLocationTextView.setText(R.string.set_the_location_text);
+
+                }
+            }
+        });
+        binding.doneTextTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateAddActivityViewModel();
+            }
+        });
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+    }
+
+    private void updateAddActivityViewModel() {
+        if (!activityLocationName.isEmpty() && activityLocationGeoPoint != null) {
+            addActivityViewModel.updateActivityLocation(activityLocationName, activityLocationGeoPoint);
+            navigateToNextFragment();
+        } else {
+            navController.popBackStack();
+        }
+    }
+
+    private void navigateToNextFragment() {
+        NavDirections actionAddActivityMain = AddActivityLocationFragmentDirections.actionAddActivityLocationFragmentToNavigationAddKick();
+        navController.navigate(actionAddActivityMain);
+    }
+
+    private void openLocationSearchOverlay() {
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+        Intent intent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fields)
+                .build(requireContext());
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
+
     private void updateActivityLocation() {
-        if (activityLocation.isEmpty()) {
+        if (activityLocationName.isEmpty()) {
             activityLocationData.setActivityLocationCoordinates(new GeoPoint(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude));
             getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
 //            addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
@@ -167,10 +232,27 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
 
     }
 
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
     private void getAddress(double lat, double lng) {
 
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + "";
+        String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&result_type=street_address|route|premise|point_of_interest&key=" + ApiThings.geo_coding_api_key;
         RequestQueue requestQueue;
         Cache cache = new DiskBasedCache(requireContext().getCacheDir(), 1024 * 1024);
         // Set up the network to use HttpURLConnection as the HTTP client.
@@ -189,7 +271,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                             JSONObject addressComponents = resultsArray.getJSONObject(0);
                             String formatted_address = addressComponents.getString("formatted_address");
                             Log.e(TAG, formatted_address);
-                            selectedLocation.setText(formatted_address);
+                            binding.activityLocationTextView.setText(formatted_address);
 //                            activityLocationTextView.setText(formatted_address);
                             activityLocationData.setActivityLocationName(formatted_address);
                             addressExample = address;
@@ -218,22 +300,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                 });
         requestQueue.add(jsonObjectRequest);
     }
-    private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            requestPermissions(
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -241,13 +308,13 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                activityLocation = place.getName();
+                activityLocationName = place.getName();
                 binding.activityLocationTextView.setText(place.getName());
 //                activityLocationTextView.setText(place.getName());
                 activityLocationData.setActivityLocationName(place.getName());
-                activityLocationData.setActivityLocationCoordinates(new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude));
+                activityLocationGeoPoint = new GeoPoint(Objects.requireNonNull(place.getLatLng()).latitude, place.getLatLng().longitude);
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), ZOOM));
-
+                hideKeyboardFrom(requireContext(), getView());
             }
         }
     }
@@ -367,7 +434,8 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     @Override
     public void onCameraIdle() {
         if (map != null) {
-//            getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
+            getAddress(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
+            activityLocationGeoPoint = new GeoPoint(map.getCameraPosition().target.latitude, map.getCameraPosition().target.longitude);
 //            activityLocation  =  map.getCameraPosition().target;
 //            Toast.makeText(getContext(),String.valueOf(activityLocation.latitude),Toast.LENGTH_LONG).show();
 //            selectedLocation.setText(String.valueOf(activityLocation.latitude));
@@ -379,7 +447,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     @Override
     public void onCameraMoveStarted(int i) {
         if (i == 1) {
-            activityLocation = "";
+            activityLocationName = "";
             binding.activityLocationTextView.setText(R.string.set_the_location_text);
         }
 

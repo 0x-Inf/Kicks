@@ -90,7 +90,23 @@
             app:layout_constraintStart_toEndOf="@+id/additionalTagsIconImageView"
             app:layout_constraintTop_toTopOf="@+id/additionalTagsIconImageView" />
 
+        <View
+            android:id="@+id/mapCardOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.7"
+            android:background="@color/overlayBack"
+            android:elevation="5dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/mapCardViewContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapCardViewContainer" />
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/mapCardViewContainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -114,35 +130,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <!--                <androidx.cardview.widget.CardView-->
-                <!--                    android:id="@+id/location_search_input_card"-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="16dp"-->
-                <!--                    android:layout_marginTop="8dp"-->
-                <!--                    android:layout_marginEnd="16dp"-->
-                <!--                    app:cardCornerRadius="20dp"-->
-                <!--                    app:cardElevation="1dp"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent">-->
-
-                <!--                    <TextView-->
-                <!--                        android:id="@+id/searchLocationTextView"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:layout_gravity="center_vertical"-->
-                <!--                        android:layout_marginStart="10dp"-->
-                <!--                        android:text="@string/search_a_place_hint"-->
-                <!--                        android:padding="8dp" />-->
-
-                <!--                </androidx.cardview.widget.CardView>-->
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/searchCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:visibility="visible"
                     app:cardBackgroundColor="@color/card_back"
