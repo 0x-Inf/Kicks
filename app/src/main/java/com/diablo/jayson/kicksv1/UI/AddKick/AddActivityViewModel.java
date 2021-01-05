@@ -124,11 +124,12 @@ public class AddActivityViewModel extends ViewModel {
         activityMutableLiveData.postValue(mainActivity);
     }
 
-    public void updateActivityLocation(String activityLocationName, GeoPoint activityLocationCoordinates) {
+    public void updateActivityLocation(String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed) {
         Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityLocationName(activityLocationName);
         mainActivity.setActivityLocationCoordinates(activityLocationCoordinates);
+        mainActivity.setLocationUndisclosed(isLocationUndisclosed);
         activityMutableLiveData.postValue(mainActivity);
     }
 

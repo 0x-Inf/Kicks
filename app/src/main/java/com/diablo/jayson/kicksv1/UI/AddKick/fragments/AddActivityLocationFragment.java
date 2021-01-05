@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -83,7 +84,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class AddActivityLocationFragment extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener  {
+        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
 
     private static final String TAG = AddActivityLocationFragment.class.getSimpleName();
 
@@ -108,6 +109,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
 
     private String activityLocationName = "";
     private GeoPoint activityLocationGeoPoint;
+    private boolean isLocationUndisclosed;
     private AddActivityLocationData activityLocationData;
 
     private RelativeLayout addActivityLocationRelativeLayout;
@@ -154,6 +156,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
         binding.undisclosedLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean undisclosedLocation) {
+                isLocationUndisclosed = undisclosedLocation;
                 if (undisclosedLocation) {
                     activityLocationName = "Undisclosed";
                     binding.mapCardViewContainer.setAlpha(0f);
@@ -177,6 +180,12 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                             });
                     binding.activityLocationTextView.setText(R.string.set_the_location_text);
 
+                    if (map != null) {
+                        updateLocationUI();
+                        setUsersLastLocation();
+                        setCameraMoveListeners();
+                    }
+
                 }
             }
         });
@@ -193,11 +202,36 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<com.diablo.jayson.kicksv1.Models.Activity>() {
+            @Override
+            public void onChanged(com.diablo.jayson.kicksv1.Models.Activity activity) {
+                if (activity != null) {
+                    if (activity.isLocationUndisclosed()) {
+                        Timber.e("Location is undisclosed");
+                        isLocationUndisclosed = activity.isLocationUndisclosed();
+                        activityLocationName = activity.getActivityLocationName();
+                        binding.activityLocationTextView.setText(activity.getActivityLocationName());
+                        binding.undisclosedLocationSwitch.setChecked(activity.isLocationUndisclosed());
+                    } else if (!activity.isLocationUndisclosed() && activity.getActivityLocationCoordinates() != null) {
+                        Timber.e("Location had been set");
+                        isLocationUndisclosed = activity.isLocationUndisclosed();
+                        activityLocationGeoPoint = activity.getActivityLocationCoordinates();
+                        activityLocationName = activity.getActivityLocationName();
+                        binding.activityLocationTextView.setText(activity.getActivityLocationName());
+                    } else {
+                        Timber.e("Location is not set");
+                    }
+                }
+            }
+        });
     }
 
     private void updateAddActivityViewModel() {
-        if (!activityLocationName.isEmpty() && activityLocationGeoPoint != null) {
-            addActivityViewModel.updateActivityLocation(activityLocationName, activityLocationGeoPoint);
+        if (isLocationUndisclosed) {
+            addActivityViewModel.updateActivityLocation(activityLocationName, null, isLocationUndisclosed);
+            navigateToNextFragment();
+        } else if (!activityLocationName.isEmpty() && activityLocationGeoPoint != null) {
+            addActivityViewModel.updateActivityLocation(activityLocationName, activityLocationGeoPoint, isLocationUndisclosed);
             navigateToNextFragment();
         } else {
             navController.popBackStack();
@@ -272,6 +306,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
                             String formatted_address = addressComponents.getString("formatted_address");
                             Log.e(TAG, formatted_address);
                             binding.activityLocationTextView.setText(formatted_address);
+                            activityLocationName = formatted_address;
 //                            activityLocationTextView.setText(formatted_address);
                             activityLocationData.setActivityLocationName(formatted_address);
                             addressExample = address;
@@ -318,6 +353,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
@@ -335,6 +371,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
         }
         updateLocationUI();
     }
+
     private void updateLocationUI() {
         if (map == null) {
             return;
@@ -424,11 +461,25 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
         map.setIndoorEnabled(true);
         map.setBuildingsEnabled(true);
 
-        updateLocationUI();
-        setUsersLastLocation();
+        if (activityLocationGeoPoint != null) {
+            LatLng activityLocationLatLng = new LatLng(activityLocationGeoPoint.getLatitude(), activityLocationGeoPoint.getLongitude());
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(activityLocationLatLng, ZOOM));
+            setCameraMoveListeners();
+        } else if (isLocationUndisclosed) {
+            setCameraMoveListeners();
+            return;
+        } else {
+            updateLocationUI();
+            setUsersLastLocation();
+            setCameraMoveListeners();
+        }
+        setCameraMoveListeners();
+
+    }
+
+    private void setCameraMoveListeners() {
         map.setOnCameraMoveStartedListener(this::onCameraMoveStarted);
         map.setOnCameraIdleListener(this::onCameraIdle);
-
     }
 
     @Override
@@ -439,8 +490,6 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
 //            activityLocation  =  map.getCameraPosition().target;
 //            Toast.makeText(getContext(),String.valueOf(activityLocation.latitude),Toast.LENGTH_LONG).show();
 //            selectedLocation.setText(String.valueOf(activityLocation.latitude));
-        } else {
-
         }
     }
 

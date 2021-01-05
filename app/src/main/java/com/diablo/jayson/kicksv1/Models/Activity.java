@@ -18,6 +18,7 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityDuration;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
+    private boolean isLocationUndisclosed;
     private String activityNoOfPeople;
     private ArrayList<String> invitedPeopleUserIds;
     private String activityUploaderId;
@@ -33,10 +34,9 @@ public class Activity extends BaseObservable implements Serializable {
 
     }
     //Constructor for Activity data model
-
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
-                    String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
-                    ArrayList<String> invitedPeopleUserIds, String activityUploaderId, ArrayList<Tag> activityTags,
+                    String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed,
+                    String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, String activityUploaderId, ArrayList<Tag> activityTags,
                     String activityId, String activityCost, Timestamp activityUploadedTime, ArrayList<AttendingUser> activityAttendees,
                     boolean isActivityPrivate) {
         this.host = host;
@@ -47,6 +47,7 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityDuration = activityDuration;
         this.activityLocationName = activityLocationName;
         this.activityLocationCoordinates = activityLocationCoordinates;
+        this.isLocationUndisclosed = isLocationUndisclosed;
         this.activityNoOfPeople = activityNoOfPeople;
         this.invitedPeopleUserIds = invitedPeopleUserIds;
         this.activityUploaderId = activityUploaderId;
@@ -120,6 +121,14 @@ public class Activity extends BaseObservable implements Serializable {
 
     public void setActivityLocationCoordinates(GeoPoint activityLocationCoordinates) {
         this.activityLocationCoordinates = activityLocationCoordinates;
+    }
+
+    public boolean isLocationUndisclosed() {
+        return isLocationUndisclosed;
+    }
+
+    public void setLocationUndisclosed(boolean locationUndisclosed) {
+        isLocationUndisclosed = locationUndisclosed;
     }
 
     public String getActivityNoOfPeople() {
