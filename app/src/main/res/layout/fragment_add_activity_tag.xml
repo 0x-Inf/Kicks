@@ -14,12 +14,11 @@
             android:id="@+id/activityTagTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="Activity Tag(s)"
+            android:text="Tag(s)"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/done_text"
-            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/colorMain"
             app:layout_constraintBaseline_toBaselineOf="@+id/activityTagTextTextView"

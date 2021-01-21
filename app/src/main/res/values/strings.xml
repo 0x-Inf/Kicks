@@ -381,6 +381,8 @@
     <string name="no_of_people_hint_text">No Of People</string>
     <string name="duration_example"><![CDATA[< 1 Hour]]></string>
     <string name="undisclosed_location_text">Undisclosed Location</string>
+    <string name="activity_cost_text">Activity Cost</string>
+    <string name="for_you_text">For You</string>
 
 
 </resources>

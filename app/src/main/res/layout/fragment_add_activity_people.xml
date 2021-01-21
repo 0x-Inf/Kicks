@@ -15,257 +15,321 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/done_text"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/colorMain"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             app:layout_constraintBaseline_toBaselineOf="@+id/activityPeopleTextTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-
         <TextView
             android:id="@+id/activityPeopleTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:text="People."
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/addPeopleTutorialTextTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Add the number of people that would be suitable for the activity."
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="?android:attr/textColorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityPeopleTextTextView" />
 
-        <TextView
-            android:id="@+id/undefinedTextTextView"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Undefined Number Of People"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addPeopleTutorialTextTextView" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/undefinedPeopleSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/undefinedTextTextView"
-            app:layout_constraintStart_toEndOf="@+id/undefinedTextTextView"
-            app:layout_constraintTop_toTopOf="@+id/undefinedTextTextView" />
-
-        <EditText
-            android:id="@+id/noOfPeopleEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:autofillHints="@string/no_of_people_hint_text"
-            android:inputType="number"
-            android:hint="@string/no_of_people_hint_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/undefinedTextTextView" />
-
-        <View
-            android:id="@+id/editNoOfPeopleOverlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:alpha="0.3"
-            android:background="@color/colorBlack"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/noOfPeopleEditText"
-            app:layout_constraintEnd_toEndOf="@+id/noOfPeopleEditText"
-            app:layout_constraintStart_toStartOf="@+id/noOfPeopleEditText"
-            app:layout_constraintTop_toTopOf="@+id/noOfPeopleEditText" />
-
-        <TextView
-            android:id="@+id/makeActivityPrivateTextTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Make Activity Private"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noOfPeopleEditText" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/makePrivateSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/makeActivityPrivateTextTextView"
-            app:layout_constraintStart_toEndOf="@+id/makeActivityPrivateTextTextView"
-            app:layout_constraintTop_toTopOf="@+id/makeActivityPrivateTextTextView" />
-
-        <TextView
-            android:id="@+id/invitePeopleTextTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Invite :"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/makeActivityPrivateTextTextView" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/invitedPeopleRecycler"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:minHeight="100dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/invitePeopleTextTextView" />
-
-        <Button
-            android:id="@+id/editInvitesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/background"
-            android:text="Edit"
-            android:textColor="?android:attr/textColorPrimary"
-            app:cornerRadius="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/invitedPeopleRecycler" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/selectInvitingContactsCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/activityPeopleTextTextView"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/removeContactSelectionCardButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@null"
-                    android:contentDescription="@string/image_button_for_removing_contact_selection_description"
-                    android:src="@drawable/ic_action_close"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--        <TextView-->
+                <!--            android:id="@+id/addPeopleTutorialTextTextView"-->
+                <!--            android:layout_width="0dp"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_marginStart="16dp"-->
+                <!--            android:layout_marginTop="16dp"-->
+                <!--            android:layout_marginEnd="16dp"-->
+                <!--            android:text="Add the number of people that would be suitable for the activity."-->
+                <!--            android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+                <!--            android:textColor="?android:attr/textColorPrimary"-->
+                <!--            app:layout_constraintEnd_toEndOf="parent"-->
+                <!--            app:layout_constraintStart_toStartOf="parent"-->
+                <!--            app:layout_constraintTop_toBottomOf="@+id/activityPeopleTextTextView" />-->
 
                 <TextView
-                    android:id="@+id/SelectedContactsTextTextView"
+                    android:id="@+id/undefinedTextTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Invite:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Undefined Number Of People"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/makeActivityPrivateTextTextView" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/alreadySelectedContactsRecycler"
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/undefinedPeopleSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/undefinedTextTextView"
+                    app:layout_constraintStart_toEndOf="@+id/undefinedTextTextView"
+                    app:layout_constraintTop_toTopOf="@+id/undefinedTextTextView" />
+
+                <EditText
+                    android:id="@+id/noOfPeopleEditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:autofillHints="@string/no_of_people_hint_text"
+                    android:hint="@string/no_of_people_hint_text"
+                    android:inputType="number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/undefinedTextTextView" />
+
+                <View
+                    android:id="@+id/editNoOfPeopleOverlay"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:alpha="0.3"
+                    android:background="@color/overlayBack"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/noOfPeopleEditText"
+                    app:layout_constraintEnd_toEndOf="@+id/noOfPeopleEditText"
+                    app:layout_constraintStart_toStartOf="@+id/noOfPeopleEditText"
+                    app:layout_constraintTop_toTopOf="@+id/noOfPeopleEditText" />
+
+                <TextView
+                    android:id="@+id/makeActivityPrivateTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:text="Make Activity Private"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/makePrivateSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/makeActivityPrivateTextTextView"
+                    app:layout_constraintStart_toEndOf="@+id/makeActivityPrivateTextTextView"
+                    app:layout_constraintTop_toTopOf="@+id/makeActivityPrivateTextTextView" />
+
+                <TextView
+                    android:id="@+id/invitePeopleTextTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Invite :"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/noOfPeopleEditText" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/invitedPeopleRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:minHeight="100dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/SelectedContactsTextTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/invitePeopleTextTextView" />
 
-                <TextView
-                    android:id="@+id/myContactsTextTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="My Contacts:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/alreadySelectedContactsRecycler" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/myContactsRecycler"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/allContactsConstraintLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:maxHeight="100dp"
-                    android:minHeight="70dp"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    android:background="@drawable/constraint_layout_rounded_background"
+                    android:windowSoftInputMode="adjustResize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myContactsTextTextView"
-                    app:spanCount="3" />
+                    app:layout_constraintTop_toBottomOf="@+id/invitedPeopleRecycler"
+                    app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/finishContactSelectionFab"
+                    <EditText
+                        android:id="@+id/searchContactsEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:autofillHints="Search contacts"
+                        android:hint="Search Contacts"
+                        android:inputType="text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/allContactsRecycler"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="vertical"
+                        android:windowSoftInputMode="adjustResize"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/searchContactsEditText"
+                        app:spanCount="3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/editInvitesButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_add_icon"
+                    android:backgroundTint="@color/background"
+                    android:text="Edit"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:visibility="gone"
+                    app:cornerRadius="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/invitedPeopleRecycler" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/selectInvitingContactsCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myContactsRecycler" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            android:id="@+id/removeContactSelectionCardButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@null"
+                            android:contentDescription="@string/image_button_for_removing_contact_selection_description"
+                            android:src="@drawable/ic_action_close"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/SelectedContactsTextTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="Invite:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/alreadySelectedContactsRecycler"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/SelectedContactsTextTextView" />
+
+                        <TextView
+                            android:id="@+id/myContactsTextTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="My Contacts:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/alreadySelectedContactsRecycler" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/myContactsRecycler"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:maxHeight="100dp"
+                            android:minHeight="70dp"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/myContactsTextTextView"
+                            app:spanCount="3" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/finishContactSelectionFab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/ic_add_icon"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/myContactsRecycler" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <RelativeLayout
+                    android:id="@+id/selectContactsOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:background="@color/colorPrimaryDark"
+                    android:elevation="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <RelativeLayout
-            android:id="@+id/selectContactsOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:background="@color/colorPrimaryDark"
-            android:elevation="5dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

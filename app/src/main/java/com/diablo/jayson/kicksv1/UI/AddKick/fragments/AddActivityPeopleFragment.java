@@ -1,6 +1,8 @@
 package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
@@ -27,11 +30,13 @@ import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityPeopleBinding;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleContactsAdapter.OnContactSelectedListener, InvitedPeopleListAdapter.OnInvitedContactSelectedListener {
+public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleContactsAdapter.OnContactSelectedListener,
+        InvitedPeopleListAdapter.OnInvitedContactSelectedListener {
 
 
     private AddActivityPeopleData activityPeopleData;
@@ -44,7 +49,8 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
     private AllAddPeopleContactsAdapter allAddPeopleContactsAdapter;
     private InvitedPeopleListAdapter invitedPeopleListAdapter;
 
-    private ArrayList<Contact> invitedContacts;
+    private ArrayList<Contact> invitedContacts = new ArrayList<>();
+    private ArrayList<Contact> allContacts;
     private ArrayList<String> invitedContactsIds = new ArrayList<>();
     private boolean isActivityPrivate;
     private boolean undefinedPeopleNumber;
@@ -61,24 +67,55 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
         // Inflate the layout for this fragment
         binding = FragmentAddActivityPeopleBinding.inflate(inflater, container, false);
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        NavDirections actionAddActivityMain = AddActivityPeopleFragmentDirections.actionAddActivityPeopleFragmentToNavigationAddKick();
+        invitedPeopleListAdapter = new InvitedPeopleListAdapter(invitedContacts, this);
         binding.undefinedPeopleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isUndefined) {
+                undefinedPeopleNumber = isUndefined;
                 if (isUndefined) {
-                    noOfPeople = "Undefined";
                     binding.editNoOfPeopleOverlay.setVisibility(View.VISIBLE);
                 } else {
                     binding.editNoOfPeopleOverlay.setVisibility(View.GONE);
                 }
             }
         });
+        binding.editNoOfPeopleOverlay.setOnClickListener(null);
         binding.makePrivateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isPrivate) {
-                if (isPrivate) {
-                    isActivityPrivate = isPrivate;
+                isActivityPrivate = isPrivate;
+            }
+        });
+        binding.searchContactsEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String searchedContactName = charSequence.toString();
+                ArrayList<Contact> searchedContacts = new ArrayList<>();
+                if (!searchedContactName.isEmpty()) {
+                    for (Contact contact : allContacts) {
+                        if (contact.getContactName().toLowerCase(Locale.ROOT).contains(searchedContactName)) {
+                            searchedContacts.add(contact);
+                        }
+                    }
+                    if (searchedContacts.isEmpty()) {
+                        // TODO: show image for no contacts matching query
+                    }
+                    AllAddPeopleContactsAdapter searchedContactsAdapter = new AllAddPeopleContactsAdapter(searchedContacts, listener);
+                    binding.allContactsRecycler.setAdapter(searchedContactsAdapter);
+                } else {
+                    allAddPeopleContactsAdapter = new AllAddPeopleContactsAdapter(allContacts, listener);
+                    binding.allContactsRecycler.setAdapter(allAddPeopleContactsAdapter);
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
         binding.editInvitesButton.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +139,6 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
                     navController.popBackStack();
                 } else {
                     updateActivityModel();
-                    navController.navigate(actionAddActivityMain);
                 }
 
             }
@@ -111,17 +147,21 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
     }
 
     private void updateActivityModel() {
-        String activityNoOfPeople = binding.noOfPeopleEditText.getText().toString();
-        String undefinedNoOfPeople = "undefined";
+        if (undefinedPeopleNumber) {
+            noOfPeople = "undefined";
+        } else {
+            noOfPeople = binding.noOfPeopleEditText.getText().toString();
+        }
         for (Contact contact : invitedContacts) {
             invitedContactsIds.add(contact.getContactId());
         }
-        if (undefinedPeopleNumber) {
-            addActivityViewModel.updateActivityPeople(undefinedNoOfPeople, invitedContactsIds, isActivityPrivate);
-        } else {
-            addActivityViewModel.updateActivityPeople(activityNoOfPeople, invitedContactsIds, isActivityPrivate);
-        }
+        addActivityViewModel.updateActivityPeople(noOfPeople, invitedContactsIds, isActivityPrivate);
+        navigateToNextFragment();
+    }
 
+    private void navigateToNextFragment() {
+        NavDirections actionAddActivityMain = AddActivityPeopleFragmentDirections.actionAddActivityPeopleFragmentToNavigationAddKick();
+        navController.navigate(actionAddActivityMain);
     }
 
     @Override
@@ -133,19 +173,39 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
         homeViewModel.getUserContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
             @Override
             public void onChanged(ArrayList<Contact> contacts) {
+                allContacts = contacts;
                 allAddPeopleContactsAdapter = new AllAddPeopleContactsAdapter(contacts, listener);
-                binding.myContactsRecycler.setAdapter(allAddPeopleContactsAdapter);
+                binding.allContactsRecycler.setAdapter(allAddPeopleContactsAdapter);
             }
         });
         addActivityViewModel.getInvitedContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
             @Override
             public void onChanged(ArrayList<Contact> contacts) {
                 invitedContacts = contacts;
-                if (invitedContacts.isEmpty()) {
-
-                } else {
+                if (!invitedContacts.isEmpty()) {
                     invitedPeopleListAdapter = new InvitedPeopleListAdapter(invitedContacts, listener);
                     binding.invitedPeopleRecycler.setAdapter(invitedPeopleListAdapter);
+                }
+            }
+        });
+        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                if (activity != null) {
+                    if (activity.getActivityNoOfPeople() != null) {
+                        if (!activity.getActivityNoOfPeople().isEmpty()) {
+                            if (activity.getActivityNoOfPeople().equals("undefined")) {
+                                binding.undefinedPeopleSwitch.setChecked(true);
+                                noOfPeople = "undefined";
+                            } else {
+                                noOfPeople = activity.getActivityNoOfPeople();
+                                binding.noOfPeopleEditText.setText(noOfPeople);
+                            }
+                        }
+                        if (activity.isActivityPrivate()) {
+                            binding.makePrivateSwitch.setChecked(activity.isActivityPrivate());
+                        }
+                    }
                 }
             }
         });
