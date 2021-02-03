@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,12 +20,12 @@ import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityCostData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityDateTimeData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityLocationData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityPeopleData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityTagData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -106,37 +106,37 @@ public class AddActivityFragment extends Fragment {
                 }
             }
         });
-        assert getArguments() != null;
-        if (getArguments().get("activityPeopleData") != null) {
-            activityPeopleData = new AddActivityPeopleData();
-            activityPeopleData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityPeopleData();
-//            Toast.makeText(getContext(), String.valueOf(activityPeopleData.getActivityMaxAge()), Toast.LENGTH_LONG).show();
-            updateActivityPeopleModel();
-        }
-
-        if (getArguments().get("activityCostData") != null) {
-            activityCostData = new AddActivityCostData();
-            activityCostData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityCostData();
-            updateActivityCostModel();
-        }
-
-        if (getArguments().get("activityTagData") != null) {
-            activityTagData = new AddActivityTagData();
-            activityTagData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityTagData();
-            updateActivityTagModel();
-        }
-
-        if (getArguments().get("activityDateTimeData") != null) {
-            activityDateTimeData = new AddActivityDateTimeData();
-            activityDateTimeData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityDateTimeData();
-            updateActivityDateTimeModel();
-        }
-
-        if (getArguments().get("activityLocationData") != null) {
-            activityLocationData = new AddActivityLocationData();
-            activityLocationData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityLocationData();
-            updateActivityLocationModel();
-        }
+//        assert getArguments() != null;
+//        if (getArguments().get("activityPeopleData") != null) {
+//            activityPeopleData = new AddActivityPeopleData();
+//            activityPeopleData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityPeopleData();
+////            Toast.makeText(getContext(), String.valueOf(activityPeopleData.getActivityMaxAge()), Toast.LENGTH_LONG).show();
+//            updateActivityPeopleModel();
+//        }
+//
+//        if (getArguments().get("activityCostData") != null) {
+//            activityCostData = new AddActivityCostData();
+//            activityCostData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityCostData();
+//            updateActivityCostModel();
+//        }
+//
+//        if (getArguments().get("activityTagData") != null) {
+//            activityTagData = new AddActivityTagData();
+//            activityTagData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityTagData();
+//            updateActivityTagModel();
+//        }
+//
+//        if (getArguments().get("activityDateTimeData") != null) {
+//            activityDateTimeData = new AddActivityDateTimeData();
+//            activityDateTimeData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityDateTimeData();
+//            updateActivityDateTimeModel();
+//        }
+//
+//        if (getArguments().get("activityLocationData") != null) {
+//            activityLocationData = new AddActivityLocationData();
+//            activityLocationData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityLocationData();
+//            updateActivityLocationModel();
+//        }
 
 //        if (String.valueOf(activityPeopleData.getActivityMinRequiredPeople()).isEmpty()){
 //

@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,12 +18,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.room.Room;
 
+import com.diablo.jayson.kicksv1.AppDatabase;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
-import com.diablo.jayson.kicksv1.UI.AddKick.DurationExample;
-import com.diablo.jayson.kicksv1.UI.AddKick.DurationExamplesListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.DurationExample;
+import com.diablo.jayson.kicksv1.UI.AddActivity.DurationExamplesListAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityDateTimeBinding;
 import com.google.firebase.Timestamp;
 
@@ -32,6 +34,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import timber.log.Timber;
 
 
 /**
@@ -65,14 +70,18 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         activityDuration = "";
         pickedActivityDuration = "";
+        AppDatabase appDatabase = Room.databaseBuilder(requireContext(),
+                AppDatabase.class, "database-name").build();
+        Long milliseconds = TimeUnit.MINUTES.toMillis(15);
+        Timber.e(milliseconds.toString() + "? " + 15 * 60 * 1000);
 
-        // TODO: Implementation of the duration example recycler.
-        durationExamples.add(new DurationExample("20 Min"));
-        durationExamples.add(new DurationExample("30 Min"));
-        durationExamples.add(new DurationExample("45 Min"));
-        durationExamples.add(new DurationExample("1 Hour"));
-        durationExamples.add(new DurationExample("2 Hours"));
-        durationExamples.add(new DurationExample("3 Hours"));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }).start();
+
 
         DurationExamplesListAdapter durationExamplesListAdapter = new DurationExamplesListAdapter(durationExamples, this);
         binding.durationOptionsRecyclerView.setAdapter(durationExamplesListAdapter);
@@ -330,6 +339,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
     public void onDurationExampleSelected(DurationExample durationExample) {
         if (!isDurationUnspecified) {
             pickedActivityDuration = durationExample.getDurationName();
+            Toast.makeText(requireContext(), pickedActivityDuration, Toast.LENGTH_SHORT).show();
         }
     }
 }

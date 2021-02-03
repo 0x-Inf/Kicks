@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -45,8 +45,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.diablo.jayson.kicksv1.ApiThings;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityLocationData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityLocationBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;

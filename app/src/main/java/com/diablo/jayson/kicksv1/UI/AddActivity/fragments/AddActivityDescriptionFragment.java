@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityDescriptionBinding;
 
 import timber.log.Timber;

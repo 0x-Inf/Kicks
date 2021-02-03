@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.ActivityTagsListAdapter;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityAllTagsListAdapter;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.ActivityTagsListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityAllTagsListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityTagData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityTagBinding;
 
 import org.jetbrains.annotations.NotNull;

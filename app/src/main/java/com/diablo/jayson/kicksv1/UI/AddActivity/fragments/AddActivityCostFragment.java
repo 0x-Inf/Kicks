@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityCostData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 

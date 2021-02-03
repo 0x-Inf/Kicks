@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick.fragments;
+package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,10 +20,10 @@ import androidx.navigation.Navigation;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData;
-import com.diablo.jayson.kicksv1.UI.AddKick.AddActivityViewModel;
-import com.diablo.jayson.kicksv1.UI.AddKick.AllAddPeopleContactsAdapter;
-import com.diablo.jayson.kicksv1.UI.AddKick.InvitedPeopleListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityPeopleData;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AllAddPeopleContactsAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.InvitedPeopleListAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityPeopleBinding;
 

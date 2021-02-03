@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddActivity;
 
 import java.io.Serializable;
 

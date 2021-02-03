@@ -1,11 +1,10 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddActivity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.diablo.jayson.kicksv1.Models.Tag;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class AddActivityTagData implements Parcelable {

@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddActivity;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityFragment;
+import com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityFragment;
 
 public class AddActivityActivity extends AppCompatActivity {
 

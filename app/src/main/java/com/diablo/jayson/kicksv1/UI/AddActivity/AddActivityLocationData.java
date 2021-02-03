@@ -1,11 +1,9 @@
-package com.diablo.jayson.kicksv1.UI.AddKick;
+package com.diablo.jayson.kicksv1.UI.AddActivity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.firestore.GeoPoint;
-
-import java.io.Serializable;
 
 public class AddActivityLocationData implements Parcelable {
 
