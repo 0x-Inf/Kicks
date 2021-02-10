@@ -91,7 +91,7 @@ public class AddActivityFragment extends Fragment {
                                 }
                             }
                         case 3:
-                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().isEmpty()) {
+                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().getDurationName().isEmpty()) {
                                 binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
                             }
                         case 4:

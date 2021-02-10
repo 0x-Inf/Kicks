@@ -2,6 +2,7 @@ package com.diablo.jayson.kicksv1.Models;
 
 import androidx.databinding.BaseObservable;
 
+import com.diablo.jayson.kicksv1.UI.AddActivity.Duration;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -15,7 +16,7 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityDescription;
     private Timestamp activityStartTime;
     private Timestamp activityStartDate;
-    private String activityDuration;
+    private Duration activityDuration;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
     private boolean isLocationUndisclosed;
@@ -34,8 +35,9 @@ public class Activity extends BaseObservable implements Serializable {
 
     }
     //Constructor for Activity data model
+
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
-                    String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed,
+                    Duration activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed,
                     String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, String activityUploaderId, ArrayList<Tag> activityTags,
                     String activityId, String activityCost, Timestamp activityUploadedTime, ArrayList<AttendingUser> activityAttendees,
                     boolean isActivityPrivate) {
@@ -99,11 +101,11 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityStartDate = activityStartDate;
     }
 
-    public String getActivityDuration() {
+    public Duration getActivityDuration() {
         return activityDuration;
     }
 
-    public void setActivityDuration(String activityDuration) {
+    public void setActivityDuration(Duration activityDuration) {
         this.activityDuration = activityDuration;
     }
 

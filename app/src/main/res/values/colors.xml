@@ -14,6 +14,7 @@
     <color name="card_back">#ffffff</color>
     <color name="overlayBack">#f1f1f1</color>
     <color name="layoutBackground">#f1f1f1</color>
+    <color name="textColorSecondary">#8A000000</color>
 
     <!--    colors with xd -->
     <color name="colorMain">#D7385E</color>

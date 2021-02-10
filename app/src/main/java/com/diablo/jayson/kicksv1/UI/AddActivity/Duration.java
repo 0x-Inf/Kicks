@@ -1,14 +1,14 @@
 package com.diablo.jayson.kicksv1.UI.AddActivity;
 
-public class DurationExample {
+public class Duration {
 
     private long durationTimeMs;
     private String durationName;
 
-    public DurationExample() {
+    public Duration() {
     }
 
-    public DurationExample(long durationTimeMs, String durationName) {
+    public Duration(long durationTimeMs, String durationName) {
         this.durationTimeMs = durationTimeMs;
         this.durationName = durationName;
     }

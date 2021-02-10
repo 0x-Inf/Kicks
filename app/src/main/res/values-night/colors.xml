@@ -11,6 +11,7 @@
     <color name="card_back">#3C3C3C</color>
     <color name="overlayBack">#292929</color>
     <color name="layoutBackground">#292929</color>
+    <color name="textColorSecondary">#B2FFFFFF</color>
 
 
 </resources>

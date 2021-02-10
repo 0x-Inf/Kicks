@@ -24,8 +24,8 @@ import com.diablo.jayson.kicksv1.AppDatabase;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
-import com.diablo.jayson.kicksv1.UI.AddActivity.DurationExample;
-import com.diablo.jayson.kicksv1.UI.AddActivity.DurationExamplesListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.Duration;
+import com.diablo.jayson.kicksv1.UI.AddActivity.DurationsListAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityDateTimeBinding;
 import com.google.firebase.Timestamp;
 
@@ -36,26 +36,26 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import timber.log.Timber;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddActivityDateTimeFragment extends Fragment implements DurationExamplesListAdapter.OnDurationExampleSelectedListener {
+public class AddActivityDateTimeFragment extends Fragment implements DurationsListAdapter.OnDurationExampleSelectedListener {
 
     private FragmentAddActivityDateTimeBinding binding;
     private AddActivityViewModel addActivityViewModel;
     private NavController navController;
 
-    private ArrayList<DurationExample> durationExamples = new ArrayList<>();
+    private ArrayList<Duration> durations = new ArrayList<>();
+    private DurationsListAdapter durationsListAdapter;
 
-    private String activityDuration;
-    private String pickedActivityDuration;
+    private Duration activityDuration;
+    private Duration pickedActivityDuration;
     private Timestamp activityStartTime;
     private Timestamp activityStartDate;
     private boolean isCustomDuration;
     private boolean isDurationUnspecified;
+    private AddActivityDateTimeFragment listener;
 
     public AddActivityDateTimeFragment() {
         // Required empty public constructor
@@ -68,13 +68,10 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
         // Inflate the layout for this fragment
         binding = FragmentAddActivityDateTimeBinding.inflate(inflater, container, false);
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        activityDuration = "";
-        pickedActivityDuration = "";
+        activityDuration = new Duration();
+        pickedActivityDuration = new Duration();
         AppDatabase appDatabase = Room.databaseBuilder(requireContext(),
                 AppDatabase.class, "database-name").build();
-        Long milliseconds = TimeUnit.MINUTES.toMillis(15);
-        Timber.e(milliseconds.toString() + "? " + 15 * 60 * 1000);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,23 +79,42 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
             }
         }).start();
 
-
-        DurationExamplesListAdapter durationExamplesListAdapter = new DurationExamplesListAdapter(durationExamples, this);
-        binding.durationOptionsRecyclerView.setAdapter(durationExamplesListAdapter);
-        binding.durationOptionsRecyclerView.addItemDecoration(new AddActivityTagFragment.HorizontalGridSpacingItemDecoration(15));
         binding.durationUnspecifiedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean durationUnspecified) {
                 isDurationUnspecified = durationUnspecified;
                 if (durationUnspecified) {
-                    activityDuration = "Unspecified";
+                    activityDuration = new Duration(0, "Unspecified");
                     if (isCustomDuration) {
                         binding.setCustomDurationSwitch.setChecked(false);
                     }
+                    binding.durationSelectionOverlay.setVisibility(View.VISIBLE);
+                    binding.durationSelectionOverlay.setAlpha(0f);
+                    binding.durationSelectionOverlay.animate()
+                            .alpha(0.7f)
+                            .setDuration(400)
+                            .setListener(null);
                 } else {
                     activityDuration = pickedActivityDuration;
+                    binding.durationSelectionOverlay.animate()
+                            .alpha(0f)
+                            .setDuration(400)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    binding.durationSelectionOverlay.setVisibility(View.GONE);
+                                }
+                            });
                 }
 
+
+            }
+        });
+        binding.durationSelectionOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                return;
             }
         });
         binding.customDurationOverlay.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +132,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                     if (isDurationUnspecified) {
                         binding.durationUnspecifiedSwitch.setChecked(false);
                     }
+                    durationsListAdapter.resetCheckedPosition();
+                    durationsListAdapter.notifyDataSetChanged();
                     binding.pickedHoursOverLay.setVisibility(View.VISIBLE);
                     binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
                     binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
@@ -130,7 +148,6 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                                 }
                             });
                 }else {
-
                     binding.pickedHoursOverLay.setVisibility(View.GONE);
                     binding.pickedDaysOverLay.setVisibility(View.GONE);
                     binding.pickedMonthsOverLay.setVisibility(View.GONE);
@@ -143,7 +160,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                             .setDuration(400)
                             .setListener(null);
 
-                    pickedActivityDuration = "";
+                    pickedActivityDuration = new Duration();
                 }
             }
         });
@@ -152,7 +169,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 binding.pickedHoursTextView.setText(String.valueOf(i));
-                pickedActivityDuration = String.valueOf(i) + " Hours";
+                long hoursInMs = TimeUnit.HOURS.toMillis(i);
+                pickedActivityDuration = new Duration(hoursInMs, String.valueOf(i) + " Hours");
                 if (i == 0) {
                     binding.pickedHoursOverLay.setVisibility(View.VISIBLE);
                 }
@@ -167,8 +185,18 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                         .setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
                                 binding.pickedHoursOverLay.setVisibility(View.GONE);
 
+                            }
+
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                super.onAnimationStart(animation);
+                                binding.pickedDaysOverLay.setAlpha(0.7f);
+                                binding.pickedMonthsOverLay.setAlpha(0.7f);
+                                binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
+                                binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
                             }
                         });
             }
@@ -182,7 +210,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 binding.pickedDaysTextView.setText(String.valueOf(Math.round(i)));
-                pickedActivityDuration = Math.round(i) + " Days";
+                long daysInMs = TimeUnit.DAYS.toMillis(i);
+                pickedActivityDuration = new Duration(daysInMs, Math.round(i) + " Days");
                 if (i == 0) {
                     binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
                 }
@@ -212,7 +241,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 binding.pickedMonthsTextView.setText(String.valueOf(Math.round(i)));
-                pickedActivityDuration = Math.round(i) + " Months";
+                long monthsInMs = TimeUnit.DAYS.toMillis(i * 30);
+                pickedActivityDuration = new Duration(monthsInMs, Math.round(i) + " Months");
                 if (i == 0) {
                     binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
                 }
@@ -220,7 +250,6 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(requireContext(),"Selecting Months",Toast.LENGTH_SHORT).show();
                 showPickedDurationOverlays(seekBar);
                 binding.pickedMonthsOverLay.animate()
                         .alpha(0f)
@@ -249,18 +278,21 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
     }
 
     private void showPickedDurationOverlays(SeekBar seekBar) {
-        // TODO: Make sure this code works
         if (seekBar == binding.hoursDurationSlider) {
-            binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
-            binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
+//            binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
+//            binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
             binding.daysDurationSlider.setProgress(0);
             binding.monthsDurationSlider.setProgress(0);
         } else if (seekBar == binding.daysDurationSlider) {
+            binding.pickedHoursOverLay.setAlpha(0.7f);
+            binding.pickedMonthsOverLay.setAlpha(0.7f);
             binding.pickedHoursOverLay.setVisibility(View.VISIBLE);
             binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
             binding.hoursDurationSlider.setProgress(0);
             binding.monthsDurationSlider.setProgress(0);
         } else if (seekBar == binding.monthsDurationSlider) {
+            binding.pickedHoursOverLay.setAlpha(0.7f);
+            binding.pickedDaysOverLay.setAlpha(0.7f);
             binding.pickedHoursOverLay.setVisibility(View.VISIBLE);
             binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
             binding.daysDurationSlider.setProgress(0);
@@ -284,7 +316,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                 binding.activityTimePicker.getHour(),binding.activityTimePicker.getMinute());
         Timestamp activityPickedStartTimeTimestamp = new Timestamp(calendarTime.getTime());
 
-        if ((!pickedActivityDuration.isEmpty()) && isCustomDuration){
+        if (!(pickedActivityDuration == null) && isCustomDuration) {
             activityDuration = pickedActivityDuration;
         }
 
@@ -305,6 +337,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+        listener = this;
 
         addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
@@ -312,14 +345,14 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                 if (activity != null){
                     if (activity.getActivityStartTime() != null &&
                             activity.getActivityStartDate() != null &&
-                            !activity.getActivityDuration().isEmpty()){
+                            !activity.getActivityDuration().getDurationName().isEmpty()) {
                         Calendar startDateCal = Calendar.getInstance();
                         Calendar startTimeCal = Calendar.getInstance();
                         Date startDate = activity.getActivityStartDate().toDate();
                         Date startTime = activity.getActivityStartTime().toDate();
                         startDateCal.setTime(startDate);
-                        binding.activityDatePicker.init(startDateCal.get(Calendar.YEAR),startDateCal.get(Calendar.MONTH),
-                                startDateCal.get(Calendar.DAY_OF_MONTH),null);
+                        binding.activityDatePicker.init(startDateCal.get(Calendar.YEAR), startDateCal.get(Calendar.MONTH),
+                                startDateCal.get(Calendar.DAY_OF_MONTH), null);
                         startTimeCal.setTime(startTime);
                         binding.activityTimePicker.setHour(startTimeCal.get(Calendar.HOUR));
                         binding.activityTimePicker.setMinute(startTimeCal.get(Calendar.MINUTE));
@@ -333,13 +366,26 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationExa
                 }
             }
         });
+        addActivityViewModel.getDurationExamplesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Duration>>() {
+            @Override
+            public void onChanged(ArrayList<Duration> durationsLiveData) {
+                durations = durationsLiveData;
+                durationsListAdapter = new DurationsListAdapter(durations, listener);
+                binding.durationOptionsRecyclerView.setAdapter(durationsListAdapter);
+                binding.durationOptionsRecyclerView.addItemDecoration(new AddActivityTagFragment.HorizontalGridSpacingItemDecoration(15));
+            }
+        });
+
     }
 
     @Override
-    public void onDurationExampleSelected(DurationExample durationExample) {
+    public void onDurationExampleSelected(Duration duration) {
+        if (isCustomDuration) {
+            binding.setCustomDurationSwitch.setChecked(false);
+        }
         if (!isDurationUnspecified) {
-            pickedActivityDuration = durationExample.getDurationName();
-            Toast.makeText(requireContext(), pickedActivityDuration, Toast.LENGTH_SHORT).show();
+            pickedActivityDuration = duration;
+//            Toast.makeText(requireContext(), pickedActivityDuration, Toast.LENGTH_SHORT).show();
         }
     }
 }

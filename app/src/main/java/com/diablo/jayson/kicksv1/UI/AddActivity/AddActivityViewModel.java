@@ -18,6 +18,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -29,6 +30,8 @@ public class AddActivityViewModel extends ViewModel {
     MutableLiveData<ArrayList<Tag>> allTagsMutableLiveData;
     ArrayList<Tag> allTagsArrayList;
     ArrayList<Tag> newTagsArrayList;
+    MutableLiveData<ArrayList<Duration>> durationExamplesMutableLiveData = new MutableLiveData<>();
+    ArrayList<Duration> allDurationExamplesArrayList;
     private MutableLiveData<Boolean> createNewTag = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Tag>> newTagsToCreate = new MutableLiveData<>();
     private FirebaseFirestore db;
@@ -48,6 +51,7 @@ public class AddActivityViewModel extends ViewModel {
 
     private void init() {
         getTagsFromDb();
+        getDurationExamples();
         newTagsArrayList = new ArrayList<>();
     }
 
@@ -66,6 +70,10 @@ public class AddActivityViewModel extends ViewModel {
         return allTagsMutableLiveData;
     }
 
+    public MutableLiveData<ArrayList<Duration>> getDurationExamplesMutableLiveData() {
+        return durationExamplesMutableLiveData;
+    }
+
     public void setInvitedContactsMutableLiveData(ArrayList<Contact> invitedContacts) {
         invitedContactsMutableLiveData.postValue(invitedContacts);
     }
@@ -74,7 +82,7 @@ public class AddActivityViewModel extends ViewModel {
         activityMutableLiveData.setValue(activity1);
     }
 
-    //Add new Tags logic
+    //TODO: Add new Tags logic
     public void updateNewTagsMutableLiveData(Tag newTag) {
         newTagsArrayList.add(newTag);
         newTagsToCreate.postValue(newTagsArrayList);
@@ -108,7 +116,7 @@ public class AddActivityViewModel extends ViewModel {
         activityMutableLiveData.postValue(mainActivity);
     }
 
-    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, String activityDuration) {
+    public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, Duration activityDuration) {
         Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityStartDate(activityStartDate);
@@ -149,5 +157,19 @@ public class AddActivityViewModel extends ViewModel {
                         }
                     }
                 });
+    }
+
+    private void getDurationExamples() {
+        //TODO: Make a Better Implementation of this function
+        allDurationExamplesArrayList = new ArrayList<>();
+        Duration duration1 = new Duration(TimeUnit.MINUTES.toMillis(15), "15 Mins");
+        Duration duration2 = new Duration(TimeUnit.MINUTES.toMillis(30), "30 Mins");
+        Duration duration3 = new Duration(TimeUnit.MINUTES.toMillis(45), "45 Mins");
+        Duration duration4 = new Duration(TimeUnit.HOURS.toMillis(1), "1 Hour");
+        allDurationExamplesArrayList.add(duration1);
+        allDurationExamplesArrayList.add(duration2);
+        allDurationExamplesArrayList.add(duration3);
+        allDurationExamplesArrayList.add(duration4);
+        durationExamplesMutableLiveData.postValue(allDurationExamplesArrayList);
     }
 }
