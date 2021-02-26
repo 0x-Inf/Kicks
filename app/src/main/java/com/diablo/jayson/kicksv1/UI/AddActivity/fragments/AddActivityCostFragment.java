@@ -1,17 +1,24 @@
 package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityCostData;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityCostBinding;
 
 
 /**
@@ -19,12 +26,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class AddActivityCostFragment extends Fragment {
 
-    //Cost Stuff
-    private RelativeLayout addActivityCostRelativeLayout;
-    private EditText activityCostEditText;
-    private FloatingActionButton costInputDoneButton;
+    private FragmentAddActivityCostBinding binding;
+    private AddActivityViewModel addActivityViewModel;
 
-    private AddActivityCostData activityCostData;
+    private NavController navController;
+
+    private String activityCost;
+    private boolean isCostUnspecified;
 
     public AddActivityCostFragment() {
         // Required empty public constructor
@@ -35,38 +43,70 @@ public class AddActivityCostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_add_activity_cost, container, false);
+        binding = FragmentAddActivityCostBinding.inflate(inflater, container, false);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
-        //Cost Views
-//        addActivityCostRelativeLayout = root.findViewById(R.id.add_activity_cost_relative_layout);
-//        activityCostEditText = root.findViewById(R.id.activity_cost_edit_text);
-//        costInputDoneButton = root.findViewById(R.id.costInputDoneButton);
+        binding.costUnspecifiedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean unspecified) {
+                isCostUnspecified = unspecified;
+                if (unspecified) {
+                    activityCost = "Unspecified";
+                    binding.editCostOverlay.setVisibility(View.VISIBLE);
+                    binding.editCostOverlay.setAlpha(0f);
+                    binding.editCostOverlay.animate()
+                            .alpha(0.7f)
+                            .setDuration(400)
+                            .setListener(null);
+                } else {
+                    binding.editCostOverlay.animate()
+                            .alpha(0f)
+                            .setDuration(400)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    binding.editCostOverlay.setVisibility(View.GONE);
+                                }
+                            });
+                }
+            }
+        });
 
-        activityCostData = new AddActivityCostData();
+        binding.doneTextTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.costInputEditText.getText() != null && !isCostUnspecified) {
+                    updateActivityViewModel();
+                } else {
+                    navController.popBackStack();
+                }
 
-        //Cost Implementation
-//        costInputDoneButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (activityCostEditText.getText().toString().isEmpty()) {
-//                    activityCostEditText.setError("Enter amount");
-//                } else {
-//                    updateActivityCost();
-//                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-//                    NavDirections actionAddActivityMain = AddActivityCostFragmentDirections.actionAddActivityCostFragmentToNavigationAddKick(activityCostData);
-//                    navController.navigate(actionAddActivityMain);
-////                    addActivityMainDashRelativeLayout.setVisibility(View.VISIBLE);
-////                    addActivityCostRelativeLayout.setVisibility(View.GONE);
-//                }
-//
-//            }
-//        });
+            }
+        });
 
-        return root;
+
+        return binding.getRoot();
     }
 
-    private void updateActivityCost() {
-        String activityCost = activityCostEditText.getText().toString();
-        activityCostData.setActivityCost(activityCost);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    private void updateActivityViewModel() {
+        if (isCostUnspecified) {
+            addActivityViewModel.updateActivityCost(activityCost);
+        } else {
+            activityCost = binding.costInputEditText.getText().toString();
+        }
+        navigateToNextFragment();
+    }
+
+    private void navigateToNextFragment() {
+        NavDirections actionAddActivityMain = AddActivityCostFragmentDirections.actionAddActivityCostFragmentToNavigationAddKick();
+        navController.navigate(actionAddActivityMain);
     }
 }

@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityCostFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +31,49 @@
             android:textColor="@color/colorMain"
             app:layout_constraintBaseline_toBaselineOf="@+id/activityCostTextTextView"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/costNotSpecifiedTextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Cost not specified"
+            app:layout_constraintStart_toStartOf="@+id/costInputEditText"
+            app:layout_constraintTop_toBottomOf="@+id/activityCostTextTextView" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/costUnspecifiedSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/costNotSpecifiedTextTextView"
+            app:layout_constraintStart_toEndOf="@+id/costNotSpecifiedTextTextView"
+            app:layout_constraintTop_toTopOf="@+id/costNotSpecifiedTextTextView" />
+
+        <EditText
+            android:id="@+id/costInputEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="@string/cost_hint_text"
+            android:hint="@string/cost_hint_text"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/costNotSpecifiedTextTextView" />
+
+        <View
+            android:id="@+id/editCostOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:background="@color/overlayBack"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/costInputEditText"
+            app:layout_constraintEnd_toEndOf="@+id/costInputEditText"
+            app:layout_constraintStart_toStartOf="@+id/costInputEditText"
+            app:layout_constraintTop_toTopOf="@+id/costInputEditText" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

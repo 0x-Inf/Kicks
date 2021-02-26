@@ -30,8 +30,8 @@ public class AddActivityViewModel extends ViewModel {
     MutableLiveData<ArrayList<Tag>> allTagsMutableLiveData;
     ArrayList<Tag> allTagsArrayList;
     ArrayList<Tag> newTagsArrayList;
-    MutableLiveData<ArrayList<Duration>> durationExamplesMutableLiveData = new MutableLiveData<>();
-    ArrayList<Duration> allDurationExamplesArrayList;
+    MutableLiveData<ArrayList<Duration>> durationsMutableLiveData = new MutableLiveData<>();
+    ArrayList<Duration> allDurationsArrayList;
     private MutableLiveData<Boolean> createNewTag = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Tag>> newTagsToCreate = new MutableLiveData<>();
     private FirebaseFirestore db;
@@ -51,7 +51,7 @@ public class AddActivityViewModel extends ViewModel {
 
     private void init() {
         getTagsFromDb();
-        getDurationExamples();
+        getDurations();
         newTagsArrayList = new ArrayList<>();
     }
 
@@ -70,8 +70,8 @@ public class AddActivityViewModel extends ViewModel {
         return allTagsMutableLiveData;
     }
 
-    public MutableLiveData<ArrayList<Duration>> getDurationExamplesMutableLiveData() {
-        return durationExamplesMutableLiveData;
+    public MutableLiveData<ArrayList<Duration>> getDurationsMutableLiveData() {
+        return durationsMutableLiveData;
     }
 
     public void setInvitedContactsMutableLiveData(ArrayList<Contact> invitedContacts) {
@@ -141,6 +141,12 @@ public class AddActivityViewModel extends ViewModel {
         activityMutableLiveData.postValue(mainActivity);
     }
 
+    public void updateActivityCost(String activityCost) {
+        Activity mainActivity = getActivity1().getValue();
+        assert mainActivity != null;
+        mainActivity.setActivityCost(activityCost);
+    }
+
     // Functions for database calls
     private void getTagsFromDb() {
         allTagsArrayList = new ArrayList<>();
@@ -159,17 +165,17 @@ public class AddActivityViewModel extends ViewModel {
                 });
     }
 
-    private void getDurationExamples() {
+    private void getDurations() {
         //TODO: Make a Better Implementation of this function
-        allDurationExamplesArrayList = new ArrayList<>();
+        allDurationsArrayList = new ArrayList<>();
         Duration duration1 = new Duration(TimeUnit.MINUTES.toMillis(15), "15 Mins");
         Duration duration2 = new Duration(TimeUnit.MINUTES.toMillis(30), "30 Mins");
         Duration duration3 = new Duration(TimeUnit.MINUTES.toMillis(45), "45 Mins");
         Duration duration4 = new Duration(TimeUnit.HOURS.toMillis(1), "1 Hour");
-        allDurationExamplesArrayList.add(duration1);
-        allDurationExamplesArrayList.add(duration2);
-        allDurationExamplesArrayList.add(duration3);
-        allDurationExamplesArrayList.add(duration4);
-        durationExamplesMutableLiveData.postValue(allDurationExamplesArrayList);
+        allDurationsArrayList.add(duration1);
+        allDurationsArrayList.add(duration2);
+        allDurationsArrayList.add(duration3);
+        allDurationsArrayList.add(duration4);
+        durationsMutableLiveData.postValue(allDurationsArrayList);
     }
 }

@@ -383,6 +383,7 @@
     <string name="undisclosed_location_text">Undisclosed Location</string>
     <string name="activity_cost_text">Activity Cost</string>
     <string name="for_you_text">For You</string>
+    <string name="cost_hint_text">Enter Estimated Cost For Activity</string>
 
 
 </resources>

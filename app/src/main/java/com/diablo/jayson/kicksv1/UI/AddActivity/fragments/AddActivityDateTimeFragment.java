@@ -18,9 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.room.Room;
 
-import com.diablo.jayson.kicksv1.AppDatabase;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
@@ -35,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import timber.log.Timber;
 
 
 /**
@@ -51,6 +51,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
 
     private Duration activityDuration;
     private Duration pickedActivityDuration;
+    private Duration savedDuration;
     private Timestamp activityStartTime;
     private Timestamp activityStartDate;
     private boolean isCustomDuration;
@@ -67,11 +68,14 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddActivityDateTimeBinding.inflate(inflater, container, false);
+//        MainActivity activity = (MainActivity) this.getActivity();
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         activityDuration = new Duration();
         pickedActivityDuration = new Duration();
-        AppDatabase appDatabase = Room.databaseBuilder(requireContext(),
-                AppDatabase.class, "database-name").build();
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(),1,RecyclerView.HORIZONTAL,false);
+//        binding.durationOptionsRecyclerView.setLayoutManager(gridLayoutManager);
+//        AppDatabase appDatabase = Room.databaseBuilder(requireContext(),
+//                AppDatabase.class, "database-name").build();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -171,8 +175,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
                 binding.pickedHoursTextView.setText(String.valueOf(i));
                 long hoursInMs = TimeUnit.HOURS.toMillis(i);
                 pickedActivityDuration = new Duration(hoursInMs, String.valueOf(i) + " Hours");
-                if (i == 0) {
-                    binding.pickedHoursOverLay.setVisibility(View.VISIBLE);
+                if (i != 0) {
+                    binding.pickedHoursOverLay.setVisibility(View.GONE);
                 }
             }
 
@@ -212,8 +216,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
                 binding.pickedDaysTextView.setText(String.valueOf(Math.round(i)));
                 long daysInMs = TimeUnit.DAYS.toMillis(i);
                 pickedActivityDuration = new Duration(daysInMs, Math.round(i) + " Days");
-                if (i == 0) {
-                    binding.pickedDaysOverLay.setVisibility(View.VISIBLE);
+                if (i != 0) {
+                    binding.pickedDaysOverLay.setVisibility(View.GONE);
                 }
             }
 
@@ -243,8 +247,8 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
                 binding.pickedMonthsTextView.setText(String.valueOf(Math.round(i)));
                 long monthsInMs = TimeUnit.DAYS.toMillis(i * 30);
                 pickedActivityDuration = new Duration(monthsInMs, Math.round(i) + " Months");
-                if (i == 0) {
-                    binding.pickedMonthsOverLay.setVisibility(View.VISIBLE);
+                if (i != 0) {
+                    binding.pickedMonthsOverLay.setVisibility(View.GONE);
                 }
             }
 
@@ -320,13 +324,13 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
             activityDuration = pickedActivityDuration;
         }
 
-        if ((activityPickedStartDateTimestamp.getSeconds() <= Timestamp.now().getSeconds()) ||
-                (activityPickedStartTimeTimestamp.getSeconds() <= Timestamp.now().getSeconds())){
-            Toast.makeText(requireContext(),"Invalid Start Date or Time",Toast.LENGTH_LONG).show();
-        }else {
+        if ((activityPickedStartDateTimestamp.getSeconds() < Timestamp.now().getSeconds()) ||
+                (activityPickedStartTimeTimestamp.getSeconds() <= Timestamp.now().getSeconds())) {
+            Toast.makeText(requireContext(), "Invalid Start Date or Time", Toast.LENGTH_LONG).show();
+        } else {
             activityStartDate = activityPickedStartDateTimestamp;
             activityStartTime = activityPickedStartTimeTimestamp;
-            addActivityViewModel.updateActivityTime(activityStartDate,activityStartTime,activityDuration);
+            addActivityViewModel.updateActivityTime(activityStartDate, activityStartTime, activityDuration);
             navigateToNextFragment();
         }
 
@@ -339,10 +343,20 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
         listener = this;
 
+        addActivityViewModel.getDurationsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Duration>>() {
+            @Override
+            public void onChanged(ArrayList<Duration> durationsLiveData) {
+                durations = durationsLiveData;
+                durationsListAdapter = new DurationsListAdapter(durations, listener);
+                binding.durationOptionsRecyclerView.setAdapter(durationsListAdapter);
+                binding.durationOptionsRecyclerView.addItemDecoration(new AddActivityTagFragment.HorizontalGridSpacingItemDecoration(15));
+            }
+        });
+
         addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                if (activity != null){
+                if (activity != null) {
                     if (activity.getActivityStartTime() != null &&
                             activity.getActivityStartDate() != null &&
                             !activity.getActivityDuration().getDurationName().isEmpty()) {
@@ -358,24 +372,49 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
                         binding.activityTimePicker.setMinute(startTimeCal.get(Calendar.MINUTE));
                         binding.activityTimePicker.setIs24HourView(true);
 
-                        if (activity.getActivityDuration().equals("Unspecified")) {
+                        if (activity.getActivityDuration().getDurationName().equals("Unspecified")) {
                             binding.durationUnspecifiedSwitch.setChecked(true);
                             isDurationUnspecified = true;
+                        }
+                        savedDuration = activity.getActivityDuration();
+
+                        //TODO: Seek if there is a better way to implement this
+                        if (savedDuration != null) {
+                            Timber.e(savedDuration.getDurationName());
+                            if (durations.contains(savedDuration)) {
+                                int durationIndex = durations.indexOf(savedDuration) + 1;
+                                updateDurationsRecyclerView(durationIndex);
+                            } else {
+                                if (savedDuration.getDurationName().contains("Hours") ||
+                                        savedDuration.getDurationName().contains("Days") ||
+                                        savedDuration.getDurationName().contains("Months")) {
+                                    binding.setCustomDurationSwitch.setChecked(true);
+                                    if (savedDuration.getDurationName().contains("Hours")) {
+                                        long savedHoursMs = savedDuration.getDurationTimeMs();
+                                        int savedHoursInt = (int) TimeUnit.MILLISECONDS.toHours(savedHoursMs);
+                                        binding.hoursDurationSlider.setProgress(savedHoursInt);
+                                    } else if (savedDuration.getDurationName().contains("Days")) {
+                                        long savedDaysMs = savedDuration.getDurationTimeMs();
+                                        int savedDaysInt = (int) TimeUnit.MILLISECONDS.toDays(savedDaysMs);
+                                        binding.daysDurationSlider.setProgress(savedDaysInt);
+                                    } else if (savedDuration.getDurationName().contains("Months")) {
+                                        long savedMonthsMs = savedDuration.getDurationTimeMs();
+                                        int savedMonthsInt = ((int) TimeUnit.MILLISECONDS.toDays(savedMonthsMs)) / 30;
+                                        binding.monthsDurationSlider.setProgress(savedMonthsInt);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         });
-        addActivityViewModel.getDurationExamplesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Duration>>() {
-            @Override
-            public void onChanged(ArrayList<Duration> durationsLiveData) {
-                durations = durationsLiveData;
-                durationsListAdapter = new DurationsListAdapter(durations, listener);
-                binding.durationOptionsRecyclerView.setAdapter(durationsListAdapter);
-                binding.durationOptionsRecyclerView.addItemDecoration(new AddActivityTagFragment.HorizontalGridSpacingItemDecoration(15));
-            }
-        });
 
+
+    }
+
+    private void updateDurationsRecyclerView(int durationIndex) {
+//        binding.durationOptionsRecyclerView.findViewHolderForAdapterPosition(durationIndex).itemView.performClick();
     }
 
     @Override
@@ -384,7 +423,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
             binding.setCustomDurationSwitch.setChecked(false);
         }
         if (!isDurationUnspecified) {
-            pickedActivityDuration = duration;
+            activityDuration = duration;
 //            Toast.makeText(requireContext(), pickedActivityDuration, Toast.LENGTH_SHORT).show();
         }
     }
