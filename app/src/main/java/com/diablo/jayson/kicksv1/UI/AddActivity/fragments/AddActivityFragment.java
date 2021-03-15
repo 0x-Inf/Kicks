@@ -1,6 +1,5 @@
 package com.diablo.jayson.kicksv1.UI.AddActivity.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.Activity;
-import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityCostData;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityDateTimeData;
@@ -26,30 +23,14 @@ import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityLocationData;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityPeopleData;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityTagData;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
-import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import timber.log.Timber;
 
 public class AddActivityFragment extends Fragment {
 
     private static final String TAG = AddActivityFragment.class.getSimpleName();
 
 
-    private AddActivityViewModel viewModel;
+    private AddActivityViewModel addActivityViewModel;
     private Activity activityMain;
     private AddActivityPeopleData activityPeopleData;
     private AddActivityCostData activityCostData;
@@ -70,7 +51,7 @@ public class AddActivityFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
+        addActivityViewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 activityMain = activity;
@@ -106,86 +87,7 @@ public class AddActivityFragment extends Fragment {
                 }
             }
         });
-//        assert getArguments() != null;
-//        if (getArguments().get("activityPeopleData") != null) {
-//            activityPeopleData = new AddActivityPeopleData();
-//            activityPeopleData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityPeopleData();
-////            Toast.makeText(getContext(), String.valueOf(activityPeopleData.getActivityMaxAge()), Toast.LENGTH_LONG).show();
-//            updateActivityPeopleModel();
-//        }
-//
-//        if (getArguments().get("activityCostData") != null) {
-//            activityCostData = new AddActivityCostData();
-//            activityCostData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityCostData();
-//            updateActivityCostModel();
-//        }
-//
-//        if (getArguments().get("activityTagData") != null) {
-//            activityTagData = new AddActivityTagData();
-//            activityTagData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityTagData();
-//            updateActivityTagModel();
-//        }
-//
-//        if (getArguments().get("activityDateTimeData") != null) {
-//            activityDateTimeData = new AddActivityDateTimeData();
-//            activityDateTimeData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityDateTimeData();
-//            updateActivityDateTimeModel();
-//        }
-//
-//        if (getArguments().get("activityLocationData") != null) {
-//            activityLocationData = new AddActivityLocationData();
-//            activityLocationData = AddActivityFragmentArgs.fromBundle(getArguments()).getActivityLocationData();
-//            updateActivityLocationModel();
-//        }
 
-//        if (String.valueOf(activityPeopleData.getActivityMinRequiredPeople()).isEmpty()){
-//
-//        }else {
-//            Toast.makeText(getContext(),String.valueOf(activityPeopleData.getActivityMaxAge()),Toast.LENGTH_LONG).show();
-//            updateActivityPeople();
-//            if (activityMain.getActivityMinRequiredPeople() >= 0){
-//                peopleCardImageView.setVisibility(View.VISIBLE);
-//            }else {
-//                peopleCardImageView.setVisibility(View.GONE);
-//            }
-//        }
-
-    }
-
-    private void updateActivityLocationModel() {
-        activityMain.setActivityLocationName(activityLocationData.getActivityLocationName());
-        activityMain.setActivityLocationCoordinates(activityLocationData.getActivityLocationCoordinates());
-        binding.locationCardImageView.setVisibility(View.VISIBLE);
-        viewModel.setActivity1(activityMain);
-    }
-
-    private void updateActivityDateTimeModel() {
-        binding.timeDateCardImageView.setVisibility(View.VISIBLE);
-        viewModel.setActivity1(activityMain);
-    }
-
-    private void updateActivityTagModel() {
-//        activityMain.setActivityTags(activityTagData.getActivityTag());
-////        activityMain.setTags(activityTagData.getTags());
-//        binding.tagCardImageView.setVisibility(View.VISIBLE);
-//        viewModel.setActivity1(activityMain);
-    }
-
-    private void updateActivityCostModel() {
-        activityMain.setActivityCost(activityCostData.getActivityCost());
-        binding.costCardImageView.setVisibility(View.VISIBLE);
-        viewModel.setActivity1(activityMain);
-    }
-
-    private void updateActivityPeopleModel() {
-//        activityMain.setActivityMinRequiredPeople(activityPeopleData.getActivityMinRequiredPeople());
-//        activityMain.setActivityMaxRequiredPeople(activityPeopleData.getActivityMaxRequiredPeople());
-//        activityMain.setActivityMinAge(activityPeopleData.getActivityMinAge());
-//        activityMain.setActivityMaxAge(activityPeopleData.getActivityMaxAge());
-        activityMain.setActivityPrivate(activityPeopleData.isActivityPrivate());
-        binding.peopleCardImageView.setVisibility(View.VISIBLE);
-//        Timber.e(String.valueOf(activityMain.getActivityMaxRequiredPeople()));
-        viewModel.setActivity1(activityMain);
     }
 
     @Override
@@ -203,11 +105,6 @@ public class AddActivityFragment extends Fragment {
             public void onClick(View v) {
                 NavDirections actionAddPeople = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityPeopleFragment();
                 navController.navigate(actionAddPeople);
-
-
-//                Navigation.findNavController(requireView()).navigate(addPeopleAction);
-//                addActivityPeopleRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
         binding.descriptionCard.setOnClickListener(new View.OnClickListener() {
@@ -222,8 +119,6 @@ public class AddActivityFragment extends Fragment {
             public void onClick(View v) {
                 NavDirections actionAddCost = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityCostFragment();
                 navController.navigate(actionAddCost);
-//                addActivityCostRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
         binding.tagCard.setOnClickListener(new View.OnClickListener() {
@@ -231,9 +126,6 @@ public class AddActivityFragment extends Fragment {
             public void onClick(View v) {
                 NavDirections actionAddTag = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityTagFragment();
                 navController.navigate(actionAddTag);
-//                loadTagsFromDb();
-//                addActivityTagRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
         binding.timeCard.setOnClickListener(new View.OnClickListener() {
@@ -241,8 +133,6 @@ public class AddActivityFragment extends Fragment {
             public void onClick(View v) {
                 NavDirections actionAddDateTime = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityDateTimeFragment();
                 navController.navigate(actionAddDateTime);
-//                addActivityDateTimeRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
         binding.locationCard.setOnClickListener(new View.OnClickListener() {
@@ -250,67 +140,79 @@ public class AddActivityFragment extends Fragment {
             public void onClick(View v) {
                 NavDirections actionAddLocation = AddActivityFragmentDirections.actionNavigationAddKickToAddActivityLocationFragment();
                 navController.navigate(actionAddLocation);
-//                addActivityLocationRelativeLayout.setVisibility(View.VISIBLE);
-//                addActivityMainDashRelativeLayout.setVisibility(View.GONE);
             }
         });
+
+
         //Uploading Activity to Db
         binding.createActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (binding.peopleCardImageView.getVisibility() == View.GONE || binding.costCardImageView.getVisibility() == View.GONE ||
-                        binding.tagCardImageView.getVisibility() == View.GONE || binding.timeDateCardImageView.getVisibility() == View.GONE ||
-                        binding.locationCardImageView.getVisibility() == View.GONE || binding.descriptionCardImageView.getVisibility() == View.GONE) {
-                    Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                if (addActivityViewModel.missingFields()) {
+                    Toast.makeText(requireContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
                 } else {
-//                    String activityTitle = activityTitleEditText.getText().toString();
-//                    activityMain.setActivityTitle(activityTitle);
-                    updateAttendeesAndHostAndTime();
                     showLoadingScreen();
-                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                    if (currentUser != null) {
-                        userId = currentUser.getUid();
-                    }
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    FirebaseFirestore.getInstance().collection("activities")
-                            .add(activityMain)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Map<String, Object> activity = new HashMap<>();
-                                    activity.put("activityReference", documentReference);
-                                    activity.put("activityId", documentReference.getId());
-                                    db.collection("users").document(userId).collection("activeactivities")
-                                            .document(documentReference.getId())
-                                            .set(activity)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
-                                                    activityMain = new Activity();
-                                                    viewModel.setActivity1(activityMain);
-                                                    startActivity(new Intent(getContext(), MainActivity.class));
-                                                    hideLoadingScreen();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-
-                                                }
-                                            });
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Timber.e(e);
-                                }
-                            });
+                    addActivityViewModel.updateAttendeesAndHostAndTime();
                 }
             }
         });
+
+//        binding.createActivityButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (binding.peopleCardImageView.getVisibility() == View.GONE || binding.costCardImageView.getVisibility() == View.GONE ||
+//                        binding.tagCardImageView.getVisibility() == View.GONE || binding.timeDateCardImageView.getVisibility() == View.GONE ||
+//                        binding.locationCardImageView.getVisibility() == View.GONE || binding.descriptionCardImageView.getVisibility() == View.GONE) {
+//                    Toast.makeText(getContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
+//                } else {
+////                    String activityTitle = activityTitleEditText.getText().toString();
+////                    activityMain.setActivityTitle(activityTitle);
+//                    updateAttendeesAndHostAndTime();
+//                    showLoadingScreen();
+//                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//                    if (currentUser != null) {
+//                        userId = currentUser.getUid();
+//                    }
+//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                    FirebaseFirestore.getInstance().collection("activities")
+//                            .add(activityMain)
+//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                @Override
+//                                public void onSuccess(DocumentReference documentReference) {
+//                                    Map<String, Object> activity = new HashMap<>();
+//                                    activity.put("activityReference", documentReference);
+//                                    activity.put("activityId", documentReference.getId());
+//                                    db.collection("users").document(userId).collection("activeactivities")
+//                                            .document(documentReference.getId())
+//                                            .set(activity)
+//                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                @Override
+//                                                public void onSuccess(Void aVoid) {
+//                                                    Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
+//                                                    activityMain = new Activity();
+//                                                    viewModel.setActivity1(activityMain);
+//                                                    startActivity(new Intent(getContext(), MainActivity.class));
+//                                                    hideLoadingScreen();
+//                                                }
+//                                            })
+//                                            .addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//
+//                                                }
+//                                            });
+//
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Timber.e(e);
+//                                }
+//                            });
+//                }
+//            }
+//        });
 //        loadingScreen.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -335,28 +237,11 @@ public class AddActivityFragment extends Fragment {
         });
     }
 
-    private void updateAttendeesAndHostAndTime() {
-        ArrayList<String> tags = new ArrayList<String>();
-//        tags.add(activityTag.getTagName());
-
-        ArrayList<AttendingUser> attendingUsers = new ArrayList<AttendingUser>();
-        attendingUsers.add(FirebaseUtil.getAttendingUser());
-
-//        activityMain.setTags(tags);
-        activityMain.setActivityAttendees(attendingUsers);
-        activityMain.setHost(FirebaseUtil.getHost());
-        activityMain.setActivityUploaderId(Objects.requireNonNull(FirebaseUtil.getHost()).getUid());
-        Calendar calendarUploadedTime = Calendar.getInstance();
-        Timestamp uploadedTimestamp = new Timestamp(calendarUploadedTime.getTimeInMillis());
-        activityMain.setActivityUploadedTime(com.google.firebase.Timestamp.now());
-
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
     }
 
 }

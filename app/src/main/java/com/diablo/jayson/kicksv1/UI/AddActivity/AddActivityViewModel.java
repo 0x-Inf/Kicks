@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.AttendingUser;
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.Tag;
+import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -17,7 +19,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
@@ -25,8 +28,8 @@ import timber.log.Timber;
 public class AddActivityViewModel extends ViewModel {
     //    private final CustomMutableLiveData<Activity> activityMutableLiveData = new CustomMutableLiveData<Activity>();
     private final MutableLiveData<Activity> activityMutableLiveData = new MutableLiveData<Activity>();
-    private MutableLiveData<List<Activity>> activity;
     private MutableLiveData<ArrayList<Contact>> invitedContactsMutableLiveData = new MutableLiveData<>();
+
     MutableLiveData<ArrayList<Tag>> allTagsMutableLiveData;
     ArrayList<Tag> allTagsArrayList;
     ArrayList<Tag> newTagsArrayList;
@@ -145,6 +148,35 @@ public class AddActivityViewModel extends ViewModel {
         Activity mainActivity = getActivity1().getValue();
         assert mainActivity != null;
         mainActivity.setActivityCost(activityCost);
+        activityMutableLiveData.postValue(mainActivity);
+    }
+
+    public void updateAttendeesAndHostAndTime() {
+        Activity activityMain = getActivity1().getValue();
+        assert activityMain != null;
+        ArrayList<AttendingUser> attendingUsers = new ArrayList<AttendingUser>();
+        attendingUsers.add(FirebaseUtil.getAttendingUser());
+
+        activityMain.setActivityAttendees(attendingUsers);
+        activityMain.setHost(FirebaseUtil.getHost());
+        activityMain.setActivityUploaderId(Objects.requireNonNull(FirebaseUtil.getHost()).getUid());
+        Calendar calendarUploadedTime = Calendar.getInstance();
+        java.sql.Timestamp uploadedTimestamp = new java.sql.Timestamp(calendarUploadedTime.getTimeInMillis());
+        activityMain.setActivityUploadedTime(Timestamp.now());
+
+    }
+
+    public boolean missingFields() {
+        Activity mainActivity = getActivity1().getValue();
+        assert mainActivity != null;
+        if (mainActivity.getActivityTitle() != null && mainActivity.getActivityDescription() != null &&
+                mainActivity.getActivityNoOfPeople() != null && mainActivity.getActivityStartTime() != null && mainActivity.getActivityStartDate() != null &&
+                mainActivity.getActivityDuration() != null && mainActivity.getActivityTags() != null && mainActivity.getActivityLocationName() != null &&
+                mainActivity.getActivityCost() != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // Functions for database calls

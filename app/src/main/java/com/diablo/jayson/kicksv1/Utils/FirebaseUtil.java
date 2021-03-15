@@ -46,9 +46,7 @@ public class FirebaseUtil {
     public static AttendingUser getAttendingUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
-        return new AttendingUser(user.getDisplayName(), user.getUid(), "", "",
-                user.getEmail(), Objects.requireNonNull(Objects.requireNonNull(user.getPhotoUrl()).toString()), "", "",
-                false);
+        return new AttendingUser(user.getDisplayName(), user.getUid(), Objects.requireNonNull(Objects.requireNonNull(user.getPhotoUrl()).toString()));
     }
 
 }

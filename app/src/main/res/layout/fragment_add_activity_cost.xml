@@ -68,7 +68,7 @@
             android:layout_height="0dp"
             android:alpha="0.5"
             android:background="@color/overlayBack"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/costInputEditText"
             app:layout_constraintEnd_toEndOf="@+id/costInputEditText"
             app:layout_constraintStart_toStartOf="@+id/costInputEditText"

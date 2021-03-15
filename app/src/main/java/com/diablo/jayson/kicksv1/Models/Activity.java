@@ -22,13 +22,13 @@ public class Activity extends BaseObservable implements Serializable {
     private boolean isLocationUndisclosed;
     private String activityNoOfPeople;
     private ArrayList<String> invitedPeopleUserIds;
-    private String activityUploaderId;
+    private boolean isActivityPrivate;
     private ArrayList<Tag> activityTags;
-    private String activityId;
     private String activityCost;
+    private String activityId;
+    private String activityUploaderId;
     private Timestamp activityUploadedTime;
     private ArrayList<AttendingUser> activityAttendees;
-    private boolean isActivityPrivate;
 
 
     public Activity() {

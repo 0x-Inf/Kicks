@@ -11,14 +11,18 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentAddActivityCostBinding;
+
+import timber.log.Timber;
 
 
 /**
@@ -47,6 +51,8 @@ public class AddActivityCostFragment extends Fragment {
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
+        isCostUnspecified = false;
+
         binding.costUnspecifiedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean unspecified) {
@@ -74,13 +80,17 @@ public class AddActivityCostFragment extends Fragment {
             }
         });
 
+        binding.editCostOverlay.setOnClickListener(view -> {
+            return;
+        });
+
         binding.doneTextTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.costInputEditText.getText() != null && !isCostUnspecified) {
-                    updateActivityViewModel();
-                } else {
+                if (binding.costInputEditText.getText().toString().isEmpty() && !isCostUnspecified) {
                     navController.popBackStack();
+                } else {
+                    updateActivityViewModel();
                 }
 
             }
@@ -93,15 +103,33 @@ public class AddActivityCostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                if (activity != null) {
+                    if (activity.getActivityCost() != null) {
+                        if (activity.getActivityCost().equals("Unspecified")) {
+                            Timber.e("Unspecified Cost");
+//                            isCostUnspecified = true;
+                            binding.costUnspecifiedSwitch.setChecked(true);
+                            activityCost = "Unspecified";
+                        } else {
+                            Timber.e("specified Cost");
+                            activityCost = activity.getActivityCost();
+                            binding.costInputEditText.setText(activityCost);
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
     private void updateActivityViewModel() {
-        if (isCostUnspecified) {
-            addActivityViewModel.updateActivityCost(activityCost);
-        } else {
+        if (!isCostUnspecified) {
             activityCost = binding.costInputEditText.getText().toString();
         }
+        addActivityViewModel.updateActivityCost(activityCost);
         navigateToNextFragment();
     }
 
