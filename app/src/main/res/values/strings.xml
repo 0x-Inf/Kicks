@@ -384,6 +384,14 @@
     <string name="activity_cost_text">Activity Cost</string>
     <string name="for_you_text">For You</string>
     <string name="cost_hint_text">Enter Estimated Cost For Activity</string>
+    <string name="confirm_details">Confirm Details</string>
+    <string name="details">Details</string>
+    <string name="title_text">Title</string>
+    <string name="description_colon_text">Description:</string>
+    <string name="image_view_for_editing_activity_details">Image view for editing activity details</string>
+    <string name="confirm_activity">Confirm Activity</string>
+    <string name="at_symbol">\@</string>
+    <string name="duration_colon">Duration:</string>
 
 
 </resources>
