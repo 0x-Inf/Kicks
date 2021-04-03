@@ -155,6 +155,7 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
         for (Contact contact : invitedContacts) {
             invitedContactsIds.add(contact.getContactId());
         }
+        addActivityViewModel.setInviteContacts(!invitedContactsIds.isEmpty());
         addActivityViewModel.updateActivityPeople(noOfPeople, invitedContactsIds, isActivityPrivate);
         navigateToNextFragment();
     }
@@ -188,7 +189,7 @@ public class AddActivityPeopleFragment extends Fragment implements AllAddPeopleC
                 }
             }
         });
-        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+        addActivityViewModel.getActivity().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 if (activity != null) {

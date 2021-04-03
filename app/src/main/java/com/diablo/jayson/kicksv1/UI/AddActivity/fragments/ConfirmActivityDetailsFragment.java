@@ -4,17 +4,45 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.diablo.jayson.kicksv1.Models.Activity;
+import com.diablo.jayson.kicksv1.Models.Contact;
+import com.diablo.jayson.kicksv1.Models.Invite;
+import com.diablo.jayson.kicksv1.Models.Tag;
+import com.diablo.jayson.kicksv1.UI.AddActivity.ActivityTagsListAdapter;
+import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
+import com.diablo.jayson.kicksv1.UI.AddActivity.InvitedPeopleListAdapter;
 import com.diablo.jayson.kicksv1.databinding.FragmentConfirmActivityDetailsBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ConfirmActivityDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConfirmActivityDetailsFragment extends Fragment {
+public class ConfirmActivityDetailsFragment extends Fragment implements InvitedPeopleListAdapter.OnInvitedContactSelectedListener,
+        ActivityTagsListAdapter.OnActivityTagSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +54,13 @@ public class ConfirmActivityDetailsFragment extends Fragment {
     private String mParam2;
 
     private FragmentConfirmActivityDetailsBinding binding;
+    private AddActivityViewModel addActivityViewModel;
+
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
+
+    private Invite inviteItem;
+    private Activity activityToBeCreated;
 
     public ConfirmActivityDetailsFragment() {
         // Required empty public constructor
@@ -59,11 +94,225 @@ public class ConfirmActivityDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentConfirmActivityDetailsBinding.inflate(inflater, container, false);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        ArrayList<Contact> invitedContacts = addActivityViewModel.getInvitedContactsMutableLiveData().getValue();
+        InvitedPeopleListAdapter invitedPeopleListAdapter = new InvitedPeopleListAdapter(invitedContacts, this);
+
+        activityToBeCreated = addActivityViewModel.getActivity().getValue();
+
+        ArrayList<Tag> activityTags = activityToBeCreated.getActivityTags();
+        ActivityTagsListAdapter activityTagsListAdapter = new ActivityTagsListAdapter(activityTags, this);
+
+        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activityToBeCreated.getActivityStartDate());
+        String activityStartTime = DateFormat.getTimeInstance(DateFormat.AM_PM_FIELD).format(activityToBeCreated.getActivityStartTime());
+
+        binding.titleActualTextView.setText(activityToBeCreated.getActivityTitle());
+        binding.detailsActualTextView.setText(activityToBeCreated.getActivityDescription());
+        binding.noOfPeopleActualTextView.setText(activityToBeCreated.getActivityNoOfPeople());
+        binding.invitedPeopleRecycler.setAdapter(invitedPeopleListAdapter);
+        binding.dateActualTextView.setText(activityDate);
+        binding.timeActualTextView.setText(activityStartTime);
+        binding.tagsRecycler.setAdapter(activityTagsListAdapter);
+        binding.locationActualTextView.setText(activityToBeCreated.getActivityLocationName());
+        binding.costActualTextView.setText(activityToBeCreated.getActivityCost());
+
+
+        binding.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelCreateActivity();
+            }
+        });
+
+        binding.createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (addActivityViewModel.missingFields()) {
+                    Toast.makeText(requireContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    createActivity();
+                }
+
+            }
+        });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void createActivity() {
+        showLoadingScreen();
+        addActivityViewModel.updateAttendeesAndHostAndTime();
+
+
+        db.collection("activities").add(activityToBeCreated)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Timber.e("Successful Creation with id: %s", documentReference.getId());
+                        if (addActivityViewModel.getIfCreateNewTag()) {
+                            uploadNewTagsToDb();
+                        }
+                        if (addActivityViewModel.getInviteContactsBoolean().getValue()) {
+                            sendInvitesToInvited();
+                        }
+                        Map<String, Object> activity = new HashMap<>();
+                        activity.put("activityReference", documentReference);
+                        activity.put("activityId", documentReference.getId());
+                        db.collection("users")
+                                .document(currentUser.getUid())
+                                .collection("activeactivities")
+                                .document(documentReference.getId())
+                                .set(activity)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
+
+                                        hideLoadingScreen();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Creation Failed", Toast.LENGTH_SHORT).show();
+                        hideLoadingScreen();
+                    }
+                });
+    }
+
+    private void sendInvitesToInvited() {
+        changeLoadingText("Inviting Contacts..");
+        ArrayList<String> invitedContactsIds = addActivityViewModel.getActivity().getValue().getInvitedPeopleUserIds();
+        setUpInviteItem();
+        for (String invitedContactId : invitedContactsIds) {
+            inviteItem.setInviteeId(invitedContactId);
+            db.collection("users")
+                    .document(invitedContactId)
+                    .collection("invites")
+                    .add(inviteItem)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Timber.e("Successfully created Invite with id: %s", documentReference.getId());
+                            db.collection("users")
+                                    .document(invitedContactId)
+                                    .collection("invites")
+                                    .document(documentReference.getId())
+                                    .update("inviteId", documentReference.getId())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Timber.e("Successfully updated invite id");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Timber.e(e, "Failed to update invite id field");
+                                        }
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Timber.e(e, "Failed to send invite");
+                        }
+                    });
+        }
+        changeLoadingText("Invites Completed!");
+    }
+
+    private void setUpInviteItem() {
+        inviteItem = new Invite();
+        inviteItem.setInviteActivity(addActivityViewModel.getActivity().getValue());
+        inviteItem.setInviterId(currentUser.getUid());
+        inviteItem.setInviterName(currentUser.getDisplayName());
+        inviteItem.setInviteTime(Timestamp.now());
+        inviteItem.setInviterPicUrl(currentUser.getPhotoUrl().toString());
+    }
+
+    private void uploadNewTagsToDb() {
+        ArrayList<Tag> tagsToUpload = addActivityViewModel.getNewTagsToCreate().getValue();
+        changeLoadingText("Uploading New Tags");
+        for (Tag tag : tagsToUpload) {
+            db.collection("tags")
+                    .add(tag)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Timber.e("New Tag uploaded successfully with id:%s", documentReference.getId());
+                            String newTagId = documentReference.getId();
+                            db.collection("tags")
+                                    .document(documentReference.getId())
+                                    .update("tagId", newTagId)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Timber.e("Tag id updated successfully");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Timber.e(e, "Failed to update tag id with exception");
+                                        }
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Timber.e(e, "Failed to Upload new tag with exception");
+                        }
+                    });
+        }
+        changeLoadingText("Successful upload");
+    }
+
+    private void changeLoadingText(String text) {
+        binding.loadingScreenText.setText(text);
+    }
+
+    private void showLoadingScreen() {
+        binding.loadingScreen.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingScreen() {
+        binding.loadingScreen.setVisibility(View.GONE);
+    }
+
+    private void cancelCreateActivity() {
+
+    }
+
+    @Override
+    public void onInvitedContactSelected(Contact invitedContact) {
+
+    }
+
+    @Override
+    public void onActivityTagSelected(Tag activityTag) {
+
     }
 }

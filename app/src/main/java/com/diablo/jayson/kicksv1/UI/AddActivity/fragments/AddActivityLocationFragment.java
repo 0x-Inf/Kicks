@@ -202,7 +202,7 @@ public class AddActivityLocationFragment extends Fragment implements OnMapReadyC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
-        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<com.diablo.jayson.kicksv1.Models.Activity>() {
+        addActivityViewModel.getActivity().observe(getViewLifecycleOwner(), new Observer<com.diablo.jayson.kicksv1.Models.Activity>() {
             @Override
             public void onChanged(com.diablo.jayson.kicksv1.Models.Activity activity) {
                 if (activity != null) {

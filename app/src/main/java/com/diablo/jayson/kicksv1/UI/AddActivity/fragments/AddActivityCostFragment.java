@@ -103,7 +103,7 @@ public class AddActivityCostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+        addActivityViewModel.getActivity().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 if (activity != null) {

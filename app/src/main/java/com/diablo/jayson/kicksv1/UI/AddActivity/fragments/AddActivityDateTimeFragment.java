@@ -353,7 +353,7 @@ public class AddActivityDateTimeFragment extends Fragment implements DurationsLi
             }
         });
 
-        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+        addActivityViewModel.getActivity().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 if (activity != null) {

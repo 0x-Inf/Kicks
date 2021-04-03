@@ -47,47 +47,10 @@ public class AddActivityFragment extends Fragment {
         return new AddActivityFragment();
     }
 
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        addActivityViewModel.getActivity1().observe(requireActivity(), new Observer<Activity>() {
-            @Override
-            public void onChanged(Activity activity) {
-                activityMain = activity;
-                for (int i = 0; i < 6; i++) {
-                    switch (i) {
-                        case 0:
-                            if (activity.getActivityNoOfPeople() != null) {
-                                binding.addPeopleDoneImageView.setVisibility(View.VISIBLE);
-                            }
-                        case 1:
-                            if (activity.getActivityCost() != null) {
-                                binding.addCostDoneImageView.setVisibility(View.VISIBLE);
-                            }
-                        case 2:
-                            if (activity.getActivityTags() != null) {
-                                if (!activity.getActivityTags().isEmpty()) {
-                                    binding.addTagDoneImageView.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        case 3:
-                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().getDurationName().isEmpty()) {
-                                binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
-                            }
-                        case 4:
-                            if (activity.getActivityLocationName() != null) {
-                                binding.addLocationDoneImageView.setVisibility(View.VISIBLE);
-                            }
-                        case 5:
-                            if (activity.getActivityTitle() != null) {
-                                binding.addDescriptionDoneImageView.setVisibility(View.VISIBLE);
-                            }
-                    }
-                }
-            }
-        });
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
     }
 
     @Override
@@ -151,8 +114,7 @@ public class AddActivityFragment extends Fragment {
                 if (addActivityViewModel.missingFields()) {
                     Toast.makeText(requireContext(), "Missing Fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    showLoadingScreen();
-                    addActivityViewModel.updateAttendeesAndHostAndTime();
+                    navigateToNextFragment();
                 }
             }
         });
@@ -223,6 +185,73 @@ public class AddActivityFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addActivityViewModel.getActivity().observe(requireActivity(), new Observer<Activity>() {
+            @Override
+            public void onChanged(Activity activity) {
+                activityMain = activity;
+                if (activity.getActivityNoOfPeople() != null) {
+                    binding.addPeopleDoneImageView.setVisibility(View.VISIBLE);
+                }
+                if (activity.getActivityCost() != null) {
+                    binding.addCostDoneImageView.setVisibility(View.VISIBLE);
+                }
+                if (activity.getActivityTags() != null) {
+                    if (!activity.getActivityTags().isEmpty()) {
+                        binding.addTagDoneImageView.setVisibility(View.VISIBLE);
+                    }
+                }
+                if (activity.getActivityStartDate() != null && !activity.getActivityDuration().getDurationName().isEmpty()) {
+                    binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
+                }
+                if (activity.getActivityLocationName() != null) {
+                    binding.addLocationDoneImageView.setVisibility(View.VISIBLE);
+                }
+                if (activity.getActivityTitle() != null) {
+                    binding.addDescriptionDoneImageView.setVisibility(View.VISIBLE);
+                }
+//                for (int i = 0; i < 6; i++) {
+//                    switch (i) {
+//                        case 0:
+//                            if (activity.getActivityNoOfPeople() != null) {
+//                                binding.addPeopleDoneImageView.setVisibility(View.VISIBLE);
+//                            }
+//                        case 1:
+//                            if (activity.getActivityCost() != null) {
+//                                binding.addCostDoneImageView.setVisibility(View.VISIBLE);
+//                            }
+//                        case 2:
+//                            if (activity.getActivityTags() != null) {
+//                                if (!activity.getActivityTags().isEmpty()) {
+//                                    binding.addTagDoneImageView.setVisibility(View.VISIBLE);
+//                                }
+//                            }
+//                        case 3:
+//                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().getDurationName().isEmpty()) {
+//                                binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
+//                            }
+//                        case 4:
+//                            if (activity.getActivityLocationName() != null) {
+//                                binding.addLocationDoneImageView.setVisibility(View.VISIBLE);
+//                            }
+//                        case 5:
+//                            if (activity.getActivityTitle() != null) {
+//                                binding.addDescriptionDoneImageView.setVisibility(View.VISIBLE);
+//                            }
+//                    }
+//                }
+            }
+        });
+
+    }
+
+    private void navigateToNextFragment() {
+        NavDirections actionConfirmCreateActivity = AddActivityFragmentDirections.actionNavigationAddKickToConfirmActivityDetailsFragment();
+        navController.navigate(actionConfirmCreateActivity);
+    }
+
     private void hideLoadingScreen() {
         binding.loadingScreen.setVisibility(View.GONE);
     }
@@ -235,13 +264,6 @@ public class AddActivityFragment extends Fragment {
                 return;
             }
         });
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
     }
 
 }

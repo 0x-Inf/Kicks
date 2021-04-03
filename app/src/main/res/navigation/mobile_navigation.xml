@@ -111,6 +111,9 @@
         <action
             android:id="@+id/action_navigation_add_kick_to_addActivityDescriptionFragment"
             app:destination="@id/addActivityDescriptionFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_confirmActivityDetailsFragment"
+            app:destination="@id/confirmActivityDetailsFragment" />
     </fragment>
 
     <fragment
@@ -568,6 +571,11 @@
             android:id="@+id/action_kicksSeeAllFragment_to_kickSelectedMainFragment"
             app:destination="@id/kickSelectedMainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/confirmActivityDetailsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.ConfirmActivityDetailsFragment"
+        android:label="fragment_confirm_activity_details"
+        tools:layout="@layout/fragment_confirm_activity_details" />
 
 
 </navigation>

@@ -120,6 +120,7 @@ public class AddActivityTagFragment extends Fragment implements AddActivityAllTa
     private void createNewTagInViewModel() {
         String newTagName = binding.searchTagsEditText.getText().toString();
         Tag newTag = new Tag(newTagName, "");
+        newTags.add(newTag);
         addActivityViewModel.updateNewTagsMutableLiveData(newTag);
         addNewTagToActivityTags(newTag);
     }
@@ -134,6 +135,7 @@ public class AddActivityTagFragment extends Fragment implements AddActivityAllTa
     private void updateAddActivityViewModel() {
         if (!activityTags.isEmpty()) {
             addActivityViewModel.updateActivityTags(activityTags);
+            addActivityViewModel.setCreateNewTag(!newTags.isEmpty());
             navigateToNextFragment();
         } else {
             navController.popBackStack();
@@ -142,7 +144,7 @@ public class AddActivityTagFragment extends Fragment implements AddActivityAllTa
     }
 
     private void navigateToNextFragment() {
-        //TODO: Make the smart navigation for add Activity
+        //TODO: Make the 'smart' navigation for add Activity
 
         NavDirections actionAddActivityMain = AddActivityTagFragmentDirections.actionAddActivityTagFragmentToNavigationAddKick();
         navController.navigate(actionAddActivityMain);
@@ -161,7 +163,7 @@ public class AddActivityTagFragment extends Fragment implements AddActivityAllTa
             }
         });
 
-        addActivityViewModel.getActivity1().observe(getViewLifecycleOwner(), new Observer<Activity>() {
+        addActivityViewModel.getActivity().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
                 if (activity != null) {

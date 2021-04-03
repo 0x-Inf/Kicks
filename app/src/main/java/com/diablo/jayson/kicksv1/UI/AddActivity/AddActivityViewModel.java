@@ -1,7 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.AddActivity;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -28,15 +27,20 @@ import timber.log.Timber;
 public class AddActivityViewModel extends ViewModel {
     //    private final CustomMutableLiveData<Activity> activityMutableLiveData = new CustomMutableLiveData<Activity>();
     private final MutableLiveData<Activity> activityMutableLiveData = new MutableLiveData<Activity>();
+
     private MutableLiveData<ArrayList<Contact>> invitedContactsMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> inviteContactsBoolean = new MutableLiveData<>();
 
     MutableLiveData<ArrayList<Tag>> allTagsMutableLiveData;
     ArrayList<Tag> allTagsArrayList;
     ArrayList<Tag> newTagsArrayList;
+
     MutableLiveData<ArrayList<Duration>> durationsMutableLiveData = new MutableLiveData<>();
     ArrayList<Duration> allDurationsArrayList;
+
     private MutableLiveData<Boolean> createNewTag = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Tag>> newTagsToCreate = new MutableLiveData<>();
+
     private FirebaseFirestore db;
 
 //    public void setActivity(Activity activity) {
@@ -46,7 +50,7 @@ public class AddActivityViewModel extends ViewModel {
 
     public AddActivityViewModel() {
         allTagsMutableLiveData = new MutableLiveData<>();
-        setActivity1(new Activity());
+        setActivity(new Activity());
         Timber.e("Activity View Model Created");
         db = FirebaseFirestore.getInstance();
         init();
@@ -58,15 +62,28 @@ public class AddActivityViewModel extends ViewModel {
         newTagsArrayList = new ArrayList<>();
     }
 
-    //    public LiveData<Activity> getActivity() {
-//        return activityMutableLiveData;
-//    }
-    public LiveData<Activity> getActivity1() {
+    public MutableLiveData<Activity> getActivity() {
         return activityMutableLiveData;
+    }
+
+    public void setActivity(Activity activity1) {
+        activityMutableLiveData.setValue(activity1);
     }
 
     public MutableLiveData<ArrayList<Contact>> getInvitedContactsMutableLiveData() {
         return invitedContactsMutableLiveData;
+    }
+
+    public void setInvitedContactsMutableLiveData(ArrayList<Contact> invitedContacts) {
+        invitedContactsMutableLiveData.postValue(invitedContacts);
+    }
+
+    public void setInviteContacts(boolean inviteContacts) {
+        inviteContactsBoolean.postValue(inviteContacts);
+    }
+
+    public MutableLiveData<Boolean> getInviteContactsBoolean() {
+        return inviteContactsBoolean;
     }
 
     public MutableLiveData<ArrayList<Tag>> getAllTagsMutableLiveData() {
@@ -77,13 +94,6 @@ public class AddActivityViewModel extends ViewModel {
         return durationsMutableLiveData;
     }
 
-    public void setInvitedContactsMutableLiveData(ArrayList<Contact> invitedContacts) {
-        invitedContactsMutableLiveData.postValue(invitedContacts);
-    }
-
-    public void setActivity1(Activity activity1) {
-        activityMutableLiveData.setValue(activity1);
-    }
 
     //TODO: Add new Tags logic
     public void updateNewTagsMutableLiveData(Tag newTag) {
@@ -95,6 +105,14 @@ public class AddActivityViewModel extends ViewModel {
         return newTagsToCreate;
     }
 
+    public Boolean getIfCreateNewTag() {
+        return createNewTag.getValue();
+    }
+
+    public void setCreateNewTag(boolean createNewTags) {
+        createNewTag.postValue(createNewTags);
+    }
+
     public void removeNewTagFromMutableLiveData(Tag removedTag) {
         newTagsArrayList.remove(removedTag);
         newTagsToCreate.postValue(newTagsArrayList);
@@ -103,7 +121,7 @@ public class AddActivityViewModel extends ViewModel {
     // Methods for updating new Activity
 
     public void updateActivityDescription(String activityTitle, String activityDescription) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityTitle(activityTitle);
         mainActivity.setActivityDescription(activityDescription);
@@ -111,7 +129,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityPeople(String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, boolean isActivityPrivate) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityNoOfPeople(activityNoOfPeople);
         mainActivity.setInvitedPeopleUserIds(invitedPeopleUserIds);
@@ -120,7 +138,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityTime(Timestamp activityStartDate, Timestamp activityStartTime, Duration activityDuration) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityStartDate(activityStartDate);
         mainActivity.setActivityStartTime(activityStartTime);
@@ -129,14 +147,14 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityTags(ArrayList<Tag> activityTags) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityTags(activityTags);
         activityMutableLiveData.postValue(mainActivity);
     }
 
     public void updateActivityLocation(String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityLocationName(activityLocationName);
         mainActivity.setActivityLocationCoordinates(activityLocationCoordinates);
@@ -145,14 +163,14 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public void updateActivityCost(String activityCost) {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         mainActivity.setActivityCost(activityCost);
         activityMutableLiveData.postValue(mainActivity);
     }
 
     public void updateAttendeesAndHostAndTime() {
-        Activity activityMain = getActivity1().getValue();
+        Activity activityMain = getActivity().getValue();
         assert activityMain != null;
         ArrayList<AttendingUser> attendingUsers = new ArrayList<AttendingUser>();
         attendingUsers.add(FirebaseUtil.getAttendingUser());
@@ -167,7 +185,7 @@ public class AddActivityViewModel extends ViewModel {
     }
 
     public boolean missingFields() {
-        Activity mainActivity = getActivity1().getValue();
+        Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
         if (mainActivity.getActivityTitle() != null && mainActivity.getActivityDescription() != null &&
                 mainActivity.getActivityNoOfPeople() != null && mainActivity.getActivityStartTime() != null && mainActivity.getActivityStartDate() != null &&
