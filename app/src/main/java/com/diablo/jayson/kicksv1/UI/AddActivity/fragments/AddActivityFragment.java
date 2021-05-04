@@ -212,36 +212,6 @@ public class AddActivityFragment extends Fragment {
                 if (activity.getActivityTitle() != null) {
                     binding.addDescriptionDoneImageView.setVisibility(View.VISIBLE);
                 }
-//                for (int i = 0; i < 6; i++) {
-//                    switch (i) {
-//                        case 0:
-//                            if (activity.getActivityNoOfPeople() != null) {
-//                                binding.addPeopleDoneImageView.setVisibility(View.VISIBLE);
-//                            }
-//                        case 1:
-//                            if (activity.getActivityCost() != null) {
-//                                binding.addCostDoneImageView.setVisibility(View.VISIBLE);
-//                            }
-//                        case 2:
-//                            if (activity.getActivityTags() != null) {
-//                                if (!activity.getActivityTags().isEmpty()) {
-//                                    binding.addTagDoneImageView.setVisibility(View.VISIBLE);
-//                                }
-//                            }
-//                        case 3:
-//                            if (activity.getActivityStartDate() != null && !activity.getActivityDuration().getDurationName().isEmpty()) {
-//                                binding.addTimeDoneImageView.setVisibility(View.VISIBLE);
-//                            }
-//                        case 4:
-//                            if (activity.getActivityLocationName() != null) {
-//                                binding.addLocationDoneImageView.setVisibility(View.VISIBLE);
-//                            }
-//                        case 5:
-//                            if (activity.getActivityTitle() != null) {
-//                                binding.addDescriptionDoneImageView.setVisibility(View.VISIBLE);
-//                            }
-//                    }
-//                }
             }
         });
 

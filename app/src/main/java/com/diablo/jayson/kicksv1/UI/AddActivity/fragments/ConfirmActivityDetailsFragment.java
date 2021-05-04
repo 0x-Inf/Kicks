@@ -9,12 +9,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
+import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.Invite;
 import com.diablo.jayson.kicksv1.Models.Tag;
+import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.AddActivity.ActivityTagsListAdapter;
 import com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityViewModel;
 import com.diablo.jayson.kicksv1.UI.AddActivity.InvitedPeopleListAdapter;
@@ -31,8 +37,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import timber.log.Timber;
 
@@ -55,6 +59,7 @@ public class ConfirmActivityDetailsFragment extends Fragment implements InvitedP
 
     private FragmentConfirmActivityDetailsBinding binding;
     private AddActivityViewModel addActivityViewModel;
+    private NavController navController;
 
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
@@ -101,6 +106,7 @@ public class ConfirmActivityDetailsFragment extends Fragment implements InvitedP
         addActivityViewModel = new ViewModelProvider(requireActivity()).get(AddActivityViewModel.class);
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
         ArrayList<Contact> invitedContacts = addActivityViewModel.getInvitedContactsMutableLiveData().getValue();
         InvitedPeopleListAdapter invitedPeopleListAdapter = new InvitedPeopleListAdapter(invitedContacts, this);
@@ -110,8 +116,8 @@ public class ConfirmActivityDetailsFragment extends Fragment implements InvitedP
         ArrayList<Tag> activityTags = activityToBeCreated.getActivityTags();
         ActivityTagsListAdapter activityTagsListAdapter = new ActivityTagsListAdapter(activityTags, this);
 
-        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activityToBeCreated.getActivityStartDate());
-        String activityStartTime = DateFormat.getTimeInstance(DateFormat.AM_PM_FIELD).format(activityToBeCreated.getActivityStartTime());
+        String activityDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(activityToBeCreated.getActivityStartDate().toDate());
+        String activityStartTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(activityToBeCreated.getActivityStartTime().toDate());
 
         binding.titleActualTextView.setText(activityToBeCreated.getActivityTitle());
         binding.detailsActualTextView.setText(activityToBeCreated.getActivityDescription());
@@ -152,52 +158,107 @@ public class ConfirmActivityDetailsFragment extends Fragment implements InvitedP
     }
 
     private void createActivity() {
-        showLoadingScreen();
         addActivityViewModel.updateAttendeesAndHostAndTime();
+        showLoadingScreen();
+        addActivityViewModel.uploadNewActivityToDb().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    Timber.e("Gotten LiveData change for activity upload success");
+                    changeLoadingText("Done uploading");
+                    hideLoadingScreen();
+                    addActivityViewModel.setActivity(new Activity());
+                    NavDirections actionAddActivityMain = ConfirmActivityDetailsFragmentDirections.actionConfirmActivityDetailsFragmentToNavigationAddKick();
+                    navController.navigate(actionAddActivityMain);
+                } else {
+                    showErrorMessage();
+                }
+            }
+        });
+        addActivityViewModel.getUPLOAD_ACTIVITY_STATE().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                switch (s) {
+                    case Constants.UPLOAD_ACTIVITY_STATE_START:
+                        changeLoadingText("Starting upload");
+                    case Constants.UPLOAD_ACTIVITY_STATE_TAGS:
+                        changeLoadingText("Uploading New Tags");
+                        addActivityViewModel.getUPLOAD_NEW_TAGS_SUCCESSFUL().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    changeLoadingText("Done Uploading New Tags...");
+                                }
+                            }
+                        });
+                    case Constants.UPLOAD_ACTIVITY_STATE_INVITES:
+                        changeLoadingText("Inviting Contacts..");
+                        addActivityViewModel.getSEND_INVITES_SUCCESSFUL().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    changeLoadingText("Done sending Invites...");
+                                }
+                            }
+                        });
+                    case Constants.UPLOAD_ACTIVITY_STATE_FINISH:
+                        changeLoadingText("Finishing uploading");
+                    default:
+                        showLoadingScreen();
+                }
+            }
+        });
 
 
-        db.collection("activities").add(activityToBeCreated)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Timber.e("Successful Creation with id: %s", documentReference.getId());
-                        if (addActivityViewModel.getIfCreateNewTag()) {
-                            uploadNewTagsToDb();
-                        }
-                        if (addActivityViewModel.getInviteContactsBoolean().getValue()) {
-                            sendInvitesToInvited();
-                        }
-                        Map<String, Object> activity = new HashMap<>();
-                        activity.put("activityReference", documentReference);
-                        activity.put("activityId", documentReference.getId());
-                        db.collection("users")
-                                .document(currentUser.getUid())
-                                .collection("activeactivities")
-                                .document(documentReference.getId())
-                                .set(activity)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
+//        db.collection("activities").add(activityToBeCreated)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Timber.e("Successful Creation with id: %s", documentReference.getId());
+//                        if (addActivityViewModel.getIfCreateNewTag()) {
+//                            uploadNewTagsToDb();
+//                        }
+//                        if (addActivityViewModel.getInviteContactsBoolean().getValue()) {
+//                            sendInvitesToInvited();
+//                        }
+//                        Map<String, Object> activity = new HashMap<>();
+//                        activity.put("activityReference", documentReference);
+//                        activity.put("activityId", documentReference.getId());
+//                        db.collection("users")
+//                                .document(currentUser.getUid())
+//                                .collection("activeactivities")
+//                                .document(documentReference.getId())
+//                                .set(activity)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Timber.d("DocumentSnapshot written with ID: %s", documentReference.getId());
+//                                        hideLoadingScreen();
+//                                        addActivityViewModel.setActivity(new Activity());
+//                                        NavDirections actionAddActivityMain = ConfirmActivityDetailsFragmentDirections.actionConfirmActivityDetailsFragmentToNavigationAddKick();
+//                                        navController.navigate(actionAddActivityMain);
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//
+//                                    }
+//                                });
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(requireContext(), "Creation Failed", Toast.LENGTH_SHORT).show();
+//                        hideLoadingScreen();
+//                    }
+//                });
 
-                                        hideLoadingScreen();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
+    }
 
-                                    }
-                                });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(requireContext(), "Creation Failed", Toast.LENGTH_SHORT).show();
-                        hideLoadingScreen();
-                    }
-                });
+    private void showErrorMessage() {
+
     }
 
     private void sendInvitesToInvited() {

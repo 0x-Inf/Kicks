@@ -13,5 +13,12 @@ public class Constants {
     public static final String public_location_broadcast_collection = "publicLocationBroadcasts";
     public static final String users_collection_id = "users";
     public static final String invites_collection_id = "invites";
+    public static final String tags_collection_id = "tags";
+
+    public static final String UPLOAD_ACTIVITY_STATE_TAGS = "state_tags";
+    public static final String UPLOAD_ACTIVITY_STATE_INVITES = "state_invites";
+    public static final String UPLOAD_ACTIVITY_STATE_START = "state_start";
+    public static final String UPLOAD_ACTIVITY_STATE_FINISH = "state_finish";
+
 
 }

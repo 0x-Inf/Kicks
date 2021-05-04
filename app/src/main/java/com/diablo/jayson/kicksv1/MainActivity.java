@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDestinationChanged(@NonNull NavController controller,
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
+
                 if (destination.getId() == R.id.navigation_add_kick) {
                     toolbar.setVisibility(View.GONE);
                     navigationView.setVisibility(View.VISIBLE);
@@ -161,7 +162,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toolbar.setVisibility(View.GONE);
                 } else if (destination.getId() == R.id.editEmailBottomSheetFragment) {
                     toolbar.setVisibility(View.GONE);
-                } else if (destination.getId() == R.id.kickSelectedMainFragment) {
+                } else if (destination.getId() == R.id.navigation_explore) {
+                    toolbar.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.confirmActivityDetailsFragment) {
+                    toolbar.setVisibility(View.GONE);
+                    navigationView.setVisibility(View.GONE);
+                } else if (destination.getId() == R.id.exploreTagFragment) {
                     toolbar.setVisibility(View.GONE);
                 } else {
                     toolbar.setVisibility(View.VISIBLE);
