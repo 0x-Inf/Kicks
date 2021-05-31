@@ -13,6 +13,8 @@ import com.diablo.jayson.kicksv1.Models.Contact;
 import com.diablo.jayson.kicksv1.Models.Invite;
 import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.Utils.FirebaseUtil;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -174,8 +176,10 @@ public class AddActivityViewModel extends ViewModel {
     public void updateActivityLocation(String activityLocationName, GeoPoint activityLocationCoordinates, boolean isLocationUndisclosed) {
         Activity mainActivity = getActivity().getValue();
         assert mainActivity != null;
+        String geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(activityLocationCoordinates.getLatitude(), activityLocationCoordinates.getLongitude()));
         mainActivity.setActivityLocationName(activityLocationName);
         mainActivity.setActivityLocationCoordinates(activityLocationCoordinates);
+        mainActivity.setGeoHash(geohash);
         mainActivity.setLocationUndisclosed(isLocationUndisclosed);
         activityMutableLiveData.postValue(mainActivity);
     }

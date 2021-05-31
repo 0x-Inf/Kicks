@@ -99,7 +99,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -238,10 +237,13 @@
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="5dp"
+                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/browse_card"
+                android:focusable="true"
                 app:layout_constraintTop_toBottomOf="@+id/invites_card">
+
 
                 <!--            <ImageView-->
                 <!--                android:id="@+id/chat_card_image_view"-->
@@ -256,7 +258,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <TextView
+                        android:id="@+id/mapTextTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -265,12 +269,57 @@
                         android:maxLines="1"
                         android:text="Map"
                         android:textAlignment="center"
+                        android:visibility="gone"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:textColor="?android:attr/textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/nearbyPeopleIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:contentDescription="@string/nearby_people_icon_description"
+                        android:src="@drawable/ic_action_people"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nearbyPeopleActualTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/_12_people_text"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/nearbyPeopleIcon"
+                        app:layout_constraintStart_toEndOf="@+id/nearbyPeopleIcon"
+                        app:layout_constraintTop_toTopOf="@+id/nearbyPeopleIcon" />
+
+                    <ImageView
+                        android:id="@+id/nearbyActivityIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/nearby_activity_icon_description"
+                        android:src="@drawable/ic_action_location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nearbyPeopleIcon" />
+
+                    <TextView
+                        android:id="@+id/nearbyActivityActualTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/_3_nearby"
+                        app:layout_constraintBottom_toBottomOf="@+id/nearbyActivityIcon"
+                        app:layout_constraintStart_toEndOf="@+id/nearbyActivityIcon"
+                        app:layout_constraintTop_toTopOf="@+id/nearbyActivityIcon" />
 
                     <ImageView
                         android:id="@+id/mapIconImageView"
@@ -284,6 +333,37 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/broadCastWarning"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/broadcastWarningTextTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:text="Live"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

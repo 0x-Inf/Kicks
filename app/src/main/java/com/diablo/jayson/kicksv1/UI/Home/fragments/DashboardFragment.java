@@ -20,6 +20,11 @@ import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.HappeningSoonActivitiesAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentDashboardBinding;
+import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,6 +56,10 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
     private String activeActivitiesNumber;
     private ArrayList<Activity> happeningSoonActivities;
     private DashboardFragment listener;
+
+    private final LatLng defaultLocation = new LatLng(-1.27, 36.78);
+    private GoogleMap map;
+    private DashboardFragment mapListener;
 
     private NavController navController;
 
@@ -86,10 +95,30 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
+//        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragmentContainer);
+//        assert supportMapFragment != null;
+//        mapListener = this;
+//        homeViewModel.getIsLocationBroadcasting().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+//            @Override
+//            public void onChanged(Boolean aBoolean) {
+//                if (aBoolean){
+//                    supportMapFragment.getMapAsync(mapListener);
+//                    binding.broadCastWarning.setVisibility(View.VISIBLE);
+//                    binding.mapIconImageView.setVisibility(View.GONE);
+//                    binding.mapTextTextView.setVisibility(View.GONE);
+//                }else {
+//                    binding.broadCastWarning.setVisibility(View.GONE);
+//                    binding.mapIconImageView.setVisibility(View.VISIBLE);
+//                    binding.mapTextTextView.setVisibility(View.VISIBLE);
+//
+//                }
+//            }
+//        });
+
         View root = binding.getRoot();
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         binding.activeActivitiesCard.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +167,9 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
         listener = this;
 //        activeActivitiesNumber = String.valueOf(homeViewModel.getActiveActivitiesMutableLiveData().getValue().size());
 //        binding.activeActivitiesNumberTextView.setText(activeActivitiesNumber);
+        final GeoLocation center = new GeoLocation(defaultLocation.latitude, defaultLocation.longitude);
+        final double radiusInM = 20 * 1000;
+        homeViewModel.getNearbyActivity(center, radiusInM);
         homeViewModel.getActiveActivitiesMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Activity>>() {
             @Override
             public void onChanged(ArrayList<Activity> activities) {
@@ -148,6 +180,16 @@ public class DashboardFragment extends Fragment implements HappeningSoonActiviti
                 binding.happeningSoonRecyclerView.setAdapter(soonActivitiesAdapter);
             }
         });
+
+        homeViewModel.getNearbyActivityMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Activity>>() {
+            @Override
+            public void onChanged(ArrayList<Activity> activities) {
+                int nearbyActivities = activities.size();
+                String nearbyActivityText = nearbyActivities + " nearby";
+                binding.nearbyActivityActualTextView.setText(nearbyActivityText);
+            }
+        });
+
 
     }
 

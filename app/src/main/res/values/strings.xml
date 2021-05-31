@@ -394,6 +394,9 @@
     <string name="duration_colon">Duration:</string>
     <string name="loading">Loading…</string>
     <string name="create">Create</string>
+    <string name="nearby_activity_icon_description">Nearby Activity Icon</string>
+    <string name="nearby_people_icon_description">Nearby People Icon</string>
+    <string name="_3_nearby">3 Nearby</string>
 
 
 </resources>

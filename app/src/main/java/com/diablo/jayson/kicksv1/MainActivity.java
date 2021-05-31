@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
@@ -114,7 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                R.id.dashboardFragment, R.id.navigation_kick_select, R.id.navigation_add_kick,
 //                R.id.navigation_profile, R.id.navigation_map_view)
 //                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        NavController navController = navHostFragment.getNavController();
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
