@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mapSettingsConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/broadcastLocationTextTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/broadcast_location_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/isSharingLocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/sharing_location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shareWithTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/share_with"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/isSharingLocationTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sharingWithRecyler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shareWithTextView"
+        app:spanCount="1" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addSharingCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/backgroundInverted"
+        android:visibility="gone"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/shareWithTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/shareWithTextView"
+        app:layout_constraintTop_toTopOf="@+id/shareWithTextView">
+
+        <TextView
+            android:id="@+id/editSharingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:text="@string/add_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Inverse" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addSharingContactsConstraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/constraint_layout_rounded_background"
+        android:visibility="gone"
+        android:windowSoftInputMode="adjustResize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sharingWithRecyler">
+
+        <EditText
+            android:id="@+id/searchContactsEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:autofillHints="Search contacts"
+            android:hint="Search Contacts"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allContactsRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustResize"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchContactsEditText"
+            app:spanCount="3" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/doneAddSharingCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/backgroundInverted"
+            android:visibility="visible"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/allContactsRecycler">
+
+            <TextView
+                android:id="@+id/doneSharingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
+                android:text="@string/done_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Inverse" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/sharePubliclyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/public_colon_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addSharingContactsConstraintLayout" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sharePubliclySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/sharePubliclyTextView"
+        app:layout_constraintStart_toEndOf="@+id/sharePubliclyTextView"
+        app:layout_constraintTop_toTopOf="@+id/sharePubliclyTextView" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/broadcastLocationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/broadcastLocationTextTextView" />
+
+    <TextView
+        android:id="@+id/nearbyRadiusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/nearby_radius"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/radiusActualTextView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/broadcastLocationSwitch" />
+
+    <TextView
+        android:id="@+id/radiusActualTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/_1000m"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nearbyRadiusTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nearbyRadiusTextView" />
+
+    <SeekBar
+        android:id="@+id/nearbyRadiusSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:max="51"
+        android:min="1"
+        android:stepSize="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nearbyRadiusTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/broadcastOptionsTextTextView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/broadcast_options_text"-->
+    <!--android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.0"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/onlyToTextTextView" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/contactsOnlyTextTextView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/contacts_colon_text"-->
+    <!--android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/broadcastOptionsTextTextView" />-->
+
+    <!--<androidx.appcompat.widget.SwitchCompat-->
+    <!--android:id="@+id/contactsOnlySwitch"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/contactsOnlyTextTextView"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/contactsOnlyTextTextView"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/contactsOnlyTextTextView" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/publicTextTextView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/public_colon_text"-->
+    <!--android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/contactsOnlySwitch"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/broadcastOptionsTextTextView" />-->
+
+    <!--<androidx.appcompat.widget.SwitchCompat-->
+    <!--android:id="@+id/publicSwitch"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/publicTextTextView"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/publicTextTextView"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/publicTextTextView" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/onlyToTextTextView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/only_to_colon_text"-->
+    <!--android:textAppearance="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/broadcastLocationTextTextView" />-->
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+    <!--android:id="@+id/selectedContactsRecycler"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/onlyToTextTextView"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/addContactsToSelectedFab"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/onlyToTextTextView"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/onlyToTextTextView" />-->
+
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--android:id="@+id/addContactsToSelectedFab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_add_icon"-->
+    <!--app:fabCustomSize="25dp"-->
+    <!--app:backgroundTint="@color/fabBackground"-->
+    <!--app:tint="@null"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/onlyToTextTextView"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/onlyToTextTextView" />-->

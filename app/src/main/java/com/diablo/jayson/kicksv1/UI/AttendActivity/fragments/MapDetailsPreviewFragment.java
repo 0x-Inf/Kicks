@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,10 +114,11 @@ public class MapDetailsPreviewFragment extends Fragment implements OnMapReadyCal
         attendActivityViewModel.getActivityData().observe(getViewLifecycleOwner(), new Observer<Activity>() {
             @Override
             public void onChanged(Activity activity) {
-                Log.e("This one" , activity.getActivityTitle());
+                Timber.e(activity.getActivityTitle());
+                assert activity.getActivityLocationCoordinates() != null;
                 activityLocation = activity.getActivityLocationCoordinates();
-                if (map != null){
-                    LatLng activityLocation  = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
+                if (map != null) {
+                    LatLng activityLocation = new LatLng(activity.getActivityLocationCoordinates().getLatitude(), activity.getActivityLocationCoordinates().getLongitude());
                     map.addMarker(new MarkerOptions().position(activityLocation));
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(activityLocation, 10));
                 }

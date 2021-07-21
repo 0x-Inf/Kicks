@@ -82,7 +82,7 @@ public class InvitesListAdapter extends RecyclerView.Adapter<InvitesListAdapter.
 //            activityDurationTextView.setText(invite.getInviteActivity().);
             activityLocationTextView.setText(invite.getInviteActivity().getActivityLocationName());
             activityCostTextView.setText(invite.getInviteActivity().getActivityCost());
-            activityTagTextView.setText(invite.getInviteActivity().getActivityTag().getTagName());
+            activityTagTextView.setText(invite.getInviteActivity().getActivityTags().get(0).getTagName());
             Glide.with(itemView.getContext())
                     .load(invite.getInviterPicUrl())
                     .apply(RequestOptions.circleCropTransform())

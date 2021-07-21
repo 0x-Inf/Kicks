@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-        <activity android:name=".UI.AddKick.AddActivityActivity"></activity>
+        <activity android:name=".UI.AddActivity.AddActivityActivity"></activity>
         <activity android:name=".UI.Home.ImageTextAndListActivity" />
         <activity android:name=".UI.Home.ImageAndTextOnlyActivity" />
         <activity android:name=".UI.AttendActivity.MainAttendActivityActivity" />

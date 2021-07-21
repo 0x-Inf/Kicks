@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.diablo.jayson.kicksv1.Models.Activity;
 import com.diablo.jayson.kicksv1.Models.Kick;
 import com.diablo.jayson.kicksv1.databinding.FragmentKickSelectedMainBinding;
@@ -75,11 +74,11 @@ public class KickSelectedMainFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentKickSelectedMainBinding.inflate(inflater, container, false);
         assert getArguments() != null;
-        kickSelectedMain = KickSelectedMainFragmentArgs.fromBundle(getArguments()).getKick();
-        Glide.with(requireContext())
-                .load(kickSelectedMain.getKickMainImageUrl())
-                .into(binding.kickImageImageView);
-        binding.kickNameTextView.setText(kickSelectedMain.getKickName());
+//        kickSelectedMain = KickSelectedMainFragmentArgs.fromBundle(getArguments()).getKick();
+//        Glide.with(requireContext())
+//                .load(kickSelectedMain.getKickMainImageUrl())
+//                .into(binding.kickImageImageView);
+//        binding.kickNameTextView.setText(kickSelectedMain.getKickName());
 
         binding.startActivityCard.setOnClickListener(new View.OnClickListener() {
             @Override

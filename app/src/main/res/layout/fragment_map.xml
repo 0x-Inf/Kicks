@@ -15,6 +15,47 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/isSharingLocationCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:elevation="5dp"
+            android:visibility="gone"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/isSharingLocationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/sharing_location_text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <ImageView
+                    android:id="@+id/sharingLocationIconImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:contentDescription="@string/icon_image_for_sharing_location_icon_image_description"
+                    android:src="@drawable/ic_action_locate" />
+                />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/find_me_cardview"
@@ -54,15 +95,15 @@
             android:id="@+id/openMapSettingsFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/ic_action_settings"
-            app:backgroundTint="@color/fabBackground"
             android:visibility="visible"
+            app:backgroundTint="@color/fabBackground"
             app:fabSize="mini"
-            app:tint="@null"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/find_me_cardview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@null" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/mapSettingsCardView"
@@ -232,6 +273,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/selectSharingContactsCard"

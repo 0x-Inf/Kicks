@@ -31,7 +31,6 @@
         </action>
     </fragment>
 
-
     <fragment
         android:id="@+id/navigation_browse"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.ActivityFeedFragment"
@@ -52,49 +51,52 @@
             app:destination="@id/confirmAttendBottomSheetFragment" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_kick_select"
+        android:id="@+id/navigation_explore"
         android:name="com.diablo.jayson.kicksv1.UI.KickSelect.fragments.ExploreFragment"
         android:label="Explore"
         tools:layout="@layout/fragment_explore">
         <action
-            android:id="@+id/action_navigation_kick_select_to_kickSelectedMainFragment"
-            app:destination="@id/kickSelectedMainFragment">
+            android:id="@+id/action_navigation_kick_select_to_exploreTagFragment"
+            app:destination="@id/exploreTagFragment">
             <argument
-                android:name="kick"
-                app:argType="com.diablo.jayson.kicksv1.Models.Kick" />
+                android:name="tagId"
+                app:argType="string" />
         </action>
-        <action
-            android:id="@+id/action_navigation_kick_select_to_kicksSeeAllFragment"
-            app:destination="@id/kicksSeeAllFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/exploreTagFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.fragments.ExploreTagFragment"
+        android:label="fragment_explore_tag"
+        tools:layout="@layout/fragment_explore_tag">
+        <argument
+            android:name="tagId"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/navigation_add_kick"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityFragment"
         android:label="AddKick"
         tools:layout="@layout/fragment_add_activity">
         <argument
             android:name="activityPeopleData"
-            app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityPeopleData"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="activityCostData"
-            app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostData"
+            app:argType="com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityPeopleData"
             app:nullable="true"
             android:defaultValue="@null"/>
         <argument
             android:name="activityTagData"
-            app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData"
+            app:argType="com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityTagData"
             app:nullable="true"
             android:defaultValue="@null"/>
         <argument
             android:name="activityDateTimeData"
-            app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityDateTimeData"
+            app:argType="com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityDateTimeData"
             app:nullable="true"
             android:defaultValue="@null"/>
         <argument
             android:name="activityLocationData"
-            app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData"
+            app:argType="com.diablo.jayson.kicksv1.UI.AddActivity.AddActivityLocationData"
             app:nullable="true"
             android:defaultValue="@null"/>
 
@@ -116,11 +118,14 @@
         <action
             android:id="@+id/action_navigation_add_kick_to_addActivityDescriptionFragment"
             app:destination="@id/addActivityDescriptionFragment" />
+        <action
+            android:id="@+id/action_navigation_add_kick_to_confirmActivityDetailsFragment"
+            app:destination="@id/confirmActivityDetailsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/addActivityDescriptionFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDescriptionFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityDescriptionFragment"
         android:label="fragment_add_activity_description"
         tools:layout="@layout/fragment_add_activity_description">
         <action
@@ -132,7 +137,7 @@
 
     <fragment
         android:id="@+id/addActivityPeopleFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityPeopleFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityPeopleFragment"
         android:label="fragment_add_activity_people"
         tools:layout="@layout/fragment_add_activity_people">
         <action
@@ -142,6 +147,63 @@
             app:popUpToInclusive="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/addActivityDateTimeFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityDateTimeFragment"
+        android:label="fragment_add_activity_date_time"
+        tools:layout="@layout/fragment_add_activity_date_time">
+        <action
+            android:id="@+id/action_addActivityDateTimeFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addActivityTagFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityTagFragment"
+        android:label="fragment_add_activity_tag"
+        tools:layout="@layout/fragment_add_activity_tag">
+        <action
+            android:id="@+id/action_addActivityTagFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityLocationFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityLocationFragment"
+        android:label="fragment_add_activity_location"
+        tools:layout="@layout/fragment_add_activity_location">
+        <action
+            android:id="@+id/action_addActivityLocationFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addActivityCostFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityCostFragment"
+        android:label="fragment_add_activity_cost"
+        tools:layout="@layout/fragment_add_activity_cost">
+        <action
+            android:id="@+id/action_addActivityCostFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/navigation_add_kick"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/confirmActivityDetailsFragment"
+        android:name="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.ConfirmActivityDetailsFragment"
+        android:label="fragment_confirm_activity_details"
+        tools:layout="@layout/fragment_confirm_activity_details">
+        <action
+            android:id="@+id/action_confirmActivityDetailsFragment_to_navigation_add_kick"
+            app:destination="@id/navigation_add_kick"
+            app:popUpTo="@id/dashboardFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -187,65 +249,10 @@
         android:label="activity_attend_activity"
         tools:layout="@layout/activity_attend_activity" />
 
-    <fragment
-        android:id="@+id/addActivityTagFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityTagFragment"
-        android:label="fragment_add_activity_tag"
-        tools:layout="@layout/fragment_add_activity_tag">
-        <action
-            android:id="@+id/action_addActivityTagFragment_to_navigation_add_kick"
-            app:destination="@id/navigation_add_kick"
-            app:popUpTo="@id/navigation_add_kick"
-            app:popUpToInclusive="true">
-            <argument
-                android:name="activityTagData"
-                app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityTagData" />
 
-        </action>
-    </fragment>
-    <fragment
-        android:id="@+id/addActivityCostFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityCostFragment"
-        android:label="fragment_add_activity_cost"
-        tools:layout="@layout/fragment_add_activity_cost">
-        <action
-            android:id="@+id/action_addActivityCostFragment_to_navigation_add_kick"
-            app:destination="@id/navigation_add_kick"
-            app:popUpTo="@id/navigation_add_kick"
-            app:popUpToInclusive="true">
 
-            <argument
-                android:name="activityCostData"
-                app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityCostData" />
-        </action>
-    </fragment>
-    <fragment
-        android:id="@+id/addActivityDateTimeFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDateTimeFragment"
-        android:label="fragment_add_activity_date_time"
-        tools:layout="@layout/fragment_add_activity_date_time">
-        <action
-            android:id="@+id/action_addActivityDateTimeFragment_to_navigation_add_kick"
-            app:destination="@id/navigation_add_kick"
-            app:popUpTo="@id/navigation_add_kick"
-            app:popUpToInclusive="true">
-        </action>
-    </fragment>
-    <fragment
-        android:id="@+id/addActivityLocationFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityLocationFragment"
-        android:label="fragment_add_activity_location"
-        tools:layout="@layout/fragment_add_activity_location">
-        <action
-            android:id="@+id/action_addActivityLocationFragment_to_navigation_add_kick"
-            app:destination="@id/navigation_add_kick"
-            app:popUpTo="@id/navigation_add_kick"
-            app:popUpToInclusive="true">
-            <argument
-                android:name="activityLocationData"
-                app:argType="com.diablo.jayson.kicksv1.UI.AddKick.AddActivityLocationData" />
-        </action>
-    </fragment>
+
+
     <fragment
         android:id="@+id/confirmAttendFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.ConfirmAttendFragment"
@@ -474,7 +481,11 @@
         android:id="@+id/mapFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_mapFragment_to_mapSettingsBottomSheet"
+            app:destination="@id/mapSettingsBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/invitePeopleFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.InvitePeopleFragment"
@@ -562,27 +573,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.HappeningSoonSelectedFragment"
         android:label="fragment_happening_soon_selected"
         tools:layout="@layout/fragment_happening_soon_selected" />
-    <fragment
-        android:id="@+id/kickSelectedMainFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KickSelectedMainFragment"
-        android:label="fragment_kick_selected_main"
-        tools:layout="@layout/fragment_kick_selected_main">
-        <argument
-            android:name="kick"
-            android:defaultValue="@null"
-            app:argType="com.diablo.jayson.kicksv1.Models.Kick"
-            app:nullable="true" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/kicksSeeAllFragment"
-        android:name="com.diablo.jayson.kicksv1.UI.KickSelect.KicksSeeAllFragment"
-        android:label="fragment_kicks_see_all"
-        tools:layout="@layout/fragment_kicks_see_all">
-        <action
-            android:id="@+id/action_kicksSeeAllFragment_to_kickSelectedMainFragment"
-            app:destination="@id/kickSelectedMainFragment" />
-    </fragment>
+    <dialog
+        android:id="@+id/mapSettingsBottomSheet"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapSettingsBottomSheet"
+        android:label="MapSettingsBottomSheet"
+        tools:layout="@layout/fragment_map_settings_bottom_sheet" />
 
 
 </navigation>

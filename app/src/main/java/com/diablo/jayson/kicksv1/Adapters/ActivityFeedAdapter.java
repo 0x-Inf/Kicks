@@ -102,8 +102,9 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             String activityCost = activity.getActivityCost();
             String activityLocation = activity.getActivityLocationName();
             String hostName = activity.getHost().getUserName();
-            String tagName = activity.getActivityTag().getTagName();
+            String tagName = activity.getActivityTags().get(0).getTagName();
             activityTitleTextView.setText(activity.getActivityTitle());
+            activityDescriptionTextView.setText(activity.getActivityDescription());
             activityTimeTextView.setText(activityTime);
             activityDateTextView.setText(activityDate);
             activityCostTextView.setText(activityCost);

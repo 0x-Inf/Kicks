@@ -107,7 +107,7 @@ public class ActivityFeedListAdapter extends FirestoreRecyclerAdapter<Activity, 
             String activityCost = currentActivity.getActivityCost();
             String activityLocation = currentActivity.getActivityLocationName();
             String hostName = currentActivity.getHost().getUserName();
-            String tagName = currentActivity.getActivityTag().getTagName();
+            String tagName = currentActivity.getActivityTags().get(0).getTagName();
             activityTitleTextView.setText(currentActivity.getActivityTitle());
             activityTimeTextView.setText(activityTime);
             activityDateTextView.setText(activityDate);

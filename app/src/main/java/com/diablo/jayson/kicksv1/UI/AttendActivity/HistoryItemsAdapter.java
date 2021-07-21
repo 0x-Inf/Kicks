@@ -54,7 +54,7 @@ public class HistoryItemsAdapter extends RecyclerView.Adapter<HistoryItemsAdapte
         void bindTo(FinishedActivity historyItem) {
 //            String noOFPeopleText = historyItem.getActivity().getActivityMaxRequiredPeople() + " People";
 //            noOfPeopleTextView.setText(noOFPeopleText);
-            tagNameTextView.setText(historyItem.getActivity().getActivityTag().getTagName());
+            tagNameTextView.setText(historyItem.getActivity().getActivityTags().get(0).getTagName());
             ratingBar.setRating(historyItem.getRating());
         }
     }

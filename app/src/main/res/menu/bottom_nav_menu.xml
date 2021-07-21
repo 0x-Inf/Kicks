@@ -7,7 +7,7 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/navigation_kick_select"
+        android:id="@+id/navigation_explore"
         android:icon="@drawable/ic_explore_icon_24dp"
         android:title="Explore" />
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityDateTimeFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityDateTimeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,12 +13,11 @@
             android:id="@+id/dateAndTimeTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:text="@string/date_and_time_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,35 +27,34 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/done_text"
-            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/colorMain"
             app:layout_constraintBaseline_toBaselineOf="@+id/dateAndTimeTextTextView"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/shortTutorialTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Add the date and time the activity will start and optionally the duration"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="?android:attr/textColorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeTextTextView" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/shortTutorialTextView"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:text="Add the date and time the activity will start and optionally the duration"-->
+        <!--            android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+        <!--            android:textColor="?android:attr/textColorPrimary"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeTextTextView" />-->
 
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shortTutorialTextView">
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeTextTextView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -89,11 +87,11 @@
                     android:id="@+id/activityDatePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.50"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/calendarIconImageView" />
 
@@ -176,12 +174,27 @@
                         app:layout_constraintStart_toEndOf="@+id/durationNotSpecifiedTextTextView"
                         app:layout_constraintTop_toTopOf="@+id/durationNotSpecifiedTextTextView" />
 
+                    <View
+                        android:id="@+id/durationSelectionOverlay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:alpha="0.7"
+                        android:background="@color/overlayBack"
+                        android:elevation="7dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/monthsDurationSlider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/durationOptionsRecyclerView" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/durationOptionsRecyclerView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginEnd="24dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -195,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="32dp"
                         android:text="Put a custom duration"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/durationOptionsRecyclerView" />
@@ -249,10 +262,10 @@
                         android:id="@+id/pickedHoursOverLay"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="@color/overlayBack"
                         android:alpha="0.7"
-                        android:visibility="gone"
+                        android:background="@color/overlayBack"
                         android:elevation="2dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/pickedHoursTextView"
                         app:layout_constraintEnd_toEndOf="@+id/pickedHoursTextView"
                         app:layout_constraintStart_toStartOf="@+id/pickHourTextTextView"
@@ -265,8 +278,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:min="1"
                         android:max="23"
+                        android:min="0"
                         android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -287,10 +300,10 @@
                         android:id="@+id/pickedDaysOverLay"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="@color/overlayBack"
                         android:alpha="0.7"
-                        android:visibility="gone"
+                        android:background="@color/overlayBack"
                         android:elevation="2dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/pickedDaysTextView"
                         app:layout_constraintEnd_toEndOf="@+id/pickedDaysTextView"
                         app:layout_constraintStart_toStartOf="@+id/pickDaysTextTextView"
@@ -313,8 +326,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:min="1"
                         android:max="30"
+                        android:min="0"
                         android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -345,10 +358,10 @@
                         android:id="@+id/pickedMonthsOverLay"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="@color/overlayBack"
                         android:alpha="0.7"
-                        android:visibility="gone"
+                        android:background="@color/overlayBack"
                         android:elevation="2dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/pickedMonthsTextView"
                         app:layout_constraintEnd_toEndOf="@+id/pickedMonthsTextView"
                         app:layout_constraintStart_toStartOf="@+id/pickMonthsTextTextView"
@@ -361,8 +374,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:min="1"
                         android:max="12"
+                        android:min="0"
                         android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

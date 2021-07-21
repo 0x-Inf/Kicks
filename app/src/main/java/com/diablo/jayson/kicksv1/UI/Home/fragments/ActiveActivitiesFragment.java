@@ -111,18 +111,14 @@ public class ActiveActivitiesFragment extends Fragment implements ActiveActiviti
 //        long activityTime = activeActivity.getActivityStartTime().getSeconds();
         long activityTime = activityStartDate.getTime();
 
-        if (timeNow < activityTime) {
+        if (timeNow <= activityTime) {
             NavDirections actionMainAttendFragment = ActiveActivitiesFragmentDirections
                     .actionActiveActivitiesFragmentToAttendActivityMainFragment(activeActivity.getActivityId());
             navController.navigate(actionMainAttendFragment);
-        } else if (timeNow > activityTime) {
+        } else {
             NavDirections actionBottomSheetFragment = ActiveActivitiesFragmentDirections
                     .actionActiveActivitiesFragmentToActiveActivitySelectedBottomSheet(activeActivity.getActivityId());
             navController.navigate(actionBottomSheetFragment);
-        } else {
-            NavDirections actionMainAttendFragment = ActiveActivitiesFragmentDirections
-                    .actionActiveActivitiesFragmentToAttendActivityMainFragment(activeActivity.getActivityId());
-            navController.navigate(actionMainAttendFragment);
         }
 
 

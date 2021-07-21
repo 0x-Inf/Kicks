@@ -1,64 +1,136 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.diablo.jayson.kicksv1.UI.AddKick.fragments.AddActivityCostFragment">
+    tools:context="com.diablo.jayson.kicksv1.UI.AddActivity.fragments.AddActivityCostFragment">
 
-    <RelativeLayout
-        android:id="@+id/add_activity_cost_relative_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/costPerPersonTextView"
+            android:id="@+id/activityCostTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/source_sans_pro_regular"
-            android:text="@string/cost_per_person_text"
-            android:textColor="@color/colorPurple"
-            android:textSize="45sp" />
-
-        <EditText
-            android:id="@+id/activity_cost_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:translationY="-20dp"
-            android:autofillHints="@string/activity_cost_hint"
-            android:hint="@string/activity_cost_hint"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="72sp" />
+            android:layout_marginTop="24dp"
+            android:text="Cost"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/currency_text_view"
+            android:id="@+id/doneTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/activity_cost_edit_text"
-            android:layout_centerVertical="true"
-            android:translationY="-20dp"
-            android:text="@string/currency_placeholder_text"
-            android:textColor="@color/colorOrange"
-            android:textSize="40sp" />
+            android:layout_marginEnd="16dp"
+            android:text="@string/done_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorMain"
+            app:layout_constraintBaseline_toBaselineOf="@+id/activityCostTextTextView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/costInputDoneButton"
+        <TextView
+            android:id="@+id/costNotSpecifiedTextTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="55dp"
-            android:contentDescription="@string/location_selection_done_button_description"
-            android:src="@drawable/done_icon_two_24dp"
-            app:backgroundTint="@color/colorMain" />
+            android:layout_marginTop="24dp"
+            android:text="Cost not specified"
+            app:layout_constraintStart_toStartOf="@+id/costInputEditText"
+            app:layout_constraintTop_toBottomOf="@+id/activityCostTextTextView" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/costUnspecifiedSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/costNotSpecifiedTextTextView"
+            app:layout_constraintStart_toEndOf="@+id/costNotSpecifiedTextTextView"
+            app:layout_constraintTop_toTopOf="@+id/costNotSpecifiedTextTextView" />
+
+        <EditText
+            android:id="@+id/costInputEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="@string/cost_hint_text"
+            android:hint="@string/cost_hint_text"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/costNotSpecifiedTextTextView" />
+
+        <View
+            android:id="@+id/editCostOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:background="@color/overlayBack"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/costInputEditText"
+            app:layout_constraintEnd_toEndOf="@+id/costInputEditText"
+            app:layout_constraintStart_toStartOf="@+id/costInputEditText"
+            app:layout_constraintTop_toTopOf="@+id/costInputEditText" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/add_activity_cost_relative_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/costPerPersonTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentTop="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/cost_per_person_text"-->
+    <!--            android:textColor="@color/colorPurple"-->
+    <!--            android:textSize="45sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/activity_cost_edit_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:translationY="-20dp"-->
+    <!--            android:autofillHints="@string/activity_cost_hint"-->
+    <!--            android:hint="@string/activity_cost_hint"-->
+    <!--            android:inputType="number"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textSize="72sp" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/currency_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_toStartOf="@id/activity_cost_edit_text"-->
+    <!--            android:layout_centerVertical="true"-->
+    <!--            android:translationY="-20dp"-->
+    <!--            android:text="@string/currency_placeholder_text"-->
+    <!--            android:textColor="@color/colorOrange"-->
+    <!--            android:textSize="40sp" />-->
+
+    <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/costInputDoneButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginBottom="55dp"-->
+    <!--            android:contentDescription="@string/location_selection_done_button_description"-->
+    <!--            android:src="@drawable/done_icon_two_24dp"-->
+    <!--            app:backgroundTint="@color/colorMain" />-->
+
+
+    <!--    </RelativeLayout>-->
 
 
 </FrameLayout>

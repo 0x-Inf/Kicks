@@ -1,10 +1,8 @@
 package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -23,6 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.Contact;
@@ -30,9 +31,11 @@ import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.AllMapContactsAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
-import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
+import com.diablo.jayson.kicksv1.UI.Home.MapViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.PublicLocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.SelectedMapContactsAdapter;
+import com.diablo.jayson.kicksv1.Utils.PermissionUtils;
+import com.diablo.jayson.kicksv1.Utils.SharedPreferencesUtil;
 import com.diablo.jayson.kicksv1.databinding.FragmentMapBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -47,6 +50,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -64,6 +68,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,9 +98,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private String mParam2;
 
     private FragmentMapBinding binding;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferencesUtil sharedPreferencesUtil;
     private HomeViewModel homeViewModel;
+    private MapViewModel mapViewModel;
     private MapFragment listener;
+    private NavController navController;
+
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
@@ -154,15 +163,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         }
         db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
-        sharedPreferences = requireActivity().getSharedPreferences("com.color.kicks", Context.MODE_PRIVATE);
+        sharedPreferencesUtil = new SharedPreferencesUtil(getContext());
+//        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("com.color.kicks", Context.MODE_PRIVATE);
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMapBinding.inflate(inflater, container, false);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView);
         assert mapFragment != null;
         mapFragment.getMapAsync(this::onMapReady);
@@ -180,8 +191,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         binding.alreadySelectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
 
         binding.openMapSettingsFab.setOnClickListener(view -> {
-            binding.mapSettingsCardView.setVisibility(View.VISIBLE);
-            binding.openMapSettingsFab.setVisibility(View.GONE);
+            NavDirections actionMapSettings = MapFragmentDirections.actionMapFragmentToMapSettingsBottomSheet();
+            navController.navigate(actionMapSettings);
+//            binding.mapSettingsCardView.setVisibility(View.VISIBLE);
+//            binding.openMapSettingsFab.setVisibility(View.GONE);
         });
         binding.closeMapSettingsImageButton.setOnClickListener(view -> {
             binding.mapSettingsCardView.setVisibility(View.GONE);
@@ -245,6 +258,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -272,6 +286,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     }
                 });
         listener = this;
+
         homeViewModel.getUserContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
             @Override
             public void onChanged(ArrayList<Contact> contacts) {
@@ -280,6 +295,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 }
                 AllMapContactsAdapter allMapContactsAdapter = new AllMapContactsAdapter(contacts, listener);
                 binding.myContactsRecycler.setAdapter(allMapContactsAdapter);
+            }
+        });
+
+        mapViewModel.getShareLocationMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    binding.isSharingLocationCard.setVisibility(View.VISIBLE);
+                } else {
+                    binding.isSharingLocationCard.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -302,25 +328,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
 
     private boolean checkIfBroadcastIdsAreInPreferences() {
         boolean isBroadcastIdPresent;
-        locationBroadcastId = sharedPreferences.getString(Constants.location_broadcast_id, "");
+        locationBroadcastId = sharedPreferencesUtil.getLocationBroadcastId();
         assert locationBroadcastId != null;
-        if (locationBroadcastId.equals("")) {
-            isBroadcastIdPresent = false;
-        } else {
-            isBroadcastIdPresent = true;
-        }
+        isBroadcastIdPresent = !locationBroadcastId.equals("");
         return isBroadcastIdPresent;
     }
 
     private boolean checkIfPublicBroadcastIdIsInPreferences() {
         boolean isPublicBroadcastIdPresent;
-        publicLocationBroadcastId = sharedPreferences.getString(Constants.public_location_broadcast_id, "");
+        publicLocationBroadcastId = sharedPreferencesUtil.getPublicLocationBroadcastId();
         assert publicLocationBroadcastId != null;
-        if (publicLocationBroadcastId.equals("")) {
-            isPublicBroadcastIdPresent = false;
-        } else {
-            isPublicBroadcastIdPresent = true;
-        }
+        isPublicBroadcastIdPresent = !publicLocationBroadcastId.equals("");
         return isPublicBroadcastIdPresent;
     }
 
@@ -332,9 +350,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.location_broadcast_id, documentReference.getId());
-                        editor.apply();
+                        sharedPreferencesUtil.setLocationBroadcastId(documentReference.getId());
                         startLocationUpdates();
                         hideLoadingScreen();
                     }
@@ -349,9 +365,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.public_location_broadcast_id, documentReference.getId());
-                        editor.apply();
+                        sharedPreferencesUtil.setPublicLocationBroadcastId(documentReference.getId());
                         hideLoadingScreen();
                         startLocationUpdates();
                     }
@@ -403,7 +417,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Timber.e("public location NOT Uploaded!!");
+                        Timber.e(e, "Failed to upload public location broadcast");
                     }
                 });
 
@@ -425,13 +439,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        Timber.d("Successfully uploaded location broadcast to db");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Timber.e(e, "Error uploading location broadcast");
                     }
                 });
     }
@@ -511,7 +525,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     .setPosition(privateLocationUpdateLatLng);
         } else {
             broadcastLocationsMarkers.put(privateLocationBroadcastUpdate.getBroadcastId(),
-                    map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)));
+                    map.addMarker(new MarkerOptions().position(privateLocationUpdateLatLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_broadcast))));
         }
     }
 
@@ -697,6 +712,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             if (map != null) {
                 isShowingCurrentLocation = true;
                 map.setMyLocationEnabled(true);
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f));
             }
         } else {
             isShowingCurrentLocation = false;
@@ -711,6 +727,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             if (map != null) {
                 isShowingCurrentLocation = false;
                 map.setMyLocationEnabled(false);
+
             }
         } else {
             PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,

@@ -2,12 +2,12 @@ package com.diablo.jayson.kicksv1.Models;
 
 import androidx.databinding.BaseObservable;
 
+import com.diablo.jayson.kicksv1.UI.AddActivity.Duration;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Activity extends BaseObservable implements Serializable {
 
@@ -16,32 +16,32 @@ public class Activity extends BaseObservable implements Serializable {
     private String activityDescription;
     private Timestamp activityStartTime;
     private Timestamp activityStartDate;
-    private String activityDuration;
+    private Duration activityDuration;
     private String activityLocationName;
     private GeoPoint activityLocationCoordinates;
+    private String geohash;
+    private boolean isLocationUndisclosed;
     private String activityNoOfPeople;
     private ArrayList<String> invitedPeopleUserIds;
-    private String activityUploaderId;
-    private String activityId;
-    private String activityCost;
-    private Timestamp activityUploadedTime;
-    private List<String> tags;
-    private Tag activityTag;
-    private ArrayList<AttendingUser> activityAttendees;
     private boolean isActivityPrivate;
+    private ArrayList<Tag> activityTags;
+    private String activityCost;
+    private String activityId;
+    private String activityUploaderId;
+    private Timestamp activityUploadedTime;
+    private ArrayList<AttendingUser> activityAttendees;
 
 
     public Activity() {
 
     }
-
     //Constructor for Activity data model
 
     public Activity(Host host, String activityTitle, String activityDescription, Timestamp activityStartTime, Timestamp activityStartDate,
-                    String activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String activityNoOfPeople,
-                    ArrayList<String> invitedPeopleUserIds, String activityUploaderId, String activityId, String activityCost,
-                    Timestamp activityUploadedTime, List<String> tags, Tag activityTag, ArrayList<AttendingUser> activityAttendees,
-                    boolean isActivityPrivate) {
+                    Duration activityDuration, String activityLocationName, GeoPoint activityLocationCoordinates, String geohash,
+                    boolean isLocationUndisclosed, String activityNoOfPeople, ArrayList<String> invitedPeopleUserIds, boolean isActivityPrivate,
+                    ArrayList<Tag> activityTags, String activityCost, String activityId, String activityUploaderId, Timestamp activityUploadedTime,
+                    ArrayList<AttendingUser> activityAttendees) {
         this.host = host;
         this.activityTitle = activityTitle;
         this.activityDescription = activityDescription;
@@ -50,16 +50,17 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityDuration = activityDuration;
         this.activityLocationName = activityLocationName;
         this.activityLocationCoordinates = activityLocationCoordinates;
+        this.geohash = geohash;
+        this.isLocationUndisclosed = isLocationUndisclosed;
         this.activityNoOfPeople = activityNoOfPeople;
         this.invitedPeopleUserIds = invitedPeopleUserIds;
-        this.activityUploaderId = activityUploaderId;
-        this.activityId = activityId;
-        this.activityCost = activityCost;
-        this.activityUploadedTime = activityUploadedTime;
-        this.tags = tags;
-        this.activityTag = activityTag;
-        this.activityAttendees = activityAttendees;
         this.isActivityPrivate = isActivityPrivate;
+        this.activityTags = activityTags;
+        this.activityCost = activityCost;
+        this.activityId = activityId;
+        this.activityUploaderId = activityUploaderId;
+        this.activityUploadedTime = activityUploadedTime;
+        this.activityAttendees = activityAttendees;
     }
 
     public Host getHost() {
@@ -102,11 +103,11 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityStartDate = activityStartDate;
     }
 
-    public String getActivityDuration() {
+    public Duration getActivityDuration() {
         return activityDuration;
     }
 
-    public void setActivityDuration(String activityDuration) {
+    public void setActivityDuration(Duration activityDuration) {
         this.activityDuration = activityDuration;
     }
 
@@ -126,6 +127,22 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityLocationCoordinates = activityLocationCoordinates;
     }
 
+    public String getGeoHash() {
+        return geohash;
+    }
+
+    public void setGeoHash(String geohash) {
+        this.geohash = geohash;
+    }
+
+    public boolean isLocationUndisclosed() {
+        return isLocationUndisclosed;
+    }
+
+    public void setLocationUndisclosed(boolean locationUndisclosed) {
+        isLocationUndisclosed = locationUndisclosed;
+    }
+
     public String getActivityNoOfPeople() {
         return activityNoOfPeople;
     }
@@ -142,20 +159,20 @@ public class Activity extends BaseObservable implements Serializable {
         this.invitedPeopleUserIds = invitedPeopleUserIds;
     }
 
-    public String getActivityUploaderId() {
-        return activityUploaderId;
+    public boolean isActivityPrivate() {
+        return isActivityPrivate;
     }
 
-    public void setActivityUploaderId(String activityUploaderId) {
-        this.activityUploaderId = activityUploaderId;
+    public void setActivityPrivate(boolean activityPrivate) {
+        isActivityPrivate = activityPrivate;
     }
 
-    public String getActivityId() {
-        return activityId;
+    public ArrayList<Tag> getActivityTags() {
+        return activityTags;
     }
 
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
+    public void setActivityTags(ArrayList<Tag> activityTags) {
+        this.activityTags = activityTags;
     }
 
     public String getActivityCost() {
@@ -166,6 +183,22 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityCost = activityCost;
     }
 
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getActivityUploaderId() {
+        return activityUploaderId;
+    }
+
+    public void setActivityUploaderId(String activityUploaderId) {
+        this.activityUploaderId = activityUploaderId;
+    }
+
     public Timestamp getActivityUploadedTime() {
         return activityUploadedTime;
     }
@@ -174,35 +207,11 @@ public class Activity extends BaseObservable implements Serializable {
         this.activityUploadedTime = activityUploadedTime;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public Tag getActivityTag() {
-        return activityTag;
-    }
-
-    public void setActivityTag(Tag activityTag) {
-        this.activityTag = activityTag;
-    }
-
     public ArrayList<AttendingUser> getActivityAttendees() {
         return activityAttendees;
     }
 
     public void setActivityAttendees(ArrayList<AttendingUser> activityAttendees) {
         this.activityAttendees = activityAttendees;
-    }
-
-    public boolean isActivityPrivate() {
-        return isActivityPrivate;
-    }
-
-    public void setActivityPrivate(boolean activityPrivate) {
-        isActivityPrivate = activityPrivate;
     }
 }

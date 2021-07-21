@@ -1,5 +1,6 @@
 package com.diablo.jayson.kicksv1.UI.KickSelect.fragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,33 +16,28 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.diablo.jayson.kicksv1.Adapters.KickCategoryListAdapter;
-import com.diablo.jayson.kicksv1.Adapters.KickListAdapter;
 import com.diablo.jayson.kicksv1.Adapters.KicksAdapter;
 import com.diablo.jayson.kicksv1.Models.ExploreCategory;
 import com.diablo.jayson.kicksv1.Models.Kick;
-import com.diablo.jayson.kicksv1.Models.KickCategory;
+import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreCategoryListAdapter;
+import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreTagsAdapter;
 import com.diablo.jayson.kicksv1.UI.KickSelect.ExploreViewModel;
 import com.diablo.jayson.kicksv1.databinding.FragmentExploreBinding;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class ExploreFragment extends Fragment implements
-        KicksAdapter.OnKickSelectedListener, ExploreCategoryListAdapter.OnSeeAllSelectedListener {
+        KicksAdapter.OnKickSelectedListener, ExploreCategoryListAdapter.OnSeeAllSelectedListener, ExploreTagsAdapter.OnExploreTagSelectedListener {
 
     private FragmentExploreBinding binding;
-    private RecyclerView mCategoryRecyclerView;
-    private RecyclerView mKickRecyclerView;
-    private KickCategoryListAdapter mCatAdapter;
-    private ArrayList<KickCategory> mKickCategoryData;
-    private KickListAdapter mListAdapter;
-    private ExploreCategoryListAdapter exploreCategoryListAdapter;
+    private ExploreFragment listener;
+
+    private ExploreTagsAdapter exploreTagsAdapter;
+    private ArrayList<Tag> tagsArrayList;
 
     private NavController navController;
     private ExploreViewModel exploreViewModel;
@@ -52,29 +48,7 @@ public class ExploreFragment extends Fragment implements
         View root = inflater.inflate(R.layout.fragment_explore, container, false);
         binding = FragmentExploreBinding.inflate(inflater, container, false);
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-
-        mKickRecyclerView = root.findViewById(R.id.kicksRecyclerView);
-        mCategoryRecyclerView = root.findViewById(R.id.categoryRecyclerView);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("activities").document();
-        Query query = FirebaseFirestore.getInstance()
-                .collection("kickselects")
-                .document("groupa")
-                .collection("kickcategories")
-                .orderBy("categoryName", Query.Direction.ASCENDING);
-
-
-        FirestoreRecyclerOptions<KickCategory> options = new FirestoreRecyclerOptions.Builder<KickCategory>()
-                .setQuery(query, KickCategory.class)
-                .setLifecycleOwner(this)
-                .build();
-
-        int gridColumnCount = 1;
-//        mCategoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridColumnCount));
-//        mCatAdapter = new KickCategoryListAdapter(options, this, this);
-//        mCategoryRecyclerView.setAdapter(mCatAdapter);
-//        mCategoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
-
+        exploreViewModel = new ViewModelProvider(requireActivity()).get(ExploreViewModel.class);
 
         return binding.getRoot();
     }
@@ -95,60 +69,80 @@ public class ExploreFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        exploreViewModel = new ViewModelProvider(requireActivity()).get(ExploreViewModel.class);
+        listener = this;
         exploreViewModel.getExploreCategoriesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ExploreCategory>>() {
             @Override
             public void onChanged(ArrayList<ExploreCategory> exploreCategories) {
-                exploreCategoryListAdapter = new ExploreCategoryListAdapter(exploreViewModel, getViewLifecycleOwner()
-                        , exploreCategories, ExploreFragment.this::onKickSelected, ExploreFragment.this::onSeeAllSelected);
-                binding.categoryRecyclerView.setAdapter(exploreCategoryListAdapter);
+//                exploreCategoryListAdapter = new ExploreCategoryListAdapter(exploreViewModel, getViewLifecycleOwner()
+//                        , exploreCategories, ExploreFragment.this::onKickSelected, ExploreFragment.this::onSeeAllSelected);
+//                binding.categoryRecyclerView.setAdapter(exploreCategoryListAdapter);
 
             }
         });
-    }
 
-//    @Override
-//    public void onSeeAllClicked(KickCategory kickCategory) {
-////        Toast.makeText(getContext(), kickCategory.getCategoryId(), Toast.LENGTH_LONG).show();
-//
-////        Intent seeAllActivity = new Intent(getContext(), KickSeeAllActivity.class);
-////        seeAllActivity.putExtra("categoryId", kickCategory.getCategoryId());
-////        seeAllActivity.putExtra("categoryName", kickCategory.getCategoryName());
-////        startActivity(seeAllActivity);
-//
-//        NavDirections actionKickSeeAll = ExploreFragmentDirections.actionNavigationKickSelectToKicksSeeAllFragment();
-//        navController.navigate(actionKickSeeAll);
-//
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("kickselects").document("groupa")
-//                .collection("kickcategories").document(kickCategory.getCategoryId()).collection("kicksincategory")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-//                                Log.e("kicks", documentSnapshot.getId() + " => " + documentSnapshot.getData());
-//                            }
-//                        }
-//                    }
-//                });
-//
-//    }
+        exploreViewModel.getTagsArrayMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Tag>>() {
+            @Override
+            public void onChanged(ArrayList<Tag> tags) {
+                tagsArrayList = tags;
+                exploreTagsAdapter = new ExploreTagsAdapter(tagsArrayList, listener);
+                binding.tagsRecyclerView.setAdapter(exploreTagsAdapter);
+                binding.tagsRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+            }
+        });
 
-    @Override
-    public void onKickSelected(Kick kick) {
-//        Toast.makeText(getContext(), kick.getKickName(), Toast.LENGTH_SHORT).show();
-//        Intent kickSelectedActivity = new Intent(getContext(), KickSelectedActivity.class);
-//        kickSelectedActivity.putExtra("kick", kick);
-//        startActivity(kickSelectedActivity);
-
-        NavDirections actionKickSelectMainFragment = ExploreFragmentDirections.actionNavigationKickSelectToKickSelectedMainFragment(kick);
-        navController.navigate(actionKickSelectMainFragment);
     }
 
     @Override
     public void onSeeAllSelected(ExploreCategory exploreCategory) {
 
+    }
+
+    @Override
+    public void onKickSelected(Kick kick) {
+
+    }
+
+    @Override
+    public void onTagSelected(Tag selectedTag) {
+
+        NavDirections actionTagExplore = ExploreFragmentDirections.actionNavigationKickSelectToExploreTagFragment(selectedTag.getTagId());
+        navController.navigate(actionTagExplore);
+
+    }
+
+    public static class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(@NotNull Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+//                (column + 1) * spacing / spanCount
+
+                if (position < spanCount) { // top edge
+                    outRect.top = 5;
+                }
+                outRect.bottom = 10; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
     }
 }
