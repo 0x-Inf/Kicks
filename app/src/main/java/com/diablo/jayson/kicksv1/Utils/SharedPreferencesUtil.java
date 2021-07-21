@@ -46,4 +46,5 @@ public class SharedPreferencesUtil {
         SharedPreferences sharedPreferences = getSharedPreferences(mContext);
         sharedPreferences.edit().putString(Constants.PREFERENCES_PUBLIC_LOCATION_BROADCAST_ID, publicLocationBroadcastId).apply();
     }
+
 }

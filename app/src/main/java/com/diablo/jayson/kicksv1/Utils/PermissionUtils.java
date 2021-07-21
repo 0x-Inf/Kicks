@@ -1,4 +1,4 @@
-package com.diablo.jayson.kicksv1.UI.Home;
+package com.diablo.jayson.kicksv1.Utils;
 
 import android.Manifest;
 import android.app.Dialog;

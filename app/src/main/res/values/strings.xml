@@ -360,7 +360,7 @@
     <string name="_12_people_text">12 People</string>
     <string name="indoor_activities_text">Indoor Activities</string>
     <string name="see_all_text">See All</string>
-    <string name="broadcast_location_text">Share Location:</string>
+    <string name="broadcast_location_text">Share Your Location</string>
     <string name="broadcast_options_text">Sharing Options</string>
     <string name="contacts_colon_text">All Contacts:</string>
     <string name="public_colon_text">Public:</string>
@@ -397,6 +397,12 @@
     <string name="nearby_activity_icon_description">Nearby Activity Icon</string>
     <string name="nearby_people_icon_description">Nearby People Icon</string>
     <string name="_3_nearby">3 Nearby</string>
+    <string name="nearby_radius">Nearby Radius:</string>
+    <string name="_1000m">1000m</string>
+    <string name="sharing_location">Sharing Location</string>
+    <string name="share_with">Share With:</string>
+    <string name="sharing_location_text">Sharing Location</string>
+    <string name="icon_image_for_sharing_location_icon_image_description">Icon Image for sharing location icon</string>
 
 
 </resources>

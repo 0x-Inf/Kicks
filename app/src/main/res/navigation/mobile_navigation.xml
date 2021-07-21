@@ -481,7 +481,11 @@
         android:id="@+id/mapFragment"
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_mapFragment_to_mapSettingsBottomSheet"
+            app:destination="@id/mapSettingsBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/invitePeopleFragment"
         android:name="com.diablo.jayson.kicksv1.UI.AttendActivity.fragments.InvitePeopleFragment"
@@ -569,6 +573,11 @@
         android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.HappeningSoonSelectedFragment"
         android:label="fragment_happening_soon_selected"
         tools:layout="@layout/fragment_happening_soon_selected" />
+    <dialog
+        android:id="@+id/mapSettingsBottomSheet"
+        android:name="com.diablo.jayson.kicksv1.UI.Home.fragments.MapSettingsBottomSheet"
+        android:label="MapSettingsBottomSheet"
+        tools:layout="@layout/fragment_map_settings_bottom_sheet" />
 
 
 </navigation>

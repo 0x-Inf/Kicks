@@ -1,10 +1,8 @@
 package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -23,6 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.Contact;
@@ -30,9 +31,10 @@ import com.diablo.jayson.kicksv1.R;
 import com.diablo.jayson.kicksv1.UI.Home.AllMapContactsAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
-import com.diablo.jayson.kicksv1.UI.Home.PermissionUtils;
+import com.diablo.jayson.kicksv1.UI.Home.MapViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.PublicLocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.SelectedMapContactsAdapter;
+import com.diablo.jayson.kicksv1.Utils.PermissionUtils;
 import com.diablo.jayson.kicksv1.Utils.SharedPreferencesUtil;
 import com.diablo.jayson.kicksv1.databinding.FragmentMapBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -96,10 +98,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private String mParam2;
 
     private FragmentMapBinding binding;
-    private SharedPreferences sharedPreferences;
     private SharedPreferencesUtil sharedPreferencesUtil;
     private HomeViewModel homeViewModel;
+    private MapViewModel mapViewModel;
     private MapFragment listener;
+    private NavController navController;
+
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore db;
@@ -160,7 +164,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
         sharedPreferencesUtil = new SharedPreferencesUtil(getContext());
-        sharedPreferences = requireActivity().getSharedPreferences("com.color.kicks", Context.MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("com.color.kicks", Context.MODE_PRIVATE);
 
     }
 
@@ -169,6 +173,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMapBinding.inflate(inflater, container, false);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView);
         assert mapFragment != null;
         mapFragment.getMapAsync(this::onMapReady);
@@ -186,8 +191,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         binding.alreadySelectedContactsRecycler.setAdapter(selectedMapContactsAdapter);
 
         binding.openMapSettingsFab.setOnClickListener(view -> {
-            binding.mapSettingsCardView.setVisibility(View.VISIBLE);
-            binding.openMapSettingsFab.setVisibility(View.GONE);
+            NavDirections actionMapSettings = MapFragmentDirections.actionMapFragmentToMapSettingsBottomSheet();
+            navController.navigate(actionMapSettings);
+//            binding.mapSettingsCardView.setVisibility(View.VISIBLE);
+//            binding.openMapSettingsFab.setVisibility(View.GONE);
         });
         binding.closeMapSettingsImageButton.setOnClickListener(view -> {
             binding.mapSettingsCardView.setVisibility(View.GONE);
@@ -251,6 +258,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -278,6 +286,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     }
                 });
         listener = this;
+
         homeViewModel.getUserContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
             @Override
             public void onChanged(ArrayList<Contact> contacts) {
@@ -286,6 +295,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 }
                 AllMapContactsAdapter allMapContactsAdapter = new AllMapContactsAdapter(contacts, listener);
                 binding.myContactsRecycler.setAdapter(allMapContactsAdapter);
+            }
+        });
+
+        mapViewModel.getShareLocationMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    binding.isSharingLocationCard.setVisibility(View.VISIBLE);
+                } else {
+                    binding.isSharingLocationCard.setVisibility(View.GONE);
+                }
             }
         });
     }

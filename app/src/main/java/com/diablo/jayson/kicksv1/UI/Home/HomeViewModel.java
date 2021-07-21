@@ -43,6 +43,7 @@ public class HomeViewModel extends ViewModel {
     MutableLiveData<ArrayList<Invite>> invitesMutableLiveData;
     MutableLiveData<ArrayList<Contact>> nearbyUsersMutableLiveData;
     MutableLiveData<ArrayList<Activity>> nearbyActivityMutableLiveData;
+    MutableLiveData<Double> nearbyActivityRadiusMutableLiveData;
     ArrayList<Activity> nearbyActivitiesArrayList;
     private ArrayList<Invite> invitesArrayList;
     private ArrayList<Activity> activeActivitiesArrayList;
@@ -58,6 +59,7 @@ public class HomeViewModel extends ViewModel {
         invitesMutableLiveData = new MutableLiveData<>();
         nearbyUsersMutableLiveData = new MutableLiveData<>();
         nearbyActivityMutableLiveData = new MutableLiveData<>();
+        nearbyActivityRadiusMutableLiveData = new MutableLiveData<>();
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         init();
@@ -229,6 +231,15 @@ public class HomeViewModel extends ViewModel {
                 });
     }
 
+    public void setNearbyActivityRadius(double radius) {
+        nearbyActivityRadiusMutableLiveData.postValue(radius);
+    }
+
+    public MutableLiveData<Double> getNearbyActivityRadiusMutableLiveData() {
+        return nearbyActivityRadiusMutableLiveData;
+    }
+
+    // function to get the activities near users location
     public void getNearbyActivity(GeoLocation center, double radius) {
         nearbyActivitiesArrayList = new ArrayList<>();
         //find Activities within radius of center
