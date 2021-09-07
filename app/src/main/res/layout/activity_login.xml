@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sign_in_back2"
     tools:context=".UI.LoginActivity">
 
     <RelativeLayout
@@ -34,8 +33,7 @@
         android:layout_marginStart="15dp"
         android:text="@string/sign_in_welcome_text"
         android:fontFamily="@font/source_sans_pro_regular"
-        android:textSize="50sp"
-        android:textColor="@color/colorWhite" />
+        android:textSize="50sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,8 +43,7 @@
         android:layout_marginStart="15dp"
         android:text="@string/sign_in_back_text"
         android:fontFamily="@font/source_sans_pro_regular"
-        android:textSize="50sp"
-        android:textColor="@color/colorWhite" />
+        android:textSize="50sp" />
 
     <EditText
         android:id="@+id/email_addresss_edit_text"
@@ -103,9 +100,9 @@
         android:layout_marginTop="70dp"
         android:text="@string/sign_in_button_text"
         android:textAlignment="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/textColorSecondaryInverse"
         android:theme="@style/MaterialTheme"
-        app:backgroundTint="@color/colorPurple" />
+        app:backgroundTint="@color/backgroundInverted" />
 
     <TextView
         android:id="@+id/signUpTextView"
@@ -116,7 +113,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginBottom="20dp"
         android:text="@string/sign_up_text"
-        android:textColor="@color/colorPurple"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textSize="15sp"
         android:fontFamily="@font/roboto_medium" />
 
@@ -129,7 +126,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="20dp"
         android:text="@string/forgot_password_text"
-        android:textColor="@color/colorPurple"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textSize="15sp"
         android:fontFamily="@font/roboto_medium" />
 

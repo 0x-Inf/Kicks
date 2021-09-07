@@ -1,17 +1,21 @@
 package com.diablo.jayson.kicksv1.UI.Home.fragments;
 
 import android.Manifest;
+import android.animation.IntEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
@@ -27,8 +31,8 @@ import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.Constants;
 import com.diablo.jayson.kicksv1.Models.Contact;
+import com.diablo.jayson.kicksv1.Models.Tag;
 import com.diablo.jayson.kicksv1.R;
-import com.diablo.jayson.kicksv1.UI.Home.AllMapContactsAdapter;
 import com.diablo.jayson.kicksv1.UI.Home.HomeViewModel;
 import com.diablo.jayson.kicksv1.UI.Home.LocationBroadcast;
 import com.diablo.jayson.kicksv1.UI.Home.MapViewModel;
@@ -51,6 +55,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -81,7 +87,7 @@ import timber.log.Timber;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapContactsAdapter.OnMapContactSelectedListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,13 +127,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
     private String locationBroadcastId;
     private String publicLocationBroadcastId;
     private GeoPoint locationBroadcastGeoPoint;
+    private float nearbyRadius = 1000f;
     private ArrayList<LatLng> lastKnownLocations = new ArrayList<>();
 
     private ArrayList<String> broadcastIntendedUsersIds = new ArrayList<>();
+    private ArrayList<Tag> broadcastTags = new ArrayList<>();
     private ArrayList<String> allContactsIds = new ArrayList<>();
     private ArrayList<Contact> selectedContacts = new ArrayList<>();
     private HashMap<String, Marker> broadcastLocationsMarkers = new HashMap<>();
     private HashMap<String, Marker> publicBroadcastLocationsMarkers = new HashMap<>();
+    private Marker currentLocationMarker = null;
 
     private SelectedMapContactsAdapter selectedMapContactsAdapter;
 
@@ -212,6 +221,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             binding.selectSharingContactsCard.setVisibility(View.GONE);
             binding.selectContactsOverlay.setVisibility(View.GONE);
         });
+
         binding.broadcastLocationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -293,8 +303,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                 for (Contact contact : contacts) {
                     allContactsIds.add(contact.getContactId());
                 }
-                AllMapContactsAdapter allMapContactsAdapter = new AllMapContactsAdapter(contacts, listener);
-                binding.myContactsRecycler.setAdapter(allMapContactsAdapter);
             }
         });
 
@@ -303,9 +311,59 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
                     binding.isSharingLocationCard.setVisibility(View.VISIBLE);
+                    startBroadcastingLocation();
                 } else {
                     binding.isSharingLocationCard.setVisibility(View.GONE);
+                    stopBroadcastingLocation();
                 }
+            }
+        });
+
+        mapViewModel.getShareLocationPubliclyMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                isBroadcastingPublicly = aBoolean;
+                isBroadcastingPrivately = !aBoolean;
+                if (aBoolean) {
+                    startBroadcastingLocationPublicly();
+                    binding.isSharingLocationText.setText(R.string.sharing_location_publicly_textview_string);
+                    binding.sharingLocationIconImageView.setImageResource(R.drawable.ic_public_location);
+                } else {
+                    stopBroadcastingLocation();
+                    binding.isSharingLocationText.setText(R.string.sharing_location_text);
+                    binding.sharingLocationIconImageView.setImageResource(R.drawable.ic_action_locate);
+                }
+            }
+        });
+
+        mapViewModel.getSelectedContactsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Contact>>() {
+            @Override
+            public void onChanged(ArrayList<Contact> contacts) {
+                selectedContacts = contacts;
+                broadcastIntendedUsersIds.clear();
+                for (Contact selectedContact :
+                        contacts) {
+                    broadcastIntendedUsersIds.add(selectedContact.getContactId());
+                }
+            }
+        });
+
+        mapViewModel.getSelectedBroadcastTagsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Tag>>() {
+            @Override
+            public void onChanged(ArrayList<Tag> tags) {
+                broadcastTags = tags;
+            }
+        });
+
+        homeViewModel.getNearbyActivityRadiusMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Double>() {
+            @Override
+            public void onChanged(Double radiusDouble) {
+                if (radiusDouble != null) {
+                    nearbyRadius = radiusDouble.floatValue();
+                } else {
+                    nearbyRadius = sharedPreferencesUtil.getDefaultRadius();
+                }
+
             }
         });
     }
@@ -405,6 +463,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         publicLocationBroadcast.setBroadcastLocation(lastLocationGeoPoint);
         publicLocationBroadcast.setBroadcastId(publicLocationBroadcastId);
         publicLocationBroadcast.setBroadcastTime(Timestamp.now());
+        publicLocationBroadcast.setBroadcastTags(broadcastTags);
         db.collection(Constants.public_location_broadcast_collection)
                 .document(publicLocationBroadcastId)
                 .set(publicLocationBroadcast)
@@ -433,6 +492,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
         locationBroadcast.setBroadcastLocation(lastLocationGeoPoint);
         locationBroadcast.setBroadcastId(locationBroadcastId);
         locationBroadcast.setBroadcastTime(Timestamp.now());
+        locationBroadcast.setBroadcastTags(broadcastTags);
         db.collection(Constants.location_broadcast_collection)
                 .document(locationBroadcastId)
                 .set(locationBroadcast)
@@ -592,19 +652,63 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
 
         locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult != null) {
-                    for (Location location : locationResult.getLocations()) {
-                        currentLocation = location;
-                        locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
-                        currentLocationUpdated();
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    currentLocation = location;
+                    locationBroadcastGeoPoint = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
+                    lastKnownLocations.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                    currentLocationUpdated();
+                    updateCurrentLocationMarker(currentLocation);
+                    if (isShowingCurrentLocation) {
+                        LatLng userCenter = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        CircleOptions circleOptions = new CircleOptions()
+                                .center(userCenter)
+                                .radius(nearbyRadius)
+                                .strokeWidth(2)
+                                .strokeColor(Color.GREEN)
+                                .fillColor(Color.argb(128, 255, 0, 0));
+                        Circle circle = map.addCircle(circleOptions);
+                        startRippleAnimation(circle);
+                    } else {
+                        // Update for not showing icon while also broadcasting loc
                     }
-//                    return;
                 }
+//                    return;
 
             }
         };
+    }
+
+    private void startRippleAnimation(Circle circle) {
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        valueAnimator.setIntValues(0, 100);
+        valueAnimator.setDuration(1000);
+        valueAnimator.setEvaluator(new IntEvaluator());
+        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float animatedFraction = valueAnimator.getAnimatedFraction();
+                Timber.e(String.valueOf(animatedFraction));
+                circle.setRadius(animatedFraction * 100);
+            }
+        });
+        valueAnimator.start();
+    }
+
+    private void updateCurrentLocationMarker(Location currentLocation) {
+        LatLng currentLocationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        if (currentLocationMarker == null) {
+            currentLocationMarker = map.addMarker(
+                    new MarkerOptions()
+                            .position(currentLocationLatLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_broadcast)));
+        } else {
+            currentLocationMarker.setPosition(currentLocationLatLng);
+        }
+
     }
 
     private void showLoadingScreen() {
@@ -712,6 +816,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             if (map != null) {
                 isShowingCurrentLocation = true;
                 map.setMyLocationEnabled(true);
+                addNearbyCircleAroundUser();
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f));
             }
         } else {
@@ -719,6 +824,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
             PermissionUtils.requestPermission((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
+    }
+
+    private void addNearbyCircleAroundUser() {
+
     }
 
     private void disableMyLocation() {
@@ -734,17 +843,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AllMapC
                     Manifest.permission.ACCESS_FINE_LOCATION, false);
         }
 
-    }
-
-    @Override
-    public void onContactSelected(Contact contact) {
-        if (!broadcastIntendedUsersIds.contains(contact.getContactId())) {
-            broadcastIntendedUsersIds.add(contact.getContactId());
-            selectedContacts.add(contact);
-        } else {
-            selectedContacts.remove(contact);
-            broadcastIntendedUsersIds.remove(contact.getContactId());
-        }
-        selectedMapContactsAdapter.notifyDataSetChanged();
     }
 }

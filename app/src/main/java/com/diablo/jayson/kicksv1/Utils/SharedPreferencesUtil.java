@@ -27,6 +27,16 @@ public class SharedPreferencesUtil {
         return context.getSharedPreferences(Constants.SharedPreferencesName, Context.MODE_PRIVATE);
     }
 
+    public float getDefaultRadius() {
+        SharedPreferences prefs = getSharedPreferences(mContext);
+        return prefs.getFloat(Constants.PREFERENCES_DEFAULT_RADIUS, 1000f);
+    }
+
+    public void setDefaultRadius(float defaultRadius) {
+        SharedPreferences prefs = getSharedPreferences(mContext);
+        prefs.edit().putFloat(Constants.PREFERENCES_DEFAULT_RADIUS, defaultRadius).apply();
+    }
+
     public String getLocationBroadcastId() {
         SharedPreferences preferences = getSharedPreferences(mContext);
         return preferences.getString(Constants.PREFERENCES_LOCATION_BROADCAST_ID, "");

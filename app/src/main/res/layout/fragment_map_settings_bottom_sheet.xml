@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/isSharingLocationTextView" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sharingWithRecyler"
+        android:id="@+id/sharingWithRecycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -98,7 +98,7 @@
         android:windowSoftInputMode="adjustResize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sharingWithRecyler">
+        app:layout_constraintTop_toBottomOf="@+id/sharingWithRecycler">
 
         <EditText
             android:id="@+id/searchContactsEditText"
@@ -108,7 +108,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:autofillHints="Search contacts"
-            android:hint="Search Contacts"
+            android:hint="@string/search_contacts"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,6 +182,137 @@
         app:layout_constraintBottom_toBottomOf="@+id/sharePubliclyTextView"
         app:layout_constraintStart_toEndOf="@+id/sharePubliclyTextView"
         app:layout_constraintTop_toTopOf="@+id/sharePubliclyTextView" />
+
+    <TextView
+        android:id="@+id/tagsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/tag_s_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sharePubliclyTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/broadcastingTagsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagsTextView"
+        app:spanCount="1" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/editTagsCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/backgroundInverted"
+        android:visibility="gone"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tagsTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tagsTextView"
+        app:layout_constraintTop_toTopOf="@+id/tagsTextView">
+
+        <TextView
+            android:id="@+id/editTagsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:text="@string/edit_text_plain"
+            android:textAppearance="@style/TextAppearance.AppCompat.Inverse" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addBroadcastingTagsConstraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/constraint_layout_rounded_background"
+        android:visibility="gone"
+        android:windowSoftInputMode="adjustResize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagsTextView">
+
+        <EditText
+            android:id="@+id/searchTagsEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:autofillHints="Search tags"
+            android:hint="@string/search_tags"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allTagsRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxHeight="50dp"
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustResize"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchTagsEditText"
+            app:spanCount="3" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/doneAddTagsCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/backgroundInverted"
+            android:visibility="visible"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/allTagsRecycler">
+
+            <TextView
+                android:id="@+id/doneAddTagsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
+                android:text="@string/done_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Inverse" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/broadcastLocationSwitch"

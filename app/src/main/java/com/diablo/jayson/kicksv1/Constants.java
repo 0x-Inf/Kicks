@@ -5,6 +5,7 @@ public class Constants {
     public static final String SharedPreferencesName = "com.color.kicks";
     public static final String PREFERENCES_LOCATION_BROADCAST_ID = "locationBroadcastId";
     public static final String PREFERENCES_PUBLIC_LOCATION_BROADCAST_ID = "publicLocationBroadcastId";
+    public static final String PREFERENCES_DEFAULT_RADIUS = "default_radius";
 
     public static final String IMAGE_AND_TEXT = "imageAndText";
     public static final String IMAGE_TEXT_AND_LIST = "imageTextAndList";

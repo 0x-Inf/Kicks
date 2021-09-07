@@ -319,6 +319,7 @@
     <string name="_12_text">12</string>
     <string name="month_text">Jun</string>
     <string name="edit_text">Edit \u2192</string>
+    <string name="edit_text_plain">Edit</string>
     <string name="description_text">Description</string>
     <string name="see_on_map_text">See On Map</string>
     <string name="peopleimageiconforactiveactivityImageDescription">peopleImageIconForActiveActivity</string>
@@ -403,6 +404,9 @@
     <string name="share_with">Share With:</string>
     <string name="sharing_location_text">Sharing Location</string>
     <string name="icon_image_for_sharing_location_icon_image_description">Icon Image for sharing location icon</string>
+    <string name="sharing_location_publicly_textview_string">Sharing Location Publicly</string>
+    <string name="search_tags">Search Tags</string>
+    <string name="search_contacts">Search Contacts</string>
 
 
 </resources>
