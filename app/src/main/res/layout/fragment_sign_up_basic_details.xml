@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.SignUp.SignUpBasicDetails">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/welcomeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/source_sans_pro_regular"
+            android:text="@string/account_details"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/userNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/username_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/username_hint_text"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
+
+        <View
+            android:id="@+id/userFirstNameSepView"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
+
+
+        <EditText
+            android:id="@+id/firstNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/first_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/first_name_hint_text"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userFirstNameSepView" />
+
+        <View
+            android:id="@+id/firstSecondNameSepView"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstNameEditText" />
+
+        <EditText
+            android:id="@+id/secondNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/second_name_hint_text"
+            android:background="@android:color/transparent"
+            android:hint="@string/second_name_hint_text"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstSecondNameSepView" />
+
+        <View
+            android:id="@+id/secondEmailSepView"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secondNameEditText" />
+
+        <EditText
+            android:id="@+id/emailAddressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/email_address_edit_text_hint"
+            android:background="@android:color/transparent"
+            android:hint="@string/email_address_edit_text_hint"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secondEmailSepView" />
+
+        <View
+            android:id="@+id/emailPhoneSepView"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailAddressEditText" />
+
+        <EditText
+            android:id="@+id/phoneNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/email_address_edit_text_hint"
+            android:background="@android:color/transparent"
+            android:hint="@string/phone_number_hint_text"
+            android:inputType="phone"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailPhoneSepView" />
+
+        <View
+            android:id="@+id/phoneButtonSepView"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorTransparentBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up_one_next_button_text"
+            android:textAlignment="center"
+            android:textColor="@color/textColorSecondaryInverse"
+            android:theme="@style/MaterialTheme"
+            app:backgroundTint="@color/backgroundInverted"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneButtonSepView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@drawable/sign_up_one_back_small">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/yourTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/your_text"-->
+    <!--            android:textColor="@color/colorWhite"-->
+    <!--            android:textSize="50sp" />-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/yourTextView"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:fontFamily="@font/source_sans_pro_regular"-->
+    <!--            android:text="@string/names_text"-->
+    <!--            android:textColor="@color/colorWhite"-->
+    <!--            android:textSize="50sp" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/user_name_edit_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_above="@id/first_name_edit_text"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:autofillHints=""-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/username_hint_text"-->
+    <!--            android:inputType="text"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textSize="20sp" />-->
+
+    <!--        <View-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/user_name_edit_text"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/first_name_edit_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:autofillHints="@string/first_name_hint_text"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/first_name_hint_text"-->
+    <!--            android:inputType="textPersonName"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textSize="20sp" />-->
+
+    <!--        <View-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/first_name_edit_text"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/second_name_edit_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/first_name_edit_text"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginTop="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:autofillHints="@string/second_name_hint_text"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/second_name_hint_text"-->
+    <!--            android:inputType="textPersonName"-->
+    <!--            android:padding="8dp"-->
+    <!--            android:textSize="20sp" />-->
+
+    <!--        <View-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_below="@id/second_name_edit_text"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:background="@color/colorTransparentBlack" />-->
+
+    <!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+    <!--            android:id="@+id/sign_up_one_next_efab"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/second_name_edit_text"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:layout_marginTop="100dp"-->
+    <!--            android:text="@string/sign_up_one_next_button_text"-->
+    <!--            android:fontFamily="@font/roboto_medium"-->
+    <!--            android:textAlignment="center"-->
+    <!--            android:textColor="@color/colorWhite"-->
+    <!--            android:theme="@style/MaterialTheme"-->
+    <!--            app:backgroundTint="@color/colorPurple"-->
+    <!--            app:rippleColor="@color/colorMain"-->
+    <!--            app:elevation="5dp"-->
+    <!--            app:cornerRadius="2dp" />-->
+
+    <!--    </RelativeLayout>-->
+
+</FrameLayout>

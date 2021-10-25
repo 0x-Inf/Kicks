@@ -11,21 +11,21 @@ public class User implements Serializable {
     private String firstName;
     private String secondName;
     private String userEmail;
-    private String passWord;
     private String photoUrl;
     private String phoneNumber;
     private Timestamp signedUpTime;
 
     public User() {
+
     }
 
-    public User(String uid, String userName, String firstName, String secondName, String userEmail, String passWord, String photoUrl, String phoneNumber, Timestamp signedUpTime) {
+    public User(String uid, String userName, String firstName, String secondName,
+                String userEmail, String photoUrl, String phoneNumber, Timestamp signedUpTime) {
         this.uid = uid;
         this.userName = userName;
         this.firstName = firstName;
         this.secondName = secondName;
         this.userEmail = userEmail;
-        this.passWord = passWord;
         this.photoUrl = photoUrl;
         this.phoneNumber = phoneNumber;
         this.signedUpTime = signedUpTime;
@@ -69,14 +69,6 @@ public class User implements Serializable {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
     }
 
     public String getPhotoUrl() {

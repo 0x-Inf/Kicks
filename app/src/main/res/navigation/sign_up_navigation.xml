@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_up_navigation"
+    app:startDestination="@id/signUpIntro">
+
+    <fragment
+        android:id="@+id/signUpIntro"
+        android:name="com.diablo.jayson.kicksv1.UI.SignUp.SignUpIntro"
+        android:label="fragment_sign_up_intro"
+        tools:layout="@layout/fragment_sign_up_intro">
+        <action
+            android:id="@+id/action_signUpIntro_to_signUpBasicDetails"
+            app:destination="@id/signUpBasicDetails"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpBasicDetails"
+        android:name="com.diablo.jayson.kicksv1.UI.SignUp.SignUpBasicDetails"
+        android:label="fragment_sign_up_one"
+        tools:layout="@layout/fragment_sign_up_basic_details">
+        <action
+            android:id="@+id/action_signUpBasicDetails_to_signUpSetPassword"
+            app:destination="@id/signUpSetPassword"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpSetPassword"
+        android:name="com.diablo.jayson.kicksv1.UI.SignUp.SignUpSetPassword"
+        android:label="fragment_sign_up_set_password"
+        tools:layout="@layout/fragment_sign_up_set_password">
+        <action
+            android:id="@+id/action_signUpSetPassword_to_signUpSetProfilePic"
+            app:destination="@id/signUpSetProfilePic"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpSetProfilePic"
+        android:name="com.diablo.jayson.kicksv1.UI.SignUp.SignUpSetProfilePic"
+        android:label="fragment_sign_up_set_profile_pic"
+        tools:layout="@layout/fragment_sign_up_set_profile_pic" />
+</navigation>

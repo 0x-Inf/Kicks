@@ -17,6 +17,7 @@
     <color name="textColorSecondary">#8A000000</color>
     <color name="textColorSecondaryInverse">#B2FFFFFF</color>
     <color name="backgroundInverted">#292929</color>
+    <color name="greyBackground">#AFAFAF</color>
 
     <!--    colors with xd -->
     <color name="colorMain">#D7385E</color>

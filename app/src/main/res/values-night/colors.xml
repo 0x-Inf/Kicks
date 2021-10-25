@@ -14,6 +14,7 @@
     <color name="textColorSecondary">#B2FFFFFF</color>
     <color name="textColorSecondaryInverse">#8A000000</color>
     <color name="backgroundInverted">#ffffff</color>
+    <color name="greyBackground">#504F4F</color>
 
 
 </resources>

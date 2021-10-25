@@ -1,15 +1,12 @@
 package com.diablo.jayson.kicksv1.UI.SignUp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,31 +16,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.Models.ProfilePicExample;
 import com.diablo.jayson.kicksv1.Models.User;
 import com.diablo.jayson.kicksv1.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,86 +91,86 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up_four, container, false);
-        recyclerView = view.findViewById(R.id.profilePicsExamplesRecycler);
-        profilePicImage = view.findViewById(R.id.profilePicImage);
-        loadingScreen = view.findViewById(R.id.loading_screen);
-        ExtendedFloatingActionButton signUpButton = view.findViewById(R.id.sign_up_four_finish_efab);
+//        recyclerView = view.findViewById(R.id.profilePicsExamplesRecycler);
+//        profilePicImage = view.findViewById(R.id.profilePicImage);
+//        loadingScreen = view.findViewById(R.id.loading_screen);
+//        ExtendedFloatingActionButton signUpButton = view.findViewById(R.id.sign_up_four_finish_efab);
 
-        profilePicImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
-                    startActivityForResult(intent, REQUEST_IMAGE_GET);
-                }
-            }
-        });
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateViewModel();
-                mAuth = FirebaseAuth.getInstance();
-                AuthCredential credential = EmailAuthProvider.getCredential(mainUser.getUserEmail(), mainUser.getPassWord());
-                MessageDigest messageDigest = null;
-                try {
-                    messageDigest = MessageDigest.getInstance("SHA-256");
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                assert messageDigest != null;
-                messageDigest.update(mainUser.getPassWord().getBytes());
-                String encryptedString = new String(messageDigest.digest());
-                mainUser.setPassWord(encryptedString);
-                showLoadingScreen();
-                Objects.requireNonNull(mAuth.getCurrentUser()).linkWithCredential(credential)
-                        .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "linkWithCredential:success");
-                                    FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
-                                    assert user != null;
-                                    mainUser.setUid(user.getUid());
-                                    FirebaseFirestore.getInstance().collection("users")
-                                            .document(user.getUid())
-                                            .set(mainUser).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                    .setDisplayName(mainUser.getUserName())
-                                                    .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
-                                                    .build();
-                                            user.updateProfile(profileUpdates)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Log.e(TAG, "User profile updated.");
-                                                            }
-                                                        }
-                                                    });
-                                            startActivity(new Intent(getContext(), MainActivity.class));
-                                            hideLoadingScreen();
-                                        }
-                                    })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    hideLoadingScreen();
-                                                }
-                                            });
-
-                                } else {
-                                    hideLoadingScreen();
-                                    Log.w(TAG, "linkWithCredential:failure", task.getException());
-                                    Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-            }
-        });
+//        profilePicImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/*");
+//                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+//                    startActivityForResult(intent, REQUEST_IMAGE_GET);
+//                }
+//            }
+//        });
+//        signUpButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateViewModel();
+//                mAuth = FirebaseAuth.getInstance();
+//                AuthCredential credential = EmailAuthProvider.getCredential(mainUser.getUserEmail(), mainUser.getPassWord());
+//                MessageDigest messageDigest = null;
+//                try {
+//                    messageDigest = MessageDigest.getInstance("SHA-256");
+//                } catch (NoSuchAlgorithmException e) {
+//                    e.printStackTrace();
+//                }
+//                assert messageDigest != null;
+//                messageDigest.update(mainUser.getPassWord().getBytes());
+//                String encryptedString = new String(messageDigest.digest());
+//                mainUser.setPassWord(encryptedString);
+//                showLoadingScreen();
+//                Objects.requireNonNull(mAuth.getCurrentUser()).linkWithCredential(credential)
+//                        .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful()) {
+//                                    Log.d(TAG, "linkWithCredential:success");
+//                                    FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+//                                    assert user != null;
+//                                    mainUser.setUid(user.getUid());
+//                                    FirebaseFirestore.getInstance().collection("users")
+//                                            .document(user.getUid())
+//                                            .set(mainUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                        @Override
+//                                        public void onSuccess(Void aVoid) {
+//                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//                                                    .setDisplayName(mainUser.getUserName())
+//                                                    .setPhotoUri(Uri.parse(mainUser.getPhotoUrl()))
+//                                                    .build();
+//                                            user.updateProfile(profileUpdates)
+//                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                        @Override
+//                                                        public void onComplete(@NonNull Task<Void> task) {
+//                                                            if (task.isSuccessful()) {
+//                                                                Log.e(TAG, "User profile updated.");
+//                                                            }
+//                                                        }
+//                                                    });
+//                                            startActivity(new Intent(getContext(), MainActivity.class));
+//                                            hideLoadingScreen();
+//                                        }
+//                                    })
+//                                            .addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//                                                    hideLoadingScreen();
+//                                                }
+//                                            });
+//
+//                                } else {
+//                                    hideLoadingScreen();
+//                                    Log.w(TAG, "linkWithCredential:failure", task.getException());
+//                                    Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//                            }
+//                        });
+//            }
+//        });
         loadPicsFromFirebase();
         return view;
     }
@@ -217,17 +197,17 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_GET) {
-            assert data != null;
-//            Bitmap thumbnail = data.getParcelableExtra("data");
-            Uri fullPhotoUri = data.getData();
-
-
-            Glide.with(Objects.requireNonNull(getContext()))
-                    .load(fullPhotoUri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(profilePicImage);
-        }
+//        if (requestCode == REQUEST_IMAGE_GET) {
+//            assert data != null;
+////            Bitmap thumbnail = data.getParcelableExtra("data");
+//            Uri fullPhotoUri = data.getData();
+//
+//
+//            Glide.with(Objects.requireNonNull(getContext()))
+//                    .load(fullPhotoUri)
+//                    .apply(RequestOptions.circleCropTransform())
+//                    .into(profilePicImage);
+//        }
     }
 
     @Override
@@ -270,12 +250,12 @@ public class SignUpFour extends Fragment implements ProfilePicsAdapter.OnPicSele
 
     @Override
     public void onPicSelected(ProfilePicExample pic) {
-        String picUrl = pic.getPicUrl();
-        Glide.with(Objects.requireNonNull(getContext()))
-                .load(picUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(profilePicImage);
-        mainUser.setPhotoUrl(picUrl);
+//        String picUrl = pic.getPicUrl();
+//        Glide.with(Objects.requireNonNull(getContext()))
+//                .load(picUrl)
+//                .apply(RequestOptions.circleCropTransform())
+//                .into(profilePicImage);
+//        mainUser.setPhotoUrl(picUrl);
     }
 }
 

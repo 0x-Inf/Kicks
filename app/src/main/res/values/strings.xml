@@ -407,6 +407,22 @@
     <string name="sharing_location_publicly_textview_string">Sharing Location Publicly</string>
     <string name="search_tags">Search Tags</string>
     <string name="search_contacts">Search Contacts</string>
+    <string name="kicks">Kicks</string>
+    <string name="let_s_get">Let\'s get</string>
+    <string name="started">Started</string>
+    <string name="i_agree_to_the_terms_and_conditions">I agree to the <u>Terms and Conditions</u></string>
+    <string name="i_agree_to_the_privacy_policy">I agree to the <u>Privacy Policy</u></string>
+    <string name="start_sign_up">Start sign Up</string>
+    <string name="start_sign_up_button_content_description">start sign up button content description</string>
+    <string name="guest">Guest</string>
+    <string name="basic_details">Basic \nDetails</string>
+    <string name="account_details">Account \nDetails</string>
+    <string name="security_details">Security \nDetails</string>
+    <string name="profile_picture">Profile Pic</string>
+    <string name="enter_first_name_hint">Enter First Name</string>
+    <string name="generate_keys">Generate Keys</string>
+    <string name="edit_profile_pic_fab_description">Edit Profile Pic Fab</string>
+    <string name="upload_profile_picture_or_pic_one">Upload Profile Picture Or Pic One Below</string>
 
 
 </resources>

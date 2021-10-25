@@ -2,7 +2,6 @@ package com.diablo.jayson.kicksv1.UI.SignUp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +11,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.diablo.jayson.kicksv1.MainActivity;
 import com.diablo.jayson.kicksv1.R;
+import com.diablo.jayson.kicksv1.databinding.FragmentSignUpIntroBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +41,9 @@ public class SignUpIntro extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentSignUpIntroBinding binding;
+    private NavController navController;
 
     private FirebaseAuth mAuth;
     private TextView guestTextView;
@@ -73,26 +80,33 @@ public class SignUpIntro extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_sign_up_intro, container, false);
-        ExtendedFloatingActionButton signUpMainButton = root.findViewById(R.id.signUpMain);
-        guestTextView = root.findViewById(R.id.guestTextView);
-        guestTextView.setOnClickListener(new View.OnClickListener() {
+        binding = FragmentSignUpIntroBinding.inflate(inflater, container, false);
+        navController = Navigation.findNavController(requireActivity(), R.id.sign_up_nav_host_fragment);
+        binding.guestTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUpAnonymously();
             }
         });
-        signUpMainButton.setOnClickListener(new View.OnClickListener() {
+        binding.signUpStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUpBriefly();
+                startSignUp();
 
             }
         });
-        return root;
+        return binding.getRoot();
+    }
+
+    private void startSignUp() {
+        if (binding.termsAndConditionsCheckBox.isChecked() && binding.privacyPolicyCheckBox.isChecked()) {
+            NavDirections actionSignUpBasicDetails = SignUpIntroDirections.actionSignUpIntroToSignUpBasicDetails();
+            navController.navigate(actionSignUpBasicDetails);
+        }
     }
 
     private void signUpBriefly() {
@@ -102,9 +116,9 @@ public class SignUpIntro extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signInAnonymously:success");
+                            Timber.d("signInAnonymously:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            SignUpOne firstSignUp = new SignUpOne();
+                            SignUpBasicDetails firstSignUp = new SignUpBasicDetails();
 
                             FragmentManager manager = getParentFragmentManager();
 
@@ -112,7 +126,7 @@ public class SignUpIntro extends Fragment {
                                     .replace(R.id.signupfragment_container, firstSignUp)
                                     .commit();
                         } else {
-                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Timber.e(task.getException(), "signInAnonymously:failure");
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -127,11 +141,11 @@ public class SignUpIntro extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signInAnonymously:success");
+                            Timber.d("signInAnonymously:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(getContext(), MainActivity.class));
                         } else {
-                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Timber.e(task.getException(), "signInAnonymously:failure");
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }

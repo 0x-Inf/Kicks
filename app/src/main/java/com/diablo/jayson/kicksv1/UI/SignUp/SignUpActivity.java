@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.diablo.jayson.kicksv1.R;
 
@@ -31,21 +32,26 @@ public class SignUpActivity extends AppCompatActivity {
 //        decorView.setSystemUiVisibility(uiOptions);
 
 
-        if (savedInstanceState != null) {
-            getSupportFragmentManager().executePendingTransactions();
-            Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.signupfragment_container);
-            if (fragmentById != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .remove(fragmentById)
-                        .commit();
-            }
-        }
+//        if (savedInstanceState != null) {
+//            getSupportFragmentManager().executePendingTransactions();
+//            Fragment fragmentById = getSupportFragmentManager().findFragmentById(R.id.signupfragment_container);
+//            if (fragmentById != null) {
+//                getSupportFragmentManager().beginTransaction()
+//                        .remove(fragmentById)
+//                        .commit();
+//            }
+//        }
+//
+//        SignUpIntro introSignUp = new SignUpIntro();
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.signupfragment_container, introSignUp)
+//                .commit();
 
-        SignUpIntro introSignUp = new SignUpIntro();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.signupfragment_container, introSignUp)
-                .commit();
+        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.sign_up_nav_host_fragment);
+        assert navHostFragment != null;
+        NavController navController = navHostFragment.getNavController();
 
 
     }
