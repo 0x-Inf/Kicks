@@ -48,5 +48,14 @@
         android:id="@+id/signUpSetProfilePic"
         android:name="com.diablo.jayson.kicksv1.UI.SignUp.SignUpSetProfilePic"
         android:label="fragment_sign_up_set_profile_pic"
-        tools:layout="@layout/fragment_sign_up_set_profile_pic" />
+        tools:layout="@layout/fragment_sign_up_set_profile_pic">
+        <action
+            android:id="@+id/action_signUpSetProfilePic_to_setProfilePicBottomSheet"
+            app:destination="@id/setProfilePicBottomSheet" />
+    </fragment>
+    <fragment
+        android:id="@+id/setProfilePicBottomSheet"
+        android:name="com.diablo.jayson.kicksv1.UI.SignUp.SetProfilePicBottomSheet"
+        android:label="SetProfilePicBottomSheet"
+        tools:layout="@layout/fragment_set_profile_pic_bottom_sheet" />
 </navigation>

@@ -69,24 +69,6 @@ public class MapSettingsBottomSheet extends BottomSheetDialogFragment implements
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         binding = FragmentMapSettingsBottomSheetBinding.inflate(inflater, container, false);
-//        View root = inflater.inflate(R.layout.fragment_map_settings_bottom_sheet, container, false);
-//        shareLocationTextView = root.findViewById(R.id.broadcastLocationTextTextView);
-//        isSharingLocationTextView = root.findViewById(R.id.isSharingLocationTextView);
-//        shareWithTextView = root.findViewById(R.id.shareWithTextView);
-//        sharePubliclyTextView = root.findViewById(R.id.sharePubliclyTextView);
-//        shareLocationSwitch = root.findViewById(R.id.broadcastLocationSwitch);
-//        sharePubliclySwitch = root.findViewById(R.id.sharePubliclySwitch);
-//        nearbyRadiusActualTextView = root.findViewById(R.id.radiusActualTextView);
-//        nearbyRadiusTextView = root.findViewById(R.id.nearbyRadiusTextView);
-//        nearbyRadiusSeekBar = root.findViewById(R.id.nearbyRadiusSeekBar);
-//        mapSettingConstraintLayout = root.findViewById(R.id.mapSettingsConstraintLayout);
-//        addSharingContactsConstraintLayout = root.findViewById(R.id.addSharingContactsConstraintLayout);
-//        sharingWithRecycler = root.findViewById(R.id.sharingWithRecyler);
-//        allContactsRecyler = root.findViewById(R.id.allContactsRecycler);
-//        addSharingCardView = root.findViewById(R.id.addSharingCardView);
-//        doneSharingCardView = root.findViewById(R.id.doneAddSharingCardView);
-//        editTagsCardView = root.findViewById(R.id.editTagsCardView);
-//        doneAddingTagsCardView = root.findViewById(R.id.doneAddTagsCardView);
 
         shortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime

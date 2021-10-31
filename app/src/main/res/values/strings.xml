@@ -423,6 +423,8 @@
     <string name="generate_keys">Generate Keys</string>
     <string name="edit_profile_pic_fab_description">Edit Profile Pic Fab</string>
     <string name="upload_profile_picture_or_pic_one">Upload Profile Picture Or Pic One Below</string>
+    <string name="camera">Camera</string>
+    <string name="photos">Photos</string>
 
 
 </resources>

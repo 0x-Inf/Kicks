@@ -18,6 +18,8 @@ public class Constants {
     public static final String invites_collection_id = "invites";
     public static final String tags_collection_id = "tags";
     public static final String activities_collection_id = "activities";
+    public static final String random_pics_collection_id = "profilepicexamples";
+
 
     public static final String UPLOAD_ACTIVITY_STATE_TAGS = "state_tags";
     public static final String UPLOAD_ACTIVITY_STATE_INVITES = "state_invites";

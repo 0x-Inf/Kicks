@@ -94,12 +94,35 @@ public class SignUpIntro extends Fragment {
         binding.signUpStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpBriefly();
-                startSignUp();
-
+                if (binding.termsAndConditionsCheckBox.isChecked() && binding.privacyPolicyCheckBox.isChecked()) {
+                    signUpBriefly();
+                    startSignUp();
+                } else {
+                    Toast.makeText(requireContext(), "Accept Terms", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.privacyPolicyTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPrivacyPolicyWebView();
+            }
+        });
+        binding.agreeToTermsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTermsOfServiceWebView();
             }
         });
         return binding.getRoot();
+    }
+
+    private void openTermsOfServiceWebView() {
+        // TODO: Create logic to  open webview for terms of service and update Preferences to show
+    }
+
+    private void openPrivacyPolicyWebView() {
+        // TODO: Create logic to  open webview for privacy policy and update Preferences to show
     }
 
     private void startSignUp() {
